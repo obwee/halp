@@ -1,0 +1,47 @@
+ 1. CCNA v4 200-301 - https://www.tiny.cc/nexus-ccnav4
+- Fee: P 15,000
+- Feb 1, 8, 15, 22, 29 (Sat)
+
+2. CCNP and CCIE Enterprise Core - https://www.tiny.cc/ccnp
+- Fee: P 20,000
+- April 5, 18, 19, 25, 26 (Morayta)
+
+3. CCNP - Implementing Cisco Enterprise Advanced Routing and Services (ENARSI)
+- Fee: P 20,000
+- May 9, 16, 23, 30 Jun 6, 13 (Sat) (Morayta)
+
+4. MCP in 20410 Windows 2012 R2 - https://www.tiny.cc/nexus-410
+- Fee: P 7,000
+- Feb 14, 15, 16 | Apr 24, 25, 26
+
+5. MCSA in Windows Server 2012 - https://www.tiny.cc/mcsa2012
+- Fee: P 15,000
+- Mar 7, 21, 28 Apr 4, 18 (Sat)
+
+6. MCSA in Windows Server 2016 - https://tiny.cc/mcsa2016
+- Fee: P 19,500
+- May 11 - 15
+
+7. Azure Administrator - https://www.tiny.cc/nexus-azure
+- Fee: P 30,000
+- Mar 16, 17, 18, 19
+
+8. AWS Solutions Architect - https://www.tiny.cc/nexus-aws
+- Fee: P 10,000
+- Apr 20, 21, 22
+
+9. VMware vSphere ICM [V6.7] - https://www.tiny.cc/nexus-vmware67
+- Fee: P 15,000
+- Feb 28,29 Mar 1
+
+10. Citrix On-Premises & Cloud - CWS-215 https://www.tiny.cc/cws-125
+- Fee: P 25,000
+- Feb 3, 4, 5
+
+11. Nutanix Enterprise Cloud Administration 5.5 - https://tiny.cc/ncp55
+- Fee: P 40,000
+- Feb 7, 8, 9
+
+12. Ethical Hacking & Penetration Testing- https://tiny.cc/ehpt
+- Fee: P 3,000
+- Feb 16, 23 (Morayta) | Mar 22, 29 (Makati) | April 5, 19 (Makati)
