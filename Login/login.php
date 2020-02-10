@@ -1,27 +1,11 @@
 <?php
 session_start();
-include("../connection.php");
 
-if(isset($_SESSION['submit'])) {
+if(isset($_SESSION['submit']) === true) {
     header("Location:../dashboard.php");
     exit;
 }
 
-if (isset($_POST['login'])){
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    $query = $connection->prepare("SELECT COUNT('idUsers') FROM tbl_users WHERE username = '$username' AND password = '$password'");
-    $query->execute();
- 
-    $count = $query->fetchColumn();
-
-    if ($count == "1"){
-        $_SESSION['username'] = $username;
-        
-        header('location: ../dashboard.php');
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -37,9 +21,6 @@ if (isset($_POST['login'])){
     <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
 
     <link rel="stylesheet" href="css/login.css">
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
- 
 </head>
 <body>
     <div class="container">
@@ -74,44 +55,58 @@ if (isset($_POST['login'])){
             </form>
         </div>
     </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
-
-
-<!--
+    
     <script type="text/javascript">
-    $(document).ready(function(){
-        $('#login').click(function(){
-            var username = $('username').val();
-            var password = $('password').val();
+        $(document).ready(function() {
 
-            if($.trim(username).length > 0 && $.trim(password).length > 0)
-            {
-                $.ajax({
-                    url:"dashboard.php",
-                    data:{username:username, password:password},
-                    cache: false:
+            // If button with an ID of 'login' is clicked...
+            $(document).on('click', '#login', function(event) {
+                // Prevent defaults. Let javascript submit data instead of HTML.
+                event.preventDefault();
 
-                    success:function(data)
-                    {
-                        if(data)
-                        {
-                            header('location: dashboard.php')
+                // Assign inputs to variables.
+                var username = $('#username').val();
+                var password = $('#password').val();
+
+                // Check if above declared variables is not empty.
+                if($.trim(username).length > 0 && $.trim(password).length > 0)
+                {
+                    // Perform AJAX request.
+                    $.ajax({
+                        method: 'post',              // POST is for sending data to server.
+                        url: 'checkLogin.php',       // This is where the request will go.
+                        data: {
+                            username:username,
+                            password:password
+                        },                           // These are the data to be sent on the URL.
+                        cache: false,                // Prevent caching the entered values. Can be removed.
+                        dataType: 'json',            // JSON since we need to receive the response back.
+                        success:function(data) {
+                            // If data sent back by the request is true.
+                            if (data.result === true) {
+                                // Alert the message.
+                                alert(data.msg);
+                                // Redirect to dashboard.php 
+                                window.location.href = '../dashboard.php';
+                            } else {
+                                // Else, throw error.
+                                alert(data.msg)
+                                $('#error').html("<span class='text-danger'>Invalid credentials.</span>");
+                            }
                         }
-                        else
-                        {
-                            $('#error').html("<span class='text-danger'">Invalid credentials</span>);
-                        }
-                    }
-                });
-            }
-            else
-            {
-                return false;
-            }
+                    });
+                }
+                else { // This means that username or password is empty.
+                    alert('Username/password must not be blank.');
+                }
+            });
         });
-    });
 
-    </script> -->
+    </script> 
 
 </body> 
 </html>
