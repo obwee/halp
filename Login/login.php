@@ -1,14 +1,17 @@
 <?php
 session_start();
+include("../connection.php");
 
-$conn = new PDO('mysql:host=localhost;dbname=nexus', 'root', '');
-
+if(isset($_SESSION['submit'])) {
+    header("Location:../dashboard.php");
+    exit;
+}
 
 if (isset($_POST['login'])){
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $query = $conn->prepare("SELECT COUNT('idUsers') FROM tbl_users WHERE username = '$username' AND password = '$password'");
+    $query = $connection->prepare("SELECT COUNT('idUsers') FROM tbl_users WHERE username = '$username' AND password = '$password'");
     $query->execute();
  
     $count = $query->fetchColumn();
@@ -16,10 +19,9 @@ if (isset($_POST['login'])){
     if ($count == "1"){
         $_SESSION['username'] = $username;
         
-        header('location: dashboard.php');
+        header('location: ../dashboard.php');
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -34,10 +36,10 @@ if (isset($_POST['login'])){
     
     <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
 
-    <link rel="stylesheet" href="login-style.css">
+    <link rel="stylesheet" href="css/login.css">
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>    
+ 
 </head>
 <body>
     <div class="container">
@@ -72,7 +74,8 @@ if (isset($_POST['login'])){
             </form>
         </div>
     </div>
-    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
 
 <!--
     <script type="text/javascript">
