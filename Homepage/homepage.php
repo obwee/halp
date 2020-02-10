@@ -47,68 +47,126 @@
                     <li><a class="active" href="#">Home</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#courses">Courses</a></li>
-                    <li><a href="#">Get Quote</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#quoteModal">Get Quote</a></li>
                     <li><a href="#contact">Contact Us</a></li>  
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div id="my-slider" class="carousel slide" data-ride="carousel">
 
 
-        <ol class="carousel-indicators">
-            <li data-target="#my-slider" data-slide-to="0" class="active"></li>
-            <li data-target="#my-slider" data-slide-to="1"></li>
-            <li data-target="#my-slider" data-slide-to="2"></li>
-            <li data-target="#my-slider" data-slide-to="3"></li>
-        </ol>
+    <!--Get Quote Modal-->
 
-
-        <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                <img class="carousel-img" src="Img/Networks3.jpg" alt="s4"/>
-                <div class="carousel-caption">
-                    <h2 class="animated fadeIn" style="animation-delay: 1s">Learn. Get <span>Certified.</span></h2>
-                    <h3 class="animated fadeIn" style="animation-delay: 1s">Advance your <span>IT</span> career with us.</h3>
-                    <a class="enroll-btn animated fadeIn" style="animation-delay: 1s" href="#">Enroll Now</a>
-                </div>
+    <div class="modal fade" id="quoteModal" role="dialog">
+      <div class="modal-dialog loginModal">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header" id="quoteAnimation" style="padding:10px 10px;">
+            <h5><span class="glyphicon glyphicon-envelope"></span>Get Quote</h5>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div id="alert_message"></div>
+        <div class="modal-body" style="padding:30px 50px;">
+            <form method="post" id="quotationForm">
+              <div class="form-group">
+                <label for="quotefname"><span class="fas fa-user-circle"></span> First Name</label>
+                <input type="text" class="form-control" id="quotefname" name="quotefname" placeholder="First Name" required autofocus maxlength="20">
             </div>
-            <div class="item">
-                <img class="carousel-img" src="Img/Networks.jpg" alt="s3"/>
-                <div class="carousel-caption">
-                    <h2 class="animated fadeIn" style="animation-delay: 1s">Learn. Get <span>Certified.</span></h2>
-                    <h3 class="animated fadeIn" style="animation-delay: 1s">Advance your <span>IT</span> career with us.</h3>
-                    <a class="enroll-btn animated fadeIn" style="animation-delay: 1s" href="#">Enroll Now</a>
-                </div>
+            <div class="form-group">
+                <label for="quotemname"><span class="fas fa-user-circle"></span> Middle Name</label>
+                <input type="text" class="form-control" id="quotemname" name="quotemname" placeholder="Middle Name" autofocus maxlength="20">
             </div>
-            <div class="item">
-                <img class="carousel-img" src="Img/Servers3.jpg" alt="net"/>
-                <div class="carousel-caption">
-                    <h2 class="animated fadeIn" style="animation-delay: 1s">Learn. Get <span>Certified.</span></h2>
-                    <h3 class="animated fadeIn" style="animation-delay: 1s">Advance your <span>IT</span> career with us.</h3>
-                    <a class="enroll-btn animated fadeIn" style="animation-delay: 1s" href="#">Enroll Now</a>                   
-                </div>
+            <div class="form-group">
+                <label for="quotelname"><span class="fas fa-user-circle"></span> Last Name</label>
+                <input type="text" class="form-control" id="quotelname" name="quotelname" placeholder="Last Name" required autofocus maxlength="20">
             </div>
-            <div class="item">
-                <img class="carousel-img" src="Img/Networks2.jpg" alt="net2"/>
-                <div class="carousel-caption">
-                   <h2 class="animated fadeIn" style="animation-delay: 1s">Learn. Get <span>Certified.</span></h2>
-                   <h3 class="animated fadeIn" style="animation-delay: 1s">Advance your <span>IT</span> career with us.</h3>
-                   <a class="enroll-btn animated fadeIn" style="animation-delay: 1s" href="#">Enroll Now</a>
-               </div>
-           </div>
+            <div class="form-group">
+                <label for="quoteEmailAdd"><span class="fas fa-envelope"></span> E-mail Address</label>
+                <input type="email" class="form-control" id="quoteEmailAdd" name="quoteEmailAdd" placeholder="E-mail Address" required maxlength="50">
+            </div>
+            <div class="form-group">
+                <label for=""><span class="fas fa-comments"></span> Course</label>
+                <br>
+                <select>
+                    <option>CCNA v4</option>
+                    <option>MCSA 2012</option>
+                    <option>MCSA 2016</option>   
+                    <option>MCP 2012</option>
+                    <option>Amazon Web Services</option>
+                    <option>Ethical Hacking with Penetration Testing</option>
+                    <option>VMware vSphere 6.0</option>
+                    <option>Office 360</option>
+                    <option>Microsoft Azure</option>
+                </select>
+            </div>
+            <button type="submit" name="contactUsBtn" id="contactUsBtn" class="btn btn-success btn-block"><span class="glyphicon glyphicon-log-in"></span> Submit</button>
+            <!-- hidden input for operation == contactUs -->
+            <input type="hidden" class="form-control" id="operation" name="operation" value="contactUs">
+        </form>
+    </div>
 
-       </div>
 
-       <a class="left carousel-control" href="#my-slider" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#my-slider" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>                        
+</div>
+</div>
+</div> 
+
+
+<div id="my-slider" class="carousel slide" data-ride="carousel">
+
+
+    <ol class="carousel-indicators">
+        <li data-target="#my-slider" data-slide-to="0" class="active"></li>
+        <li data-target="#my-slider" data-slide-to="1"></li>
+        <li data-target="#my-slider" data-slide-to="2"></li>
+        <li data-target="#my-slider" data-slide-to="3"></li>
+    </ol>
+
+
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <img class="carousel-img" src="Img/Networks3.jpg" alt="s4"/>
+            <div class="carousel-caption">
+                <h2 class="animated fadeIn" style="animation-delay: 1s">Learn. Get <span>Certified.</span></h2>
+                <h3 class="animated fadeIn" style="animation-delay: 1s">Advance your <span>IT</span> career with us.</h3>
+                <a class="enroll-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#enrollModal">Enroll Now</a>
+            </div>
+        </div>
+        <div class="item">
+            <img class="carousel-img" src="Img/Networks.jpg" alt="s3"/>
+            <div class="carousel-caption">
+                <h2 class="animated fadeIn" style="animation-delay: 1s">Learn. Get <span>Certified.</span></h2>
+                <h3 class="animated fadeIn" style="animation-delay: 1s">Advance your <span>IT</span> career with us.</h3>
+                <a class="enroll-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#enrollModal">Enroll Now</a>
+            </div>
+        </div>
+        <div class="item">
+            <img class="carousel-img" src="Img/Servers3.jpg" alt="net"/>
+            <div class="carousel-caption">
+                <h2 class="animated fadeIn" style="animation-delay: 1s">Learn. Get <span>Certified.</span></h2>
+                <h3 class="animated fadeIn" style="animation-delay: 1s">Advance your <span>IT</span> career with us.</h3>
+                <a class="enroll-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#enrollModal">Enroll Now</a>                   
+            </div>
+        </div>
+        <div class="item">
+            <img class="carousel-img" src="Img/Networks2.jpg" alt="net2"/>
+            <div class="carousel-caption">
+             <h2 class="animated fadeIn" style="animation-delay: 1s">Learn. Get <span>Certified.</span></h2>
+             <h3 class="animated fadeIn" style="animation-delay: 1s">Advance your <span>IT</span> career with us.</h3>
+            <a class="enroll-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#enrollModal">Enroll Now</a>
+         </div>
+     </div>
+
+ </div>
+
+ <a class="left carousel-control" href="#my-slider" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+</a>
+<a class="right carousel-control" href="#my-slider" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+</a>                        
 </div>
 
 </div>
@@ -287,17 +345,79 @@
             <a href="#"><i class="icon fas fa-envelope-open-text"></i></a>
             <p>kdoz@live.com</p>
         </div>
-
-
     </div>
 </footer>
+
+
+ <!--Enroll Modal-->
+
+    <div class="modal fade" id="enrollModal" role="dialog">
+      <div class="modal-dialog loginModal">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header" id="quoteAnimation" style="padding:10px 10px;">
+            <h5><span class="glyphicon glyphicon-envelope"></span> Registration</h5>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div id="alert_message"></div>
+        <div class="modal-body" style="padding:30px 50px;">
+            <form method="post" id="quotationForm">
+              <div class="form-group">
+                <label for="enrollfname"><span class="fas fa-user-circle"></span> First Name</label>
+                <input type="text" class="form-control" id="enrollfname" name="enrollfname" placeholder="First Name" required autofocus maxlength="20">
+            </div>
+            <div class="form-group">
+                <label for="enrollmname"><span class="fas fa-user-circle"></span> Middle Name</label>
+                <input type="text" class="form-control" id="enrollmname" name="enrollmname" placeholder="Middle Name" autofocus maxlength="20">
+            </div>
+            <div class="form-group">
+                <label for="enrolllname"><span class="fas fa-user-circle"></span> Last Name</label>
+                <input type="text" class="form-control" id="enrolllname" name="enrolllname" placeholder="Last Name" required autofocus maxlength="20">
+            </div>
+            <div class="form-group">
+                <label for="enrollEmailAdd"><span class="fas fa-envelope"></span> E-mail Address</label>
+                <input type="email" class="form-control" id="enrollEmailAdd" name="enrollEmailAdd" placeholder="E-mail Address" required maxlength="50">
+            </div>
+            <div class="form-group">
+                <label for="enrollContactNum"><span class="fas fa-envelope"></span> Contact Number</label>
+                <input type="text" class="form-control" id="enrollContactNum" name="enrollContactNum" placeholder="Contact Number" required maxlength="50">
+            </div>
+            <div class="form-group">
+                <label for="enrollCompany"><span class="fas fa-envelope"></span> Company Name</label>
+                <input type="email" class="form-control" id="enrollCompany" name="enrollCompany" placeholder="Company Name" maxlength="50">
+            </div>                             
+            <div class="form-group">
+                <label for=""><span class="fas fa-comments"></span> Course</label>
+                <br>
+                <select>
+                    <option>CCNA v4</option>
+                    <option>MCSA 2012</option>
+                    <option>MCSA 2016</option>   
+                    <option>MCP 2012</option>
+                    <option>Amazon Web Services</option>
+                    <option>Ethical Hacking with Penetration Testing</option>
+                    <option>VMware vSphere 6.0</option>
+                    <option>Office 360</option>
+                    <option>Microsoft Azure</option>
+                </select>
+
+                <input type="date" name="schedule">
+            </div>
+            <button type="submit" name="contactUsBtn" id="contactUsBtn" class="btn btn-success btn-block"><span class="glyphicon glyphicon-log-in"></span> Enroll</button>
+            <!-- hidden input for operation == contactUs -->
+            <input type="hidden" class="form-control" id="operation" name="operation" value="contactUs">
+        </form>
+    </div>
+
+
+
 <script type="text/javascript">
-   $("a").click(function(){
+ $("a").click(function(){
     $("a").css("color","");
     $(this).css("color","#A0BACC");
 });
 
-   $(document).ready(function(){
+ $(document).ready(function(){
     $(window).scroll(function(){
         var scroll = $(window).scrollTop();
         if(scroll>20)
