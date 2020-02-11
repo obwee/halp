@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-if(isset($_SESSION['submit']) === true) {
+// Check if user is currently logged-in by checking if isLoggedIn session is set and has a value.
+if (isset($_SESSION['isLoggedIn']) === true && $_SESSION['isLoggedIn'] === true) {
     header("Location:../dashboard.php");
     exit;
 }
@@ -10,6 +11,7 @@ if(isset($_SESSION['submit']) === true) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,11 +19,12 @@ if(isset($_SESSION['submit']) === true) {
     <title>Nexus ITTC Admin Login</title>
 
     <script src="https://kit.fontawesome.com/be76a30cc4.js" crossorigin="anonymous"></script>
-    
-    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"> 
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/login.css">
 </head>
+
 <body>
     <div class="container">
         <div class="logo">
@@ -38,7 +41,7 @@ if(isset($_SESSION['submit']) === true) {
                     <div>
                         <h5>Username</h5>
                         <input class="input" type="text" name="username" id="username">
-                    </div>                    
+                    </div>
                 </div>
                 <div class="input-div two">
                     <div class="i">
@@ -50,16 +53,16 @@ if(isset($_SESSION['submit']) === true) {
                     </div>
                 </div>
                 <a href="#">Forgot Password?</a>
-                <input type="submit" class="btn" value="Login" name="login" id="login">
-                <div id="error"></div>
+                <input type="button" class="btn" value="Login" name="login" id="login">
+                <div id="error" style="color: red;"></div>
             </form>
         </div>
     </div>
 
-
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/login.js"></script>
-    
-</body> 
+
+</body>
+
 </html>
