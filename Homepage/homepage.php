@@ -435,12 +435,13 @@
     </div>
 
     <script type="text/javascript">
-        $("a").click(function() {
-            $("a").css("color", "");
-            $(this).css("color", "#A0BACC");
-        });
-
         $(document).ready(function() {
+
+            $("a").click(function() {
+                $("a").css("color", "");
+                $(this).css("color", "#A0BACC");
+            });
+
             $(window).scroll(function() {
                 var scroll = $(window).scrollTop();
                 if (scroll > 20) {
@@ -448,8 +449,9 @@
                 } else {
                     $("#nav").css("background-color", "transparent");
                 }
-            })
-        })
+            });
+
+        });
     </script>
 
 </body>
