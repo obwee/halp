@@ -55,8 +55,20 @@ html, body {
     font-weight: bold;
 }
 
-.carousel-caption .enroll-btn {
+.carousel-caption .signup-btn {
     background-color: #edbb00;
+    padding: 15px 35px;
+    display: inline-block;
+    margin-top: 15px;
+    color: #fff;
+    text-transform: uppercase;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.carousel-caption .signin-btn {
+    background-color: #A2C710;
     padding: 15px 35px;
     display: inline-block;
     margin-top: 15px;
@@ -67,9 +79,16 @@ html, body {
     font-weight: bold;
 } 
 
-.carousel-caption .enroll-btn:hover {
+.carousel-caption .signin-btn:hover {
     opacity: 80%;
+    background-color: #B3C710;
 }
+
+.carousel-caption .signup-btn:hover {
+    opacity: 80%;
+    background-color: #CDC22D;
+}
+
 
 /*#home {
     background: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.4)), url(Img/Servers4.jpg) no-repeat center center fixed;
@@ -240,10 +259,52 @@ footer h3 {
 
 }
 
+.courseOutline {
+    background-color: #edbb00;
+    padding: 15px 35px;
+    display: inline-block;
+    margin: auto;
+    color: #fff;
+    text-transform: uppercase;
+    border-radius: 25px;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold; 
+}
+
+.courseOutline:hover {
+    background: black;
+    color: white;
+}
+
+/*.modal-content .modal-header h5 {
+    text-transform: uppercase; 
+    font-weight: bold;
+}*/
+
+.modal-btn {
+  text-transform: uppercase;
+  border: none;
+  border-radius: 300px;
+  font-size: 25px;
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+
+}
+
+.loginModal .signup-btn {
+    background-color: #edbb00;
+    padding: 5px 5px;
+    display: inline-block;
+    color: #fff;
+    text-transform: uppercase;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+}
 html {
     scroll-behavior: smooth;
     }
-
 
 @media only screen and (max-width: 768px) and (max-width: 991px){
 
