@@ -70,7 +70,8 @@
                 <div class="carousel-caption">
                     <h2 class="animated fadeIn" style="animation-delay: 1s">Learn. Get <span>Certified.</span></h2>
                     <h3 class="animated fadeIn" style="animation-delay: 1s">Advance your <span>IT</span> career with us.</h3>
-                    <a class="enroll-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#enrollModal">Enroll Now</a>
+                    <a class="signup-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#registerModal">Sign Up</a>
+                    <a class="signin-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#loginModal">Sign In</a>                    
                 </div>
             </div>
             <div class="item">
@@ -78,7 +79,8 @@
                 <div class="carousel-caption">
                     <h2 class="animated fadeIn" style="animation-delay: 1s">Learn. Get <span>Certified.</span></h2>
                     <h3 class="animated fadeIn" style="animation-delay: 1s">Advance your <span>IT</span> career with us.</h3>
-                    <a class="enroll-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#enrollModal">Enroll Now</a>
+                    <a class="signup-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#registerModal">Sign Up</a>
+                    <a class="signin-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#loginModal">Sign In</a>  
                 </div>
             </div>
             <div class="item">
@@ -86,7 +88,8 @@
                 <div class="carousel-caption">
                     <h2 class="animated fadeIn" style="animation-delay: 1s">Learn. Get <span>Certified.</span></h2>
                     <h3 class="animated fadeIn" style="animation-delay: 1s">Advance your <span>IT</span> career with us.</h3>
-                    <a class="enroll-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#enrollModal">Enroll Now</a>
+                    <a class="signup-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#registerModal">Sign Up</a>
+                    <a class="signin-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#loginModal">Sign In</a>  
                 </div>
             </div>
             <div class="item">
@@ -94,7 +97,8 @@
                 <div class="carousel-caption">
                     <h2 class="animated fadeIn" style="animation-delay: 1s">Learn. Get <span>Certified.</span></h2>
                     <h3 class="animated fadeIn" style="animation-delay: 1s">Advance your <span>IT</span> career with us.</h3>
-                    <a class="enroll-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#enrollModal">Enroll Now</a>
+                    <a class="signup-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#registerModal">Sign Up</a>
+                    <a class="signin-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#rloginModal">Sign In</a>  
                 </div>
             </div>
 
@@ -130,6 +134,7 @@
     </div>
 
 
+
     <!--Courses-->
 
     <div class="padding" id="courses">
@@ -144,7 +149,6 @@
                             <div class="content">
                                 <h3>CCNA Version 4</h3>
                                 <h3>CCNP and CCIE Enterprise Core</h3>
-                                <a href="#">Learn More</a>
                             </div>
                         </div>
                     </div>
@@ -157,7 +161,6 @@
                         <div class="details">
                             <div class="content">
                                 <h3>VMware vSphere 6.7: Install, Configure and Manage</h3>
-                                <a href="#">Learn More</a>
                             </div>
                         </div>
                     </div>
@@ -171,7 +174,6 @@
                             <div class="content">
                                 <h3>Windows Server 2012 R2</h3>
                                 <h3>Windows Server 2016 Cloud</h3>
-                                <a href="#">Learn More</a>
                             </div>
                         </div>
                     </div>
@@ -184,7 +186,6 @@
                         <div class="details">
                             <div class="content">
                                 <h3>Amazon Web Services Certified Solutions Architect - Associate</h3>
-                                <a href="#">Learn More</a>
                             </div>
                         </div>
                     </div>
@@ -199,7 +200,6 @@
                         <div class="details">
                             <div class="content">
                                 <h3>Citrix Virtual Apps & Desktops 7 Admin On-Premise & Cloud</h3>
-                                <a href="#">Learn More</a>
                             </div>
                         </div>
                     </div>
@@ -212,7 +212,6 @@
                         <div class="details">
                             <div class="content">
                                 <h3>Office 365 Administrator</h3>
-                                <a href="#">Learn More</a>
                             </div>
                         </div>
                     </div>
@@ -225,7 +224,6 @@
                         <div class="details">
                             <div class="content">
                                 <h3>Ethical Hacking & Penetration Testing</h3>
-                                <a href="#">Learn More</a>
                             </div>
                         </div>
                     </div>
@@ -238,16 +236,17 @@
                         <div class="details">
                             <div class="content">
                                 <h3>Microsoft Azure Administrator</h3>
-                                <a href="#">Learn More</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <a class="courseOutline" href="https://tiny.cc/erihez" target="_blank">View course outline</a>
         </div>
     </div>
 
     <div id="fixed"></div>
+
 
     <!--Contact Us-->
     <footer class="container-fluid text-center" id="contact">
@@ -272,6 +271,7 @@
                 <p>kdoz@live.com</p>
             </div>
         </div>
+
     </footer>
 
     <!--MODALS-->
@@ -282,7 +282,7 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header" id="quoteAnimation" style="padding:10px 10px;">
-                    <h5><span class="glyphicon glyphicon-envelope"></span>Get Quote</h5>
+                    <h5 style="font-size: 20px">Get Quote</h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div id="alert_message"></div>
@@ -319,7 +319,7 @@
                                 <option>Microsoft Azure</option>
                             </select>
                         </div>
-                        <button type="submit" name="contactUsBtn" id="contactUsBtn" class="btn btn-success btn-block"><span class="glyphicon glyphicon-log-in"></span> Submit</button>
+                        <button type="submit" name="quoteBtn" id="quoteBtn" class="modal-btn btn btn-success btn-block">Submit</button>
                         <!-- hidden input for operation == contactUs -->
                         <input type="hidden" class="form-control" id="operation" name="operation" value="contactUs">
                     </form>
@@ -328,61 +328,54 @@
         </div>
     </div>
 
-    <!--Enroll Modal-->
+    <!--Register Modal-->
 
-    <div class="modal fade" id="enrollModal" role="dialog">
-        <div class="modal-dialog loginModal">
+    <div class="modal fade" id="registerModal" role="dialog">
+        <div class="modal-dialog registerModal">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header" id="quoteAnimation" style="padding:10px 10px;">
-                    <h5><span class="glyphicon glyphicon-envelope"></span> Registration</h5>
+                    <h5 class="registration" style="font-size: 20px">Registration</h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div id="alert_message"></div>
                 <div class="modal-body" style="padding:30px 50px;">
-                    <form method="post" id="quotationForm">
+                    <form method="post" id="registrationForm">
                         <div class="form-group">
-                            <label for="enrollfname"><span class="fas fa-user-circle"></span> First Name</label>
-                            <input type="text" class="form-control" id="enrollfname" name="enrollfname" placeholder="First Name" required autofocus maxlength="20">
+                            <label for="registrationFname"><span class="fas fa-user-circle"></span> First Name</label>
+                            <input type="text" class="form-control" id="registrationFname" name="registrationFname" placeholder="First Name" required autofocus maxlength="20">
                         </div>
                         <div class="form-group">
-                            <label for="enrollmname"><span class="fas fa-user-circle"></span> Middle Name</label>
-                            <input type="text" class="form-control" id="enrollmname" name="enrollmname" placeholder="Middle Name" autofocus maxlength="20">
+                            <label for="registrationMname"><span class="fas fa-user-circle"></span> Middle Name</label>
+                            <input type="text" class="form-control" id="registrationMname" name="registrationMname" placeholder="Middle Name" autofocus maxlength="20">
                         </div>
                         <div class="form-group">
-                            <label for="enrolllname"><span class="fas fa-user-circle"></span> Last Name</label>
-                            <input type="text" class="form-control" id="enrolllname" name="enrolllname" placeholder="Last Name" required autofocus maxlength="20">
+                            <label for="registrationLname"><span class="fas fa-user-circle"></span> Last Name</label>
+                            <input type="text" class="form-control" id="registrationLname" name="registrationLname" placeholder="Last Name" required autofocus maxlength="20">
                         </div>
                         <div class="form-group">
-                            <label for="enrollEmailAdd"><span class="fas fa-envelope"></span> E-mail Address</label>
-                            <input type="email" class="form-control" id="enrollEmailAdd" name="enrollEmailAdd" placeholder="E-mail Address" required maxlength="50">
+                            <label for="registrationContactNum"><span class="fas fa-envelope"></span> Contact Number</label>
+                            <input type="text" class="form-control" id="registrationContactNum" name="registrationContactNum" placeholder="Contact Number" required maxlength="50">
                         </div>
                         <div class="form-group">
-                            <label for="enrollContactNum"><span class="fas fa-envelope"></span> Contact Number</label>
-                            <input type="text" class="form-control" id="enrollContactNum" name="enrollContactNum" placeholder="Contact Number" required maxlength="50">
+                            <label for="registrationCompany"><span class="fas fa-building"></span> Company Name</label>
+                            <input type="email" class="form-control" id="registrationCompany" name="registrationCompany" placeholder="Company Name" maxlength="50">
                         </div>
                         <div class="form-group">
-                            <label for="enrollCompany"><span class="fas fa-envelope"></span> Company Name</label>
-                            <input type="email" class="form-control" id="enrollCompany" name="enrollCompany" placeholder="Company Name" maxlength="50">
+                            <label for="registrationEmailAdd"><span class="fas fa-envelope"></span> E-mail Address</label>
+                            <input type="email" class="form-control" id="registrationEmailAdd" name="enrollEmailAdd" placeholder="E-mail Address" required maxlength="50">
                         </div>
                         <div class="form-group">
-                            <label for=""><span class="fas fa-comments"></span> Course</label>
-                            <br>
-                            <select>
-                                <option>CCNA v4</option>
-                                <option>MCSA 2012</option>
-                                <option>MCSA 2016</option>
-                                <option>MCP 2012</option>
-                                <option>Amazon Web Services</option>
-                                <option>Ethical Hacking with Penetration Testing</option>
-                                <option>VMware vSphere 6.0</option>
-                                <option>Office 360</option>
-                                <option>Microsoft Azure</option>
-                            </select>
+                            <label for="registrationUsername"><span class="fas fa-users"></span> Username</label>
+                            <input type="username" class="form-control" id="registrationUsername" name="registrationUsername" placeholder="Username" required maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="registrationPassword"><span class="fas fa-lock"></span> Password</label>
+                            <input type="password" class="form-control" id="registrationPassword" name="registrationPassword" placeholder="Password" required maxlength="20">
+                        </div>
 
-                            <input type="date" name="schedule">
-                        </div>
-                        <button type="submit" name="enrollBtn" id="enrollBtn" class="btn btn-success btn-block"><span class="glyphicon glyphicon-log-in"></span> Enroll</button>
+
+                        <button type="submit" name="enrollBtn" id="enrollBtn" class="modal-btn  btn btn-success btn-block">Register</button>
                         <!-- hidden input for operation == contactUs -->
                         <input type="hidden" class="form-control" id="operation" name="operation" value="enroll">
                     </form>
@@ -399,7 +392,7 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header" id="emailAnimation" style="padding:10px 10px;">
-                    <h5><span class="glyphicon glyphicon-envelope"></span>Email Us</h5>
+                    <h5 style="font-size: 20px">Email Nexus ITTC</h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div id="alert_message"></div>
@@ -425,7 +418,7 @@
                             <label for=""><span class="fas fa-comments"></span> Course</label>
                             <textarea class="form-control" id="emailUsMsg" name="emailUsMsg" rows="7" required placeholder="Type your message here."></textarea>
                         </div>
-                        <button type="submit" name="emailUsBtn" id="emailUsBtn" class="btn btn-success btn-block"><span class="glyphicon glyphicon-log-in"></span> Submit</button>
+                        <button type="submit" name="emailUsBtn" id="emailUsBtn" class="modal-btn btn btn-success btn-block">Submit</button>
                         <!-- hidden input for operation == contactUs -->
                         <input type="hidden" class="form-control" id="operation" name="operation" value="emailUs">
                     </form>
@@ -433,6 +426,37 @@
             </div>
         </div>
     </div>
+
+    <!-- Sign In Modal -->
+
+    <div class="modal fade" id="loginModal" role="dialog">
+        <div class="modal-dialog loginModal">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" id="quoteAnimation" style="padding:10px 10px;">
+                    <h5 class="registration" style="font-size: 20px">Student Log in</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div id="alert_message"></div>
+                <div class="modal-body" style="padding:30px 50px;">
+                    <form method="post" id="loginForm">
+                        <div class="form-group">
+                            <label for="loginUsername"><span class="fas fa-users"></span> Username / E-mail Address</label>
+                            <input type="username" class="form-control" id="loginUsername" name="loginUsername" placeholder="Username / E-mail Address" required maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword"><span class="fas fa-lock"></span> Password</label>
+                            <input type="password" class="form-control" id="loginPassword" name="loginPassword" placeholder="Password" required maxlength="20">
+                        </div>
+                        <button type="submit" name="login-Btn" id="login-Btn" class="modal-btn  btn btn-success btn-block">Log in</button>
+                        <!-- hidden input for operation == contactUs -->
+                        <input type="hidden" class="form-control" id="operation" name="operation" value="login">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -450,7 +474,6 @@
                     $("#nav").css("background-color", "transparent");
                 }
             });
-
         });
     </script>
 
