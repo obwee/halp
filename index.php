@@ -1,6 +1,6 @@
 <?php
 
-header('Location: Homepage/homepage.php');
+header('Location: Homepage/homepage');
 exit;
 
 ?>
