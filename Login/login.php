@@ -60,7 +60,6 @@ if (isset($_SESSION['isLoggedIn']) === true && $_SESSION['isLoggedIn'] === true)
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/login.js"></script>
 
 </body>
