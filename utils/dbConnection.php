@@ -3,8 +3,6 @@
 /**
  * dbConnection
  * Class for establishing database connection.
- * @author Aries V. Macandili
- * @since 2020-02-13
  */
 class dbConnection extends PDO
 {

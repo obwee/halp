@@ -1,6 +1,6 @@
 Options -Indexes
 DirectoryIndex index.html index.htm index.php
-php_value include_path ".;C:\xampp\htdocs\Nexus\;C:\xampp\htdocs\Nexus\dashboard;C:\xampp\htdocs\Nexus\homepage\;C:\xampp\htdocs\Nexus\login\;C:\xampp\htdocs\Nexus\template\;C:\xampp\htdocs\Nexus\utils\"
+php_value include_path ".;C:\xampp\htdocs\Nexus\;C:\xampp\htdocs\Nexus\dashboard\;C:\xampp\htdocs\Nexus\homepage\;C:\xampp\htdocs\Nexus\login\;C:\xampp\htdocs\Nexus\template\;C:\xampp\htdocs\Nexus\utils\"
 php_value date.timezone "Asia/Manila"
 
 <IfModule mod_rewrite.c>

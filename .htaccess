@@ -1,6 +1,6 @@
 Options -Indexes
 DirectoryIndex index.html index.htm index.php
-php_value include_path ".;C:\xampp\htdocs\Nexus\;C:\xampp\htdocs\Nexus\dashboard;C:\xampp\htdocs\Nexus\homepage\;C:\xampp\htdocs\Nexus\login\;C:\xampp\htdocs\Nexus\template\;C:\xampp\htdocs\Nexus\utils\"
+php_value include_path ".;C:\xampp\htdocs\Nexus\;C:\xampp\htdocs\Nexus\dashboard\;C:\xampp\htdocs\Nexus\homepage\;C:\xampp\htdocs\Nexus\login\;C:\xampp\htdocs\Nexus\template\;C:\xampp\htdocs\Nexus\utils\"
 php_value date.timezone "Asia/Manila"
 
 <IfModule mod_rewrite.c>
@@ -8,3 +8,5 @@ php_value date.timezone "Asia/Manila"
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^([^\.]+)$ $1.php [NC]
 </IfModule>
+
+php_value auto_prepend_file "utils\checkSession.php"
