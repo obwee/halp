@@ -71,7 +71,7 @@
                     <h2 class="animated fadeIn" style="animation-delay: 1s">Learn. Get <span>Certified.</span></h2>
                     <h3 class="animated fadeIn" style="animation-delay: 1s">Advance your <span>IT</span> career with us.</h3>
                     <a class="signup-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#registerModal">Sign Up</a>
-                    <a class="signin-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#loginModal">Sign In</a>                    
+                    <a class="signin-btn animated fadeIn" style="animation-delay: 1s" href="../Login/login.php" target="_blank">Sign In</a>                    
                 </div>
             </div>
             <div class="item">
@@ -80,7 +80,7 @@
                     <h2 class="animated fadeIn" style="animation-delay: 1s">Learn. Get <span>Certified.</span></h2>
                     <h3 class="animated fadeIn" style="animation-delay: 1s">Advance your <span>IT</span> career with us.</h3>
                     <a class="signup-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#registerModal">Sign Up</a>
-                    <a class="signin-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#loginModal">Sign In</a>  
+                    <a class="signin-btn animated fadeIn" style="animation-delay: 1s" href="../Login/login.php" target="_blank">Sign In</a>  
                 </div>
             </div>
             <div class="item">
@@ -89,7 +89,7 @@
                     <h2 class="animated fadeIn" style="animation-delay: 1s">Learn. Get <span>Certified.</span></h2>
                     <h3 class="animated fadeIn" style="animation-delay: 1s">Advance your <span>IT</span> career with us.</h3>
                     <a class="signup-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#registerModal">Sign Up</a>
-                    <a class="signin-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#loginModal">Sign In</a>  
+                    <a class="signin-btn animated fadeIn" style="animation-delay: 1s" href="../Login/login.php" target="_blank">Sign In</a>  
                 </div>
             </div>
             <div class="item">
@@ -98,20 +98,20 @@
                     <h2 class="animated fadeIn" style="animation-delay: 1s">Learn. Get <span>Certified.</span></h2>
                     <h3 class="animated fadeIn" style="animation-delay: 1s">Advance your <span>IT</span> career with us.</h3>
                     <a class="signup-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#registerModal">Sign Up</a>
-                    <a class="signin-btn animated fadeIn" style="animation-delay: 1s" href="#" data-toggle="modal" data-target="#rloginModal">Sign In</a>  
+                    <a class="signin-btn animated fadeIn" style="animation-delay: 1s" href="../Login/login.php" target="_blank">Sign In</a>  
                 </div>
             </div>
 
         </div>
 
-        <a class="left carousel-control" href="#my-slider" role="button" data-slide="prev">
+     <!--   <a class="left carousel-control" href="#my-slider" role="button" data-slide="prev">
             <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
         </a>
         <a class="right carousel-control" href="#my-slider" role="button" data-slide="next">
             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
-        </a>
+        </a> -->
     </div>
 
     <!--About-->
@@ -241,7 +241,7 @@
                     </div>
                 </div>
             </div>
-            <a class="courseOutline" href="https://tiny.cc/erihez" target="_blank">View course outline</a>
+            <button class="courseOutline-btn"><a href="https://tiny.cc/erihez" target="_blank">View course outline</a></button>
         </div>
     </div>
 
@@ -319,7 +319,7 @@
                                 <option>Microsoft Azure</option>
                             </select>
                         </div>
-                        <button type="submit" name="quoteBtn" id="quoteBtn" class="modal-btn btn btn-success btn-block">Submit</button>
+                        <button type="submit" name="quoteBtn" id="quoteBtn" class="btn-success btn-primary">Submit</button>
                         <!-- hidden input for operation == contactUs -->
                         <input type="hidden" class="form-control" id="operation" name="operation" value="contactUs">
                     </form>
@@ -375,7 +375,7 @@
                         </div>
 
 
-                        <button type="submit" name="enrollBtn" id="enrollBtn" class="modal-btn  btn btn-success btn-block">Register</button>
+                        <button type="submit" name="enrollBtn" id="enrollBtn" class="btn-success btn-primary">Register</button>
                         <!-- hidden input for operation == contactUs -->
                         <input type="hidden" class="form-control" id="operation" name="operation" value="enroll">
                     </form>
@@ -418,7 +418,7 @@
                             <label for=""><span class="fas fa-comments"></span> Course</label>
                             <textarea class="form-control" id="emailUsMsg" name="emailUsMsg" rows="7" required placeholder="Type your message here."></textarea>
                         </div>
-                        <button type="submit" name="emailUsBtn" id="emailUsBtn" class="modal-btn btn btn-success btn-block">Submit</button>
+                        <button type="submit" name="emailUsBtn" id="emailUsBtn" class="btn-success btn-primary">Submit</button>
                         <!-- hidden input for operation == contactUs -->
                         <input type="hidden" class="form-control" id="operation" name="operation" value="emailUs">
                     </form>
@@ -427,11 +427,11 @@
         </div>
     </div>
 
-    <!-- Sign In Modal -->
+    <!-- Sign In Modal 
 
     <div class="modal fade" id="loginModal" role="dialog">
         <div class="modal-dialog loginModal">
-            <!-- Modal content-->
+ 
             <div class="modal-content">
                 <div class="modal-header" id="quoteAnimation" style="padding:10px 10px;">
                     <h5 class="registration" style="font-size: 20px">Student Log in</h5>
@@ -448,14 +448,14 @@
                             <label for="loginPassword"><span class="fas fa-lock"></span> Password</label>
                             <input type="password" class="form-control" id="loginPassword" name="loginPassword" placeholder="Password" required maxlength="20">
                         </div>
-                        <button type="submit" name="login-Btn" id="login-Btn" class="modal-btn  btn btn-success btn-block">Log in</button>
-                        <!-- hidden input for operation == contactUs -->
+                        <button type="submit" name="login-Btn" id="login-Btn" class="btn-success btn-primary">Log in</button>
+                       
                         <input type="hidden" class="form-control" id="operation" name="operation" value="login">
                     </form>
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
     <script type="text/javascript">
@@ -463,7 +463,7 @@
 
             $("a").click(function() {
                 $("a").css("color", "");
-                $(this).css("color", "#A0BACC");
+                $(this).css("color", "#FFFFFF");
             });
 
             $(window).scroll(function() {

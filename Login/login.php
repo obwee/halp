@@ -1,5 +1,6 @@
 <?php
 session_start();
+session_destroy();
 
 // Check if user is currently logged-in by checking if isLoggedIn session is set and has a value.
 if (isset($_SESSION['isLoggedIn']) === true && $_SESSION['isLoggedIn'] === true) {
@@ -16,7 +17,7 @@ if (isset($_SESSION['isLoggedIn']) === true && $_SESSION['isLoggedIn'] === true)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Nexus ITTC Admin Login</title>
+    <title>Nexus ITTC Login</title>
 
     <script src="https://kit.fontawesome.com/be76a30cc4.js" crossorigin="anonymous"></script>
 
@@ -26,6 +27,9 @@ if (isset($_SESSION['isLoggedIn']) === true && $_SESSION['isLoggedIn'] === true)
 </head>
 
 <body>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
+
     <div class="container">
         <div class="logo">
             <img src="Img/Untitled-1.png" alt="logo">
@@ -59,8 +63,7 @@ if (isset($_SESSION['isLoggedIn']) === true && $_SESSION['isLoggedIn'] === true)
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="js/login.js"></script>
+
 
 </body>
 

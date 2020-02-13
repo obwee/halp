@@ -1,5 +1,5 @@
 <?php
-require_once "template/header.php";
+require_once "Template/header.php";
 ?>
 
 <div class="container">
@@ -13,7 +13,7 @@ require_once "template/header.php";
     <div class='row'>
 
         <div class="col-md-3 col-sm-6 col-xs-12">
-            <a href="quotationRequests.php">
+            <a href="#">
                 <div class="info-box">
                     <span class="info-box-icon bg-aqua"><i class="fas fa-mail-bulk"></i></span>
                     <div class="info-box-content" style="text-align:center;">
@@ -28,7 +28,7 @@ require_once "template/header.php";
         </div>
 
         <div class="col-md-3 col-sm-6 col-xs-12">
-            <a href="approvedBookings.php">
+            <a href="#">
                 <div class="info-box">
                     <span class="info-box-icon bg-yellow"><i class="fas fa-check"></i></span>
                     <div class="info-box-content" style="text-align:center;">
@@ -43,7 +43,7 @@ require_once "template/header.php";
         </div>
 
         <div class="col-md-3 col-sm-6 col-xs-12">
-            <a href="finishedBookings.php">
+            <a href="#">
                 <div class="info-box">
                     <span class="info-box-icon bg-green"><i class="fas fa-check-double"></i></span>
                     <div class="info-box-content" style="text-align:center;">
@@ -58,7 +58,7 @@ require_once "template/header.php";
         </div>
 
         <div class="col-md-3 col-sm-6 col-xs-12">
-            <a href="cancelledBookings.php">
+            <a href="#">
                 <div class="info-box">
                     <span class="info-box-icon bg-red"><i class="fas fa-times"></i></span>
                     <div class="info-box-content" style="text-align:center;">
@@ -84,7 +84,6 @@ require_once "template/header.php";
             <table id="tbl_clients" style="width:100%" class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th style="white-space:nowrap;">Student ID</th>
                         <th style="white-space:nowrap;">Student Name</th>
                         <th style="white-space:nowrap;">Company Name</th>
                         <th style="white-space:nowrap;">E-mail Address</th>
@@ -97,7 +96,6 @@ require_once "template/header.php";
                 </thead>
                 <tfoot>
                     <tr>
-                        <th style="white-space:nowrap;">Student ID</th>
                         <th style="white-space:nowrap;">Student Name</th>
                         <th style="white-space:nowrap;">Company Name</th>
                         <th style="white-space:nowrap;">E-mail Address</th>
@@ -112,7 +110,7 @@ require_once "template/header.php";
         </div>
     </div>
 
-    <div id="tourDetailsModal" class="modal fade modal-wide" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div id="fullyPaidModal" class="modal fade modal-wide" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header" style="padding:10px 10px;">
@@ -124,7 +122,6 @@ require_once "template/header.php";
                         <table id="tbl_tours" style="width:100%" class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th style="white-space:nowrap;">Student ID</th>
                                     <th style="white-space:nowrap;">Student Name</th>
                                     <th style="white-space:nowrap;">Company Name</th>
                                     <th style="white-space:nowrap;">Course</th>
@@ -134,7 +131,6 @@ require_once "template/header.php";
                                     <th style="white-space:nowrap;">Payment Amount</th>
                                     <th style="white-space:nowrap;">Payment Status</th>
                                     <th style="white-space:nowrap;">Approved By</th>
-                                    <th style="white-space:nowrap;">Actions</th>
                                 </tr>
                             </thead>
                         </table>
@@ -161,7 +157,7 @@ require_once "template/header.php";
                 <div class="modal-body" style="padding:30px 50px;">
                     <div id="bookDetails"></div>
                     <div align="right">
-                        <button type='button' id='addSupplier' class='btn btn-primary addSupplier' data-toggle="modal" data-target="#addSupplierModal">Add Walk-in</button>
+                        <button type='button' id='addSupplier' class='btn btn-primary addSupplier' data-toggle="modal" data-target="#addSupplierModal">aaa</button>
                         <!-- <button type="button" id="changeSupplierBtn" class="btn btn-info btn-lg changeSupplierBtn">Change Supplier</button> -->
                         <br><br>
                     </div>
@@ -458,5 +454,5 @@ require_once "template/header.php";
 </div>
 
 <?php
-require_once "template/footer.php";
+require_once "Template/footer.php";
 ?>
