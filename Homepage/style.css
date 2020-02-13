@@ -3,6 +3,7 @@ html, body {
     width: 100%;
 }
 
+/* NAVIGATION BAR */
 .navbar {
     background-color: transparent;
     padding: 1% 0;
@@ -26,6 +27,7 @@ html, body {
     color: #FFF;
 }
 
+/* CAROUSEL*/
 .carousel-inner {
     height: 103vh;
 }
@@ -122,7 +124,7 @@ html, body {
     color: #38d39f;
 }
 
-.btn {
+/*.btn {
     border: 1px solid white;
     padding: 10px 25px;
     text-decoration: none;
@@ -134,7 +136,7 @@ html, body {
 
 .btn:hover {
     background: white;
-    color: #333;
+  */  color: #333;
 }
 
 .padding {
@@ -165,6 +167,8 @@ html, body {
     background-size: cover;
 }
 
+/* CONTACT US */
+
 footer {
     width: 100%;
     background-color: black;
@@ -189,6 +193,8 @@ footer h3 {
     text-transform: uppercase;
 }
 
+
+/* COURSES */
 
 .container {
     display: flex;
@@ -259,49 +265,43 @@ footer h3 {
 
 }
 
-.courseOutline {
+.courseOutline-btn {
     background-color: #edbb00;
     padding: 15px 35px;
     display: inline-block;
     margin: auto;
+    margin-bottom: 20px;
     color: #fff;
     text-transform: uppercase;
-    border-radius: 25px;
+    border-radius: 5px;
     text-decoration: none;
     font-family: 'Montserrat', sans-serif;
-    font-weight: bold; 
-}
-
-.courseOutline:hover {
-    background: black;
-    color: white;
-}
-
-/*.modal-content .modal-header h5 {
-    text-transform: uppercase; 
     font-weight: bold;
-}*/
-
-.modal-btn {
-  text-transform: uppercase;
-  border: none;
-  border-radius: 300px;
-  font-size: 25px;
-  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
-
+    border: none; 
 }
 
-.loginModal .signup-btn {
-    background-color: #edbb00;
-    padding: 5px 5px;
+.courseOutline-btn:hover {
+    opacity: 75%;
+}
+
+
+.modal .btn-primary{
+    padding: 10px 10px;
     display: inline-block;
     color: #fff;
     text-transform: uppercase;
     border-radius: 25px;
     text-decoration: none;
+    font-family: sans-serif;
     font-weight: bold;
-    font-family: 'Montserrat', sans-serif;
+    border: none;
+    margin: 0 190px;
 }
+
+.modal .btn-primary:hover {
+    background-color: #37B83B;
+}
+
 html {
     scroll-behavior: smooth;
     }

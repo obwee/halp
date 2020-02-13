@@ -16,24 +16,26 @@ session_start();
 
     <!-- AdminLTE CSS/Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="CDNs/dist/css/AdminLTE.css">
-    <link rel="stylesheet" href="CDNs/dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="CDNs/dist/css/skins/skin-blue.css">
 
     <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
+    <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <!-- DataTables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/b-1.5.4/r-2.2.2/rg-1.1.0/rr-1.2.4/sc-1.5.0/sl-1.2.6/datatables.css">
 
 </head>
 
-<body class="hold-transition skin-green sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
         <header class="main-header">
             <!-- Logo -->
             <a class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini"><b>NI</b>TTC</span>
+                <span class="logo-mini"><b>NXS</span>
                 <!-- logo for regular state and mobile devices -->
                 <span class="logo-lg">Nexus ITTC</span>
             </a>
@@ -45,7 +47,7 @@ session_start();
                     <span class="sr-only">Toggle navigation</span>
                 </a>
 
-                <span class="hidden-xs" style="color:white;">Hello, <?php echo $_SESSION['fullName']; ?>!</span>
+                <span class="hidden-xs" style="color:white;">Hello,</span>
 
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
@@ -80,7 +82,7 @@ session_start();
                         <span>&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;NAVIGATION</span>
                     </li>
                     <li class="">
-                        <a href="dashboard1.php">
+                        <a href="dashboard.php">
                             <i class="fas fa-tachometer-alt"></i>
                             <span>&emsp;Dashboard</span>
                         </a>
@@ -94,11 +96,11 @@ session_start();
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="bookingRequests.php"><i class="fas fa-mail-bulk"></i>&emsp;Quotation Requests</a></li>
+                            <li><a href="#"><i class="fas fa-mail-bulk"></i>&emsp;Quotation Requests</a></li>
                             <!-- <li><a href="pendingBookings.php"><i class="fas fa-exchange-alt"></i>&emsp;View Pending Bookings</a></li> -->
-                            <li><a href="approvedBookings.php"><i class="fas fa-check"></i>&emsp;Partially Paid Students</a></li>
-                            <li><a href="finishedBookings.php"><i class="fas fa-check-double"></i>&emsp;Fully Paid Students</a></li>
-                            <li><a href="cancelledBookings.php"><i class="fas fa-times"></i>&emsp;Unpaid Students</a></li>
+                            <li><a href="#"><i class="fas fa-check"></i>&emsp;Partially Paid Students</a></li>
+                            <li><a href="#"><i class="fas fa-check-double"></i>&emsp;Fully Paid Students</a></li>
+                            <li><a href="#"><i class="fas fa-times"></i>&emsp;Unpaid Students</a></li>
                         </ul>
                     </li>
                     <li class="treeview">
@@ -110,9 +112,9 @@ session_start();
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="bookingReport.php"><i class="fas fa-paper-plane"></i>&emsp;Trainings</a></li>
-                            <li><a href="bookingReport.php"><i class="fas fa-paper-plane"></i>&emsp;Student Report</a></li>
-                            <li><a href="clientReport.php"><i class="fas fa-users"></i>&emsp;Sales Report</a></li>
+                            <li><a href="Reports/trainingReport.php"><i class="fas fa-paper-plane"></i>&emsp;Trainings</a></li>
+                            <li><a href="Reports/studentReport.php"><i class="fas fa-paper-plane"></i>&emsp;Student Report</a></li>
+                            <li><a href="Reports/salesReport.php"><i class="fas fa-users"></i>&emsp;Sales Report</a></li>
                         </ul>
                     </li>
                     <li>
@@ -127,7 +129,7 @@ session_start();
                         <ul class="treeview-menu">
                             <li><a href="viewSuppliers1.php"><i class="fas fa-parachute-box"></i>&emsp;Course</a></li>
                             <li><a href="editDestinations.php"><i class="fas fa-map-marked-alt"></i>&emsp;Schedule</a></li>
-                            <li><a href="AJAX/checkUserPosition.php"><i class="fas fa-user-edit"></i>&emsp;Credentials </a></li>
+                            <li><a href="editCredentials.php"><i class="fas fa-user-edit"></i>&emsp;Credentials </a></li>
                             <li><a href="editpaymentStatus.php"><i class="fas fa-hand-holding-usd"></i>&emsp;Payment Mode </a></li>
                         </ul>
                     </li>
