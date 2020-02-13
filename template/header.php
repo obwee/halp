@@ -1,7 +1,4 @@
-<?php
-session_start();
-?>
-
+<?php session_destroy();#print_r($_SESSION); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,7 +45,7 @@ session_start();
                     <span class="sr-only">Toggle navigation</span>
                 </a>
 
-                <span class="hidden-xs" style="color:white;">Hello,</span>
+                <span class="hidden-xs" style="color:white;">Hello, <?php echo Session::get('fullName'); ?></span>
 
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">

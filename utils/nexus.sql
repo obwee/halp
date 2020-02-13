@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 12, 2020 at 04:01 PM
+-- Generation Time: Feb 13, 2020 at 05:34 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -80,25 +80,6 @@ CREATE TABLE `tbl_schedules` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_students`
---
-
-CREATE TABLE `tbl_students` (
-  `userID` int(11) NOT NULL,
-  `username` tinytext NOT NULL,
-  `password` longtext NOT NULL,
-  `firstName` tinytext NOT NULL,
-  `middleName` tinytext NOT NULL,
-  `lastName` tinytext NOT NULL,
-  `companyName` varchar(255) NOT NULL,
-  `contactNum` varchar(13) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tbl_training`
 --
 
@@ -121,23 +102,24 @@ CREATE TABLE `tbl_training` (
 
 CREATE TABLE `tbl_users` (
   `userID` int(11) NOT NULL,
-  `username` tinytext NOT NULL,
-  `password` longtext NOT NULL,
-  `firstName` tinytext NOT NULL,
-  `middleName` tinytext NOT NULL,
-  `lastName` tinytext NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `firstName` varchar(255) NOT NULL,
+  `middleName` varchar(255) NOT NULL,
+  `lastName` varchar(255) NOT NULL,
   `position` varchar(255) NOT NULL,
+  `companyName` varchar(255) NOT NULL,
   `contactNum` varchar(13) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL
+  `status` varchar(255) NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tbl_users`
 --
 
-INSERT INTO `tbl_users` (`userID`, `username`, `password`, `firstName`, `middleName`, `lastName`, `position`, `contactNum`, `email`, `status`) VALUES
-(1, 'chris', 'chris123', 'Christopher', 'Iglesia', 'Buenaventura', 'Super Admin', '09261759759', 'angelikaaubreyarbiol@gmail.com', 'Active');
+INSERT INTO `tbl_users` (`userID`, `username`, `password`, `firstName`, `middleName`, `lastName`, `position`, `companyName`, `contactNum`, `email`, `status`) VALUES
+(1, 'chris', 'chris123', 'Christopher', 'Iglesia', 'Buenaventura', 'Super Admin', '', '09261759759', 'angelikaaubreyarbiol@gmail.com', 'Active');
 
 -- --------------------------------------------------------
 
@@ -177,12 +159,6 @@ ALTER TABLE `tbl_payments`
 --
 ALTER TABLE `tbl_schedules`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `tbl_students`
---
-ALTER TABLE `tbl_students`
-  ADD PRIMARY KEY (`userID`);
 
 --
 -- Indexes for table `tbl_training`
@@ -229,12 +205,6 @@ ALTER TABLE `tbl_payments`
 --
 ALTER TABLE `tbl_schedules`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `tbl_students`
---
-ALTER TABLE `tbl_students`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_training`

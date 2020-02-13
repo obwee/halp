@@ -1,5 +1,4 @@
 <?php
-session_start();
 include('Utils/dbConnection.php');
 
 // This is where the AJAX will go. Since data sent are named as 'username' and 'password',
@@ -33,17 +32,16 @@ if (validateData() === true) {
     // username sent from the AJAX request...
     if ($count > 0) {
 
-        // Get the result of the query, which is the password from the database.
-        // The parameter inside fetchColumn is the index of the password field inside the database.
-        // Note: Always count from 0.
-        $passwordFromDatabase = $statement->fetchColumn(2);
+        // Store the result of the query inside $userDetails variable.
+        $userDetails = $statement->fetch();
 
         // Compare the password sent from the AJAX and the password from the database if equal.
-        if ($password === $passwordFromDatabase) {
+        if ($password === $userDetails['password']) {
             // Set the session variables here.
-            $_SESSION['username']   = $username;
-            $_SESSION['LOA']        = $statement->fetchColumn(6);
-            $_SESSION['isLoggedIn'] = true;
+            Session::set('isLoggedIn', true);
+            Session::set('username', $userDetails['username']);
+            Session::set('fullName', $userDetails['firstName'] . ' ' . $userDetails['lastName']);
+            Session::set('LOA', $userDetails['position']);
 
             // Prepare the result to be sent back to the AJAX request.
             $result = array(
