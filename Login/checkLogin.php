@@ -1,12 +1,13 @@
 <?php
 session_start();
-include("../connection.php");
+include('Utils/dbConnection.php');
 
 // This is where the AJAX will go. Since data sent are named as 'username' and 'password',
 // It will be $_POST['username'] and $_POST['password'].
 
 // Validate first the data if true.
 if (validateData() === true) {
+    $connection = new dbConnection();
 
     // Store the POST variables into newly declared variables.
     $username = $_POST['username'];
@@ -40,6 +41,7 @@ if (validateData() === true) {
         // Compare the password sent from the AJAX and the password from the database if equal.
         if ($password === $passwordFromDatabase) {
             // Set the session variables here.
+            $_SESSION['username'] = $username;
             $_SESSION['username'] = $username;
             $_SESSION['isLoggedIn'] = true;
 

@@ -1,6 +1,4 @@
 <?php
-
-header('Location: Homepage/homepage');
-exit;
-
+header('Location: homepage/welcome');
+exit();
 ?>

@@ -1,5 +1,9 @@
 Options -Indexes
+DirectoryIndex index.html index.htm index.php
+php_value include_path ".;C:\xampp\htdocs\Nexus\;C:\xampp\htdocs\Nexus\dashboard;C:\xampp\htdocs\Nexus\homepage\;C:\xampp\htdocs\Nexus\login\;C:\xampp\htdocs\Nexus\template\;C:\xampp\htdocs\Nexus\utils\"
 
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^([^\.]+)$ $1.php [NC,L]
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^([^\.]+)$ $1.php [NC]
+</IfModule>
