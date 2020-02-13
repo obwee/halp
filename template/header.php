@@ -1,4 +1,3 @@
-<?php session_destroy();#print_r($_SESSION); ?>
 <!DOCTYPE html>
 <html lang="en">
 
