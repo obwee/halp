@@ -4,7 +4,7 @@ session_destroy();
 
 // Check if user is currently logged-in by checking if isLoggedIn session is set and has a value.
 if (isset($_SESSION['isLoggedIn']) === true && $_SESSION['isLoggedIn'] === true) {
-    header("Location:../dashboard.php");
+    header("Location:/dashboard");
     exit;
 }
 

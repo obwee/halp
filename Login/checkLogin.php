@@ -41,25 +41,25 @@ if (validateData() === true) {
         // Compare the password sent from the AJAX and the password from the database if equal.
         if ($password === $passwordFromDatabase) {
             // Set the session variables here.
-            $_SESSION['username'] = $username;
-            $_SESSION['username'] = $username;
+            $_SESSION['username']   = $username;
+            $_SESSION['LOA']        = $statement->fetchColumn(6);
             $_SESSION['isLoggedIn'] = true;
 
             // Prepare the result to be sent back to the AJAX request.
             $result = array(
                 'result' => true,
-                'msg'     => 'Success!'
+                'msg'    => 'Success!'
             );
         } else { // Password is incorrect.
             $result = array(
                 'result' => false,
-                'msg'     => 'Password is incorrect.'
+                'msg'    => 'Password is incorrect.'
             );
         }
     } else { // Else, no records inside database with the username sent using AJAX.
         $result = array(
             'result' => false,
-            'msg'     => 'Username does not exist.'
+            'msg'    => 'Username does not exist.'
         );
     }
 } else {
@@ -72,7 +72,6 @@ echo json_encode($result);
 // This method validate data sent by AJAX.
 function validateData()
 {
-
     $inputRegex = array(
         'username' => '/^(?![0-9_])[a-zA-Z0-9_]+$/',
         'password' => '/.+/'
@@ -88,7 +87,7 @@ function validateData()
         if (isset($key) === false || empty($key) === true) {
             return array(
                 'result' => false,
-                'msg'     => ucfirst($key) . ' cannot be empty.'
+                'msg'    => ucfirst($key) . ' cannot be empty.'
             );
         }
 
@@ -96,7 +95,7 @@ function validateData()
         if (!preg_match($inputRegex[$key], $val)) {
             return array(
                 'result' => false,
-                'msg'     => ucfirst($key) . ' invalid.'
+                'msg'    => ucfirst($key) . ' invalid.'
             );
         }
     }
