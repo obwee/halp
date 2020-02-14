@@ -34,7 +34,7 @@ if (validateData() === true) {
 
         // Store the result of the query inside $userDetails variable.
         $userDetails = $statement->fetch();
-
+        
         // Compare the password sent from the AJAX and the password from the database if equal.
         if ($password === $userDetails['password']) {
             // Set the session variables here.
