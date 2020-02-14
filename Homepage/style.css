@@ -254,10 +254,9 @@ footer h3 {
 }
 
 .container .box .details .content h3 {
-    margin: 10px 0 0;
-    padding: 0;
-    color: yellowgreen;
-    font-size: 20px;
+    color: white;
+    font-size: 15px;
+    text-align: center;
 }
 
 .coursesContainer .box .details .content a {
@@ -282,6 +281,11 @@ footer h3 {
 
 .courseOutline-btn:hover {
     opacity: 75%;
+    text-decoration: none;
+}
+
+#about .about.-img .about-text {
+    margin-top: 80px;   
 }
 
 
