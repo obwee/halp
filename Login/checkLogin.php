@@ -1,5 +1,5 @@
 <?php
-include('Utils/dbConnection.php');
+include('utils/dbConnection.php');
 
 // This is where the AJAX will go. Since data sent are named as 'username' and 'password',
 // It will be $_POST['username'] and $_POST['password'].

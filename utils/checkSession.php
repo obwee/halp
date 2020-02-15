@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once 'utils/libSession.php';
+include_once 'utils/autoload.php';
 
 /**
  * This file is automatically prepended to any file via .htaccess file.
@@ -8,16 +8,16 @@ include_once 'utils/libSession.php';
  * It also performs redirection. 
  */
 
-if (Session::isset('isLoggedIn') === true) {
-    if (preg_match('/\/homepage\/|\/login\//i', $_SERVER['REQUEST_URI'])) {
-        // Redirect to dashboard.
-        header('Location: /Nexus/dashboard');
-        exit();
-    }
-} else {
-    if (!preg_match('/\/homepage\/|\/login\//i', $_SERVER['REQUEST_URI'])) {
-        // Redirect to homepage.
-        header('Location: /Nexus/homepage/welcome');
-        exit();
-    }
-}
+// if (Session::isset('isLoggedIn') === true) {
+//     if (preg_match('/\/homepage\/|\/login\//i', $_SERVER['REQUEST_URI'])) {
+//         // Redirect to dashboard.
+//         header('Location: /Nexus/dashboard');
+//         exit();
+//     }
+// } else {
+//     if (!preg_match('/\/homepage\/|\/login\//i', $_SERVER['REQUEST_URI'])) {
+//         // Redirect to homepage.
+//         header('Location: /Nexus/homepage/welcome');
+//         exit();
+//     }
+// }

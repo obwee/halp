@@ -24,14 +24,17 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.5/js/adminlte.min.js"></script>
 
+	<!-- Sweet Alert JS -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 	<!-- Datatables JS -->
-	<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/b-1.5.4/r-2.2.2/rg-1.1.0/rr-1.2.4/sc-1.5.0/sl-1.2.6/datatables.js"></script>
+	<script type="text/javascript" src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
 	<!-- Moment JS -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
 	<!-- Accounting JS -->
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/accounting.js/0.4.1/accounting.min.js"></script>
+	<script type="text/javascript" src="https://raw.githubusercontent.com/openexchangerates/accounting.js/master/accounting.min.js"></script>
 
 </body>
 

@@ -71,11 +71,11 @@ $(document).ready(function () {
         }
     });
 
-    // This method validate the inputs of the user before submission.
+    // This method validates the inputs of the user before submission.
     function validateInputs() {
 
         // Check username input min length.
-        if ($.trim($('#username').val()).length === 0 || $.trim($('#username').val()).length < 4) {
+        if ($.trim($('#username').val()).length < 4) {
             // Return an object that contains the result and the error message.
             return {
                 result : false,
