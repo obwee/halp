@@ -27,19 +27,51 @@ $(function () {
         $(this).val($(this).val().replace(/\s+/g, ' ').replace(/\.+/g, '.').trim());
     });
 
+    // Remove red border on focus event on any input.
+    $(document).on('focus', 'input', function () {
+        $(this).css('border', '1px solid #ccc');
+    });
+
     // Function for submission of registration form.
     $(document).on('submit', '#registrationForm', function (event) {
         event.preventDefault();
+        // Remove existing red borders on inputs.
+        $('input').css('border', '1px solid #ccc');
+
+        // Check if input validation result is true.
         if (validateInputs().result === true) {
-            alert(123)
+            let formData = $(this).serializeArray();
+
+            $.ajax({
+                url: '../utils/ajax.php?class=register',
+                type: 'post',
+                data: formData,
+                cache: true,
+                dataType: 'json',
+                success: (response) => {
+                    console.log(response);
+                },
+                error: () => {
+                    Swal.fire({
+                        title: 'Error.',
+                        text: 'An error has occured. Please try again.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
         } else { // This means that there's an error while validating inputs.
 
+            // Scroll to div with an id of error.
             $("#registerModal").animate({
                 scrollTop: $("#error").offset().top
             } /* speed */);
 
             // Display error message.
             $('#error').css('display', 'block').html("<span class='text-danger'><i class='fas fa-exclamation-triangle'></i> " + validateInputs().msg + "</span><br><br>");
+
+            // Highlight the input that has an error.
+            $(validateInputs().element).css('border', '1px solid red');
 
             // Remove the error message after 2000 milliseconds.
             setTimeout(function () {
@@ -51,73 +83,83 @@ $(function () {
     // This method validates the inputs of the user before submission.
     function validateInputs() {
 
+        // Declare an object with properties related to inputs that need to be validated.
         let inputRules = [
             {
                 name: 'First name',
-                element: $('#registrationFname'),
+                element: '#registrationFname',
                 length: $.trim($('#registrationFname').val()).length,
                 minLength: 2,
                 maxLength: 30,
-                pattern: /[a-zA-Z\s\.]/g
+                pattern: /^[a-zA-Z\s\.]+$/g
             },
             {
                 name: 'Last name',
-                element: $('#registrationLname'),
+                element: '#registrationLname',
                 length: $.trim($('#registrationLname').val()).length,
                 minLength: 2,
                 maxLength: 30,
-                pattern: /[a-zA-Z\s\.]/g
+                pattern: /^[a-zA-Z\s\.]+$/g
             },
-            // {
-            //     name: 'Contact number',
-            //     element: $('#registrationContactNum'),
-            //     length: $.trim($('#registrationContactNum').val()).length,
-            //     minLength: 7,
-            //     maxLength: 12,
-            //     pattern: /[0-9]/g
-            // },
-            // {
-            //     name: 'Company name',
-            //     element: $('#registrationCompanyName'),
-            //     length: $.trim($('#registrationCompanyName').val()).length,
-            //     minLength: 4,
-            //     maxLength: 50,
-            //     pattern: /[a-zA-Z0-9\s\.]/g
-            // },
-            // {
-            //     name: 'Email address',
-            //     element: $('#registrationEmail'),
-            //     length: $.trim($('#registrationEmail').val()).length,
-            //     minLength: 4,
-            //     maxLength: 50,
-            //     pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
-            // },
-            // {
-            //     name: 'Email address',
-            //     element: $('#registrationEmail'),
-            //     length: $.trim($('#registrationEmail').val()).length,
-            //     minLength: 4,
-            //     maxLength: 50,
-            //     pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
-            // },
-            // {
-            //     name: 'Username',
-            //     element: $('#registrationUsername'),
-            //     length: $.trim($('#registrationUsername').val()).length,
-            //     minLength: 4,
-            //     maxLength: 15,
-            //     pattern: /^(?![0-9_])\w+$/g
-            // }
+            {
+                name: 'Contact number',
+                element: '#registrationContactNum',
+                length: $.trim($('#registrationContactNum').val()).length,
+                minLength: 7,
+                maxLength: 12,
+                pattern: /^[0-9]+$/g
+            },
+            {
+                name: 'Company name',
+                element: '#registrationCompanyName',
+                length: $.trim($('#registrationCompanyName').val()).length,
+                minLength: 4,
+                maxLength: 50,
+                pattern: /^[a-zA-Z0-9\s\.]+$/g
+            },
+            {
+                name: 'Email address',
+                element: '#registrationEmail',
+                length: $.trim($('#registrationEmail').val()).length,
+                minLength: 4,
+                maxLength: 50,
+                pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
+            },
+            {
+                name: 'Username',
+                element: '#registrationUsername',
+                length: $.trim($('#registrationUsername').val()).length,
+                minLength: 4,
+                maxLength: 15,
+                pattern: /^(?![0-9_])\w+$/g
+            },
+            {
+                name: 'Password',
+                element: '#registrationPassword',
+                length: $.trim($('#registrationPassword').val()).length,
+                minLength: 4,
+                maxLength: 30
+            },
+            {
+                name: 'Password',
+                element: '#registrationConfirmPassword',
+                length: $.trim($('#registrationConfirmPassword').val()).length,
+                minLength: 4,
+                maxLength: 30
+            },
         ];
 
+        // Declare initially the validation result to be returned by the function.
         let validationResult = {
             result: true
         }
 
+        // Loop thru each inputRules and if there are rules violated, return false and the error message.
         $.each(inputRules, function (key, inputRule) {
             if (inputRule.length < inputRule.minLength) {
                 validationResult = {
                     result: false,
+                    element: inputRule.element,
                     msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
                 };
                 return false;
@@ -125,27 +167,32 @@ $(function () {
             if (inputRule.length > inputRule.maxLength) {
                 validationResult = {
                     result: false,
+                    element: inputRule.element,
                     msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
+                };
+                return false;
+            }
+            if ((inputRule.name !== 'Password') && (inputRule.pattern.test($(inputRule.element).val()) === false)) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' input is invalid.'
                 };
                 return false;
             }
         });
 
-        console.log(validationResult);
-
-        return;
-
-        // Check password input min length.
-        if ($.trim($('#password').val()).length === 0) {
-            // Return an object that contains the result and the error message.
-            return {
+        // Check if passwords are equal.
+        if ($('#registrationPassword').val() !== $('#registrationConfirmPassword').val()) {
+            validationResult = {
                 result: false,
-                msg: 'Password cannot be empty.'
+                element: '#registrationPassword, #registrationConfirmPassword',
+                msg: 'Passwords are not equal.'
             };
         }
 
-        // Return true if no errors on input validations.
-
+        // Return the result of the validation.
+        return validationResult;
     }
 
 });
