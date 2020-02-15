@@ -31,16 +31,43 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Nexus ITTC</a>
+                <a class="navbar-brand">NEXUS ITTC</a>
             </div>
-            <div class="collapse navbar-collapse" id="navbar-collapse-main">
+
+            <div class="navbar-collapse collapse" id="navbar-collapse-main">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a class="active" href="#">Home</a></li>
+                    <li><a href="#">Home</a></li>
                     <li><a href="#about">About</a></li>
-                    <li><a href="#courses">Courses</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#quoteModal">Get Quote</a></li>
-                    <li><a href="#contact">Contact Us</a></li>
-                    <li><a href="#email" data-toggle="modal" data-target="#emailUsModal">Email Us</a></li>
+                <!--====================================================================================-->
+                    <li class="dropdown">  
+                            <a class="dropdown-toggle" data-toggle="dropdown">Courses<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-header">Cisco</li>
+                                <li class="dd-content"><a href="#">CCNA v4 200-301</a></li>
+                                <li class="dd-content"><a href="#">CCNP & CCIE Enterprise Core</a></li>
+                                <li class="dd-content"><a href="#">CCNP - Implementing Cisco Enterprise Advanced Routing and Services (ENARSI)</a></li>
+                                
+                                <li class="dropdown-header">Microsoft</li>
+                                <li class="dd-content"><a href="#">20410 MCP in Windows Server 2012</a></li>
+                                <li class="dd-content"><a href="#">MCSA 2012</a></li>
+                                <li class="dd-content"><a href="#">MCSA 2016</a></li>
+                                <li class="dd-content"><a href="#">Azure Administrator</a></li>
+
+                                <li class="dropdown-header">Amazon Web Services</li>
+                                <li class="dd-content"><a href="#">AWS Solutions Architect</a></li>
+
+                                <li class="dropdown-header">VMWare</li>
+                                <li class="dd-content"><a href="#">VMWare vSphere 6.0 ICM</a></li>
+
+                                <li class="dropdown-header">Cybersecurity</li>
+                                <li class="dd-content"><a href="#">Ethical Hacking and Penetration Testing</a></li>
+                            </ul>
+                    </li>
+                <!--====================================================================================-->
+                    <li><a href="" data-toggle="modal" data-target="#getQuoteModal">Get Quote</a></li>
+                    <li><a href="" data-toggle="modal" data-target="#emailUsModal">Email Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#fucks">FAQs</a></li>
                 </ul>
             </div>
         </div>
@@ -111,10 +138,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-6">
-                    <img class="about-img" src="../resource/img/homepage/Nexus-Logo.png">
+                    <img class="about-img" src="../resource/img/homepage/Nexus-Logo.png" >
                 </div>
                 <div class="col-sm-6 text-center about-text">
-                    <h2 class="about">About Us</h2>
+                    <h2 class="about" style="padding-top: 40px">About Us</h2>
                     <br><br><br>
                     <p class="lead">Providing trainings for IT professionals and beginners, Nexus continues to solidify its industry leadership position in producing quality training for the largest technologies and business trainings.</p>
                     <br>
@@ -125,117 +152,8 @@
     </div>
 
 
-    <!--Courses-->
-
-    <div class="padding" id="courses">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="box">
-                        <div class="imgBox">
-                            <img src="../resource/img/homepage/courses/Cisco_Blue.jpg" alt="Cisco">
-                        </div>
-                        <div class="details">
-                            <div class="content">
-                                <h3>CCNA Version 4</h3>
-                                <h3>CCNP and CCIE Enterprise Core</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="box">
-                        <div class="imgBox">
-                            <img src="../resource/img/homepage/courses/Vmware.png" alt="Vmware">
-                        </div>
-                        <div class="details">
-                            <div class="content">
-                                <h3>VMware vSphere 6.7: Install, Configure and Manage</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="box">
-                        <div class="imgBox">
-                            <img src="../resource/img/homepage/courses/Microsoft.jpg" alt="Microsoft">
-                        </div>
-                        <div class="details">
-                            <div class="content">
-                                <h3>Windows Server 2012 R2</h3>
-                                <h3>Windows Server 2016 Cloud</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="box">
-                        <div class="imgBox">
-                            <img src="../resource/img/homepage/courses/AWS.png" alt="AWS">
-                        </div>
-                        <div class="details">
-                            <div class="content">
-                                <h3>Amazon Web Services Certified Solutions Architect - Associate</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="box">
-                        <div class="imgBox">
-                            <img src="../resource/img/homepage/courses/Citrix.jpg" alt="Cisco">
-                        </div>
-                        <div class="details">
-                            <div class="content">
-                                <h3>Citrix Virtual Apps & Desktops 7 Admin On-Premise & Cloud</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="box">
-                        <div class="imgBox">
-                            <img src="../resource/img/homepage/courses/office365.jpg" alt="Cisco">
-                        </div>
-                        <div class="details">
-                            <div class="content">
-                                <h3>Office 365 Administrator</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="box">
-                        <div class="imgBox">
-                            <img src="../resource/img/homepage/courses/EthicalHacking.jpg" alt="Cisco">
-                        </div>
-                        <div class="details">
-                            <div class="content">
-                                <h3>Ethical Hacking & Penetration Testing</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="box">
-                        <div class="imgBox">
-                            <img src="../resource/img/homepage/courses/azure.png" alt="AWS">
-                        </div>
-                        <div class="details">
-                            <div class="content">
-                                <h3>Microsoft Azure Administrator</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button class="courseOutline-btn"><a href="https://tiny.cc/erihez" target="_blank">View course outline</a></button>
-        </div>
-    </div>
-
     <div id="fixed"></div>
+
 
     <footer class="container-fluid text-center" id="contact">
         <div class="row">
@@ -269,63 +187,65 @@
     </footer>
 
     <!--MODALS-->
-
     <!--Get Quote Modal-->
-    <div class="modal fade" id="quoteModal" role="dialog">
-        <div class="modal-dialog loginModal">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header" id="quoteAnimation" style="padding:10px 10px;">
-                    <h5 style="font-size: 20px">Get Quote</h5>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="modal face" id="getQuoteModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog getQuoteModal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h5 style="font-size: 20px; text-align: center; font-family:sans-serif;">Get Quote</h5>
+        </div>
+        <div class="modal-body">
+            <div id="alert_message"></div>
+            <div class="modal-body">
+                <form method="post" id="quotationForm">
+                    <div class="form-group">
+                        <label for="quoteFname"><span class="fas fa-user-circle"></span> First Name</label>
+                        <input type="text" class="form-control" id="quoteFname" name="quoteFname" placeholder="First Name" required autofocus maxlength="20">
+                    </div>
+                    <div class="form-group">
+                        <label for="quoteMname"><span class="fas fa-user-circle"></span> Middle Name</label>
+                        <input type="text" class="form-control" id="quoteMname" name="quoteMname" placeholder="Middle Name" autofocus maxlength="20">
+                    </div>
+                    <div class="form-group">
+                        <label for="quoteLname"><span class="fas fa-user-circle"></span> Last Name</label>
+                        <input type="text" class="form-control" id="quoteLname" name="quoteLname" placeholder="Last Name" required autofocus maxlength="20">
+                    </div>
+                    <div class="form-group">
+                        <label for="quoteEmailAdd"><span class="fas fa-envelope"></span> E-mail Address</label>
+                        <input type="email" class="form-control" id="quoteEmailAdd" name="quoteEmailAdd" placeholder="E-mail Address" required maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="quoteCompany"><span class="far fa-building"></span> Company Name (if company sponsored)</label>
+                        <input type="text" class="form-control" id="quoteEmailAdd" name="quoteEmailAdd" placeholder="Company Name" required maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="quoteSchedule"><span class="far fa-users-class"></span> Course</label>
+                        <input type="text" class="form-control" id="quoteCourse" name="quoteCourse" placeholder="Course" required autofocus maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="quoteSchedule"><span class="fas fa-calendar-week"></span> Schedule</label>
+                        <input type="text" class="form-control" id="quoteSchedule" name="quoteSchedule" placeholder="Schedule" required autofocus maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <p>To see available course and schedule, <a href="">Click here</a></p>
+                    </div>
                 </div>
-                <div id="alert_message"></div>
-                <div class="modal-body" style="padding:30px 50px;">
-                    <form method="post" id="quotationForm">
-                        <div class="form-group">
-                            <label for="quotefname"><span class="fas fa-user-circle"></span> First Name</label>
-                            <input type="text" class="form-control" id="quotefname" name="quotefname" placeholder="First Name" required autofocus maxlength="20">
-                        </div>
-                        <div class="form-group">
-                            <label for="quotemname"><span class="fas fa-user-circle"></span> Middle Name</label>
-                            <input type="text" class="form-control" id="quotemname" name="quotemname" placeholder="Middle Name" autofocus maxlength="20">
-                        </div>
-                        <div class="form-group">
-                            <label for="quotelname"><span class="fas fa-user-circle"></span> Last Name</label>
-                            <input type="text" class="form-control" id="quotelname" name="quotelname" placeholder="Last Name" required autofocus maxlength="20">
-                        </div>
-                        <div class="form-group">
-                            <label for="quoteEmailAdd"><span class="fas fa-envelope"></span> E-mail Address</label>
-                            <input type="email" class="form-control" id="quoteEmailAdd" name="quoteEmailAdd" placeholder="E-mail Address" required maxlength="50">
-                        </div>
-                        <div class="form-group">
-                            <label for=""><span class="fas fa-comments"></span> Course</label>
-                            <br>
-                            <select>
-                                <option>CCNA v4</option>
-                                <option>MCSA 2012</option>
-                                <option>MCSA 2016</option>
-                                <option>MCP 2012</option>
-                                <option>Amazon Web Services</option>
-                                <option>Ethical Hacking with Penetration Testing</option>
-                                <option>VMware vSphere 6.0</option>
-                                <option>Office 360</option>
-                                <option>Microsoft Azure</option>
-                            </select>
-                        </div>
-                        <button type="submit" name="quoteBtn" id="quoteBtn" class="btn-success btn-primary">Submit</button>
-                        <!-- hidden input for operation == contactUs -->
-                        <input type="hidden" class="form-control" id="operation" name="operation" value="contactUs">
-                    </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Sumbit</button>
                 </div>
             </div>
         </div>
     </div>
 
+
     <!--Register Modal-->
     <div class="modal fade" id="registerModal" role="dialog">
-        <div class="modal-dialog registerModal">
-            <!-- Modal content-->
+        <div class="modal-dialog modal-lg registerModal">
+        <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header" style="padding:10px 10px;">
                     <h5 class="registration" style="font-size: 20px">Registration</h5>
@@ -382,76 +302,48 @@
         </div>
     </div>
 
-    <!--Email Us Modal-->
-    <div class="modal fade" id="emailUsModal" role="dialog">
-        <div class="modal-dialog loginModal">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header" id="emailAnimation" style="padding:10px 10px;">
-                    <h5 style="font-size: 20px">Email Nexus ITTC</h5>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div id="alert_message"></div>
-                <div class="modal-body" style="padding:30px 50px;">
-                    <form method="post" id="emailForm">
-                        <div class="form-group">
-                            <label for="emailUsfname"><span class="fas fa-user-circle"></span> First Name</label>
-                            <input type="text" class="form-control" id="emailUsfname" name="emailUsfname" placeholder="First Name" required autofocus maxlength="20">
-                        </div>
-                        <div class="form-group">
-                            <label for="emailUsmname"><span class="fas fa-user-circle"></span> Middle Name</label>
-                            <input type="text" class="form-control" id="emailUsmname" name="emailUsmname" placeholder="Middle Name" autofocus maxlength="20">
-                        </div>
-                        <div class="form-group">
-                            <label for="emailUslname"><span class="fas fa-user-circle"></span> Last Name</label>
-                            <input type="text" class="form-control" id="emailUslname" name="emailUslname" placeholder="Last Name" required autofocus maxlength="20">
-                        </div>
-                        <div class="form-group">
-                            <label for="emailUsEmailAdd"><span class="fas fa-envelope"></span> E-mail Address</label>
-                            <input type="email" class="form-control" id="emailUsEmailAdd" name="emailUsEmailAdd" placeholder="E-mail Address" required maxlength="50">
-                        </div>
-                        <div class="form-group">
-                            <label for=""><span class="fas fa-comments"></span> Course</label>
-                            <textarea class="form-control" id="emailUsMsg" name="emailUsMsg" rows="7" required placeholder="Type your message here."></textarea>
-                        </div>
-                        <button type="submit" name="emailUsBtn" id="emailUsBtn" class="btn-success btn-primary">Submit</button>
-                        <!-- hidden input for operation == contactUs -->
-                        <input type="hidden" class="form-control" id="operation" name="operation" value="emailUs">
-                    </form>
-                </div>
+
+<!--Email Us Modal-->
+<div class="modal fade" id="emailUsModal" role="dialog">
+    <div class="modal-dialog loginModal">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" id="emailAnimation" style="padding:10px 10px;">
+                <h5 style="font-size: 20px">Email Nexus ITTC</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div id="alert_message"></div>
+            <div class="modal-body" style="padding:30px 50px;">
+                <form method="post" id="emailForm">
+                    <div class="form-group">
+                        <label for="emailUsfname"><span class="fas fa-user-circle"></span> First Name</label>
+                        <input type="text" class="form-control" id="emailUsfname" name="emailUsfname" placeholder="First Name" required autofocus maxlength="20">
+                    </div>
+                    <div class="form-group">
+                        <label for="emailUsmname"><span class="fas fa-user-circle"></span> Middle Name</label>
+                        <input type="text" class="form-control" id="emailUsmname" name="emailUsmname" placeholder="Middle Name" autofocus maxlength="20">
+                    </div>
+                    <div class="form-group">
+                        <label for="emailUslname"><span class="fas fa-user-circle"></span> Last Name</label>
+                        <input type="text" class="form-control" id="emailUslname" name="emailUslname" placeholder="Last Name" required autofocus maxlength="20">
+                    </div>
+                    <div class="form-group">
+                        <label for="emailUsEmailAdd"><span class="fas fa-envelope"></span> E-mail Address</label>
+                        <input type="email" class="form-control" id="emailUsEmailAdd" name="emailUsEmailAdd" placeholder="E-mail Address" required maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label for=""><span class="fas fa-comments"></span> Course</label>
+                        <textarea class="form-control" id="emailUsMsg" name="emailUsMsg" rows="7" required placeholder="Type your message here."></textarea>
+                    </div>
+                    <button type="submit" name="emailUsBtn" id="emailUsBtn" class="btn-success btn-primary">Submit</button>
+                    <!-- hidden input for operation == contactUs -->
+                    <input type="hidden" class="form-control" id="operation" name="operation" value="emailUs">
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Sign In Modal 
-
-    <div class="modal fade" id="loginModal" role="dialog">
-        <div class="modal-dialog loginModal">
- 
-            <div class="modal-content">
-                <div class="modal-header" id="quoteAnimation" style="padding:10px 10px;">
-                    <h5 class="registration" style="font-size: 20px">Student Log in</h5>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div id="alert_message"></div>
-                <div class="modal-body" style="padding:30px 50px;">
-                    <form method="post" id="loginForm">
-                        <div class="form-group">
-                            <label for="loginUsername"><span class="fas fa-users"></span> Username / E-mail Address</label>
-                            <input type="username" class="form-control" id="loginUsername" name="loginUsername" placeholder="Username / E-mail Address" required maxlength="20">
-                        </div>
-                        <div class="form-group">
-                            <label for="loginPassword"><span class="fas fa-lock"></span> Password</label>
-                            <input type="password" class="form-control" id="loginPassword" name="loginPassword" placeholder="Password" required maxlength="20">
-                        </div>
-                        <button type="submit" name="login-Btn" id="login-Btn" class="btn-success btn-primary">Log in</button>
-                       
-                        <input type="hidden" class="form-control" id="operation" name="operation" value="login">
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div> -->
 
     <!-- SCRIPTS -->
 
@@ -462,10 +354,11 @@
     <!-- Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-	<!-- Sweet Alert -->
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <!-- Sweet Alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <script src="js/homepage.js"></script>
+    
     
     <script type="text/javascript">
         $(document).ready(function() {

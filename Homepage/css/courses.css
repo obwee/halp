@@ -1,0 +1,27 @@
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+/* NAVIGATION BAR */
+.navbar {
+    background-color: #000;
+    padding: 0;
+    font-size: 15px;
+    font-family: 'Montserrat', sans-serif;
+    border-bottom: none;
+    text-transform: uppercase;
+}
+
+.navbar-brand {
+    color: #fff;
+}
+
+.navbar-default .navbar-nav li a {
+    color: #D5D5D5;
+    padding-right: 50px;
+}
+
+.navbar-default .navbar-nav li a:hover, .navbar-default .navbar-nav li a.active {
+    color: #FFF;
+}
