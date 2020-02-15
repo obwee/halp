@@ -7,13 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!--==============================================================================================-->
-    <script src="https://kit.fontawesome.com/be76a30cc4.js" crossorigin="anonymous"></script>
-    <!--==============================================================================================-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <!--==============================================================================================-->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!--==============================================================================================-->
+
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/animate.css-master/animate.css">
     <!--==============================================================================================-->
@@ -359,8 +353,8 @@
                             <input type="text" class="form-control" id="registrationContactNum" name="registrationContactNum" placeholder="Contact Number" maxlength="13">
                         </div>
                         <div class="form-group">
-                            <label for="registrationCompany"><span class="fas fa-building"></span> Company Name</label>
-                            <input type="text" class="form-control" id="registrationCompany" name="registrationCompany" placeholder="Company Name" maxlength="50">
+                            <label for="registrationCompanyName"><span class="fas fa-building"></span> Company Name</label>
+                            <input type="text" class="form-control" id="registrationCompanyName" name="registrationCompany" placeholder="Company Name" maxlength="50">
                         </div>
                         <div class="form-group">
                             <label for="registrationEmail"><span class="fas fa-envelope"></span> E-mail Address</label>
@@ -373,6 +367,10 @@
                         <div class="form-group">
                             <label for="registrationPassword"><span class="fas fa-lock"></span> Password</label>
                             <input type="password" class="form-control" id="registrationPassword" name="registrationPassword" placeholder="Password" maxlength="30">
+                        </div>
+                        <div class="form-group">
+                            <label for="registrationConfirmPassword"><span class="fas fa-lock"></span> Confirm Password</label>
+                            <input type="password" class="form-control" id="registrationConfirmPassword" name="registrationConfirmPassword" placeholder="Confirm Password" maxlength="30">
                         </div>
 
                         <button type="submit" name="enrollBtn" id="enrollBtn" class="btn-success btn-primary">Register</button>
@@ -455,8 +453,20 @@
         </div>
     </div> -->
 
+    <!-- SCRIPTS -->
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/be76a30cc4.js" crossorigin="anonymous"></script>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<!-- Sweet Alert -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <script src="js/homepage.js"></script>
+    
     <script type="text/javascript">
         $(document).ready(function() {
 
