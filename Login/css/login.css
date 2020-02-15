@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Poppins', sans-serif  ;
-    background: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.9)), url(../Img/Servers4.jpg) no-repeat center center fixed;
+    background: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.9)), url(../../resource/img/login/Servers4.jpg) no-repeat center center fixed;
 }
 
 .container {

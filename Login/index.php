@@ -20,11 +20,11 @@
 
     <div class="container">
         <div class="logo">
-            <img src="Img/Untitled-1.png" alt="logo">
+            <img src="../resource/img/login/Untitled-1.png" alt="logo">
         </div>
         <div class="login-container">
             <form method="post" name="login">
-                <img class="avatar" src="Img/undraw_profile_pic_ic5t.svg" alt="avatar">
+                <img class="avatar" src="../resource/img/login/undraw_profile_pic_ic5t.svg" alt="avatar">
                 <h2>Welcome</h2>
                 <div class="input-div one">
                     <div class="i">
