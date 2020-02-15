@@ -6,10 +6,9 @@ html, body {
 /* NAVIGATION BAR */
 .navbar {
     background-color: transparent;
-    padding: 1% 0;
-    font-size: 1em;
+    padding: 0 0;
+    font-size: 15px;
     font-family: 'Montserrat', sans-serif;
-    font-weight: bold;
     border-bottom: none;
     text-transform: uppercase;
 }
@@ -19,13 +18,30 @@ html, body {
 }
 
 .navbar-default .navbar-nav li a {
-    color: #D5D5D5;
+    color: #fff;
     padding-right: 50px;
 }
 
-.navbar-default .navbar-nav li a:hover, .navbar-default .navbar-nav li a.active {
-    color: #FFF;
+.navbar-default .navbar-nav li a:hover,   {
+    color: #e6e6e6;
 }
+
+.navbar-default .navbar-nav li a.active {
+    background-color: #d5d5d5;
+}
+
+.navbar-default .navbar-nav .dropdown-menu .dropdown-header {
+    color: black;
+    font-size: 12px;
+    background-color: gray;
+}
+
+.navbar-default .navbar-nav .dropdown-menu .dd-content a {
+    color: gray;
+    font-size: 10px;
+
+}
+
 
 /* CAROUSEL*/
 .carousel-inner {
@@ -289,22 +305,6 @@ footer h3 {
 }
 
 
-.modal .btn-primary{
-    padding: 10px 10px;
-    display: inline-block;
-    color: #fff;
-    text-transform: uppercase;
-    border-radius: 25px;
-    text-decoration: none;
-    font-family: sans-serif;
-    font-weight: bold;
-    border: none;
-    margin: 0 190px;
-}
-
-.modal .btn-primary:hover {
-    background-color: #37B83B;
-}
 
 html {
     scroll-behavior: smooth;
