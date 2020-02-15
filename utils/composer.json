@@ -1,0 +1,6 @@
+{
+    "name": "obwee/nexus",
+    "require": {
+        "swiftmailer/swiftmailer": "^6.0"
+    }
+}
