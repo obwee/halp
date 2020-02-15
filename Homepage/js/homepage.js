@@ -43,10 +43,9 @@ $(function () {
             let formData = $(this).serializeArray();
 
             $.ajax({
-                url: '../utils/ajax.php?class=register',
+                url: '../utils/ajax.php?class=Register&action=registerStudent',
                 type: 'post',
                 data: formData,
-                cache: true,
                 dataType: 'json',
                 success: (response) => {
                     console.log(response);
@@ -82,6 +81,10 @@ $(function () {
 
     // This method validates the inputs of the user before submission.
     function validateInputs() {
+
+        return {
+            result: true
+        };
 
         // Declare an object with properties related to inputs that need to be validated.
         let inputRules = [
@@ -187,7 +190,7 @@ $(function () {
             validationResult = {
                 result: false,
                 element: '#registrationPassword, #registrationConfirmPassword',
-                msg: 'Passwords are not equal.'
+                msg: 'Passwords do not match.'
             };
         }
 

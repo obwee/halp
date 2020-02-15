@@ -278,7 +278,7 @@
                         </div>
                         <div class="form-group">
                             <label for="registrationEmail"><span class="fas fa-envelope"></span> E-mail Address</label>
-                            <input type="email" class="form-control" id="registrationEmail" name="enrollEmailAdd" placeholder="E-mail Address" maxlength="50">
+                            <input type="email" class="form-control" id="registrationEmail" name="registrationEmail" placeholder="E-mail Address" maxlength="50">
                         </div>
                         <div class="form-group">
                             <label for="registrationUsername"><span class="fas fa-users"></span> Username</label>
@@ -295,7 +295,7 @@
 
                         <button type="submit" name="enrollBtn" id="enrollBtn" class="btn-success btn-primary">Register</button>
                         <!-- hidden input for operation == contactUs -->
-                        <input type="hidden" class="form-control" id="operation" name="operation" value="enroll">
+                        <!-- <input type="hidden" class="form-control" id="operation" name="operation" value="enroll"> -->
                     </form>
                 </div>
             </div>
