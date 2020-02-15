@@ -84,7 +84,7 @@ $(function () {
 
         return {
             result: true
-        };
+        }; 
 
         // Declare an object with properties related to inputs that need to be validated.
         let inputRules = [
@@ -155,6 +155,20 @@ $(function () {
         // Declare initially the validation result to be returned by the function.
         let validationResult = {
             result: true
+        }
+
+        // Check if middle name has a value.
+        if ($.trim($('#registrationMname').val().length) !== 0) {
+            inputRules.push(
+                {
+                    name: 'Middle name',
+                    element: '#registrationMname',
+                    length: $.trim($('#registrationMname').val()).length,
+                    minLength: 2,
+                    maxLength: 30,
+                    pattern: /^[a-zA-Z\s\.]+$/g
+                },
+            );
         }
 
         // Loop thru each inputRules and if there are rules violated, return false and the error message.

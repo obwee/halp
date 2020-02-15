@@ -1,9 +1,20 @@
 <?php
 
+/**
+ * Register
+ * Class for registering a student.
+ */
 class Register
 {
+    /**
+     * @var array $aParams
+     */
     private $aParams;
 
+    /**
+     * @var array $aInputRules
+     * Array of rules for validating inputs sent by AJAX.
+     */
     private $aInputRules = array(
         array(
             'sName'       => 'First name',
@@ -62,11 +73,21 @@ class Register
         )
     );
 
+    /**
+     * Register constructor.
+     * @param array $aPostVariables
+     */
     public function __construct($aPostVariables)
     {
+        // Store the $_POST variables inside $this->aParams variable.
         $this->aParams = $aPostVariables;
     }
 
+    /**
+     * registerStudent
+     * Method for registering student.
+     * @return json
+     */
     public function registerStudent()
     {
         $aResult = array();
@@ -75,21 +96,36 @@ class Register
         if ($aValidationResult['result'] === true) {
             $this->sanitizeData();
             $this->prepareData();
-
         } else {
             $aResult = $aValidationResult;
         }
         echo json_encode($aResult);
     }
 
+    /**
+     * validateInputs
+     * Method for validating inputs sent by AJAX.
+     * @return array
+     */
     private function validateInputs()
     {
         $aValidationResult = array(
             'result' => true
         );
 
+        if (strlen(trim($this->aParams['registrationMname'])) !== 0) {
+            array_push($this->aInputRules, array(
+                'sName'       => 'Middle name',
+                'sElement'    => 'registrationMname',
+                'sColumnName' => 'middleName',
+                'iMinLength'  => 2,
+                'iMaxLength'  => 30,
+                'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+            ));
+        }
+
         foreach ($this->aInputRules as $aInputRule) {
-            $sInput = $this->aParams[$aInputRule['sElement']];
+            $sInput = trim($this->aParams[$aInputRule['sElement']]);
 
             if (strlen($sInput) < $aInputRule['iMinLength']) {
                 $aValidationResult = array(
@@ -107,7 +143,7 @@ class Register
                 );
                 break;
             }
-            if (($aInputRule['sName'] !== 'Password') && (!preg_match($aInputRule['oPattern'], $sInput))) {
+            if (($aInputRule['sElement'] !== 'registrationPassword') && (!preg_match($aInputRule['oPattern'], $sInput))) {
                 $aValidationResult = array(
                     'result'  => false,
                     'element' => $aInputRule['sElement'],
@@ -128,6 +164,10 @@ class Register
         return $aValidationResult;
     }
 
+    /**
+     * sanitizeData
+     * Method for performing htmlspecialchars() function on every values inside $this->aParams.
+     */
     private function sanitizeData()
     {
         foreach ($this->aParams as $sKey => $aValues) {
@@ -135,6 +175,10 @@ class Register
         }
     }
 
+    /**
+     * prepareData
+     * Method for preparing data for querying the database.
+     */
     private function prepareData()
     {
         foreach ($this->aInputRules as $aInputRule) {
