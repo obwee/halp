@@ -43,10 +43,9 @@ $(function () {
             let formData = $(this).serializeArray();
 
             $.ajax({
-                url: '../utils/ajax.php?class=register',
+                url: '../utils/ajax.php?class=Register&action=registerStudent',
                 type: 'post',
                 data: formData,
-                cache: true,
                 dataType: 'json',
                 success: (response) => {
                     console.log(response);
