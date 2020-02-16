@@ -23,12 +23,12 @@ $(function () {
     });
 
     // Trim excess spaces and dots on specific inputs via RegExp on focusout event.
-    $(document).on('focusout', '#registrationFname, #registrationMname, #registrationLname, #registrationCompany', function () {
+    $(document).on('focusout', '#registrationFname, #registrationMname, #registrationLname, #registrationCompany, #quoteFname, #quoteMname, #quoteLname, #quoteCompanyName', function () {
         $(this).val($(this).val().replace(/\s+/g, ' ').replace(/\.+/g, '.').trim());
     });
 
     // Remove red border on focus event on any input.
-    $(document).on('focus', '#registrationForm :input', function () {
+    $(document).on('focus', 'input', function () {
         $(this).css('border', '1px solid #ccc');
     });
 
@@ -40,7 +40,7 @@ $(function () {
         $('#registrationForm :input').css('border', '1px solid #ccc');
 
         // Check if input validation result is true.
-        if (validateInputs().result === true) {
+        if (validateRegisterInputs().result === true) {
             let formData = $(this).serializeArray();
 
             $.ajax({
@@ -80,12 +80,8 @@ $(function () {
         }
     });
 
-    // This method validates the inputs of the user before submission.
-    function validateInputs() {
-
-        return {
-            result: true
-        }; 
+    // This method validates the inputs of the user before submission for registration.
+    function validateRegisterInputs() {
 
         // Declare an object with properties related to inputs that need to be validated.
         let inputRules = [
@@ -215,6 +211,101 @@ $(function () {
             };
         }
 
+        // Return the result of the validation.
+        return validationResult;
+    }
+
+    // This method validates the inputs of the user before submission for registration.
+    function validateQuoteInputs() {
+
+        // Declare an object with properties related to inputs that need to be validated.
+        let inputRules = [
+            {
+                name: 'First name',
+                element: '#quoteFname',
+                length: $.trim($('#quoteFname').val()).length,
+                minLength: 2,
+                maxLength: 30,
+                pattern: /^[a-zA-Z\s\.]+$/g
+            },
+            {
+                name: 'Last name',
+                element: '#quoteLname',
+                length: $.trim($('#quoteLname').val()).length,
+                minLength: 2,
+                maxLength: 30,
+                pattern: /^[a-zA-Z\s\.]+$/g
+            },
+            {
+                name: 'Contact number',
+                element: '#quoteContactNum',
+                length: $.trim($('#quoteContactNum').val()).length,
+                minLength: 7,
+                maxLength: 12,
+                pattern: /^[0-9]+$/g
+            },
+            {
+                name: 'Email address',
+                element: '#quoteEmail',
+                length: $.trim($('#quoteEmail').val()).length,
+                minLength: 4,
+                maxLength: 50,
+                pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
+            }
+        ];
+
+        // Declare initially the validation result to be returned by the function.
+        let validationResult = {
+            result: true
+        }
+
+        // Check if middle name has a value.
+        if ($.trim($('#quoteMname').val().length) !== 0) {
+            inputRules.push(
+                {
+                    name: 'Middle name',
+                    element: '#quoteMname',
+                    length: $.trim($('#quoteMname').val()).length,
+                    minLength: 2,
+                    maxLength: 30,
+                    pattern: /^[a-zA-Z\s\.]+$/g
+                },
+            );
+        }
+
+        // Check if company name has a value.
+        if ($.trim($('#quoteCompanyName').val().length) !== 0) {
+            inputRules.push(
+                {
+                    name: 'Company name',
+                    element: '#quoteCompanyName',
+                    length: $.trim($('#quoteCompanyName').val()).length,
+                    minLength: 4,
+                    maxLength: 50,
+                    pattern: /^[a-zA-Z0-9\s\.]+$/g
+                },
+            );
+        }
+
+        // Loop thru each inputRules and if there are rules violated, return false and the error message.
+        $.each(inputRules, function (key, inputRule) {
+            if (inputRule.length < inputRule.minLength) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
+                };
+                return false;
+            }
+            if (inputRule.length > inputRule.maxLength) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
+                };
+                return false;
+            }
+        });
         // Return the result of the validation.
         return validationResult;
     }
