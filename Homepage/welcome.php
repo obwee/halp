@@ -202,7 +202,7 @@
                         <form method="post" id="quotationForm">
                             <div class="form-group">
                                 <label for="quoteFname"><span class="fas fa-user-circle"></span> First Name</label>
-                                <input type="text" class="form-control" id="quoteFname" name="quoteFname" placeholder="First Name" required autofocus maxlength="20">
+                                <input type="text" class="form-control" id="quoteFname" name="quoteFname" placeholder="First Name" autofocus maxlength="20">
                             </div>
                             <div class="form-group">
                                 <label for="quoteMname"><span class="fas fa-user-circle"></span> Middle Name</label>
@@ -210,27 +210,28 @@
                             </div>
                             <div class="form-group">
                                 <label for="quoteLname"><span class="fas fa-user-circle"></span> Last Name</label>
-                                <input type="text" class="form-control" id="quoteLname" name="quoteLname" placeholder="Last Name" required autofocus maxlength="20">
+                                <input type="text" class="form-control" id="quoteLname" name="quoteLname" placeholder="Last Name" autofocus maxlength="20">
                             </div>
                             <div class="form-group">
-                                <label for="quoteEmailAdd"><span class="fas fa-envelope"></span> E-mail Address</label>
-                                <input type="email" class="form-control" id="quoteEmailAdd" name="quoteEmailAdd" placeholder="E-mail Address" required maxlength="50">
+                                <label for="quoteEmail"><span class="fas fa-envelope"></span> E-mail Address</label>
+                                <input type="email" class="form-control" id="quoteEmail" name="quoteEmail" placeholder="E-mail Address" maxlength="50">
                             </div>
                             <div class="form-group">
-                                <label for="quoteCompany"><span class="far fa-building"></span> Company Name (if company sponsored)</label>
-                                <input type="text" class="form-control" id="quoteEmailAdd" name="quoteEmailAdd" placeholder="Company Name" required maxlength="50">
+                                <label for="quoteCompanyName"><span class="far fa-building"></span> Company Name (if company sponsored)</label>
+                                <input type="text" class="form-control" id="quoteCompanyName" name="quoteCompanyName" placeholder="Company Name" maxlength="50">
                             </div>
                             <div class="form-group">
                                 <label for="quoteSchedule"><span class="far fa-users-class"></span> Course</label>
-                                <input type="text" class="form-control" id="quoteCourse" name="quoteCourse" placeholder="Course" required autofocus maxlength="50">
+                                <input type="text" class="form-control" id="quoteCourse" name="quoteCourse" placeholder="Course" autofocus maxlength="50">
                             </div>
                             <div class="form-group">
                                 <label for="quoteSchedule"><span class="fas fa-calendar-week"></span> Schedule</label>
-                                <input type="text" class="form-control" id="quoteSchedule" name="quoteSchedule" placeholder="Schedule" required autofocus maxlength="50">
+                                <input type="text" class="form-control" id="quoteSchedule" name="quoteSchedule" placeholder="Schedule" autofocus maxlength="50">
                             </div>
                             <div class="form-group">
-                                <p>To see available course and schedule, <a href="">Click here</a></p>
+                                <p class="h6">To see available course and schedule, <a href="">Click here</a></p>
                             </div>
+                        </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -273,7 +274,7 @@
                         </div>
                         <div class="form-group">
                             <label for="registrationCompanyName"><span class="fas fa-building"></span> Company Name</label>
-                            <input type="text" class="form-control" id="registrationCompanyName" name="registrationCompany" placeholder="Company Name" maxlength="50">
+                            <input type="text" class="form-control" id="registrationCompanyName" name="registrationCompanyName" placeholder="Company Name" maxlength="50">
                         </div>
                         <div class="form-group">
                             <label for="registrationEmail"><span class="fas fa-envelope"></span> E-mail Address</label>
@@ -292,7 +293,7 @@
                             <input type="password" class="form-control" id="registrationConfirmPassword" name="registrationConfirmPassword" placeholder="Confirm Password" maxlength="30">
                         </div>
 
-                        <button type="submit" name="enrollBtn" id="enrollBtn" class="btn-success btn-primary">Register</button>
+                        <button type="submit" name="enrollBtn" id="enrollBtn" class="btn btn-success">Register</button>
                         <!-- hidden input for operation == contactUs -->
                         <!-- <input type="hidden" class="form-control" id="operation" name="operation" value="enroll"> -->
                     </form>
@@ -314,28 +315,28 @@
                 <div class="modal-body" style="padding:30px 50px;">
                     <form method="post" id="emailForm">
                         <div class="form-group">
-                            <label for="emailUsfname"><span class="fas fa-user-circle"></span> First Name</label>
-                            <input type="text" class="form-control" id="emailUsfname" name="emailUsfname" placeholder="First Name" required autofocus maxlength="20">
+                            <label for="emailFname"><span class="fas fa-user-circle"></span> First Name</label>
+                            <input type="text" class="form-control" id="emailFname" name="emailFname" placeholder="First Name" autofocus maxlength="20">
                         </div>
                         <div class="form-group">
-                            <label for="emailUsmname"><span class="fas fa-user-circle"></span> Middle Name</label>
-                            <input type="text" class="form-control" id="emailUsmname" name="emailUsmname" placeholder="Middle Name" autofocus maxlength="20">
+                            <label for="emailMnname"><span class="fas fa-user-circle"></span> Middle Name</label>
+                            <input type="text" class="form-control" id="emailMnname" name="emailMnname" placeholder="Middle Name" autofocus maxlength="20">
                         </div>
                         <div class="form-group">
-                            <label for="emailUslname"><span class="fas fa-user-circle"></span> Last Name</label>
-                            <input type="text" class="form-control" id="emailUslname" name="emailUslname" placeholder="Last Name" required autofocus maxlength="20">
+                            <label for="emailLname"><span class="fas fa-user-circle"></span> Last Name</label>
+                            <input type="text" class="form-control" id="emailLname" name="emailLname" placeholder="Last Name" autofocus maxlength="20">
                         </div>
                         <div class="form-group">
-                            <label for="emailUsEmailAdd"><span class="fas fa-envelope"></span> E-mail Address</label>
-                            <input type="email" class="form-control" id="emailUsEmailAdd" name="emailUsEmailAdd" placeholder="E-mail Address" required maxlength="50">
+                            <label for="emailAddress"><span class="fas fa-envelope"></span> E-mail Address</label>
+                            <input type="email" class="form-control" id="emailAddress" name="emailAddress" placeholder="E-mail Address" maxlength="50">
                         </div>
                         <div class="form-group">
-                            <label for=""><span class="fas fa-comments"></span> Course</label>
-                            <textarea class="form-control" id="emailUsMsg" name="emailUsMsg" rows="7" required placeholder="Type your message here."></textarea>
+                            <label for="emailMsg"><span class="fas fa-comments"></span> Course</label>
+                            <textarea class="form-control" id="emailMsg" name="emailMsg" rows="7" placeholder="Type your message here."></textarea>
                         </div>
                         <button type="submit" name="emailUsBtn" id="emailUsBtn" class="btn-success btn-primary">Submit</button>
                         <!-- hidden input for operation == contactUs -->
-                        <input type="hidden" class="form-control" id="operation" name="operation" value="emailUs">
+                        <!-- <input type="hidden" class="form-control" id="operation" name="operation" value="emailUs"> -->
                     </form>
                 </div>
             </div>
@@ -356,7 +357,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <script src="js/homepage.js"></script>
-
 
     <script type="text/javascript">
         $(document).ready(function() {

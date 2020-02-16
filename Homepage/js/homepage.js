@@ -1,7 +1,7 @@
 $(function () {
 
     // Allow only alphabetical characters and a period on first, middle, and last name via RegExp.
-    $(document).on('keyup keydown', '#registrationFname, #registrationMname, #registrationLname', function () {
+    $(document).on('keyup keydown', '#registrationFname, #registrationMname, #registrationLname, #quoteFname, #quoteMname, #quoteLname', function () {
         // Input must not start by a period.
         if (this.value.length === 1 && this.value.match(/[^a-zA-Z]/)) {
             return this.value = this.value.replace(this.value, '');
@@ -28,15 +28,16 @@ $(function () {
     });
 
     // Remove red border on focus event on any input.
-    $(document).on('focus', 'input', function () {
+    $(document).on('focus', '#registrationForm :input', function () {
         $(this).css('border', '1px solid #ccc');
     });
 
     // Function for submission of registration form.
     $(document).on('submit', '#registrationForm', function (event) {
+        console.log(123);
         event.preventDefault();
         // Remove existing red borders on inputs.
-        $('input').css('border', '1px solid #ccc');
+        $('#registrationForm :input').css('border', '1px solid #ccc');
 
         // Check if input validation result is true.
         if (validateInputs().result === true) {
@@ -47,10 +48,10 @@ $(function () {
                 type: 'post',
                 data: formData,
                 dataType: 'json',
-                success: (response) => {
+                success: function(response) {
                     console.log(response);
                 },
-                error: () => {
+                error: function() {
                     Swal.fire({
                         title: 'Error.',
                         text: 'An error has occured. Please try again.',
@@ -113,14 +114,6 @@ $(function () {
                 pattern: /^[0-9]+$/g
             },
             {
-                name: 'Company name',
-                element: '#registrationCompanyName',
-                length: $.trim($('#registrationCompanyName').val()).length,
-                minLength: 4,
-                maxLength: 50,
-                pattern: /^[a-zA-Z0-9\s\.]+$/g
-            },
-            {
                 name: 'Email address',
                 element: '#registrationEmail',
                 length: $.trim($('#registrationEmail').val()).length,
@@ -167,6 +160,20 @@ $(function () {
                     minLength: 2,
                     maxLength: 30,
                     pattern: /^[a-zA-Z\s\.]+$/g
+                },
+            );
+        }
+
+        // Check if company name has a value.
+        if ($.trim($('#registrationCompanyName').val().length) !== 0) {
+            inputRules.push(
+                {
+                    name: 'Company name',
+                    element: '#registrationCompanyName',
+                    length: $.trim($('#registrationCompanyName').val()).length,
+                    minLength: 4,
+                    maxLength: 50,
+                    pattern: /^[a-zA-Z0-9\s\.]+$/g
                 },
             );
         }
