@@ -145,7 +145,7 @@
                     <br><br><br>
                     <p class="lead">Providing trainings for IT professionals and beginners, Nexus continues to solidify its industry leadership position in producing quality training for the largest technologies and business trainings.</p>
                     <br>
-                    <p class="lead">Nexus ITTC provides IT Training and offers bootcamps for Cisco, Microsoft, VMWare,Citrix and more. Nexus trains interested students in their chosen field to learn more and earn more through the advanced and innovative teaching process with the latest devices and certified instructors.</p>
+                    <p class="lead">Nexus ITTC provides IT Training and offers bootcamps for Cisco, Microsoft, VMWare, Citrix and more. Nexus trains interested students in their chosen field to learn more and earn more through the advanced and innovative teaching process with the latest devices and certified instructors.</p>
                 </div>
             </div>
         </div>
@@ -185,7 +185,7 @@
     </footer>
 
     <!--MODALS-->
-    
+
     <!--Get Quote Modal-->
     <div class="modal fade" id="getQuoteModal" tabindex="-1" role="dialog">
         <div class="modal-dialog getQuoteModal">
@@ -197,9 +197,9 @@
                     <h5 style="font-size: 20px; text-align: center; font-family:sans-serif;">Get Quote</h5>
                 </div>
                 <div class="modal-body">
-                    <div id="alert_message"></div>
-                    <div class="modal-body">
-                        <form method="post" id="quotationForm">
+                    <div class="error-msg" style="display: none;"></div>
+                    <form method="post" id="quotationForm">
+                        <div class="modal-body">
                             <div class="form-group">
                                 <label for="quoteFname"><span class="fas fa-user-circle"></span> First Name</label>
                                 <input type="text" class="form-control" id="quoteFname" name="quoteFname" placeholder="First Name" autofocus maxlength="30">
@@ -235,12 +235,12 @@
                             <div class="form-group">
                                 <p class="h6">To see available course and schedule, <a href="">Click here</a></p>
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Sumbit</button>
-                    </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -257,9 +257,9 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body" style="padding:30px 50px;">
-                    <div id="error" style="display: none;"></div>
-                    <form method="post" id="registrationForm">
+                <form method="post" id="registrationForm">
+                    <div class="modal-body" style="padding:30px 50px;">
+                        <div class="error-msg" style="display: none;"></div>
                         <div class="form-group">
                             <label for="registrationFname"><span class="fas fa-user-circle"></span> First Name</label>
                             <input type="text" class="form-control" id="registrationFname" name="registrationFname" placeholder="First Name" autofocus maxlength="30" minlength="2">
@@ -296,12 +296,12 @@
                             <label for="registrationConfirmPassword"><span class="fas fa-lock"></span> Confirm Password</label>
                             <input type="password" class="form-control" id="registrationConfirmPassword" name="registrationConfirmPassword" placeholder="Confirm Password" maxlength="30">
                         </div>
-
-                        <button type="submit" name="enrollBtn" id="enrollBtn" class="btn btn-success">Register</button>
-                        <!-- hidden input for operation == contactUs -->
-                        <!-- <input type="hidden" class="form-control" id="operation" name="operation" value="enroll"> -->
-                    </form>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Register</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -315,9 +315,9 @@
                     <h5 style="font-size: 20px">Email Nexus ITTC</h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <div id="alert_message"></div>
-                <div class="modal-body" style="padding:30px 50px;">
-                    <form method="post" id="emailForm">
+                <div class="error-msg" style="display: none;"></div>
+                <form method="post" id="emailForm">
+                    <div class="modal-body" style="padding:30px 50px;">
                         <div class="form-group">
                             <label for="emailFname"><span class="fas fa-user-circle"></span> First Name</label>
                             <input type="text" class="form-control" id="emailFname" name="emailFname" placeholder="First Name" autofocus maxlength="20">
@@ -335,14 +335,15 @@
                             <input type="email" class="form-control" id="emailAddress" name="emailAddress" placeholder="E-mail Address" maxlength="50">
                         </div>
                         <div class="form-group">
-                            <label for="emailMsg"><span class="fas fa-comments"></span> Course</label>
+                            <label for="emailMsg"><span class="fas fa-comments"></span> Message</label>
                             <textarea class="form-control" id="emailMsg" name="emailMsg" rows="7" placeholder="Type your message here."></textarea>
                         </div>
-                        <button type="submit" name="emailUsBtn" id="emailUsBtn" class="btn-success btn-primary">Submit</button>
-                        <!-- hidden input for operation == contactUs -->
-                        <!-- <input type="hidden" class="form-control" id="operation" name="operation" value="emailUs"> -->
-                    </form>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
