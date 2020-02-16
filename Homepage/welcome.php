@@ -202,15 +202,19 @@
                         <form method="post" id="quotationForm">
                             <div class="form-group">
                                 <label for="quoteFname"><span class="fas fa-user-circle"></span> First Name</label>
-                                <input type="text" class="form-control" id="quoteFname" name="quoteFname" placeholder="First Name" autofocus maxlength="20">
+                                <input type="text" class="form-control" id="quoteFname" name="quoteFname" placeholder="First Name" autofocus maxlength="30">
                             </div>
                             <div class="form-group">
                                 <label for="quoteMname"><span class="fas fa-user-circle"></span> Middle Name</label>
-                                <input type="text" class="form-control" id="quoteMname" name="quoteMname" placeholder="Middle Name" autofocus maxlength="20">
+                                <input type="text" class="form-control" id="quoteMname" name="quoteMname" placeholder="Middle Name" autofocus maxlength="30">
                             </div>
                             <div class="form-group">
                                 <label for="quoteLname"><span class="fas fa-user-circle"></span> Last Name</label>
-                                <input type="text" class="form-control" id="quoteLname" name="quoteLname" placeholder="Last Name" autofocus maxlength="20">
+                                <input type="text" class="form-control" id="quoteLname" name="quoteLname" placeholder="Last Name" autofocus maxlength="30">
+                            </div>
+                            <div class="form-group">
+                                <label for="quoteContactNum"><span class="fas fa-user-circle"></span> Contact Number</label>
+                                <input type="text" class="form-control" id="quoteContactNum" name="quoteContactNum" placeholder="Contact Number" autofocus maxlength="13">
                             </div>
                             <div class="form-group">
                                 <label for="quoteEmail"><span class="fas fa-envelope"></span> E-mail Address</label>
@@ -221,7 +225,7 @@
                                 <input type="text" class="form-control" id="quoteCompanyName" name="quoteCompanyName" placeholder="Company Name" maxlength="50">
                             </div>
                             <div class="form-group">
-                                <label for="quoteSchedule"><span class="far fa-users-class"></span> Course</label>
+                                <label for="quoteCourse"><span class="far fa-users-class"></span> Course</label>
                                 <input type="text" class="form-control" id="quoteCourse" name="quoteCourse" placeholder="Course" autofocus maxlength="50">
                             </div>
                             <div class="form-group">
