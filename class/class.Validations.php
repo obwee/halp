@@ -2,7 +2,7 @@
 
 /**
  * Validations
- * Library class for validating input data.
+ * Class library for validating input data.
  */
 class Validations
 {
