@@ -39,39 +39,61 @@ $(function () {
         $(this).css('border', '1px solid #ccc');
     });
 
-    // Function for submission of registration form.
+    // Function for submission of any form.
     $(document).on('submit', 'form', function (event) {
         event.preventDefault();
         
+        // Get the form name being submitted.
         let formName = '#' + $(this).attr('id') + '';
-        console.log(formName);
 
-        // Invoke the resetInputBorders method.
+        // Invoke the resetInputBorders method for that form.
         resetInputBorders(formName);
 
+        // Create an object with key names of forms and its corresponding validation and request action as its value.
         let aForms = {
-            '#registrationForm' : validateRegisterInputs(),
-            '#quotationForm'    : validateQuoteInputs(),
-            '#emailForm'        : validateEmailUsInputs()
+            '#registrationForm' : {
+                'validationMethod': validateRegisterInputs(),
+                'requestAction'   : 'registerStudent'
+            },
+            '#quotationForm'    : {
+                'validationMethod': validateQuoteInputs(),
+                'requestAction'   : 'requestQuotation'
+            },
+            '#emailForm'        : {
+                'validationMethod': validateEmailUsInputs(),
+                'requestAction'   : 'sendEmail'
+            }
         }
 
-        let validateInput = aForms[formName];
+        // Validate the inputs of the submitted form and store the result inside validateInputs variable.
+        let validateInputs = aForms[formName].validationMethod;
 
-        console.log(validateInput); return;
+        // Get the request action of the form submitted.
+        let requestAction = aForms[formName].requestAction;
 
         // Check if input validation result is true.
-        if (validateRegisterInputs().result === true) {
+        if (validateInputs.result === true) {
             // Extract form data.
             let formData = $(formName).serializeArray();
 
             // Execute AJAX request.
             $.ajax({
-                url: '../utils/ajax.php?class=Student&action=registerStudent',
+                url: '../utils/ajax.php?class=Student&action='+ requestAction,
                 type: 'post',
                 data: formData,
                 dataType: 'json',
                 success: function(response) {
-                    console.log(response);
+                    if (response.result === true) {
+                        $(formName).parents().find('div.modal').modal('hide');
+                        Swal.fire({
+                            title: 'Success.',
+                            text: response.msg,
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        });
+                    } else {
+                        displayErrorMessage(formName, response.msg, response.element);
+                    }
                 },
                 error: function() {
                     Swal.fire({
@@ -83,30 +105,33 @@ $(function () {
                 }
             });
         } else { // This means that there's an error while validating inputs.
-
-            // Scroll to div with an id of error.
-            $("#registerModal").animate({
-                scrollTop: $(".error-msg").offset().top
-            } /* speed */);
-
-            // Display error message.
-            $('.error-msg')
-                .css('display', 'block')
-                .html("<span class='text-danger'><i class='fas fa-exclamation-triangle'></i> " + validateRegisterInputs().msg + "</span><br><br>");
-
-            // Highlight the input that has an error.
-            $(validateRegisterInputs().element).css('border', '1px solid red');
-
-            // Remove the error message after 2000 milliseconds.
-            setTimeout(function () {
-                $('.error-msg').css('display', 'none').html('');
-            }, 3000);
+            displayErrorMessage(formName, validateInputs.msg, validateInputs.element);
         }
     });
 
     // Remove existing red borders on inputs.
     function resetInputBorders(formName) {
         $(formName).find('input').css('border', '1px solid #ccc');
+    }
+
+    function displayErrorMessage(formName, msg, element) {
+        // Scroll to div that displays the error message.
+        $(formName).parents().find('div.modal').animate({
+            scrollTop: $('.error-msg').offset().top
+        } /* speed */);
+
+        // Display error message.
+        $('.error-msg')
+            .css('display', 'block')
+            .html("<span class='text-danger'><i class='fas fa-exclamation-triangle'></i> " + msg + "</span>");
+
+        // Highlight the input that has an error.
+        $(element).css('border', '1px solid red');
+
+        // Remove the error message after 2000 milliseconds.
+        setTimeout(function () {
+            $('.error-msg').css('display', 'none').html('');
+        }, 3000);
     }
 
     // This method validates the inputs of the user before submission for registration.

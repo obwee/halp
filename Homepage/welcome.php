@@ -197,7 +197,7 @@
                     <h5 style="font-size: 20px; text-align: center; font-family:sans-serif;">Get Quote</h5>
                 </div>
                 <div class="modal-body">
-                    <div class="error-msg" style="display: none;"></div>
+                    <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                     <form method="post" id="quotationForm">
                         <div class="modal-body">
                             <div class="form-group">
@@ -259,7 +259,7 @@
                 </div>
                 <form method="post" id="registrationForm">
                     <div class="modal-body" style="padding:30px 50px;">
-                        <div class="error-msg" style="display: none;"></div>
+                        <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                         <div class="form-group">
                             <label for="registrationFname"><span class="fas fa-user-circle"></span> First Name</label>
                             <input type="text" class="form-control" id="registrationFname" name="registrationFname" placeholder="First Name" autofocus maxlength="30" minlength="2">
@@ -315,7 +315,7 @@
                     <h5 style="font-size: 20px">Email Nexus ITTC</h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <div class="error-msg" style="display: none;"></div>
+                <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                 <form method="post" id="emailForm">
                     <div class="modal-body" style="padding:30px 50px;">
                         <div class="form-group">

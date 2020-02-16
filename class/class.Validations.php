@@ -14,7 +14,7 @@ class Validations
         array(
             'sName'       => 'First name',
             'sElement'    => 'registrationFname',
-            'sColumnName' => 'firstName',
+            'sColumnName' => ':firstName',
             'iMinLength'  => 2,
             'iMaxLength'  => 30,
             'oPattern'    => '/^[a-zA-Z\s\.]+$/'
@@ -22,7 +22,7 @@ class Validations
         array(
             'sName'       => 'Last name',
             'sElement'    => 'registrationLname',
-            'sColumnName' => 'lastName',
+            'sColumnName' => ':lastName',
             'iMinLength'  => 2,
             'iMaxLength'  => 30,
             'oPattern'    => '/^[a-zA-Z\s\.]+$/'
@@ -30,7 +30,7 @@ class Validations
         array(
             'sName'       => 'Contact number',
             'sElement'    => 'registrationContactNum',
-            'sColumnName' => 'contactNum',
+            'sColumnName' => ':contactNum',
             'iMinLength'  => 7,
             'iMaxLength'  => 12,
             'oPattern'    => '/^[0-9]+$/'
@@ -38,7 +38,7 @@ class Validations
         array(
             'sName'       => 'Email address',
             'sElement'    => 'registrationEmail',
-            'sColumnName' => 'email',
+            'sColumnName' => ':email',
             'iMinLength'  => 4,
             'iMaxLength'  => 50,
             'oPattern'    => '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD'
@@ -46,7 +46,7 @@ class Validations
         array(
             'sName'       => 'Username',
             'sElement'    => 'registrationUsername',
-            'sColumnName' => 'username',
+            'sColumnName' => ':username',
             'iMinLength'  => 4,
             'iMaxLength'  => 15,
             'oPattern'    => '/^(?![0-9_])\w+$/'
@@ -54,7 +54,7 @@ class Validations
         array(
             'sName'       => 'Password',
             'sElement'    => 'registrationPassword',
-            'sColumnName' => 'password',
+            'sColumnName' => ':password',
             'iMinLength'  => 4,
             'iMaxLength'  => 30
         )
@@ -74,23 +74,27 @@ class Validations
 
         // Add rules for optional fields if filled-up.
         if (strlen(trim($aParams['registrationMname'])) !== 0) {
-            array_push(self::$aInputRules, array(
-                'sName'       => 'Middle name',
-                'sElement'    => 'registrationMname',
-                'sColumnName' => 'middleName',
-                'iMinLength'  => 2,
-                'iMaxLength'  => 30,
-                'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+            array_splice(self::$aInputRules, 1, 0, array(
+                array(
+                    'sName'       => 'Middle name',
+                    'sElement'    => 'registrationMname',
+                    'sColumnName' => ':middleName',
+                    'iMinLength'  => 2,
+                    'iMaxLength'  => 30,
+                    'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+                )
             ));
         }
         if (strlen(trim($aParams['registrationCompanyName'])) !== 0) {
-            array_push(self::$aInputRules, array(
-                'sName'       => 'Company name',
-                'sElement'    => 'registrationCompanyName',
-                'sColumnName' => 'companyName',
-                'iMinLength'  => 4,
-                'iMaxLength'  => 50,
-                'oPattern'    => '/^[a-zA-Z0-9\s\.]+$/'
+            array_splice(self::$aInputRules, 4, 0, array(
+                array(
+                    'sName'       => 'Company name',
+                    'sElement'    => 'registrationCompanyName',
+                    'sColumnName' => ':companyName',
+                    'iMinLength'  => 4,
+                    'iMaxLength'  => 50,
+                    'oPattern'    => '/^[a-zA-Z0-9\s\.]+$/'
+                )
             ));
         }
 
