@@ -188,18 +188,17 @@
 
     <!--MODALS-->
     <!--Get Quote Modal-->
-    <div class="modal face" id="getQuoteModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog getQuoteModal">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            <h5 style="font-size: 20px; text-align: center; font-family:sans-serif;">Get Quote</h5>
-        </div>
-        <div class="modal-body">
-            <div id="alert_message"></div>
+    <div class="modal fade" id="getQuoteModal" role="dialog">
+        <div class="modal-dialog getQuoteModal">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 style="font-size: 20px; text-align: center; font-family:sans-serif;">Get Quote</h5>
+            </div>
             <div class="modal-body">
+            <div id="error" style="display: none;"></div>
                 <form method="post" id="quotationForm">
                     <div class="form-group">
                         <label for="quoteFname"><span class="fas fa-user-circle"></span> First Name</label>
@@ -232,7 +231,7 @@
                     <div class="form-group">
                         <p>To see available course and schedule, <a href="">Click here</a></p>
                     </div>
-                </div>
+                </form>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary">Sumbit</button>
@@ -244,17 +243,16 @@
 
     <!--Register Modal-->
     <div class="modal fade" id="registerModal" role="dialog">
-        <div class="modal-dialog modal-lg registerModal">
-        <!-- Modal content-->
+        <div class="modal-dialog registerModal">
             <div class="modal-content">
-                <div class="modal-header" style="padding:10px 10px;">
-                    <h5 class="registration" style="font-size: 20px">Registration</h5>
-                    <button type="button" class="close" data-dismiss="modal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
+                    <h5 style="font-size: 20px; text-align: center; font-family:sans-serif;">Registration</h5>
                 </div>
-                <div class="modal-body" style="padding:30px 50px;">
-                <div id="error" style="display: none;"></div>
+                <div class="modal-body">
+                    <div id="error" style="display: none;"></div>
                     <form method="post" id="registrationForm">
                         <div class="form-group">
                             <label for="registrationFname"><span class="fas fa-user-circle"></span> First Name</label>
@@ -294,9 +292,11 @@
                         </div>
 
                         <button type="submit" name="enrollBtn" id="enrollBtn" class="btn-success btn-primary">Register</button>
-                        <!-- hidden input for operation == contactUs -->
-                        <!-- <input type="hidden" class="form-control" id="operation" name="operation" value="enroll"> -->
                     </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Sumbit</button>
                 </div>
             </div>
         </div>
