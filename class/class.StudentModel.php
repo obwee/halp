@@ -23,10 +23,11 @@ class StudentModel
      * insertStudent
      * Insert student to database.
      * @param array $aStudentData
+     * @return bool
      */
     public function insertStudent($aStudentData)
     {
-        // Query the tbl_users for a username equal to $username.
+        // Prepare an insert query.
         $statement = $this->oConnection->prepare(" 
             INSERT INTO tbl_users
              (username, password, firstName, middleName, lastName, position, companyName, contactNum, email) 
@@ -36,6 +37,57 @@ class StudentModel
 
         // Return the result of the execution of the above statement.
         return $statement->execute($aStudentData);
+    }
+
+    /**
+     * checkUsernameIfTaken
+     * Checks if the username is already taken.
+     * @param string $sUsername
+     * @return int
+     */
+    public function checkUsernameIfTaken($sUsername)
+    {
+        // Query the tbl_users for a username equal to $username.
+        $statement = $this->oConnection->prepare(" 
+            SELECT *
+            FROM tbl_users
+            WHERE username = :username
+        ");
+
+        // Execute the above statement.
+        $statement->execute(
+            array(
+                ':username' => $sUsername
+            )
+        );
+
+        // Return the number of rows returned by the executed query.
+        return $statement->rowCount();
+    }
+
+    /**
+     * insertEmail
+     * Insert email to database.
+     * @param array $aEmailDetails
+     * @return bool
+     */
+    public function insertEmail($aEmailDetails)
+    {
+        // Prepare an insert query.
+        $statement = $this->oConnection->prepare(" 
+        INSERT INTO tbl_emails
+            (firstName, middleName, lastName, email, message, dateSent) 
+        VALUES
+            (:firstName, :middleName, :lastName, :email, :message, :dateSent)
+        ");
+
+        // Return the result of the execution of the above statement.
+        return $statement->execute($aEmailDetails);
+    }
+
+    public function insertQuotation()
+    {
+        
     }
 
 }

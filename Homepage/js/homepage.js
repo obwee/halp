@@ -42,6 +42,8 @@ $(function () {
     // Function for submission of any form.
     $(document).on('submit', 'form', function (event) {
         event.preventDefault();
+
+        disableFormButtonState(true);
         
         // Get the form name being submitted.
         let formName = '#' + $(this).attr('id') + '';
@@ -82,6 +84,8 @@ $(function () {
                 type: 'post',
                 data: formData,
                 dataType: 'json',
+                beforeSend: function() {
+                },
                 success: function(response) {
                     if (response.result === true) {
                         $(formName).parents().find('div.modal').modal('hide');
@@ -107,7 +111,13 @@ $(function () {
         } else { // This means that there's an error while validating inputs.
             displayErrorMessage(formName, validateInputs.msg, validateInputs.element);
         }
+        disableFormButtonState(false);
     });
+
+    // Toggle disabled state for form buttons.
+    function disableFormButtonState(state) {
+        $(formName).find('div[class="modal-footer"] button').attr('disabled', state);
+    }
 
     // Remove existing red borders on inputs.
     function resetInputBorders(formName) {
