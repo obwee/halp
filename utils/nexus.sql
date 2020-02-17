@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 13, 2020 at 05:34 PM
+-- Generation Time: Feb 17, 2020 at 05:51 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -39,6 +39,22 @@ CREATE TABLE `tbl_courses` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_emails`
+--
+
+CREATE TABLE `tbl_emails` (
+  `id` int(11) NOT NULL,
+  `firstName` varchar(255) NOT NULL,
+  `middleName` varchar(255) NOT NULL,
+  `lastName` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `message` varchar(255) NOT NULL,
+  `dateSent` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_paymentmethods`
 --
 
@@ -60,6 +76,23 @@ CREATE TABLE `tbl_payments` (
   `paymentDate` datetime NOT NULL,
   `paymentMethod` varchar(255) NOT NULL,
   `isPaid` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_quotations`
+--
+
+CREATE TABLE `tbl_quotations` (
+  `id` int(11) NOT NULL,
+  `firstName` varchar(255) NOT NULL,
+  `middleName` varchar(255) NOT NULL,
+  `lastName` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `courseId` varchar(255) NOT NULL,
+  `scheduleId` int(11) NOT NULL,
+  `dateSent` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -143,6 +176,12 @@ ALTER TABLE `tbl_courses`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_emails`
+--
+ALTER TABLE `tbl_emails`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_paymentmethods`
 --
 ALTER TABLE `tbl_paymentmethods`
@@ -152,6 +191,12 @@ ALTER TABLE `tbl_paymentmethods`
 -- Indexes for table `tbl_payments`
 --
 ALTER TABLE `tbl_payments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_quotations`
+--
+ALTER TABLE `tbl_quotations`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -189,6 +234,12 @@ ALTER TABLE `tbl_courses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `tbl_emails`
+--
+ALTER TABLE `tbl_emails`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `tbl_paymentmethods`
 --
 ALTER TABLE `tbl_paymentmethods`
@@ -198,6 +249,12 @@ ALTER TABLE `tbl_paymentmethods`
 -- AUTO_INCREMENT for table `tbl_payments`
 --
 ALTER TABLE `tbl_payments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_quotations`
+--
+ALTER TABLE `tbl_quotations`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -216,7 +273,7 @@ ALTER TABLE `tbl_training`
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_venue`

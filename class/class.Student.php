@@ -41,13 +41,100 @@ class Student
 
         if ($aValidationResult['result'] === true) {
             $this->sanitizeData();
-            $this->prepareData();
-            $oQueryResult = $this->oStudentModel->insertStudent($this->aParams);
+            $this->prepareData('registration');
+
+            // Insert position field.
+            $this->aParams[':position'] = 'Student';
+
+            if ($this->oStudentModel->checkUsernameIfTaken($this->aParams[':username']) > 0) {
+                $aResult = array(
+                    'result' => false,
+                    'msg'    => 'Username already taken.'
+                );
+            } else {
+                $oQueryResult = $this->oStudentModel->insertStudent($this->aParams);
+
+                if ($oQueryResult === true) {
+                    $aResult = array(
+                        'result' => true,
+                        'msg'    => 'Successfully registered!'
+                    );
+                } else {
+                    $aResult = array(
+                        'result' => false,
+                        'msg'    => 'An error has occurred. Please try again.'
+                    );
+                }
+            }
+        } else {
+            $aResult = $aValidationResult;
+        }
+        echo json_encode($aResult);
+    }
+
+    /**
+     * requestQuotation
+     * Method for requesting quotation.
+     */
+    public function requestQuotation()
+    {
+        $aResult = array();
+        $aValidationResult = Validations::validateRegistrationInputs($this->aParams);
+
+        if ($aValidationResult['result'] === true) {
+            $this->sanitizeData();
+            $this->prepareData('sendEmail');
+
+            if ($this->oStudentModel->checkUsernameIfTaken($this->aParams[':username']) > 0) {
+                $aResult = array(
+                    'result' => false,
+                    'msg'    => 'Username already taken.'
+                );
+            } else {
+                $oQueryResult = $this->oStudentModel->insertStudent($this->aParams);
+
+                if ($oQueryResult === true) {
+                    $aResult = array(
+                        'result' => true,
+                        'msg'    => 'Successfully registered!'
+                    );
+                } else {
+                    $aResult = array(
+                        'result' => false,
+                        'msg'    => 'An error has occurred. Please try again.'
+                    );
+                }
+            }
+        } else {
+            $aResult = $aValidationResult;
+        }
+        echo json_encode($aResult);
+    }
+
+    /**
+     * sendEmail
+     * Method for sending email.
+     */
+    public function sendEmail()
+    {
+        $aResult = array();
+        $aValidationResult = Validations::validateEmailInputs($this->aParams);
+
+        if ($aValidationResult['result'] === true) {
+            $this->sanitizeData();
+            $this->prepareData('sendEmail');
+
+            // Add date field for dateSent column inside database.\
+            $this->aParams[':dateSent'] = date('Y-m-d H:i:s');
+
+            $oQueryResult = $this->oStudentModel->insertEmail($this->aParams);
 
             if ($oQueryResult === true) {
+                $this->proceedSendingEmail();
+
                 $aResult = array(
                     'result' => true,
-                    'msg'    => 'Successfully registered!'
+                    'msg'    => 'Email sent!'
                 );
             } else {
                 $aResult = array(
@@ -62,24 +149,6 @@ class Student
     }
 
     /**
-     * requestQuotation
-     * Method for requesting quotation.
-     */
-    public function requestQuotation()
-    {
-
-    }
-
-    /**
-     * sendEmail
-     * Method for sending email.
-     */
-    public function sendEmail()
-    {
-
-    }
-
-    /**
      * sanitizeData
      * Method for santizing input data.
      */
@@ -87,22 +156,46 @@ class Student
     {
         // Loop thru the array.
         foreach ($this->aParams as $sKey => $aValues) {
-            // Perform htmlspecialchars() function on every values inside $this->aParams
-            $this->aParams[$sKey] = htmlspecialchars($aValues);
+            // Perform htmlspecialchars() function on every values inside $this->aParams and trim whitespaces.
+            $this->aParams[$sKey] = htmlspecialchars(trim($aValues));
         }
     }
 
     /**
      * prepareData
+     * @param string $sInputRuleName
      * Method for preparing data for querying the database.
      */
-    private function prepareData()
+    private function prepareData($sInputRuleName)
     {
+        $aInputRules = array(
+            'registration' => array(
+                'validationRule' => Validations::$aRegistrationRules,
+                'notRequiredInputs' => array(
+                    ':middleName',
+                    ':companyName'
+                )
+            ),
+            'sendEmail'    => array(
+                'validationRule' => Validations::$aSendEmailRules,
+                'notRequiredInputs' => array(
+                    ':middleName',
+                )
+            ),
+            'quotation'    => array(
+                'validationRule' => Validations::$aQuotationRules,
+                'notRequiredInputs' => array(
+                    ':middleName',
+                    ':companyName'
+                )
+            )
+        );
+
         // Remove empty array elements.
         $this->aParams = array_filter($this->aParams);
 
         // Loop thru the array.
-        foreach (Validations::$aInputRules as $aInputRule) {
+        foreach ($aInputRules[$sInputRuleName]['validationRule'] as $aInputRule) {
             // Get the value.
             $sInput = $this->aParams[$aInputRule['sElement']];
             // Rename array keys and supply the value.
@@ -113,7 +206,15 @@ class Student
             unset($this->aParams['registrationConfirmPassword']);
         }
 
-        // Insert position field.
-        $this->aParams[':position'] = 'Student';
+        foreach ($aInputRules[$sInputRuleName]['notRequiredInputs'] as $sValue) {
+            if (empty($this->aParams[$sValue]) === true) {
+                $this->aParams[$sValue] = '';
+            }
+        }
+    }
+
+    private function proceedSendingEmail()
+    {
+        
     }
 }
