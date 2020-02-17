@@ -55,7 +55,7 @@
                         <ul class="dropdown-menu">
                             <li class="dropdown-header">Cisco</li>
                             <li class="dd-content"><a href="ccnav4.php">CCNA v4 200-301</a></li>
-                            <li class="dd-content"><a href="#">CCNP & CCIE Enterprise Core</a></li>
+                            <li class="dd-content"><a href="ccnp.php">CCNP & CCIE Enterprise Core</a></li>
                             <li class="dd-content"><a href="#">CCNP - Implementing Cisco Enterprise Advanced Routing and Services (ENARSI)</a></li>
 
                             <li class="dropdown-header">Microsoft</li>
@@ -71,7 +71,7 @@
                             <li class="dd-content"><a href="#">VMWare vSphere 6.0 ICM</a></li>
 
                             <li class="dropdown-header">Cybersecurity</li>
-                            <li class="dd-content"><a href="#">Ethical Hacking and Penetration Testing</a></li>
+                            <li class="dd-content"><a href="eh.php">Ethical Hacking and Penetration Testing</a></li>
                         </ul>
                     </li>
                     <!--====================================================================================-->
