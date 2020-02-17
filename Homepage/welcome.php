@@ -326,8 +326,8 @@
                             <input type="text" class="form-control" id="emailFname" name="emailFname" placeholder="First Name" autofocus maxlength="20">
                         </div>
                         <div class="form-group">
-                            <label for="emailMnname"><span class="fas fa-user-circle"></span> Middle Name</label>
-                            <input type="text" class="form-control" id="emailMnname" name="emailMnname" placeholder="Middle Name" autofocus maxlength="20">
+                            <label for="emailMname"><span class="fas fa-user-circle"></span> Middle Name</label>
+                            <input type="text" class="form-control" id="emailMname" name="emailMname" placeholder="Middle Name" autofocus maxlength="20">
                         </div>
                         <div class="form-group">
                             <label for="emailLname"><span class="fas fa-user-circle"></span> Last Name</label>
