@@ -43,24 +43,25 @@
                         <a class="dropdown-toggle" data-toggle="dropdown">Courses<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-header">Cisco</li>
-                            <li class="dd-content"><a href="#">CCNA v4 200-301</a></li>
-                            <li class="dd-content"><a href="#">CCNP & CCIE Enterprise Core</a></li>
+                            <li class="dd-content"><a href="courses/ccnav4.php">CCNA v4 200-301</a></li>
+                            <li class="dd-content"><a href="courses/encore.php">CCNP & CCIE Enterprise Core</a></li>
                             <li class="dd-content"><a href="#">CCNP - Implementing Cisco Enterprise Advanced Routing and Services (ENARSI)</a></li>
 
                             <li class="dropdown-header">Microsoft</li>
-                            <li class="dd-content"><a href="#">20410 MCP in Windows Server 2012</a></li>
-                            <li class="dd-content"><a href="#">MCSA 2012</a></li>
+                            <li class="dd-content"><a href="courses/mcp.php">20410 MCP in Windows Server 2012</a></li>
+                            <li class="dd-content"><a href="courses/mcsa2012.php">MCSA 2012</a></li>
                             <li class="dd-content"><a href="#">MCSA 2016</a></li>
-                            <li class="dd-content"><a href="#">Azure Administrator</a></li>
+                            <li class="dd-content"><a href="courses/azure.php">Azure Administrator</a></li>
 
                             <li class="dropdown-header">Amazon Web Services</li>
-                            <li class="dd-content"><a href="#">AWS Solutions Architect</a></li>
+                            <li class="dd-content"><a href="courses/aws.php">AWS Solutions Architect</a></li>
 
                             <li class="dropdown-header">VMWare</li>
-                            <li class="dd-content"><a href="#">VMWare vSphere 6.0 ICM</a></li>
+                            <li class="dd-content"><a href="courses/vmware.php">VMWare vSphere 6.0 ICM</a></li>
 
                             <li class="dropdown-header">Cybersecurity</li>
-                            <li class="dd-content"><a href="#">Ethical Hacking and Penetration Testing</a></li>
+                            <li class="dd-content"><a href="courses/eh.php">Ethical Hacking and Penetration Testing</a></li>
+                            <li class="dd-content"><a href="courses/cysA.php">Cybersecurity Analyst+</a></li>
                         </ul>
                     </li>
                     <!--====================================================================================-->
@@ -161,14 +162,14 @@
                 <i class="icon fas fa-map-marked-alt"></i>
                 <p>MAKATI BRANCH</p>
                 <p>Unit 2417 Cityland 10 Tower 2, HV Dela Costa, Ayala Avenue, Makati City</p>
-                <p>584-1881</p>
+                <p>+63 2 8362-3755</p>
                 <iframe class="makati" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.678658112453!2d121.01502201424155!3d14.560359689828074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c9096ec55555%3A0xaf0d621b7e9c77c1!2sCityland%2010%20Tower%202!5e0!3m2!1sen!2sph!4v1581604908686!5m2!1sen!2sph" width="500" height="200" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
             </div>
             <div class="col-sm-6">
                 <i class="icon fas fa-map-marked-alt"></i>
                 <p>MANILA BRANCH</p>
                 <p>Unit 401 Dona Amparo Building, Espana Boulevard, Manila</p>
-                <p>584-1881</p>
+                <p>+63 2 8355-7759</p>
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.8726048535877!2d120.98647931424222!3d14.606332189798794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c9ff6e6a7e19%3A0x89d69880ec46e9bb!2sDo%C3%B1a%20Amparo%20Building%2C%20Espa%C3%B1a%20Blvd%2C%20Sampaloc%2C%20Manila%2C%201008%20Metro%20Manila!5e0!3m2!1sen!2sph!4v1581605109709!5m2!1sen!2sph" width="500" height="200" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
             </div>
             <div class="col-sm-6">
@@ -187,6 +188,7 @@
     <!--MODALS-->
 
     <!--Get Quote Modal-->
+
     <div class="modal fade" id="getQuoteModal" tabindex="-1" role="dialog">
         <div class="modal-dialog getQuoteModal">
             <div class="modal-content">
@@ -199,42 +201,41 @@
                 <div class="modal-body">
                     <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                     <form method="post" id="quotationForm">
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="quoteFname"><span class="fas fa-user-circle"></span> First Name</label>
-                                <input type="text" class="form-control" id="quoteFname" name="quoteFname" placeholder="First Name" autofocus maxlength="30">
-                            </div>
-                            <div class="form-group">
-                                <label for="quoteMname"><span class="fas fa-user-circle"></span> Middle Name</label>
-                                <input type="text" class="form-control" id="quoteMname" name="quoteMname" placeholder="Middle Name" autofocus maxlength="30">
-                            </div>
-                            <div class="form-group">
-                                <label for="quoteLname"><span class="fas fa-user-circle"></span> Last Name</label>
-                                <input type="text" class="form-control" id="quoteLname" name="quoteLname" placeholder="Last Name" autofocus maxlength="30">
-                            </div>
-                            <div class="form-group">
-                                <label for="quoteContactNum"><span class="fas fa-user-circle"></span> Contact Number</label>
-                                <input type="text" class="form-control" id="quoteContactNum" name="quoteContactNum" placeholder="Contact Number" autofocus maxlength="13">
-                            </div>
-                            <div class="form-group">
-                                <label for="quoteEmail"><span class="fas fa-envelope"></span> E-mail Address</label>
-                                <input type="email" class="form-control" id="quoteEmail" name="quoteEmail" placeholder="E-mail Address" maxlength="50">
-                            </div>
-                            <div class="form-group">
-                                <label for="quoteCompanyName"><span class="far fa-building"></span> Company Name (if company sponsored)</label>
-                                <input type="text" class="form-control" id="quoteCompanyName" name="quoteCompanyName" placeholder="Company Name" maxlength="50">
-                            </div>
-                            <div class="form-group">
-                                <label for="quoteCourse"><span class="far fa-users-class"></span> Course</label>
-                                <input type="text" class="form-control" id="quoteCourse" name="quoteCourse" placeholder="Course" autofocus maxlength="50">
-                            </div>
-                            <div class="form-group">
-                                <label for="quoteSchedule"><span class="fas fa-calendar-week"></span> Schedule</label>
-                                <input type="text" class="form-control" id="quoteSchedule" name="quoteSchedule" placeholder="Schedule" autofocus maxlength="50">
-                            </div>
-                            <div class="form-group">
-                                <p class="h6">To see available course and schedule, <a href="">Click here</a></p>
-                            </div>
+
+                        <div class="form-group">
+                            <label for="quoteFname"><span class="fas fa-user-circle"></span> First Name</label>
+                            <input type="text" class="form-control" id="quoteFname" name="quoteFname" placeholder="First Name" autofocus maxlength="30">
+                        </div>
+                        <div class="form-group">
+                            <label for="quoteMname"><span class="fas fa-user-circle"></span> Middle Name</label>
+                            <input type="text" class="form-control" id="quoteMname" name="quoteMname" placeholder="Middle Name" autofocus maxlength="30">
+                        </div>
+                        <div class="form-group">
+                            <label for="quoteLname"><span class="fas fa-user-circle"></span> Last Name</label>
+                            <input type="text" class="form-control" id="quoteLname" name="quoteLname" placeholder="Last Name" autofocus maxlength="30">
+                        </div>
+                        <div class="form-group">
+                            <label for="quoteContactNum"><span class="fas fa-user-circle"></span> Contact Number</label>
+                            <input type="text" class="form-control" id="quoteContactNum" name="quoteContactNum" placeholder="Contact Number" autofocus maxlength="13">
+                        </div>
+                        <div class="form-group">
+                            <label for="quoteEmail"><span class="fas fa-envelope"></span> E-mail Address</label>
+                            <input type="email" class="form-control" id="quoteEmail" name="quoteEmail" placeholder="E-mail Address" maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="quoteCompanyName"><span class="far fa-building"></span> Company Name (if company sponsored)</label>
+                            <input type="text" class="form-control" id="quoteCompanyName" name="quoteCompanyName" placeholder="Company Name" maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="quoteCourse"><span class="far fa-users-class"></span> Course</label>
+                            <input type="text" class="form-control" id="quoteCourse" name="quoteCourse" placeholder="Course" autofocus maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="quoteSchedule"><span class="fas fa-calendar-week"></span> Schedule</label>
+                            <input type="text" class="form-control" id="quoteSchedule" name="quoteSchedule" placeholder="Schedule" autofocus maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <p class="h6">To see available course and schedule, <a href="">Click here</a></p>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-success">Submit</button>
@@ -248,18 +249,19 @@
 
     <!--Register Modal-->
     <div class="modal fade" id="registerModal" role="dialog">
-        <div class="modal-dialog modal-lg registerModal">
+        <div class="modal-dialog registerModal">
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header" style="padding:10px 10px;">
-                    <h5 class="registration" style="font-size: 20px">Registration</h5>
-                    <button type="button" class="close" data-dismiss="modal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
+                    <h5 style="font-size: 20px; text-align: center; font-family:sans-serif;">Registration</h5>
                 </div>
                 <form method="post" id="registrationForm">
                     <div class="modal-body" style="padding:30px 50px;">
                         <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+
                         <div class="form-group">
                             <label for="registrationFname"><span class="fas fa-user-circle"></span> First Name</label>
                             <input type="text" class="form-control" id="registrationFname" name="registrationFname" placeholder="First Name" autofocus maxlength="30" minlength="2">
@@ -312,8 +314,10 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header" id="emailAnimation" style="padding:10px 10px;">
-                    <h5 style="font-size: 20px">Email Nexus ITTC</h5>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 style="font-size: 20px; text-align: center; font-family:sans-serif;">Email Nexus ITTC</h5>
                 </div>
                 <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                 <form method="post" id="emailForm">
