@@ -48,7 +48,7 @@ class StudentModel
     public function checkUsernameIfTaken($sUsername)
     {
         // Query the tbl_users for a username equal to $username.
-        $statement = $this->oConnection->prepare(" 
+        $statement = $this->oConnection->prepare("
             SELECT *
             FROM tbl_users
             WHERE username = :username
@@ -74,20 +74,48 @@ class StudentModel
     public function insertEmail($aEmailDetails)
     {
         // Prepare an insert query.
-        $statement = $this->oConnection->prepare(" 
+        $statement = $this->oConnection->prepare("
         INSERT INTO tbl_emails
-            (firstName, middleName, lastName, email, message, dateSent) 
+            (firstName, middleName, lastName, email, title, message, dateSent)
         VALUES
-            (:firstName, :middleName, :lastName, :email, :message, :dateSent)
+            (:firstName, :middleName, :lastName, :email, :title, :message, :dateSent)
         ");
 
         // Return the result of the execution of the above statement.
         return $statement->execute($aEmailDetails);
     }
 
-    public function insertQuotation()
+    /**
+     * validateCourseAndSchedule
+     * Checks if course and schedule selected from the front-end is valid.
+     * @param array $aDetails
+     * @return int
+     */
+    public function validateCourseAndSchedule($aDetails)
     {
-        
+        // Query the tbl_courses for a username equal to $username.
+        $statement = $this->oConnection->prepare("
+            SELECT *
+            FROM       tbl_courses   tc
+            INNER JOIN tbl_schedules ts ON tc.id = ts.courseId
+            WHERE tc.courseName = :quoteCourse
+            AND   ts.fromDate = :fromDate
+            AND   ts.toDate = :toDate
+        ");
+
+        // Execute the above statement.
+        $statement->execute($aDetails);
+
+        // Return the number of rows returned by the executed query.
+        return $statement->rowCount();
     }
 
+    /**
+     * insertQuotation
+     * Insert quotation to database.
+     * @param array $aQuoteDetails
+     */
+    public function insertQuotation($aQuoteDetails)
+    {
+    }
 }

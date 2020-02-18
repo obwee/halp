@@ -42,11 +42,11 @@ $(function () {
     // Function for submission of any form.
     $(document).on('submit', 'form', function (event) {
         event.preventDefault();
-
-        disableFormButtonState(true);
         
         // Get the form name being submitted.
         let formName = '#' + $(this).attr('id') + '';
+
+        disableFormState(formName, true);
 
         // Invoke the resetInputBorders method for that form.
         resetInputBorders(formName);
@@ -84,8 +84,6 @@ $(function () {
                 type: 'post',
                 data: formData,
                 dataType: 'json',
-                beforeSend: function() {
-                },
                 success: function(response) {
                     if (response.result === true) {
                         $(formName).parents().find('div.modal').modal('hide');
@@ -111,12 +109,13 @@ $(function () {
         } else { // This means that there's an error while validating inputs.
             displayErrorMessage(formName, validateInputs.msg, validateInputs.element);
         }
-        disableFormButtonState(false);
+        disableFormState(formName, false);
     });
 
-    // Toggle disabled state for form buttons.
-    function disableFormButtonState(state) {
-        $(formName).find('div[class="modal-footer"] button').attr('disabled', state);
+    // Toggle disabled state of the form.
+    function disableFormState(formName, state) {
+        $(formName).find('div[class="modal-footer"] button').prop('disabled', state);
+        $(formName).prop('disabled', state);
     }
 
     // Remove existing red borders on inputs.
@@ -368,6 +367,14 @@ $(function () {
                 };
                 return false;
             }
+            if (inputRule.pattern.test($(inputRule.element).val()) === false) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' input is invalid.'
+                };
+                return false;
+            }
         });
         // Return the result of the validation.
         return validationResult;
@@ -401,7 +408,15 @@ $(function () {
                 minLength: 4,
                 maxLength: 50,
                 pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
-            }
+            },
+            {
+                name: 'Email title',
+                element: '#emailTitle',
+                length: $.trim($('#emailTitle').val()).length,
+                minLength: 4,
+                maxLength: 30,
+                pattern: /.+/g
+            },
         ];
 
         // Declare initially the validation result to be returned by the function.
@@ -438,6 +453,14 @@ $(function () {
                     result: false,
                     element: inputRule.element,
                     msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
+                };
+                return false;
+            }
+            if (inputRule.pattern.test($(inputRule.element).val()) === false) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' input is invalid.'
                 };
                 return false;
             }
