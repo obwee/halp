@@ -199,9 +199,8 @@
                     <h5 style="font-size: 20px; text-align: center; font-family:sans-serif;">Get Quote</h5>
                 </div>
                 <div class="modal-body">
-                    <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                     <form method="post" id="quotationForm">
-
+                        <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                         <div class="form-group">
                             <label for="quoteFname"><span class="fas fa-user-circle"></span> First Name</label>
                             <input type="text" class="form-control" id="quoteFname" name="quoteFname" placeholder="First Name" autofocus maxlength="30">
@@ -227,12 +226,16 @@
                             <input type="text" class="form-control" id="quoteCompanyName" name="quoteCompanyName" placeholder="Company Name" maxlength="50">
                         </div>
                         <div class="form-group">
-                            <label for="quoteCourse"><span class="far fa-users-class"></span> Course</label>
+                            <label for="quoteCourse"><span class="fas fa-book"></span> Course</label>
                             <input type="text" class="form-control" id="quoteCourse" name="quoteCourse" placeholder="Course" autofocus maxlength="50">
                         </div>
                         <div class="form-group">
-                            <label for="quoteSchedule"><span class="fas fa-calendar-week"></span> Schedule</label>
-                            <input type="text" class="form-control" id="quoteSchedule" name="quoteSchedule" placeholder="Schedule" autofocus maxlength="50">
+                            <label for="scheduleType"><span class="fas fa-calendar-week"></span> Schedule Type</label>
+                            <input type="select" class="form-control" id="scheduleType" name="scheduleType" placeholder="Schedule Type" autofocus maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="quoteAvailableDates"><span class="fas fa-calendar-check"></span> Available Dates</label>
+                            <input type="select" class="form-control" id="quoteAvailableDates" name="quoteAvailableDates" placeholder="Available Dates" autofocus maxlength="50">
                         </div>
                         <div class="form-group">
                             <p class="h6">To see available course and schedule, <a href="">Click here</a></p>
@@ -261,7 +264,6 @@
                 <form method="post" id="registrationForm">
                     <div class="modal-body" style="padding:30px 50px;">
                         <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
-
                         <div class="form-group">
                             <label for="registrationFname"><span class="fas fa-user-circle"></span> First Name</label>
                             <input type="text" class="form-control" id="registrationFname" name="registrationFname" placeholder="First Name" autofocus maxlength="30" minlength="2">
@@ -319,9 +321,9 @@
                     </button>
                     <h5 style="font-size: 20px; text-align: center; font-family:sans-serif;">Email Nexus ITTC</h5>
                 </div>
-                <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                 <form method="post" id="emailForm">
                     <div class="modal-body" style="padding:30px 50px;">
+                        <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                         <div class="form-group">
                             <label for="emailFname"><span class="fas fa-user-circle"></span> First Name</label>
                             <input type="text" class="form-control" id="emailFname" name="emailFname" placeholder="First Name" autofocus maxlength="20">
@@ -337,6 +339,10 @@
                         <div class="form-group">
                             <label for="emailAddress"><span class="fas fa-envelope"></span> E-mail Address</label>
                             <input type="email" class="form-control" id="emailAddress" name="emailAddress" placeholder="E-mail Address" maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="emailTitle"><span class="fas fa-envelope-open-text"></span> Email Title</label>
+                            <input type="text" class="form-control" id="emailTitle" name="emailTitle" placeholder="Email Title" autofocus maxlength="20">
                         </div>
                         <div class="form-group">
                             <label for="emailMsg"><span class="fas fa-comments"></span> Message</label>

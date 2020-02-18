@@ -79,24 +79,26 @@ class Student
     public function requestQuotation()
     {
         $aResult = array();
-        $aValidationResult = Validations::validateRegistrationInputs($this->aParams);
+        $aValidationResult = Validations::validateQuotationInputs($this->aParams);
 
         if ($aValidationResult['result'] === true) {
             $this->sanitizeData();
-            $this->prepareData('sendEmail');
+            $this->prepareData('quotation');
 
-            if ($this->oStudentModel->checkUsernameIfTaken($this->aParams[':username']) > 0) {
+            print_r($this->aParams);
+            die;
+            if ($this->oStudentModel->validateCourseAndSchedule($this->aParams) === 0) {
                 $aResult = array(
                     'result' => false,
-                    'msg'    => 'Username already taken.'
+                    'msg'    => 'Invalid course and schedule.'
                 );
             } else {
-                $oQueryResult = $this->oStudentModel->insertStudent($this->aParams);
-
+                $oQueryResult = $this->oStudentModel->insertQuotation($this->aParams);
+    
                 if ($oQueryResult === true) {
                     $aResult = array(
                         'result' => true,
-                        'msg'    => 'Successfully registered!'
+                        'msg'    => 'Quotation requested!'
                     );
                 } else {
                     $aResult = array(
@@ -104,6 +106,7 @@ class Student
                         'msg'    => 'An error has occurred. Please try again.'
                     );
                 }
+    
             }
         } else {
             $aResult = $aValidationResult;
@@ -129,9 +132,7 @@ class Student
 
             $oQueryResult = $this->oStudentModel->insertEmail($this->aParams);
 
-            if ($oQueryResult === true) {
-                $this->proceedSendingEmail();
-
+            if ($oQueryResult === true && $this->proceedSendingEmail() === 1) {
                 $aResult = array(
                     'result' => true,
                     'msg'    => 'Email sent!'
@@ -215,6 +216,21 @@ class Student
 
     private function proceedSendingEmail()
     {
-        
+        foreach ($this->aParams as $sKey => $sParam) {
+            $aNewKeys = preg_replace('/[:]/', '', $sKey);
+            $this->aParams[$aNewKeys] = $sParam;
+            unset($this->aParams[$sKey]);
+        }
+
+        $this->aParams['fullName'] = implode(' ', array_slice($this->aParams, 0, 3));
+
+        $sEmailHeader = 'Sent by: ' . $this->aParams['fullName'] . ' <' . $this->aParams['email'] . ">\n\n";
+
+        $oMail = new Email();
+        $oMail->setEmailSender($this->aParams['email'], $this->aParams['fullName']);
+        $oMail->addSingleRecipient('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
+        $oMail->setTitle($this->aParams['title']);
+        $oMail->setBody($sEmailHeader . $this->aParams['message']);
+        return $oMail->send();
     }
 }
