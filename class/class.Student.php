@@ -158,7 +158,7 @@ class Student
         // Loop thru the array.
         foreach ($this->aParams as $sKey => $aValues) {
             // Perform htmlspecialchars() function on every values inside $this->aParams and trim whitespaces.
-            $this->aParams[$sKey] = htmlspecialchars(trim($aValues));
+            $this->aParams[$sKey] = nl2br(strip_tags(htmlspecialchars(trim($aValues))));
         }
     }
 
