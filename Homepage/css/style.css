@@ -15,15 +15,16 @@ html, body {
 
 .navbar-brand {
     color: #fff;
+
 }
 
 .navbar-default .navbar-nav li a {
     color: #fff;
-    padding-right: 50px;
+    padding-right: 20px;
 }
 
 .navbar-default .navbar-nav li a:hover,   {
-    color: #e6e6e6;
+    color: #f2f2f2;
 }
 
 .navbar-default .navbar-nav li a.active {
@@ -155,6 +156,9 @@ html, body {
   */  color: #333;
 }
 
+#about {
+    padding-top: 50px;
+}
 .padding {
     padding: 70px 0;
 }
@@ -172,6 +176,34 @@ html, body {
      font-family: 'Montserrat', sans-serif;
      font-size: 1.2em;  
      text-align: justify;
+}
+
+#services {
+    background-color: #A2C710;
+    padding: 70px 0;
+}
+
+#services p {
+    text-align: center;
+    color: black;
+}
+
+#services h3 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+#services .section-heading {
+    margin-left: 500px;
+    padding-top: 30px;
+    padding-bottom: 50px;
+}
+
+#services .services {
+    padding-bottom: 50px;
+}
+
+#services i {
+    color: #fff;
 }
 
 #fixed {
@@ -305,6 +337,8 @@ footer h3 {
 }
 
 
+
+/*============================================*/
 
 html {
     scroll-behavior: smooth;
