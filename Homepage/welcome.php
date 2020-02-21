@@ -217,7 +217,6 @@
     </div>
     <div class="container">
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" style="width: 100%;">
-            <h4 style="font-weight: bold;">Enrollment</h4>
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingOne">
                     <h4 class="panel-title">
@@ -254,49 +253,119 @@
                 <div class="panel-heading" role="tab" id="headingThree">
                     <h4 class="panel-title">
                     <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    How to enroll?
+                    <i class="fas fa-question-circle"></i>  How to enroll?
                     </a>
                     </h4>
                 </div>
                 <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                     <div class="panel-body">
                         <ul>
-                            <li>Click the <strong>SIGN UP</strong> button and create and account.</li>
-                            <li>Once signed in, click the <strong>Enrollment</strong> tab and fill in all required details.</li>
+                            <li>Click the <strong>SIGN UP</strong> button and create an account.</li>
+                            <li>Once signed in, click the <strong>Enrollment</strong> tab choose your desired course and schedule.</li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <h4 style="font-weight: bold;">Payment</h4>
             <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="headingOne">
+                <div class="panel-heading" role="tab" id="headingThree">
                     <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <i class="fas fa-question-circle"></i>  What are the payment modes?
-                        </a>
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    <i class="fas fa-question-circle"></i> What are the payment modes?
+                    </a>
                     </h4>
                 </div>
-                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
                     <div class="panel-body">
                         <ul>
-                            <li>CASH</li>
-                            Pay at any of our branches:<br>
-                            <strong>MAKATI</strong>
-                            Unit 2417 24th Floor Cityland 10 Tower 2 154 H.V. Dela Costa St Ayala North, Makati City
-                            <br>
-                            <strong>MANILA</strong>
-                            Room 401 Dona Amparo Bldg Along Espana Boulevard corner Tolentino St Espana Manila
-                            <br><br>
-                            <li>BDO Bank Deposit / Bank Transfer / GCASH</li>
+                            <li><strong>CASH</strong></li>
+                            <ul>
+                            Pay at any of our branches:
+                            <li><strong>MAKATI: </strong>Unit 2417 24th Floor Cityland 10 Tower 2 154 H.V. Dela Costa St Ayala North, Makati City</li>
+                            <li><strong>MANILA: </strong>Room 401 Dona Amparo Bldg Along Espana Boulevard corner Tolentino St Espana, Manila</li>   
+                            </ul>
                             
-                            <i>Account Name: Nexus IT Training Center</i> <br>
-                            <i>BDO Account Number: 002810078994</i> <br>
+                            <br>
 
-                            <i class="fas fa-exclamation-triangle"></i> Upload a copy of your payment on your account and wait for the confirmation in your e-mail.
+                            <li><strong>BDO Bank Deposit / Online Bank Transfer</strong></li>
+                            <br>
+                            <ul>
+                                <li>Account Name: Nexus IT Training Center</li>
+                                <li>BDO Account Number: 002810078994</li>   
+                            </ul>
+                            
+                            <br>
+                            <li><strong>CHEQUE</strong></li>
+                            <ul>
+                                <li>All cheque payments must be payable to <b>NEXUS IT TRAINING CENTER.</b></li>  
+                            </ul>
                         </ul>
                     </div>
                 </div>
             </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingFive">
+                    <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                    <i class="fas fa-question-circle"></i> Do you accept payment via installment basis?
+                    </a>
+                    </h4>
+                </div>
+                <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                    <div class="panel-body">
+                        <strong style="color: green;">YES!</strong>  A <strong>50%</strong> reservation fee is required to secure your slot.
+                        <br>
+                        NOTE: All balance must be paid on or before the first day of training.
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingSix">
+                    <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                    <i class="fas fa-question-circle"></i> How do I pay for my reservation?
+                    </a>
+                    </h4>
+                </div>
+                <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
+                    <div class="panel-body">
+                        Choose a payment mode. <br>
+                        Once you have paid you reservation, upload a photo or a PDF copy of your payment to your account under the <strong>Enrollment</strong> tab together with the invoice. <br>
+
+                        Make sure that you have read the terms and conditions and sign your invoice before proceeding to payment.
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingSeven">
+                    <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                    <i class="fas fa-question-circle"></i> Do you acknowledge refunds?
+                    </a>
+                    </h4>
+                </div>
+                <div id="collapseSeven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSeven">
+                    <div class="panel-body">
+                        Cancellation of reservations must be done <b>1 week</b> before the training starts. Please give us a week to process your refund.  <br>
+
+                        <strong style="color: red;">NO REFUND</strong> once the training has already started.
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingEight">
+                    <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                    <i class="fas fa-question-circle"></i> Do I need to bring my own laptop to class?
+                    </a>
+                    </h4>
+                </div>
+                <div id="collapseEight" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingEight">
+                    <div class="panel-body">
+                        Desktops, routers, switches and other devices are provided by the training center.
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>    
