@@ -168,7 +168,16 @@ class Email
      */
     public function setBody($sEmailBody)
     {
-        $this->oMessage->setBody($sEmailBody);
+        $this->oMessage->setBody($this->convertLineBreaks($sEmailBody));
+    }
+
+    /**
+     * convertLineBreaks
+     * Method for converting html breaks into new line.
+     */
+    private function convertLineBreaks($sString)
+    {
+        return preg_replace('/\<br(\s*)?\/?\>/i', "\n", $sString);
     }
 
     /**

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 17, 2020 at 05:51 PM
+-- Generation Time: Feb 20, 2020 at 03:12 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -33,8 +33,18 @@ USE `nexus`;
 CREATE TABLE `tbl_courses` (
   `id` int(11) NOT NULL,
   `courseName` varchar(255) NOT NULL,
-  `coursePrice` decimal(10,0) NOT NULL
+  `coursePrice` decimal(10,0) NOT NULL,
+  `courseDescription` varchar(255) NOT NULL,
+  `examCode` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_courses`
+--
+
+INSERT INTO `tbl_courses` VALUES(1, 'CCNA v4', '12000', 'Implementing and Administering Cisco Solutions', '200-301');
+INSERT INTO `tbl_courses` VALUES(2, 'CCNP', '12000', 'Implementing Cisco Enterprise Advanced Routing and Services', '');
+INSERT INTO `tbl_courses` VALUES(3, 'MCP', '8000', 'Windows 2012 R2', '20410');
 
 -- --------------------------------------------------------
 
@@ -48,8 +58,21 @@ CREATE TABLE `tbl_emails` (
   `middleName` varchar(255) NOT NULL,
   `lastName` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `message` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `message` longtext NOT NULL,
   `dateSent` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_inclusions`
+--
+
+CREATE TABLE `tbl_inclusions` (
+  `id` int(11) NOT NULL,
+  `courseId` int(11) NOT NULL,
+  `inclusion` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -92,7 +115,8 @@ CREATE TABLE `tbl_quotations` (
   `email` varchar(255) NOT NULL,
   `courseId` varchar(255) NOT NULL,
   `scheduleId` int(11) NOT NULL,
-  `dateSent` datetime NOT NULL
+  `dateSent` datetime NOT NULL,
+  `isQuotationSent` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -151,8 +175,7 @@ CREATE TABLE `tbl_users` (
 -- Dumping data for table `tbl_users`
 --
 
-INSERT INTO `tbl_users` (`userID`, `username`, `password`, `firstName`, `middleName`, `lastName`, `position`, `companyName`, `contactNum`, `email`, `status`) VALUES
-(1, 'chris', 'chris123', 'Christopher', 'Iglesia', 'Buenaventura', 'Super Admin', '', '09261759759', 'angelikaaubreyarbiol@gmail.com', 'Active');
+INSERT INTO `tbl_users` VALUES(1, 'chris', 'chris123', 'Christopher', 'Iglesia', 'Buenaventura', 'Super Admin', '', '09261759759', 'angelikaaubreyarbiol@gmail.com', 'Active');
 
 -- --------------------------------------------------------
 
@@ -179,6 +202,12 @@ ALTER TABLE `tbl_courses`
 -- Indexes for table `tbl_emails`
 --
 ALTER TABLE `tbl_emails`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_inclusions`
+--
+ALTER TABLE `tbl_inclusions`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -231,13 +260,19 @@ ALTER TABLE `tbl_venue`
 -- AUTO_INCREMENT for table `tbl_courses`
 --
 ALTER TABLE `tbl_courses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_emails`
 --
 ALTER TABLE `tbl_emails`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT for table `tbl_inclusions`
+--
+ALTER TABLE `tbl_inclusions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_paymentmethods`
