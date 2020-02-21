@@ -1,5 +1,4 @@
 <?php
-require_once 'vendor/autoload.php';
 
 /**
  * Email
@@ -195,3 +194,5 @@ class Email
         return $oResult;
     }
 }
+
+new Email();
