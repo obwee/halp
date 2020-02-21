@@ -1,0 +1,18 @@
+.modal-header, h5, .close {
+  background-color: #23415C;
+  color:white !important;
+  text-align: center;
+  font-size: 22px;
+}
+
+.modal-footer {
+  background-color: #f9f9f9;
+
+}
+
+/*.btn-success {
+  background-color: #23415C !important;
+  color:white !important;
+  text-align: center;
+}
+*/

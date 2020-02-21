@@ -40,8 +40,8 @@
         <div class="navbar-collapse collapse" id="navbar-collapse-main">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="courses.php">Courses</a></li>
+                <li><a href="#about" href="welcome.php">About</a></li>
+                <li><a href="courses.php" target="_blank">Courses</a></li>
                <!-- <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown">Courses<b class="caret"></b></a>
                     <ul class="dropdown-menu">
