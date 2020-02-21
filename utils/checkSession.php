@@ -1,6 +1,7 @@
 <?php
 session_start();
 include_once 'utils/autoload.php';
+require_once 'utils/vendor/autoload.php';
 
 /**
  * This file is automatically prepended to any file via .htaccess file.
