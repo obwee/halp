@@ -2,6 +2,6 @@
     "name": "obwee/nexus",
     "require": {
         "swiftmailer/swiftmailer": "^6.0",
-        "tecnickcom/tcpdf": "^6.3"
+        "fpdf/fpdf": "^1.82"
     }
 }
