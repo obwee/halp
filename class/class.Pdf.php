@@ -1,89 +1,190 @@
 <?php
 
-class Pdf
+use Fpdf\Fpdf;
+
+/**
+ * Pdf
+ * Class for printing PDF certificate of students.
+ */
+class Pdf extends Fpdf
 {
     /**
-     * @var TCPDF $oMessage
-     * TCPDF instance.
+     * Pdf constructor.
      */
-    public $pdf;
-
     public function __construct()
     {
-        // create new PDF document
-        $this->pdf = new TCPDF('Landscape', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        // Invoke FPDF's constructor.
+        parent::__construct('L', 'mm', 'Letter');
+        // Initialize page.
+        $this->AddPage();
+        // Set PDF file title.
+        $this->SetTitle('Training-Certificate');
+        // Set auto page break to false
+        $this->SetAutoPageBreak(false);
+        // Add page border.
+        $this->Rect(15, 13, 250, 190);
+    }
 
-        // set document information
-        $this->pdf->SetCreator(PDF_CREATOR);
-        $this->pdf->SetAuthor('Nicola Asuni');
-        $this->pdf->SetTitle('TCPDF Example 001');
-        $this->pdf->SetSubject('TCPDF Tutorial');
-        $this->pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+    /**
+     * Header
+     * Overrides the Header() method of Fpdf to create custom page header.
+     */
+    public function Header()
+    {
+        // Set the header logo.
+        $this->Image('C:\xampp\htdocs\Nexus\resource\img\fpdf\Nexus-logo.png', 120, 18, 40, 30);
 
-        // set default header data
-        $this->pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE . ' 001', PDF_HEADER_STRING, array(0, 64, 255), array(0, 64, 128));
-        $this->pdf->setFooterData(array(0, 64, 0), array(0, 64, 128));
+        // Set the font.
+        $this->AddFont('BebasNeue-Regular', '', 'BebasNeue-Regular.php');
+        $this->SetFont('BebasNeue-Regular', '', 26);
 
-        // set header and footer fonts
-        $this->pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-        $this->pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+        // Line break.
+        $this->Ln(42);
 
-        // set default monospaced font
-        $this->pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+        // Move to the right.
+        $this->Cell(120);
 
-        // set margins
-        $this->pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-        $this->pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-        $this->pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+        // Set page header title.
+        $this->Cell(20, 3, 'NEXUS IT TRAINING CENTER', 0, 0, 'C');
 
-        // set auto page breaks
-        $this->pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        // Set the font.
+        $this->AddFont('AsiyahScript', '', 'AsiyahScript.php');
+        $this->SetFont('AsiyahScript', '', 40);
 
-        // set image scale factor
-        $this->pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+        // Line break.
+        $this->Ln(12);
 
-        // set some language-dependent strings (optional)
-        if (@file_exists(dirname(__FILE__) . '/lang/eng.php')) {
-            require_once(dirname(__FILE__) . '/lang/eng.php');
-            $this->pdf->setLanguageArray($l);
-        }
+        // Set page header title.
+        $this->Cell(259, 15, 'Certificate of Attendance', 0, 0, 'C');
+    }
 
-        // ---------------------------------------------------------
+    /**
+     * initializePage()
+     * Initializes the contents of the certificate.
+     */
+    public function initializePage()
+    {
+        // Set the font.
+        $this->AddFont('MTCORSVA', '', 'MTCORSVA.php');
+        $this->SetFont('MTCORSVA', '', 18);
 
-        // set default font subsetting mode
-        $this->pdf->setFontSubsetting(true);
+        // Line break.
+        $this->Ln(9);
 
-        // Set font
-        // dejavusans is a UTF-8 Unicode font, if you only need to
-        // print standard ASCII chars, you can use core fonts like
-        // helvetica or times to reduce file size.
-        $this->pdf->SetFont('dejavusans', '', 14, '', true);
+        $this->Cell(259, 30, 'This certificate is presented to', 0, 0, 'C');
 
-        // Add a page
-        // This method has several options, check the source code documentation for more information.
-        $this->pdf->AddPage();
+        // Set the font.
+        $this->AddFont('BebasNeue-Regular', '', 'BebasNeue-Regular.php');
+        $this->SetFont('BebasNeue-Regular', '', 30);
 
-        // set text shadow effect
-        $this->pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
+        // Line break.
+        $this->Ln(10);
 
-        // Set some content to print
-        $html = <<<EOD
-<h1>Welcome to Mobayl Lejends jok <a href="http://www.tcpdf.org" style="text-decoration:none;background-color:#CC0000;color:black;">&nbsp;<span style="color:black;">TC</span><span style="color:white;">PDF</span>&nbsp;</a>!</h1>
-<i>This is the first example of TCPDF library.</i>
-<p>This text is printed using the <i>writeHTMLCell()</i> method but you can also use: <i>Multicell(), writeHTML(), Write(), Cell() and Text()</i>.</p>
-<p>Please check the source code documentation and other examples for further information.</p>
-<p style="color:#CC0000;">TO IMPROVE AND EXPAND TCPDF I NEED YOUR SUPPORT, PLEASE <a href="http://sourceforge.net/donate/index.php?group_id=128076">MAKE A DONATION!</a></p>
-EOD;
+        // Set page header title.
+        $this->Cell(259, 35, 'Jhun P. Belza', 0, 0, 'C');
 
-        // Print text using writeHTMLCell()
-        $this->pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+        // Line break.
+        $this->Ln(1);
 
-        // ---------------------------------------------------------
+        $this->Cell(259, 35, '____________________________________', 0, 0, 'C');
+    }
 
-        // Close and output PDF document
-        // This method has several options, check the source code documentation for more information.
-        $this->pdf->Output('example_001.pdf', 'I');
+    /**
+     * setCourseName
+     * Set the certificate's course name.
+     */
+    public function setCourseName()
+    {
+        // Set the font.
+        $this->AddFont('MTCORSVA', '', 'MTCORSVA.php');
+        $this->SetFont('MTCORSVA', '', 18);
+
+        // Line break.
+        $this->Ln(12);
+
+        $this->Cell(259, 35, 'for having attended the training entitled', 0, 0, 'C');
+
+        // Set the font.
+        $this->AddFont('BebasNeue-Regular', '', 'BebasNeue-Regular.php');
+        $this->SetFont('BebasNeue-Regular', '', 27);
+
+        // Line break.
+        $this->Ln(13);
+
+        $this->Cell(259, 35, 'Cisco Certified Network Associate Version 4', 0, 0, 'C');
+
+        // Set the font.
+        $this->AddFont('BebasNeue-Regular', '', 'BebasNeue-Regular.php');
+        $this->SetFont('BebasNeue-Regular', '', 18);
+
+        // Line break.
+        $this->Ln(11);
+
+        $this->Cell(259, 35, 'Implementing and Administering Cisco Solutions', 0, 0, 'C');
+    }
+
+    /**
+     * setVenue
+     * Set the training venue.
+     */
+    public function setVenue()
+    {
+        // Set the font.
+        $this->AddFont('MTCORSVA', '', 'MTCORSVA.php');
+        $this->SetFont('MTCORSVA', '', 18);
+
+        // Line break.
+        $this->Ln(11);
+
+        $this->Cell(259, 35, 'Given this 22nd day of February, 2020 at', 0, 0, 'C');
+
+        // Line break.
+        $this->Ln(10);
+
+        $this->Cell(259, 35, 'Unit 2417, 24th Floor Cityland 10 Tower 2, 154 H.V. Dela Costa St., Ayala North, Makati City', 0, 0, 'C');
+    }
+
+    /**
+     * setInstructorAndAdminName
+     * Set the instructor and the admin.
+     */
+    public function setInstructorAndAdminName()
+    {
+        // Set the font.
+        $this->AddFont('BebasNeue-Regular', '', 'BebasNeue-Regular.php');
+        $this->SetFont('BebasNeue-Regular', '', 18);
+
+        // Line break.
+        $this->Ln(26);
+
+        $this->SetLeftMargin(17);
+
+        $this->Cell(90, 30, 'Christoper I. Buenaventura', 0, 0, 'C');
+        $this->Cell(224, 30, 'Angelika Aubrey A. Arbiol', 0, 0, 'C');
+
+        // Line break.
+        $this->Ln(1);
+
+        $this->Cell(90, 30, '____________________________________', 0, 0, 'C');
+        $this->Cell(223, 30, '____________________________________', 0, 0, 'C');
+
+        $this->AddFont('Calibri', '', 'Calibri.php');
+        $this->SetFont('Calibri', '', 12);
+
+        // Line break.
+        $this->Ln(23);
+        
+        // Set the font.
+        $this->Cell(87, 0, 'Instructor', 0, 0, 'C');
+        $this->Cell(232, 0, 'Administrator', 0, 0, 'C');
+
+        // Output the certificate into the browser.
+        $this->Output('I', 'Training-Certificate.pdf');
     }
 }
 
-new Pdf();
+$oPdf = new Pdf();
+$oPdf->initializePage();
+$oPdf->setCourseName();
+$oPdf->setVenue();
+$oPdf->setInstructorAndAdminName();
