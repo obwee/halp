@@ -94,6 +94,19 @@
         </li>
         <li class="treeview">
           <a href="#">
+            <i class="fas fa-file-invoice"></i>
+            <span>&emsp;  Quotations</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="quotationRequest.php"><i class="fas fa-mail-bulk"></i>&emsp;Quotation Requests</a></li>
+            <li><a href="sentQuotations.php"><i class="fas fa-paper-plane"></i>&emsp;Sent Quotations</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
             <i class="fa fa-users-cog"></i>
             <span>&emsp;Enrollment</span>
             <span class="pull-right-container">
@@ -101,11 +114,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="quotationRequest.php"><i class="fas fa-mail-bulk"></i>&emsp;Quotation Requests</a></li>
-            <li><a href="#"><i class="fas fa-check"></i>&emsp;Sent Quotations</a></li>
-            <li><a href="#"><i class="fas fa-check"></i>&emsp;Partially Paid Students</a></li>
-            <li><a href="#"><i class="fas fa-check-double"></i>&emsp; Fully Paid Students</a></li>
-            <li><a href="#"><i class="fas fa-times"></i>&emsp;Cancelled Reservations</a></li>
+            <li><a href="#"><i class="fas fa-check"></i>&emsp;Paid Students</a></li>
+            <li><a href="#"><i class="fas fa-times"></i>&emsp; Unpaid Students</a></li>
+            <li><a href="#"><i class="fas fa-times"></i>&emsp;  Cancelled Reservations</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -117,14 +128,27 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="bookingReport.php"><i class="fas fa-paper-plane"></i>&emsp;Sales Report</a></li>
-            <li><a href="clientReport.php"><i class="fas fa-users"></i>&emsp;Students Report</a></li>
+            <li><a href="bookingReport.php"><i class="fas fa-money-check"></i>&emsp;Sales</a></li>
+            <li><a href="clientReport.php"><i class="fas fa-user-graduate"></i>&emsp;  Students</a></li>
             <li><a href="clientReport.php"><i class="fas fa-users"></i>&emsp;Trainings</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#.php">
+            <i class="fas fa-users"></i> 
+            <span>&emsp;Trainings</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="editCourse.php"><i class="fas fa-users"></i>&emsp;Courses</a></li>
+            <li><a href="schedule.php"><i class="far fa-calendar-alt"></i>&emsp;  Schedule</a></li>
           </ul>
         </li>
         <li>
          <li class="treeview">
-          <a href="#.php">
+          <a href="">
             <i class="fa fa-cog"></i> 
             <span>&emsp;Settings</span>
             <span class="pull-right-container">
@@ -132,17 +156,16 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="viewSuppliers1.php"><i class="fas fa-parachute-box"></i>&emsp;Course & Schedule</a></li>
-            <li><a href="editDestinations.php"><i class="fas fa-map-marked-alt"></i>&emsp;Venue</a></li>
-            <li><a href="editVisaCountry.php"><i class="fas fa-passport"></i>&emsp;  Instructors </a></li>
+            <li><a href="editDestinations.php"><i class="fas fa-map-marked-alt"></i>&emsp; Venue</a></li>
+            <li><a href="editVisaCountry.php"><i class="fas fa-chalkboard-teacher"></i>&emsp;Instructors </a></li>
             <li><a href="AJAX/checkUserPosition.php"><i class="fas fa-user-edit"></i>&emsp;Credentials </a></li>
-            <li><a href="editpaymentStatus.php"><i class="fas fa-hand-holding-usd"></i>&emsp;Payment Mode </a></li>
+            <li><a href="editpaymentStatus.php"><i class="fas fa-hand-holding-usd"></i>&emsp; Payment Mode </a></li>
           </ul>
         </li>
         <li>
           <a href="logout.php" class="logout">
             <i class="fas fa-sign-out-alt"></i>
-            <span>&emsp;Logout</span>
+            <span>&emsp;   Logout</span>
           </a>
         </li>
       </ul>

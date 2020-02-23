@@ -439,24 +439,33 @@
                             <label for="quoteEmail"><span class="fas fa-envelope"></span> E-mail Address</label>
                             <input type="email" class="form-control" id="quoteEmail" name="quoteEmail" placeholder="E-mail Address" maxlength="50">
                         </div>
+
                         <div class="form-group">
-                            <label for="quoteCompanyName"><span class="far fa-building"></span> Company Name (if company sponsored)</label>
+                            <label for="quoteCompanyName"><span class="far fa-building"></span> Company Name</label>
                             <input type="text" class="form-control" id="quoteCompanyName" name="quoteCompanyName" placeholder="Company Name" maxlength="50">
                         </div>
                         <div class="form-group">
-                            <label for="quoteCourse"><span class="fas fa-book"></span> Course</label>
-                            <input type="text" class="form-control" id="quoteCourse" name="quoteCourse" placeholder="Course" autofocus maxlength="50">
+                            
+                            <label for="billToCompany"><input type="checkbox" name="billToCompany"> Bill to Company?</labe>                         
                         </div>
                         <div class="form-group">
-                            <label for="scheduleType"><span class="fas fa-calendar-week"></span> Schedule Type</label>
-                            <input type="select" class="form-control" id="scheduleType" name="scheduleType" placeholder="Schedule Type" autofocus maxlength="50">
+                            <label for="quoteCourse"><span class="fas fa-book"></span> Course</label>
+                            <select class="form-control">
+                                
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="scheduleType"><span class="fas fa-calendar-week"></span> Schedule </label>
+                            <select class="form-control">
+                                
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="quoteAvailableDates"><span class="fas fa-calendar-check"></span> Available Dates</label>
                             <input type="select" class="form-control" id="quoteAvailableDates" name="quoteAvailableDates" placeholder="Available Dates" autofocus maxlength="50">
                         </div>
                         <div class="form-group">
-                            <p class="h6">To see available course and schedule, <a href="">Click here</a></p>
+                            <p class="h6">To see available course and schedule, <a href="courses.php" target="_blank">Click here</a></p>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-success">Submit</button>
