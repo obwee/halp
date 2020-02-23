@@ -81,7 +81,7 @@ class Pdf extends Fpdf
         $this->Ln(10);
 
         // Set page header title.
-        $this->Cell(259, 35, 'Jhun P. Belza', 0, 0, 'C');
+        $this->Cell(259, 35, 'Ximple P. Belza', 0, 0, 'C');
 
         // Line break.
         $this->Ln(1);
@@ -150,11 +150,12 @@ class Pdf extends Fpdf
      */
     public function setInstructorAndAdminName()
     {
+        // Add medal stamp image.
+        $this->Image('C:\xampp\htdocs\Nexus\resource\img\fpdf\medal-stamp.png', 121, 162, 40, 40);
+
         // Set the font.
         $this->AddFont('BebasNeue-Regular', '', 'BebasNeue-Regular.php');
         $this->SetFont('BebasNeue-Regular', '', 18);
-
-        $this->Image('C:\xampp\htdocs\Nexus\resource\img\fpdf\medal-stamp.png', 120, 162, 40, 40);
 
         // Line break.
         $this->Ln(26);
