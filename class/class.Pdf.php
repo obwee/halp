@@ -154,6 +154,8 @@ class Pdf extends Fpdf
         $this->AddFont('BebasNeue-Regular', '', 'BebasNeue-Regular.php');
         $this->SetFont('BebasNeue-Regular', '', 18);
 
+        $this->Image('C:\xampp\htdocs\Nexus\resource\img\fpdf\medal-stamp.png', 120, 162, 40, 40);
+
         // Line break.
         $this->Ln(26);
 
