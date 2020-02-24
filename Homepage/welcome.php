@@ -439,25 +439,21 @@
                             <label for="quoteEmail"><span class="fas fa-envelope"></span> E-mail Address</label>
                             <input type="email" class="form-control" id="quoteEmail" name="quoteEmail" placeholder="E-mail Address" maxlength="50">
                         </div>
-
                         <div class="form-group">
                             <label for="quoteCompanyName"><span class="far fa-building"></span> Company Name</label>
                             <input type="text" class="form-control" id="quoteCompanyName" name="quoteCompanyName" placeholder="Company Name" maxlength="50">
                         </div>
                         <div class="form-group">
-                            
                             <label for="billToCompany"><input type="checkbox" name="billToCompany"> Bill to Company?</labe>                         
                         </div>
                         <div class="form-group">
                             <label for="quoteCourse"><span class="fas fa-book"></span> Course</label>
                             <select class="form-control">
-                                
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="scheduleType"><span class="fas fa-calendar-week"></span> Schedule </label>
                             <select class="form-control">
-                                
                             </select>
                         </div>
                         <div class="form-group">
