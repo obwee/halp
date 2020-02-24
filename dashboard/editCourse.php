@@ -168,11 +168,11 @@ require_once "Template/header.php";
                     <form>
                         <div class="form-group">
                             <label for="courseCode">Course Code</label>
-                            <input type="test" class="form-control" id="courseCode" name="courseCode" placeholder="Course Code" autofocus maxlength="15">
+                            <input type="text" class="form-control" id="courseCode" name="courseCode" placeholder="Course Code" autofocus maxlength="15">
                         </div>
                         <div class="form-group">
                             <label for="courseTitle"><span class="fas fa-users"></span> Course Title</label>
-                            <input type="test" class="form-control" id="courseCode" name="courseCode" placeholder="Course Title" autofocus maxlength="50">
+                            <input type="text" class="form-control" id="courseCode" name="courseCode" placeholder="Course Title" autofocus maxlength="50">
                         </div>
                     </form>
                 </div>
