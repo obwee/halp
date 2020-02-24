@@ -155,8 +155,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="editDestinations.php"><i class="fas fa-map-marked-alt"></i>&emsp; Venue</a></li>
-            <li><a href="editVisaCountry.php"><i class="fas fa-chalkboard-teacher"></i>&emsp;Instructors </a></li>
+            <li><a href="venue.php"><i class="fas fa-map-marked-alt"></i>&emsp; Venue</a></li>
+            <li><a href="instructors.php"><i class="fas fa-chalkboard-teacher"></i>&emsp;Instructors </a></li>
             <li><a href="AJAX/checkUserPosition.php"><i class="fas fa-user-edit"></i>&emsp;Credentials </a></li>
             <li><a href="editpaymentStatus.php"><i class="fas fa-hand-holding-usd"></i>&emsp; Payment Mode </a></li>
           </ul>
