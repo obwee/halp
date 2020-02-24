@@ -114,8 +114,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#"><i class="fas fa-check"></i>&emsp;Paid Students</a></li>
-            <li><a href="#"><i class="fas fa-times"></i>&emsp; Unpaid Students</a></li>
+            <li><a href="paidStudents.php"><i class="fas fa-check"></i>&emsp;Payment</a></li>
             <li><a href="#"><i class="fas fa-times"></i>&emsp;  Cancelled Reservations</a></li>
           </ul>
         </li>
