@@ -2,82 +2,91 @@
 require_once "Template/header.php";
 ?>
 
+<link rel="stylesheet" href="css/dashboard.chart.css">
+
 <div class="container">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <p class="h2">Dashboard</p>
     </div>
 
-    <!--   Analytics -->
-    <h4>Analytics</h4><br>
-    <div class='row'>
+    <div class="container row justify-content-center">
+        <div class="col-sm-2 pl-4">
+            <!--   Analytics -->
+            <p class="h4 ml-n2">Analytics</p><br>
 
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <a href="#">
-                <div class="info-box">
-                    <span class="info-box-icon bg-aqua"><i class="fas fa-mail-bulk"></i></span>
-                    <div class="info-box-content" style="text-align:center;">
-                        <span class="info-box-text">No. of Quotation<br>Requests</span>
-                        <span class="info-box-number emailed">
-                            <!-- <small>%</small> --></span>
+            <div class="row">
+                <a href="#">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-aqua"><i class="fas fa-mail-bulk"></i></span>
+                        <div class="info-box-content" style="text-align:center;">
+                            <span class="info-box-text">No. of Quotation<br>Requests</span>
+                            <span class="info-box-number emailed">
+                                <!-- <small>%</small> --></span>
+                        </div>
+                        <!-- /.info-box-content -->
                     </div>
-                    <!-- /.info-box-content -->
-                </div>
-            </a>
-            <!-- /.info-box -->
+                </a>
+            </div>
+
+            <div class="row">
+                <a href="#">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-yellow"><i class="fas fa-check"></i></span>
+                        <div class="info-box-content" style="text-align:center;">
+                            <span class="info-box-text">No. of Partially<br>Paid Students</span>
+                            <span class="info-box-number approved">
+                                <!-- <small>%</small> --></span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                </a>
+            </div>
+
+            <div class="row">
+                <a href="#">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-green"><i class="fas fa-check-double"></i></span>
+                        <div class="info-box-content" style="text-align:center;">
+                            <span class="info-box-text">No. of Fully Paid<br>Students</span>
+                            <span class="info-box-number finished">
+                                <!-- <small>%</small> --></span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                </a>
+            </div>
+
+            <div class="row">
+                <a href="#">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-red"><i class="fas fa-times"></i></span>
+                        <div class="info-box-content" style="text-align:center;">
+                            <span class="info-box-text">No. of Unpaid<br>Students</span>
+                            <span class="info-box-number cancelled">
+                                <!-- <small>%</small> --></span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                </a>
+            </div>
         </div>
 
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <a href="#">
-                <div class="info-box">
-                    <span class="info-box-icon bg-yellow"><i class="fas fa-check"></i></span>
-                    <div class="info-box-content" style="text-align:center;">
-                        <span class="info-box-text">No. of Partially<br>Paid Students</span>
-                        <span class="info-box-number approved">
-                            <!-- <small>%</small> --></span>
-                    </div>
-                    <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </a>
-        </div>
+        <div class="col-sm-1"></div>
 
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <a href="#">
-                <div class="info-box">
-                    <span class="info-box-icon bg-green"><i class="fas fa-check-double"></i></span>
-                    <div class="info-box-content" style="text-align:center;">
-                        <span class="info-box-text">No. of Fully Paid<br>Students</span>
-                        <span class="info-box-number finished">
-                            <!-- <small>%</small> --></span>
-                    </div>
-                    <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </a>
-        </div>
-
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <a href="#">
-                <div class="info-box">
-                    <span class="info-box-icon bg-red"><i class="fas fa-times"></i></span>
-                    <div class="info-box-content" style="text-align:center;">
-                        <span class="info-box-text">No. of Unpaid<br>Students</span>
-                        <span class="info-box-number cancelled">
-                            <!-- <small>%</small> --></span>
-                    </div>
-                    <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </a>
+        <div class="col-sm-9">
+            <div class="container mt-2">
+                <div id="chartData"></div>
+            </div>
         </div>
 
     </div>
 
+
     <!--   Table -->
     <br><br>
     <div class="container">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 mb-3 border-bottom">
             <p class="h4">Upcoming Trainings (Reminder)</p>
         </div>
         <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
@@ -396,7 +405,8 @@ require_once "Template/header.php";
                             <label for="mop"><span class="fas fa-globe-asia"></span> Mode of Payment</label>
                             <select class="form-control mop" id="mop" name="mop" required>
                                 <option value="" selected disabled hidden>Select MOP </option>
-                                   <!-- <?php //echo fetchMOP($connection); ?> -->
+                                <!-- <?php //echo fetchMOP($connection); 
+                                        ?> -->
                             </select>
                         </div>
                         <div id="creditCardDiv" style='display:none;'>
@@ -479,21 +489,32 @@ require_once "Template/header.php";
 
 </div>
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        
-    <script type="text/javascript" src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    <script type="text/javascript">
-        $(document).ready( function () {
-            $('#tbl_upcoming').DataTable();
-            $('#tbl_ongoing').DataTable();
-        } );    
-    </script>
+<script type="text/javascript" src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#tbl_upcoming').DataTable();
+        $('#tbl_ongoing').DataTable();
+    });
+</script>
+
+
+<!-- Amcharts Resources -->
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="//www.amcharts.com/lib/4/themes/animated.js"></script>
+<script src="//www.amcharts.com/lib/4/themes/kelly.js"></script>
+<script src="//www.amcharts.com/lib/4/themes/material.js"></script>
+
+<!-- Chart code -->
+<script src="js/dashboard.chart.js"></script>
 
 <?php
 require_once "Template/footer.php";
