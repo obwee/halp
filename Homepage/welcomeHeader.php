@@ -117,8 +117,12 @@
                         <input type="email" class="form-control" id="quoteEmail" name="quoteEmail" placeholder="E-mail Address" maxlength="50">
                     </div>
                     <div class="form-group">
-                        <label for="quoteCompanyName"><span class="far fa-building"></span> Company Name (if company sponsored)</label>
+                        <label for="quoteCompanyName"><span class="far fa-building"></span> Company Name</label>
                         <input type="text" class="form-control" id="quoteCompanyName" name="quoteCompanyName" placeholder="Company Name" maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="billToCompany">Bill To Company?</label>
+                        <input type="checkbox" name="billToCompany">
                     </div>
                     <div class="form-group">
                         <label for="quoteCourse"><span class="fas fa-book"></span> Course</label>
