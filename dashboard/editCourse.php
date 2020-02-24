@@ -32,87 +32,98 @@ require_once "Template/header.php";
 					<tr>
 						<th style="white-space:nowrap;">Course Code</th>
                         <th style="white-space:nowrap;">Official Course Title</th>
+                        <th style="white-space:nowrap;">Details</th>
 						<th style="white-space:nowrap;">Actions</th>
 					</tr>
 				<tbody>
                     <tr>
-                        <td>200-301</td>
-                        <td>Cisco Certified Network Associate V4: Implementing and Administering Cisco Solutions</td>
+                        <td>CCNAv4</td>
+                        <td>Cisco Certified Network Associate v4</td>
+                        <td>Implementing and Administering Cisco Solutions</td>
                         <td>
-                            <button class="btn btn-info" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
-                            <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
+                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                         </td>
                     </tr>
 					<tr>
-                        <td>350-401</td>
-                        <td>Cisco Certified Network Professional: Implementing and Operating Cisco Enterprise Network Core Technologies</td>
+                        <td>CCNP ENCORE</td>
+                        <td>Cisco Certified Network Professional</td>
+                        <td>Implementing and Operating Cisco Enterprise Network Core Technologies</td>
                         <td>
-                            <button class="btn btn-info" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
-                            <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
+                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                         </td>
                     </tr>
                     <tr>
-                        <td>300-410</td>
-                        <td>Cisco Certified Network Professional: Implementing Cisco Enterprise Advanced Routing and Services</td>
+                        <td>CCNP</td>
+                        <td>Cisco Certified Network Professional</td>
+                        <td>Implementing Cisco Enterprise Advanced Routing and Services</td>
                         <td>
-                            <button class="btn btn-info" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
-                            <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
+                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                         </td>
                     </tr>
                     <tr>
                         <td>MCSA2012</td>
                         <td>Microsoft Certified Solutions Associate in Windows Server 2012</td>
+                        <td>20410D, 20411D, 20412D</td>
                         <td>
-                            <button class="btn btn-info" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
-                            <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
+                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                         </td>
                     </tr>
                     <tr>
                         <td>MCSA2016</td>
                         <td>Microsoft Certified Solutions Associate in Windows Server 2016</td>
+                        <td>20740, 20741, 20742</td>
                         <td>
-                            <button class="btn btn-info" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
-                            <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
+                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                         </td>
                     </tr>
                     <tr>
                         <td>AZ-1003T00-A</td>
                         <td>Microsoft Certified Azure Administrator</td>
+                        <td></td>
                         <td>
-                            <button class="btn btn-info" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
-                            <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
+                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                         </td>
                     </tr>
                     <tr>
                         <td>SAA-C02</td>
                         <td>AWS Certified Solutions Architect - Associate</td>
+                        <td></td>
                         <td>
-                            <button class="btn btn-info" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
-                            <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
+                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                         </td>
                     </tr>
                     <tr>
                         <td>CWS-215</td>
                         <td>VMware vSPhere 6.7 ICM</td>
+                        <td>Install, Configure and Manage</td>
                         <td>
-                            <button class="btn btn-info" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
-                            <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
+                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                         </td>
                     </tr>
                     <tr>
                         <td>EH</td>
                         <td>Ethical Hacking with Penetration Testing</td>
+                        <td></td>
                         <td>
-                            <button class="btn btn-info" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
-                            <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
+                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                         </td>
                     </tr>
                     <tr>
                         <td>CysA+</td>
                         <td>Certified Cybersecurity Analyst+</td>
+                        <td></td>
                         <td>
-                            <button class="btn btn-info" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
-                            <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
+                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                         </td>
                     </tr>
 			</table>

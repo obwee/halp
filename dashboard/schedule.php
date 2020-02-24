@@ -37,6 +37,7 @@ require_once "Template/header.php";
                         <th style="white-space:nowrap;">Instructor</th>
 						<th style="white-space:nowrap;">Actions</th>
 					</tr>
+                </thead>
 				<tbody>
                     <tr>
                         <td>Cisco Certified Network Associate V4: Implementing and Administering Cisco Solutions</td>
@@ -45,32 +46,11 @@ require_once "Template/header.php";
                         <td>Manila</td>
                         <td>Christopher Buenaventura</td>
                         <td>
-                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
-                            <button class="btn btn-danger  btn-sm"><i class="fas fa-trash-alt"></i></button>
+                            <button type="button" id="editSchedule" data-toggle="modal" data-target="#editScheduleModal" class="btn btn-info btn-sm"><i class="fas fa-pen"></i></button>
+                            <button type="submit" id="deleteSchedule" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
-					<tr>
-                        <td>Ethical Hacking with Penetration Testing</td>
-                        <td>Mar 29, 2020</td>
-                        <td>Mar 30, 2020</td>
-                        <td>Manila</td>
-                        <td>Richard Reblando</td>
-                        <td>
-                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
-                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Cisco Certified Network Associate V4: Implementing and Administering Cisco Solutions</td>
-                        <td>May 1, 2020</td>
-                        <td>May 5, 2020</td>
-                        <td>Makati</td>
-                        <td>Christopher Buenaventura</td>
-                        <td>
-                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editCourseModal"><i class="fas fa-pen"></i></button>
-                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                    </tr>
+                </tbody>    
 			</table>
 		</div>
 	</div>
@@ -85,12 +65,12 @@ require_once "Template/header.php";
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="courseTitle"><span class="fas fa-users"></span> Select Course</label>
+                            <label for="courseTitle"><span class="fas fa-book"></span> Select Course</label>
                             <select class="form-control">
                                 
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-inline" style="margin-left: 15px;">
                             <div class="col-xs-4">
                                 <label for="date1"><span class="fas fa-angle-double-left"></span>Start Date</label>
                                 <input type="date" class="form-control" id="date1" name="date1" placeholder="From" required style="margin-left:16px;width:185px;" max="2999-12-31">
@@ -100,6 +80,7 @@ require_once "Template/header.php";
                                 <input type="date" class="form-control" id="date2" name="date2" placeholder="To" required style="margin-left:16px;width:185px;" max="2999-12-31">
                             </div>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                         </div>
+                        <br>
                         <div class="form-group">
                             <label for="courseVenue"><span class="fas fa-map"></span> Select Venue</label>
                             <select class="form-control">
@@ -108,12 +89,20 @@ require_once "Template/header.php";
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="courseInstructor"><span class="fas fa-users"></span> Instructor</label>
+                            <label for="courseVenue"><span class="fas fa-users"></span> No. of Students</label>
+                            <input type="text" name="noOfStudents" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="courseInstructor"><span class="fas fa-chalkboard-teacher"></span> Instructor</label>
                             <select class="form-control">
-                                
+                                <option>Christopher Buenaventura</option>
+                                <option>Richard Reblando</option>
+                                <option>Judith Salvidar</option>
+                                <option>Mark Sampayan</option>
                             </select>
                         </div>
-
+                    </form>    
+                </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Add</button>
                     <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
@@ -122,25 +111,53 @@ require_once "Template/header.php";
         </div>
     </div>
 
-    <div class="modal fade" id="editCourseModal" role="dialog">
-        <div class="modal-dialog modal-lg vertical-align-center editCourseModal">
+    <div class="modal fade" id="editScheduleModal" role="dialog">
+        <div class="modal-dialog modal-lg vertical-align-center editScheduleModal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 align="center"><span class="glyphicon glyphicon-plane"></span>Edit Course</h5>
+                    <h5 align="center"><span class="fas fa-calendar"></span> Edit Schedule</h5>
                 </div>
                 
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="courseCode">Course Code</label>
-                            <input type="test" class="form-control" id="courseCode" name="courseCode" placeholder="Course Code" autofocus maxlength="15">
+                            <label for="courseTitle"><span class="fas fa-book"></span> Select Course</label>
+                            <select class="form-control">
+                                
+                            </select>
+                        </div>
+                        <div class="form-inline" style="margin-left: 15px;">
+                            <div class="col-xs-4">
+                                <label for="date1"><span class="fas fa-angle-double-left"></span>Start Date</label>
+                                <input type="date" class="form-control" id="date1" name="date1" placeholder="From" required style="margin-left:16px;width:185px;" max="2999-12-31">
+                            </div>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                            <div class="col-xs-4">
+                                <label for="date2"><span class="fas fa-angle-double-right"></span>End Date</label>
+                                <input type="date" class="form-control" id="date2" name="date2" placeholder="To" required style="margin-left:16px;width:185px;" max="2999-12-31">
+                            </div>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="courseVenue"><span class="fas fa-map"></span> Select Venue</label>
+                            <select class="form-control">
+                                <option>Makati</option>
+                                <option>Manila</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="courseTitle"><span class="fas fa-users"></span> Course Title</label>
-                            <input type="test" class="form-control" id="courseCode" name="courseCode" placeholder="Course Title" autofocus maxlength="50">
+                            <label for="courseVenue"><span class="fas fa-users"></span> No. of Students</label>
+                            <input type="text" name="noOfStudents" class="form-control">
                         </div>
-                    </form>
-                </div>
+                        <div class="form-group">
+                            <label for="courseInstructor"><span class="fas fa-chalkboard-teacher"></span> Instructor</label>
+                            <select class="form-control">
+                                <option>Christopher Buenaventura</option>
+                                <option>Richard Reblando</option>
+                                <option>Judith Salvidar</option>
+                                <option>Mark Sampayan</option>
+                            </select>
+                        </div>
+                    </form>    
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Update</button>
                     <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
@@ -148,6 +165,7 @@ require_once "Template/header.php";
             </div>
         </div>
     </div>
+
 
     
 
