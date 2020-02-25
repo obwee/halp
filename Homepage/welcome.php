@@ -441,24 +441,33 @@
                         </div>
                         <div class="form-group">
                             <label for="quoteCompanyName"><span class="far fa-building"></span> Company Name</label>
-                            <input type="text" class="form-control" id="quoteCompanyName" name="quoteCompanyName" placeholder="Company Name" maxlength="50">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Company Name" maxlength="50" aria-describedby="basic-addon2">
+                                <span class="input-group-addon" id="basic-addon2">
+                                    <input type="checkbox"> Bill to Company?</span>
+                            </div>
+                        </div>
+                        <div class="courseAndScheduleDiv">
+                            <div class="form-group">
+                                <label for="quoteCourse"><span class="fas fa-book"></span> Course</label>
+                                <select class="form-control quoteCourse" name="quoteCourse[]">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="schedules"><span class="fas fa-calendar-week"></span> Schedule</label>
+                                <select class="form-control schedules" name="quouteSchedule[]" disabled>
+                                </select>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="billToCompany"><input type="checkbox" name="billToCompany"> Bill to Company?</labe>                         
-                        </div>
-                        <div class="form-group">
-                            <label for="quoteCourse"><span class="fas fa-book"></span> Course</label>
-                            <select class="form-control">
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="scheduleType"><span class="fas fa-calendar-week"></span> Schedule </label>
-                            <select class="form-control">
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="quoteAvailableDates"><span class="fas fa-calendar-check"></span> Available Dates</label>
-                            <input type="select" class="form-control" id="quoteAvailableDates" name="quoteAvailableDates" placeholder="Available Dates" autofocus maxlength="50">
+                            <div class="row">
+                                <div class="col-sm-12 text-center">
+                                    <button type="button" class="btn btn-primary addCourseBtn">Add New Course</button>
+                                </div>
+                                <div class="col-sm-6 text-left" style="display: none;">
+                                    <button type="button" class="btn btn-warning deleteCourseBtn">&nbsp;&nbsp;&nbsp;Delete Course&nbsp;&nbsp;&nbsp;</button>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <p class="h6">To see available course and schedule, <a href="courses.php" target="_blank">Click here</a></p>

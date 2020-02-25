@@ -86,7 +86,7 @@ class StudentModel
     }
 
     /**
-     * validateCourseAndSchedule
+     * validateCourse
      * Checks if course and schedule selected from the front-end is valid.
      * @param array $aDetails
      * @return int
@@ -95,12 +95,8 @@ class StudentModel
     {
         // Query the tbl_courses for a username equal to $username.
         $statement = $this->oConnection->prepare("
-            SELECT *
-            FROM       tbl_courses   tc
-            INNER JOIN tbl_schedules ts ON tc.id = ts.courseId
-            WHERE tc.courseName = :quoteCourse
-            AND   ts.fromDate = :fromDate
-            AND   ts.toDate = :toDate
+            SELECT * FROM tbl_courses
+            WHERE courseName = :quoteCourse
         ");
 
         // Execute the above statement.
