@@ -1,151 +1,5 @@
 let Homepage = (() => {
 
-    // Declare an object with properties related to inputs that need to be validated.
-    let registerInputRules = [
-        {
-            name: 'First name',
-            element: '#registrationFname',
-            length: $.trim($('#registrationFname').val()).length,
-            minLength: 2,
-            maxLength: 30,
-            pattern: /^[a-zA-Z\s\.]+$/g
-        },
-        {
-            name: 'Last name',
-            element: '#registrationLname',
-            length: $.trim($('#registrationLname').val()).length,
-            minLength: 2,
-            maxLength: 30,
-            pattern: /^[a-zA-Z\s\.]+$/g
-        },
-        {
-            name: 'Contact number',
-            element: '#registrationContactNum',
-            length: $.trim($('#registrationContactNum').val()).length,
-            minLength: 7,
-            maxLength: 12,
-            pattern: /^[0-9]+$/g
-        },
-        {
-            name: 'Email address',
-            element: '#registrationEmail',
-            length: $.trim($('#registrationEmail').val()).length,
-            minLength: 4,
-            maxLength: 50,
-            pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
-        },
-        {
-            name: 'Username',
-            element: '#registrationUsername',
-            length: $.trim($('#registrationUsername').val()).length,
-            minLength: 4,
-            maxLength: 15,
-            pattern: /^(?![0-9_])\w+$/g
-        },
-        {
-            name: 'Password',
-            element: '#registrationPassword',
-            length: $.trim($('#registrationPassword').val()).length,
-            minLength: 4,
-            maxLength: 30
-        },
-        {
-            name: 'Password',
-            element: '#registrationConfirmPassword',
-            length: $.trim($('#registrationConfirmPassword').val()).length,
-            minLength: 4,
-            maxLength: 30
-        },
-    ];
-
-    // Declare an object with properties related to inputs that need to be validated.
-    let emailInputRules = [
-        {
-            name: 'First name',
-            element: '#emailFname',
-            length: $.trim($('#emailFname').val()).length,
-            minLength: 2,
-            maxLength: 30,
-            pattern: /^[a-zA-Z\s\.]+$/g
-        },
-        {
-            name: 'Last name',
-            element: '#emailLname',
-            length: $.trim($('#emailFname').val()).length,
-            minLength: 2,
-            maxLength: 30,
-            pattern: /^[a-zA-Z\s\.]+$/g
-        },
-        {
-            name: 'Email address',
-            element: '#emailAddress',
-            length: $.trim($('#emailAddress').val()).length,
-            minLength: 4,
-            maxLength: 50,
-            pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
-        },
-        {
-            name: 'Email title',
-            element: '#emailTitle',
-            length: $.trim($('#emailTitle').val()).length,
-            minLength: 4,
-            maxLength: 30,
-            pattern: /.+/g
-        },
-    ];
-
-    // Declare an object with properties related to inputs that need to be validated.
-    let quoteInputRules = [
-        {
-            name: 'First name',
-            element: '#quoteFname',
-            length: $.trim($('#quoteFname').val()).length,
-            minLength: 2,
-            maxLength: 30,
-            pattern: /^[a-zA-Z\s\.]+$/g
-        },
-        {
-            name: 'Last name',
-            element: '#quoteLname',
-            length: $.trim($('#quoteLname').val()).length,
-            minLength: 2,
-            maxLength: 30,
-            pattern: /^[a-zA-Z\s\.]+$/g
-        },
-        {
-            name: 'Contact number',
-            element: '#quoteContactNum',
-            length: $.trim($('#quoteContactNum').val()).length,
-            minLength: 7,
-            maxLength: 12,
-            pattern: /^[0-9]+$/g
-        },
-        {
-            name: 'Email address',
-            element: '#quoteEmail',
-            length: $.trim($('#quoteEmail').val()).length,
-            minLength: 4,
-            maxLength: 50,
-            pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
-        }
-    ];
-
-    // Create an object with key names of forms and its corresponding validation and request action as its value.
-    let aForms = {
-        '#registrationForm': {
-            'validationMethod': validateRegisterInputs(),
-            'requestAction': 'registerStudent'
-        },
-        '#quotationForm': {
-            'validationMethod': validateQuoteInputs(),
-            'requestAction': 'requestQuotation'
-        },
-        '#emailForm': {
-            'validationMethod': validateEmailUsInputs(),
-            'requestAction': 'sendEmail'
-        }
-    }
-
     let aCoursesAndSchedules = [];
 
     let aFilteredCoursesAndSchedules = [];
@@ -216,9 +70,15 @@ let Homepage = (() => {
 
         // Reset inputs before opening any modal.
         $(document).on('click', 'a[data-toggle="modal"]', function () {
+            $('.courseAndScheduleDiv:not(:first)').remove();
             let modalId = $(this).attr('data-target');
-            resetInputBorders();
-            $(modalId).find('form')[0].reset();
+            let formName = '#' + $(modalId).find('form').attr('id') + '';
+            cloneDivElements(aCoursesAndSchedules.length);
+            resetInputBorders(formName);
+            $(formName)[0].reset();
+            $('.error-msg').css('display', 'none').html('');
+            $('.addCourseBtn').parent().attr('class', 'col-sm-12 text-center');
+            $('.deleteCourseBtn').parent().css('display', 'none');
         });
 
         // Allow only alphabetical characters and a period on first, middle, and last name via RegExp.
@@ -257,6 +117,22 @@ let Homepage = (() => {
         $(document).on('submit', 'form', function (event) {
             event.preventDefault();
 
+            // Create an object with key names of forms and its corresponding validation and request action as its value.
+            let aForms = {
+                '#registrationForm': {
+                    'validationMethod': validateRegisterInputs(),
+                    'requestAction': 'registerStudent'
+                },
+                '#quotationForm': {
+                    'validationMethod': validateQuoteInputs(),
+                    'requestAction': 'requestQuotation'
+                },
+                '#emailForm': {
+                    'validationMethod': validateEmailUsInputs(),
+                    'requestAction': 'sendEmail'
+                }
+            }
+
             // Get the form name being submitted.
             let formName = '#' + $(this).attr('id') + '';
 
@@ -275,6 +151,8 @@ let Homepage = (() => {
             if (validateInputs.result === true) {
                 // Extract form data.
                 let formData = $(formName).serializeArray();
+                console.log(formData);
+                return;
 
                 // Execute AJAX request.
                 $.ajax({
@@ -403,6 +281,64 @@ let Homepage = (() => {
     // This method validates the inputs of the user before submission for registration.
     function validateRegisterInputs() {
 
+        // Declare an object with properties related to inputs that need to be validated.
+        let registerInputRules = [
+            {
+                name: 'First name',
+                element: '#registrationFname',
+                length: $.trim($('#registrationFname').val()).length,
+                minLength: 2,
+                maxLength: 30,
+                pattern: /^[a-zA-Z\s\.]+$/g
+            },
+            {
+                name: 'Last name',
+                element: '#registrationLname',
+                length: $.trim($('#registrationLname').val()).length,
+                minLength: 2,
+                maxLength: 30,
+                pattern: /^[a-zA-Z\s\.]+$/g
+            },
+            {
+                name: 'Contact number',
+                element: '#registrationContactNum',
+                length: $.trim($('#registrationContactNum').val()).length,
+                minLength: 7,
+                maxLength: 12,
+                pattern: /^[0-9]+$/g
+            },
+            {
+                name: 'Email address',
+                element: '#registrationEmail',
+                length: $.trim($('#registrationEmail').val()).length,
+                minLength: 4,
+                maxLength: 50,
+                pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
+            },
+            {
+                name: 'Username',
+                element: '#registrationUsername',
+                length: $.trim($('#registrationUsername').val()).length,
+                minLength: 4,
+                maxLength: 15,
+                pattern: /^(?![0-9_])\w+$/g
+            },
+            {
+                name: 'Password',
+                element: '#registrationPassword',
+                length: $.trim($('#registrationPassword').val()).length,
+                minLength: 4,
+                maxLength: 30
+            },
+            {
+                name: 'Password',
+                element: '#registrationConfirmPassword',
+                length: $.trim($('#registrationConfirmPassword').val()).length,
+                minLength: 4,
+                maxLength: 30
+            },
+        ];
+
         // Declare initially the validation result to be returned by the function.
         let validationResult = {
             result: true
@@ -479,6 +415,42 @@ let Homepage = (() => {
     // This method validates the inputs of the user before submission for quotation.
     function validateQuoteInputs() {
 
+        // Declare an object with properties related to inputs that need to be validated.
+        let quoteInputRules = [
+            {
+                name: 'First name',
+                element: '#quoteFname',
+                length: $.trim($('#quoteFname').val()).length,
+                minLength: 2,
+                maxLength: 30,
+                pattern: /^[a-zA-Z\s\.]+$/g
+            },
+            {
+                name: 'Last name',
+                element: '#quoteLname',
+                length: $.trim($('#quoteLname').val()).length,
+                minLength: 2,
+                maxLength: 30,
+                pattern: /^[a-zA-Z\s\.]+$/g
+            },
+            {
+                name: 'Contact number',
+                element: '#quoteContactNum',
+                length: $.trim($('#quoteContactNum').val()).length,
+                minLength: 7,
+                maxLength: 12,
+                pattern: /^[0-9]+$/g
+            },
+            {
+                name: 'Email address',
+                element: '#quoteEmail',
+                length: $.trim($('#quoteEmail').val()).length,
+                minLength: 4,
+                maxLength: 50,
+                pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
+            }
+        ];
+
         // Declare initially the validation result to be returned by the function.
         let validationResult = {
             result: true
@@ -511,6 +483,7 @@ let Homepage = (() => {
                 },
             );
         }
+        console.log(quoteInputRules)
 
         // Loop thru each quoteInputRules and if there are rules violated, return false and the error message.
         $.each(quoteInputRules, function (key, inputRule) {
@@ -545,6 +518,42 @@ let Homepage = (() => {
 
     // This method validates the inputs of the user before submission for emailing.
     function validateEmailUsInputs() {
+
+        // Declare an object with properties related to inputs that need to be validated.
+        let emailInputRules = [
+            {
+                name: 'First name',
+                element: '#emailFname',
+                length: $.trim($('#emailFname').val()).length,
+                minLength: 2,
+                maxLength: 30,
+                pattern: /^[a-zA-Z\s\.]+$/g
+            },
+            {
+                name: 'Last name',
+                element: '#emailLname',
+                length: $.trim($('#emailFname').val()).length,
+                minLength: 2,
+                maxLength: 30,
+                pattern: /^[a-zA-Z\s\.]+$/g
+            },
+            {
+                name: 'Email address',
+                element: '#emailAddress',
+                length: $.trim($('#emailAddress').val()).length,
+                minLength: 4,
+                maxLength: 50,
+                pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
+            },
+            {
+                name: 'Email title',
+                element: '#emailTitle',
+                length: $.trim($('#emailTitle').val()).length,
+                minLength: 4,
+                maxLength: 30,
+                pattern: /.+/g
+            },
+        ];
 
         // Declare initially the validation result to be returned by the function.
         let validationResult = {
