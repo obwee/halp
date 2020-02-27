@@ -447,15 +447,16 @@
                                     <input type="checkbox"> Bill to Company?</span>
                             </div>
                         </div>
-                        <div class="courseAndScheduleDiv">
+                        <div class="courseAndScheduleDiv" style="display: none;">
                             <div class="form-group">
                                 <label for="quoteCourse"><span class="fas fa-book"></span> Course</label>
                                 <select class="form-control quoteCourse" name="quoteCourse[]">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="schedules"><span class="fas fa-calendar-week"></span> Schedule</label>
-                                <select class="form-control schedules" name="quouteSchedule[]" disabled>
+                                <label for="quoteSchedule"><span class="fas fa-calendar-week"></span> Schedule</label>
+                                <select class="form-control quoteSchedule" name="quoteSchedule[]" disabled>
+                                    <option value="" selected disabled hidden>Select Course First</option>
                                 </select>
                             </div>
                         </div>
