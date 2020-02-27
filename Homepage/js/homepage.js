@@ -145,14 +145,14 @@ let Homepage = (() => {
             'requestAction': 'sendEmail'
         }
     }
-    
-    let oCoursesAndSchedules = {};
-    // let oCourseScheduleDiv = {};
+
+    let aCoursesAndSchedules = [];
+
+    let aFilteredCoursesAndSchedules = [];
 
     function init() {
-        // oCourseScheduleDiv = $('div.courseAndScheduleDiv').clone();
-        prepareDomEvents();
         fetchData();
+        prepareDomEvents();
     }
 
     function prepareDomEvents() {
@@ -161,21 +161,28 @@ let Homepage = (() => {
             populateCourseSchedule($(this).val());
         });
 
-        $(document).on('click', '.addCourseBtn', function() {
-            if ($('div.courseAndScheduleDiv').filter(':visible').filter(':last').find('select.quoteCourse').val() === null) {
-                Swal.fire({
+        $(document).on('click', '.addCourseBtn', function () {
+            let oCourseDiv = $('.courseAndScheduleDiv').filter(':visible').last();
+
+            if (oCourseDiv.find('select.quoteCourse').val() === null) {
+                return Swal.fire({
                     title: 'Error.',
                     text: 'Please select a course first.',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
-                return;
             }
 
-            $('div.courseAndScheduleDiv').filter(':visible').filter(':last').find('select.quoteCourse').attr('disabled', true)
-            $('div.courseAndScheduleDiv').filter(':visible').next().css('display', 'block');
+            aFilteredCoursesAndSchedules = aFilteredCoursesAndSchedules.filter(function (aCourse) {
+                return aCourse.courseId != oCourseDiv.find('select.quoteCourse').val();
+            });
 
-            if ($('div.courseAndScheduleDiv').filter(':hidden').length === 0) {
+            oCourseDiv.find('.quoteCourse').attr('disabled', true);
+            oCourseDiv.find('.quoteSchedule').attr('disabled', true);
+
+            populateCourseDropdown(aFilteredCoursesAndSchedules);
+
+            if ($('.courseAndScheduleDiv').filter(':hidden').length === 0) {
                 $('.addCourseBtn').parent().css('display', 'none');
                 $('.deleteCourseBtn').parent().attr('class', 'col-sm-12 text-center');
             } else {
@@ -184,12 +191,21 @@ let Homepage = (() => {
             }
         });
 
-        $(document).on('click', '.deleteCourseBtn', function() {
-            $('div.courseAndScheduleDiv').filter(':visible').last().css('display', 'none');
+        $(document).on('click', '.deleteCourseBtn', function () {
+            let oCourseAndScheduleDiv = $('.courseAndScheduleDiv').filter(':visible').last();
+            oCourseAndScheduleDiv.css('display', 'none');
+            oCourseAndScheduleDiv.prev().find('.quoteSchedule').attr('disabled', false);
+            oCourseAndScheduleDiv.prev().find('.quoteCourse').attr('disabled', false);
 
-            $('div.courseAndScheduleDiv').filter(':visible').filter(':last').find('select.quoteCourse').attr('disabled', false)
+            let oCourseDiv = $('.courseAndScheduleDiv').filter(':visible').find('.quoteCourse');
 
-            if ($('div.courseAndScheduleDiv').filter(':visible').length < 2) {
+            aFilteredCoursesAndSchedules.push(aCoursesAndSchedules.filter(function (aCourse) {
+                return aCourse.courseId == oCourseDiv.last().val();
+            })[0]);
+
+            populateCourseSchedule(oCourseDiv.last().val());
+
+            if (oCourseDiv.parent().parent().length === 1) {
                 $('.addCourseBtn').parent().attr('class', 'col-sm-12 text-center');
                 $('.deleteCourseBtn').parent().css('display', 'none');
             } else {
@@ -333,41 +349,55 @@ let Homepage = (() => {
             type: 'GET',
             dataType: 'json',
             success: function (response) {
-                oCoursesAndSchedules = response;
-                populateCourseDropdown(oCoursesAndSchedules);
-                cloneDivElements(oCoursesAndSchedules.length);
+                aCoursesAndSchedules = response;
+                aFilteredCoursesAndSchedules = aCoursesAndSchedules;
+                cloneDivElements(aCoursesAndSchedules.length);
+                populateCourseDropdown(aFilteredCoursesAndSchedules);
             }
         });
     }
 
     function cloneDivElements(iCount) {
         for (let i = 1; i < iCount; i++) {
-            let oCourseScheduleDiv = $('div.courseAndScheduleDiv').filter(':last').clone();
-            oCourseScheduleDiv.insertAfter('div.courseAndScheduleDiv:last').css('display', 'none');
+            let oCourseScheduleDiv = $('.courseAndScheduleDiv:last').clone();
+            oCourseScheduleDiv.insertAfter('.courseAndScheduleDiv:last').css('display', 'none');
         }
     }
 
     function populateCourseDropdown(aCourses) {
-        $('.quoteCourse').empty().append($('<option value="" selected disabled hidden>Select Course</option>'));
+        let oCourseDropdown = $('.courseAndScheduleDiv[style*="display: none"]').first().find('.quoteCourse');
+        oCourseDropdown.parent().parent().css('display', 'block');
+        oCourseDropdown.empty().append($('<option value="" selected disabled hidden>Select Course</option>'));
+
         $.each(aCourses, function (iKey, oCourse) {
-            $('.quoteCourse').append($('<option />').val(oCourse.courseId).text(oCourse.courseName));
+            oCourseDropdown.append($('<option />').val(oCourse.courseId).text(oCourse.courseName));
         });
-        $('.schedules').empty().append($('<option value="" selected disabled hidden>Select Course First</option>'));
     }
 
     function populateCourseSchedule(iCourseId) {
-        $('.schedules')
-            .attr('disabled', false)
+        let oCourseSchedule = $('.courseAndScheduleDiv[style*="display: block"]').last().find('.quoteSchedule');
+        let iSelectedScheduleId = oCourseSchedule.find('option:selected').val();
+
+        oCourseSchedule
             .empty()
+            .attr('disabled', false)
             .append($('<option value="" selected disabled hidden>Select Schedule</option>'));
 
-        let aSchedules = oCoursesAndSchedules.filter(function (aCourse) {
+        let oCourse = aFilteredCoursesAndSchedules.filter(function (aCourse) {
             return aCourse.courseId == iCourseId;
-        })[0].schedule;
+        })[0];
+
+        let aSchedules = oCourse.schedule;
 
         $.each(aSchedules, function (iKey, sSchedule) {
-            $('.schedules').append($('<option />').val(aSchedules[0].scheduleId).text(sSchedule));
+            oCourseSchedule.append($('<option />').val(oCourse.scheduleId).text(sSchedule));
         });
+
+        if (iSelectedScheduleId.length != 0 && $('.deleteCourseBtn').is(':visible')) {
+            oCourseSchedule.val(iSelectedScheduleId);
+        } else {
+            oCourseSchedule.find('option:eq(0)').prop('selected', true)
+        }
     }
 
     // This method validates the inputs of the user before submission for registration.
