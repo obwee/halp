@@ -78,6 +78,9 @@ class Student
      */
     public function requestQuotation()
     {
+
+        print_r($this->aParams); die;
+
         $aResult = array();
         $aValidationResult = Validations::validateQuotationInputs($this->aParams);
 

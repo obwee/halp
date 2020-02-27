@@ -47,6 +47,16 @@ let Homepage = (() => {
 
         $(document).on('click', '.deleteCourseBtn', function () {
             let oCourseAndScheduleDiv = $('.courseAndScheduleDiv').filter(':visible').last();
+
+            // Reset schedule select option.
+            oCourseAndScheduleDiv
+                .find('.quoteSchedule')
+                .empty()
+                .attr('disabled', true)
+                .append($('<option value="" selected disabled hidden>Select Course First</option>'))
+                .find('option:eq(0)')
+                .prop('selected', true);
+
             oCourseAndScheduleDiv.css('display', 'none');
             oCourseAndScheduleDiv.prev().find('.quoteSchedule').attr('disabled', false);
             oCourseAndScheduleDiv.prev().find('.quoteCourse').attr('disabled', false);
@@ -57,7 +67,7 @@ let Homepage = (() => {
                 return aCourse.courseId == oCourseDiv.last().val();
             })[0]);
 
-            populateCourseSchedule(oCourseDiv.last().val());
+            populateCourseSchedule(oCourseDiv.last().val(), true);
 
             if (oCourseDiv.parent().parent().length === 1) {
                 $('.addCourseBtn').parent().attr('class', 'col-sm-12 text-center');
@@ -71,6 +81,8 @@ let Homepage = (() => {
         // Reset inputs before opening any modal.
         $(document).on('click', 'a[data-toggle="modal"]', function () {
             $('.courseAndScheduleDiv:not(:first)').remove();
+            $('.courseAndScheduleDiv:first').find('select.quoteCourse').attr('disabled', false);
+            $('.courseAndScheduleDiv:first').find('select.quoteSchedule').attr('disabled', true);
             let modalId = $(this).attr('data-target');
             let formName = '#' + $(modalId).find('form').attr('id') + '';
             cloneDivElements(aCoursesAndSchedules.length);
@@ -136,7 +148,7 @@ let Homepage = (() => {
             // Get the form name being submitted.
             let formName = '#' + $(this).attr('id') + '';
 
-            disableFormState(formName, true);
+            // disableFormState(formName, true);
 
             // Invoke the resetInputBorders method for that form.
             resetInputBorders(formName);
@@ -148,11 +160,9 @@ let Homepage = (() => {
             let requestAction = aForms[formName].requestAction;
 
             // Check if input validation result is true.
-            if (validateInputs.result === true) {
+            if (validateInputs.result === false) {
                 // Extract form data.
                 let formData = $(formName).serializeArray();
-                console.log(formData);
-                return;
 
                 // Execute AJAX request.
                 $.ajax({
@@ -252,29 +262,29 @@ let Homepage = (() => {
         });
     }
 
-    function populateCourseSchedule(iCourseId) {
-        let oCourseSchedule = $('.courseAndScheduleDiv[style*="display: block"]').last().find('.quoteSchedule');
-        let iSelectedScheduleId = oCourseSchedule.find('option:selected').val();
+    function populateCourseSchedule(iCourseId, bIsDeletePressed = false) {
+        let oSchedule = $('.courseAndScheduleDiv[style*="display: block"]').last().find('.quoteSchedule');
+        let iSelectedScheduleId = oSchedule.find('option:selected').val();
 
-        oCourseSchedule
+        let oFilteredCourse = aFilteredCoursesAndSchedules.filter(function (aCourse) {
+            return aCourse.courseId == iCourseId;
+        })[0];
+
+        let aSchedules = oFilteredCourse.schedule;
+
+        oSchedule
             .empty()
             .attr('disabled', false)
             .append($('<option value="" selected disabled hidden>Select Schedule</option>'));
 
-        let oCourse = aFilteredCoursesAndSchedules.filter(function (aCourse) {
-            return aCourse.courseId == iCourseId;
-        })[0];
-
-        let aSchedules = oCourse.schedule;
-
         $.each(aSchedules, function (iKey, sSchedule) {
-            oCourseSchedule.append($('<option />').val(oCourse.scheduleId).text(sSchedule));
+            oSchedule.append($('<option />').val(oFilteredCourse.scheduleId).text(sSchedule));
         });
 
-        if (iSelectedScheduleId.length != 0 && $('.deleteCourseBtn').is(':visible')) {
-            oCourseSchedule.val(iSelectedScheduleId);
+        if (bIsDeletePressed === true) {
+            oSchedule.val(iSelectedScheduleId);
         } else {
-            oCourseSchedule.find('option:eq(0)').prop('selected', true)
+            oSchedule.find('option:eq(0)').prop('selected', true)
         }
     }
 
@@ -483,7 +493,6 @@ let Homepage = (() => {
                 },
             );
         }
-        console.log(quoteInputRules)
 
         // Loop thru each quoteInputRules and if there are rules violated, return false and the error message.
         $.each(quoteInputRules, function (key, inputRule) {
