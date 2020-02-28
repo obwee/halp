@@ -93,7 +93,7 @@ let Homepage = (() => {
             $('.courseAndScheduleDiv:first').find('select.quoteSchedule').attr('disabled', true);
             aFilteredCoursesAndSchedules = aCoursesAndSchedules;
             cloneDivElements(aCoursesAndSchedules.length);
-            $('.addCourseBtn').parent().attr('class', 'col-sm-12 text-center');
+            $('.addCourseBtn').parent().attr('class', 'col-sm-12 text-center').css('display', 'block');
             $('.deleteCourseBtn').parent().css('display', 'none');
         });
 
@@ -125,7 +125,7 @@ let Homepage = (() => {
         });
 
         // Remove red border on focus event on any input.
-        $(document).on('focus', 'input', function () {
+        $(document).on('focus', 'input, select', function () {
             $(this).css('border', '1px solid #ccc');
         });
 
@@ -549,6 +549,26 @@ let Homepage = (() => {
                 return false;
             }
         });
+
+        let iBillToCompany = $('#quoteBillToCompany').is(':checked') ? 1 : 0;
+        $('#quoteBillToCompany').val(iBillToCompany);
+
+        if (iBillToCompany === 1 && $('#quoteCompanyName').val() === '') {
+            return {
+                result: false,
+                element: '#quoteCompanyName',
+                msg: 'Please specify company name if billing to company.'
+            };
+        }
+
+        if ($('.quoteCourse').val() === null) {
+            return {
+                result: false,
+                element: '.quoteCourse',
+                msg: 'Please select a course.'
+            };
+        }
+
         // Return the result of the validation.
         return validationResult;
     }
