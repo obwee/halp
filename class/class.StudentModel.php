@@ -86,32 +86,27 @@ class StudentModel
     }
 
     /**
-     * validateCourse
-     * Checks if course and schedule selected from the front-end is valid.
-     * @param array $aDetails
-     * @return int
+     * checkIfUserExists
+     * Check if user exists inside the tbl_users table.
      */
-    public function validateCourseAndSchedule($aDetails)
+    public function checkIfUserExists($sFirstName, $sLastName)
     {
-        // Query the tbl_courses for a username equal to $username.
+        // Query the tbl_users for a username equal to $username.
         $statement = $this->oConnection->prepare("
-            SELECT * FROM tbl_courses
-            WHERE courseName = :quoteCourse
+            SELECT userId
+            FROM tbl_users
+            WHERE firstName = :firstName AND lastName = :lastName
         ");
 
         // Execute the above statement.
-        $statement->execute($aDetails);
+        $statement->execute(
+            array(
+                ':firstName' => $sFirstName,
+                ':lastName'  => $sLastName
+            )
+        );
 
-        // Return the number of rows returned by the executed query.
-        return $statement->rowCount();
-    }
-
-    /**
-     * insertQuotation
-     * Insert quotation to database.
-     * @param array $aQuoteDetails
-     */
-    public function insertQuotation($aQuoteDetails)
-    {
+        // Return the result of the execution of the above statement.
+        return $statement->fetchColumn();
     }
 }
