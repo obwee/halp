@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2020 at 02:38 PM
+-- Generation Time: Feb 28, 2020 at 06:04 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -91,17 +91,6 @@ CREATE TABLE `tbl_inclusions` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_paymentmethods`
---
-
-CREATE TABLE `tbl_paymentmethods` (
-  `id` int(11) NOT NULL,
-  `methodName` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tbl_payments`
 --
 
@@ -117,21 +106,45 @@ CREATE TABLE `tbl_payments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_quotations`
+-- Table structure for table `tbl_payment_methods`
 --
 
-CREATE TABLE `tbl_quotations` (
+CREATE TABLE `tbl_payment_methods` (
   `id` int(11) NOT NULL,
+  `methodName` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_quotation_details`
+--
+
+CREATE TABLE `tbl_quotation_details` (
+  `id` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `senderId` int(11) NOT NULL,
+  `courseId` varchar(255) NOT NULL,
+  `scheduleId` int(11) NOT NULL,
+  `dateSent` datetime NOT NULL,
+  `isCompanySponsored` tinyint(1) NOT NULL DEFAULT 0,
+  `isQuotationSent` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_quotation_senders`
+--
+
+CREATE TABLE `tbl_quotation_senders` (
+  `quoteSenderId` int(11) NOT NULL,
   `firstName` varchar(255) NOT NULL,
   `middleName` varchar(255) NOT NULL,
   `lastName` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `companyName` varchar(255) NOT NULL,
-  `companySponsored` tinyint(1) NOT NULL,
-  `courseId` varchar(255) NOT NULL,
-  `scheduleId` int(11) NOT NULL,
-  `dateSent` datetime NOT NULL,
-  `isQuotationSent` tinyint(1) NOT NULL DEFAULT 0
+  `contactNum` varchar(255) NOT NULL,
+  `companyName` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -192,7 +205,7 @@ INSERT INTO `tbl_training` (`id`, `studentId`, `courseId`, `instructorId`, `sche
 --
 
 CREATE TABLE `tbl_users` (
-  `userID` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `firstName` varchar(255) NOT NULL,
@@ -209,7 +222,7 @@ CREATE TABLE `tbl_users` (
 -- Dumping data for table `tbl_users`
 --
 
-INSERT INTO `tbl_users` (`userID`, `username`, `password`, `firstName`, `middleName`, `lastName`, `position`, `companyName`, `contactNum`, `email`, `status`) VALUES
+INSERT INTO `tbl_users` (`userId`, `username`, `password`, `firstName`, `middleName`, `lastName`, `position`, `companyName`, `contactNum`, `email`, `status`) VALUES
 (1, 'chris', 'chris123', 'Christopher', 'Iglesia', 'Buenaventura', 'Super Admin', '', '09261759759', 'angelikaaubreyarbiol@gmail.com', 'Active'),
 (7, 'markus', '123456789', 'Mark Exequiel', 'Reambillo', 'Sale', 'Student', 'Concentrix', '516874621345', 'markexequielsale@gmail.com', 'Active'),
 (59, 'student17', 'student', 'Leonard Mayer', 'White', 'Daniel', 'Student', 'Mayer, Fisher and Dibbert', '14531', 'wehner.twila@example.net', 'Inactive'),
@@ -219,7 +232,7 @@ INSERT INTO `tbl_users` (`userID`, `username`, `password`, `firstName`, `middleN
 (79, 'student11', 'student', 'Dave Breitenberg V', 'Spencer', 'Weber', 'Student', 'Schiller Ltd', '58602', 'lonie77@example.com', 'Inactive'),
 (92, 'student15', 'student', 'Ora Mayert Sr.', 'Pouros', 'Heathcote', 'Student', 'Eichmann Group', '16384', 'tschowalter@example.com', 'Active'),
 (97, 'student12', 'student', 'Fay Gorczany', 'Bergnaum', 'Hilpert', 'Student', 'Botsford and Sons', '89606', 'coreilly@example.net', 'Inactive'),
-(98, 'student1', 'student', 'Linda McGlynn', 'Rolfson', 'Stamm', 'Student', 'Johnston, O\'Conner and Schuster', '38792', 'stanton.kristoffer@example.org', 'Inactive'),
+(98, 'aries', 'student', 'Aries', 'Valenzuela', 'Macandili', 'Student', 'Cafe24 PH', '09161225985', 'macandili.aries@gmail.com', 'Active'),
 (103, 'student13', 'student', 'Milton Dibbert', 'Quitzon', 'Hyatt', 'Student', 'Bradtke-West', '28141', 'gregg33@example.net', 'Inactive');
 
 -- --------------------------------------------------------
@@ -265,22 +278,28 @@ ALTER TABLE `tbl_inclusions`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tbl_paymentmethods`
---
-ALTER TABLE `tbl_paymentmethods`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `tbl_payments`
 --
 ALTER TABLE `tbl_payments`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tbl_quotations`
+-- Indexes for table `tbl_payment_methods`
 --
-ALTER TABLE `tbl_quotations`
+ALTER TABLE `tbl_payment_methods`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_quotation_details`
+--
+ALTER TABLE `tbl_quotation_details`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_quotation_senders`
+--
+ALTER TABLE `tbl_quotation_senders`
+  ADD PRIMARY KEY (`quoteSenderId`);
 
 --
 -- Indexes for table `tbl_schedules`
@@ -298,7 +317,7 @@ ALTER TABLE `tbl_training`
 -- Indexes for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  ADD PRIMARY KEY (`userID`);
+  ADD PRIMARY KEY (`userId`);
 
 --
 -- Indexes for table `tbl_venue`
@@ -329,22 +348,28 @@ ALTER TABLE `tbl_inclusions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tbl_paymentmethods`
---
-ALTER TABLE `tbl_paymentmethods`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `tbl_payments`
 --
 ALTER TABLE `tbl_payments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tbl_quotations`
+-- AUTO_INCREMENT for table `tbl_payment_methods`
 --
-ALTER TABLE `tbl_quotations`
+ALTER TABLE `tbl_payment_methods`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_quotation_details`
+--
+ALTER TABLE `tbl_quotation_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `tbl_quotation_senders`
+--
+ALTER TABLE `tbl_quotation_senders`
+  MODIFY `quoteSenderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tbl_schedules`
@@ -362,7 +387,7 @@ ALTER TABLE `tbl_training`
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT for table `tbl_venue`

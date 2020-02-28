@@ -13,10 +13,16 @@ class Student
     private $aParams;
 
     /**
-     * @var StudentModel $oModel
+     * @var StudentModel $oStudentModel
      * Class instance for Student model.
      */
     private $oStudentModel;
+
+    /**
+     * @var QuotationsModel $oModel
+     * Class instance for Student model.
+     */
+    private $oQuotationModel;
 
     /**
      * Student constructor.
@@ -28,6 +34,7 @@ class Student
         $this->aParams = $aPostVariables;
         // Instantiate the StudentModel class and store it inside $this->oStudentModel.
         $this->oStudentModel = new StudentModel();
+        $this->oQuotationModel = new QuotationsModel();
     }
 
     /**
@@ -78,39 +85,48 @@ class Student
      */
     public function requestQuotation()
     {
-
-        print_r($this->aParams); die;
-
         $aResult = array();
         $aValidationResult = Validations::validateQuotationInputs($this->aParams);
 
         if ($aValidationResult['result'] === true) {
             $this->sanitizeData();
+
+            $iUserId = $this->oStudentModel->checkIfUserExists($this->aParams['quoteFname'], $this->aParams['quoteLname']);
+            $iQuoteSenderId = $this->oQuotationModel->checkIfSenderExists($this->aParams['quoteFname'], $this->aParams['quoteLname']);
+
             $this->prepareData('quotation');
 
-            print_r($this->aParams);
-            die;
-            if ($this->oStudentModel->validateCourseAndSchedule($this->aParams) === 0) {
-                $aResult = array(
-                    'result' => false,
-                    'msg'    => 'Invalid course and schedule.'
+            if (empty($iUserId) === true) {
+                $aSenderDetails = array(
+                    ':firstName'   => $this->aParams[':firstName'],
+                    ':middleName'  => $this->aParams[':middleName'],
+                    ':lastName'    => $this->aParams[':lastName'],
+                    ':email'       => $this->aParams[':email'],
+                    ':contactNum'  => $this->aParams[':contactNum'],
+                    ':companyName' => $this->aParams[':companyName']
                 );
-            } else {
-                $oQueryResult = $this->oStudentModel->insertQuotation($this->aParams);
-    
-                if ($oQueryResult === true) {
-                    $aResult = array(
-                        'result' => true,
-                        'msg'    => 'Quotation requested!'
-                    );
-                } else {
-                    $aResult = array(
-                        'result' => false,
-                        'msg'    => 'An error has occurred. Please try again.'
-                    );
-                }
-    
+                $iQuoteSenderId = $this->oQuotationModel->insertQuotationSender($aSenderDetails);
             }
+
+            $this->aParams[':senderId'] = $iQuoteSenderId;
+            $sDateNow = date('Y-m-d H:i:s');
+
+            foreach ($this->aParams[':quoteCourses'] as $iKey => $mValue) {
+                $aQuotationDetails = array(
+                    ':userId'             => $iUserId,
+                    ':senderId'           => $iQuoteSenderId,
+                    ':courseId'           => $this->aParams[':quoteCourses'][$iKey],
+                    ':scheduleId'         => $this->aParams[':quoteSchedules'][$iKey],
+                    ':dateSent'           => $sDateNow,
+                    ':isCompanySponsored' => $this->aParams[':quoteBillToCompany']
+                );
+                $this->oQuotationModel->insertQuotationDetails($aQuotationDetails);
+            }
+
+            $aResult = array(
+                'result' => true,
+                'msg'    => 'Quotation requested!'
+            );
         } else {
             $aResult = $aValidationResult;
         }
@@ -190,13 +206,20 @@ class Student
                 'validationRule' => Validations::$aQuotationRules,
                 'notRequiredInputs' => array(
                     ':middleName',
-                    ':companyName'
+                    ':companyName',
+                    ':quoteBillToCompany'
                 )
             )
         );
 
         // Remove empty array elements.
         $this->aParams = array_filter($this->aParams);
+
+        foreach ($aInputRules[$sInputRuleName]['notRequiredInputs'] as $sValue) {
+            if (empty($this->aParams[$sValue]) === true) {
+                $this->aParams[$sValue] = '';
+            }
+        }
 
         // Loop thru the array.
         foreach ($aInputRules[$sInputRuleName]['validationRule'] as $aInputRule) {
@@ -210,10 +233,9 @@ class Student
             unset($this->aParams['registrationConfirmPassword']);
         }
 
-        foreach ($aInputRules[$sInputRuleName]['notRequiredInputs'] as $sValue) {
-            if (empty($this->aParams[$sValue]) === true) {
-                $this->aParams[$sValue] = '';
-            }
+        if ($sInputRuleName === 'quotation') {
+            $this->aParams[':quoteCourses']   = explode(',', $this->aParams[':quoteCourses']);
+            $this->aParams[':quoteSchedules'] = explode(',', $this->aParams[':quoteSchedules']);
         }
     }
 

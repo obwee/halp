@@ -168,13 +168,12 @@ let Homepage = (() => {
                 // Extract form data.
                 let formData = $(formName).serializeArray();
 
-                let aSelectedCourses = [];
-                let aSelectedSchedules = [];
-
                 if (formName === '#quotationForm') {
+                    let aSelectedCourses = [];
+                    let aSelectedSchedules = [];
+
                     // Get courses.
                     $('select[name="quoteCourse[]"]:visible').each(function () {
-                        // oSelectedCourseAndSchedule.push({$(this).val()})
                         aSelectedCourses.push($(this).val());
                     });
 
