@@ -130,7 +130,6 @@ class Student
         } else {
             $aResult = $aValidationResult;
         }
-
         echo json_encode($aResult);
     }
 
