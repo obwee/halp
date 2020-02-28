@@ -144,6 +144,14 @@ class Validations
             'iMinLength'  => 4,
             'iMaxLength'  => 50,
             'oPattern'    => '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD'
+        ),
+        array(
+            'sName'       => 'Course',
+            'sElement'    => 'quoteCourses',
+            'sColumnName' => ':quoteCourses',
+            'iMinLength'  => 0,
+            'iMaxLength'  => PHP_INT_MAX,
+            'oPattern'    => '/.+/'
         )
     );
 
@@ -301,7 +309,7 @@ class Validations
         );
 
         // Add rules for optional fields if filled-up.
-        if (strlen(trim($aParams['quoteMname'])) !== 0) {
+        if (empty($aParams['quoteMname']) === false) {
             array_splice(self::$aQuotationRules, 1, 0, array(
                 array(
                     'sName'       => 'Middle name',
@@ -313,8 +321,8 @@ class Validations
                 )
             ));
         }
-        if (strlen(trim($aParams['quoteCompanyName'])) !== 0) {
-            array_splice(self::$aQuotationRules, 4, 0, array(
+        if (empty($aParams['quoteCompanyName']) === false) {
+            array_splice(self::$aQuotationRules, 2, 0, array(
                 array(
                     'sName'       => 'Company name',
                     'sElement'    => 'quoteCompanyName',
@@ -356,6 +364,27 @@ class Validations
             }
         }
 
+        if (empty($aParams['quoteBillToCompany']) === false) {
+            array_push(self::$aQuotationRules, array(
+                'sElement'    => 'quoteBillToCompany',
+                'sColumnName' => ':quoteBillToCompany'
+            ));
+
+            if ($aParams['quoteBillToCompany'] === 1 && empty($aParams['quoteCompanyName']) === true) {
+                return array(
+                    'result'  =>  false,
+                    'element' =>  '#quoteCompanyName',
+                    'msg'     => 'Please specify company name if billing to company.'
+                );
+            }
+        }
+
+        if (empty($aParams['quoteSchedules']) === false) {
+            array_push(self::$aQuotationRules, array(
+                'sElement'    => 'quoteSchedules',
+                'sColumnName' => ':quoteSchedules'
+            ));
+        }
         // Return the result of the validation.
         return $aValidationResult;
     }
