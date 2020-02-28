@@ -80,15 +80,19 @@ let Homepage = (() => {
 
         // Reset inputs before opening any modal.
         $(document).on('click', 'a[data-toggle="modal"]', function () {
-            $('.courseAndScheduleDiv:not(:first)').remove();
-            $('.courseAndScheduleDiv:first').find('select.quoteCourse').attr('disabled', false);
-            $('.courseAndScheduleDiv:first').find('select.quoteSchedule').attr('disabled', true);
             let modalId = $(this).attr('data-target');
             let formName = '#' + $(modalId).find('form').attr('id') + '';
-            cloneDivElements(aCoursesAndSchedules.length);
             resetInputBorders(formName);
             $(formName)[0].reset();
             $('.error-msg').css('display', 'none').html('');
+        });
+
+        $('#getQuoteModal').on('hidden.bs.modal', function (e) {
+            $('.courseAndScheduleDiv:not(:first)').remove();
+            $('.courseAndScheduleDiv:first').find('select.quoteCourse').attr('disabled', false);
+            $('.courseAndScheduleDiv:first').find('select.quoteSchedule').attr('disabled', true);
+            aFilteredCoursesAndSchedules = aCoursesAndSchedules;
+            cloneDivElements(aCoursesAndSchedules.length);
             $('.addCourseBtn').parent().attr('class', 'col-sm-12 text-center');
             $('.deleteCourseBtn').parent().css('display', 'none');
         });
@@ -148,7 +152,7 @@ let Homepage = (() => {
             // Get the form name being submitted.
             let formName = '#' + $(this).attr('id') + '';
 
-            // disableFormState(formName, true);
+            disableFormState(formName, true);
 
             // Invoke the resetInputBorders method for that form.
             resetInputBorders(formName);
@@ -160,9 +164,33 @@ let Homepage = (() => {
             let requestAction = aForms[formName].requestAction;
 
             // Check if input validation result is true.
-            if (validateInputs.result === false) {
+            if (validateInputs.result === true) {
                 // Extract form data.
                 let formData = $(formName).serializeArray();
+
+                let aSelectedCourses = [];
+                let aSelectedSchedules = [];
+
+                if (formName === '#quotationForm') {
+                    // Get courses.
+                    $('select[name="quoteCourse[]"]:visible').each(function () {
+                        // oSelectedCourseAndSchedule.push({$(this).val()})
+                        aSelectedCourses.push($(this).val());
+                    });
+
+                    // Get schedules.
+                    $('select[name="quoteSchedule[]"]:visible').each(function () {
+                        aSelectedSchedules.push($(this).val());
+                    });
+
+                    // Remove unnecessary data to be sent in AJAX request.
+                    formData = formData.filter(function (sFormKey) {
+                        return sFormKey.name != 'quoteCourse[]' && sFormKey.name != 'quoteSchedule[]' && sFormKey.value !== '';
+                    });
+
+                    formData.push({ 'name': 'quoteCourses', 'value': aSelectedCourses });
+                    formData.push({ 'name': 'quoteSchedules', 'value': aSelectedSchedules });
+                }
 
                 // Execute AJAX request.
                 $.ajax({
