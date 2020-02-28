@@ -114,7 +114,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="paidStudents.php"><i class="fas fa-check"></i>&emsp;Payment</a></li>
+            <li><a href="payment.php"><i class="fas fa-cash-register"></i>&emsp;Payment</a></li>
+            <li><a href="reservations.php"><i class="fas fa-check"></i>&emsp;Reservations</a></li>
+            <li><a href="unpaidStudents.php"><i class="fas fa-user-times"></i>&emsp;Unpaid Students</a></li>
             <li><a href="#"><i class="fas fa-times"></i>&emsp;  Cancelled Reservations</a></li>
           </ul>
         </li>
@@ -127,9 +129,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="bookingReport.php"><i class="fas fa-money-check"></i>&emsp;Sales</a></li>
-            <li><a href="clientReport.php"><i class="fas fa-user-graduate"></i>&emsp;  Students</a></li>
-            <li><a href="clientReport.php"><i class="fas fa-users"></i>&emsp;Trainings</a></li>
+            <li><a href="salesReport.php"><i class="fas fa-money-check"></i>&emsp;Sales</a></li>
+            <li><a href="studentsReport.php"><i class="fas fa-user-graduate"></i>&emsp;  Students</a></li>
+            <li><a href="trainingsReport.php"><i class="fas fa-users"></i>&emsp;Trainings</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -157,7 +159,7 @@
           <ul class="treeview-menu">
             <li><a href="venue.php"><i class="fas fa-map-marked-alt"></i>&emsp; Venue</a></li>
             <li><a href="instructors.php"><i class="fas fa-chalkboard-teacher"></i>&emsp;Instructors </a></li>
-            <li><a href="AJAX/checkUserPosition.php"><i class="fas fa-user-edit"></i>&emsp;Credentials </a></li>
+            <li><a href="credentials.php"><i class="fas fa-user-edit"></i>&emsp;Credentials </a></li>
             <li><a href="editpaymentStatus.php"><i class="fas fa-hand-holding-usd"></i>&emsp; Payment Mode </a></li>
           </ul>
         </li>

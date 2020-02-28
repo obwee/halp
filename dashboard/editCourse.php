@@ -140,12 +140,16 @@ require_once "Template/header.php";
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="courseCode">Course Code</label>
-                            <input type="test" class="form-control" id="courseCode" name="courseCode" placeholder="Course Code" autofocus maxlength="15">
+                            <label for="courseCode"><span class="fas fa-list-ul"></span> Course Code</label>
+                            <input type="text" class="form-control" id="courseCode" name="courseCode" placeholder="Course Code" autofocus maxlength="15">
                         </div>
                         <div class="form-group">
-                            <label for="courseTitle"><span class="fas fa-users"></span> Course Title</label>
-                            <input type="test" class="form-control" id="courseCode" name="courseCode" placeholder="Course Title" autofocus maxlength="50">
+                            <label for="courseTitle"><span class="fas fa-book"></span> Course Title</label>
+                            <input type="text" class="form-control" id="courseTitle" name="courseCode" placeholder="Course Title" autofocus maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="courseDetails"><span class="fas fa-book-open"></span> Course Details</label>
+                            <input type="text" class="form-control" id="courseCode" name="courseCode" placeholder="Course Details" autofocus maxlength="50">
                         </div>
                     </form>
                 </div>
@@ -167,12 +171,16 @@ require_once "Template/header.php";
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="courseCode">Course Code</label>
+                            <label for="courseCode"><span class="fas fa-list-ul"></span> Course Code</label>
                             <input type="text" class="form-control" id="courseCode" name="courseCode" placeholder="Course Code" autofocus maxlength="15">
                         </div>
                         <div class="form-group">
-                            <label for="courseTitle"><span class="fas fa-users"></span> Course Title</label>
-                            <input type="text" class="form-control" id="courseCode" name="courseCode" placeholder="Course Title" autofocus maxlength="50">
+                            <label for="courseTitle"><span class="fas fa-book"></span> Course Title</label>
+                            <input type="text" class="form-control" id="courseTitle" name="courseCode" placeholder="Course Title" autofocus maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="courseDetails"><span class="fas fa-book-open"></span> Course Details</label>
+                            <input type="text" class="form-control" id="courseCode" name="courseCode" placeholder="Course Details" autofocus maxlength="50">
                         </div>
                     </form>
                 </div>
