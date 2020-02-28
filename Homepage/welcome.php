@@ -442,9 +442,9 @@
                         <div class="form-group">
                             <label for="quoteCompanyName"><span class="far fa-building"></span> Company Name</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Company Name" maxlength="50" aria-describedby="basic-addon2">
+                                <input type="text" class="form-control" placeholder="Company Name" name="quoteCompanyName" id="quoteCompanyName" maxlength="50" aria-describedby="basic-addon2">
                                 <span class="input-group-addon" id="basic-addon2">
-                                    <input type="checkbox"> Bill to Company?</span>
+                                    <input type="checkbox" name="quoteBillToCompany" id="quoteBillToCompany"> Bill to Company?</span>
                             </div>
                         </div>
                         <div class="courseAndScheduleDiv" style="display: none;">
