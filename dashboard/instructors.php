@@ -133,7 +133,10 @@ require_once "Template/header.php";
                         <label for=quoteMessage><span class="fas fa-envelope-open-text"></span> Message</label>
                         <textarea class="form-control" id="emailMsg" name="emailMsg" rows="10" placeholder="Type your message here."></textarea>
                     </div>
-                    <button class="btn btn-dark btn-sm">Upload File</button>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="customFile">Upload File</label>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success">Send</button>
@@ -158,9 +161,12 @@ require_once "Template/header.php";
 	
 		} );	
 		    
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function() {
+          var fileName = $(this).val().split("\\").pop();
+          $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+      });
 	</script>
-
-
 		
 	</body>
 </html>

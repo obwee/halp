@@ -14,55 +14,65 @@ require_once "Template/header.php";
 
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 
-	
+    <style type="text/css">
+        td {
+            text-align: center;
+        }
+
+        select {
+            width: 180px;
+            text-align: center;
+        }
+    </style>
 
 </head>
 <body>
+
+<div class="container">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <p class="h2">Students Report</p>
+    </div>
+    
 	<div class="container">
-		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-			<p class="h2">Sent Quotations</p>
-
-		</div>
-
 		<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
-			<div align="right">
-			</div>
-			<table id="tbl_quotations" style="width:100%" class="table table-striped table-bordered table-hover">
-				<thead>
-					<tr>
-						<th style="white-space:nowrap;">Date Sent</th>
-						<th style="white-space:nowrap;">Student Name</th>
-						<th style="white-space:nowrap;">Company Name</th>
-						<th style="white-space:nowrap;">E-mail Address</th>
-						<th style="white-space:nowrap;">Contact No.</th>
-						<th style="white-space:nowrap;">Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-				<tr>
-					<td>2020-Feb-21</td>
-					<td>Aries Valenzuela Macandili</td>
-					<td>Simplex Internet Philippines</td>
-					<td>macandili.aries@gmail.com</td>
-					<td>09161234567</td>
-					<td>
-						<button class="btn btn-info" data-toggle="modal" data-target="#viewQuoteModal"><i class="fa fa-eye"></i></button>
-						<button class="btn btn-secondary" data-toggle="modal" data-target="#editQuoteModal"><i class="fa fa-pen"></i></button>
-					</td>
-				</tr>
-				<tr>
-					<td>2020-Feb-21</td>
-					<td>Angelika Aubrey Arbiol</td>
-					<td>Nexus Technologies</td>
-					<td>obwee@gmail.com</td>
-					<td>09261759750</td>
-					<td>
-						<button class="btn btn-info" data-toggle="modal" data-target="#viewQuoteModal"><i class="fa fa-eye"></i></button>
-						<button class="btn btn-secondary" data-toggle="modal" data-target="#editQuoteModal"><i class="fa fa-pen"></i></button>
-					</td>
-				</tr>
-				</tbody>
-			</table>
+			<div align="center">
+                <br>
+                <button type="button" id="print" class="btn btn-dark">Export/Print</button>
+                <br><br>     
+            </div>
+
+            <br>
+
+            <table id="tbl_tours" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th style="white-space:nowrap;">Student ID</th>
+                        <th style="white-space:nowrap;">Student Name</th>
+                        <th style="white-space:nowrap;">E-mail Address</th>
+                        <th style="white-space:nowrap;">Contact Number</th>
+                        <th style="white-space:nowrap;">Address</th>
+                        <th style="white-space:nowrap;">Username</th>
+                        <th style="white-space:nowrap;">Age</th>
+                        <th style="white-space:nowrap;">Company Name</th>                        
+                        <th style="white-space:nowrap;">Company Address</th>
+                        <th style="white-space:nowrap;">Work</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2020-030101</td>
+                        <td>Aries Valenzuela Macandili</td>
+                        <td>macandili.aries@gmail.com</td>
+                        <td>09222222222</td>
+                        <td>Hulo, Mandaluyong</td>
+                        <td>aries</td>
+                        <td>25</td>
+                        <td>Simplex Internet Philippines</td>
+                        <td>Ortigas, Pasig City</td>
+                        <td>Web Developer</td>
+                    </tr>
+                </tbody>
+            </table>
 		</div>
 	</div>
 
@@ -70,7 +80,7 @@ require_once "Template/header.php";
     	<div class="modal-dialog viewQuoteModal">
     		<div class="modal-content">
     			<div class="modal-header">
-    				<h5 align="center">View Quotation</h5>
+    				<h5 align="center"><span class="glyphicon glyphicon-plane"></span>View Quotation</h5>
     			</div>
     			<div class="modal-body">
     				<div class="quoteBody">
@@ -90,7 +100,7 @@ require_once "Template/header.php";
         <div class="modal-dialog editQuoteModal">
             <div class="modal-content">
                 <div class="modal-header">
-                	<h5 align="center">Edit Quotation Request</h5>
+                	<h5 align="center"><span class="glyphicon glyphicon-plane"></span>Edit Quotation Request</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -154,7 +164,9 @@ require_once "Template/header.php";
 
 	<script type="text/javascript">
 		$(document).ready( function () {
-			$('#tbl_quotations').DataTable();
+			$('#tbl_tours').DataTable({
+                "scrollX": true
+            });
 
 		} );	
 

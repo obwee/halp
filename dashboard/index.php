@@ -93,7 +93,7 @@ require_once "Template/header.php";
             <table id="tbl_upcoming" style="width:100%" class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th style="white-space:nowrap;">Official Course Title</th>
+                        <th style="white-space:nowrap;">Course Code</th>
                         <th style="white-space:nowrap;">Schedule</th>
                         <th style="white-space:nowrap;">No. of Students</th>
                         <th style="white-space:nowrap;">Instructor</th>
@@ -102,7 +102,7 @@ require_once "Template/header.php";
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Ethical Hacking with Penetration Testing</td>
+                        <td>EH</td>
                         <td>Feb 21 - 22, 2020</td>
                         <td>12</td>
                         <td>Richard Reblando</td>
@@ -118,7 +118,7 @@ require_once "Template/header.php";
             <table id="tbl_ongoing" style="width:100%" class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th style="white-space:nowrap;">Official Course Title</th>
+                        <th style="white-space:nowrap;">Course Code</th>
                         <th style="white-space:nowrap;">Schedule</th>
                         <th style="white-space:nowrap;">No. of Students</th>
                         <th style="white-space:nowrap;">Instructor</th>
@@ -127,14 +127,14 @@ require_once "Template/header.php";
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Ethical Hacking with Penetration Testing</td>
+                        <td>EH</td>
                         <td>March 21 - 22, 2020</td>
                         <td>12</td>
                         <td>Richard Reblando</td>
                         <td>Morayta</td>
                     </tr>
                     <tr>
-                        <td>20410 Installing and Configuring Winows Server 2012</td>
+                        <td>20410</td>
                         <td>March 21 - 23, 2020</td>
                         <td>6</td>
                         <td>Mark Sampayan</td>

@@ -25,7 +25,7 @@ require_once "Template/header.php";
 		<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
 			<div align="right">
                 <button type="button" id="addNewBranch" data-toggle="modal" data-target="#editCredentialsModal" class="btn btn-info">Edit My Credentials</button>
-				<button type="button" id="addNewBranch" data-toggle="modal" data-target="#addNewAdmin" class="btn btn-info">Add New Admin</button>
+				<button type="button" id="addNewBranch" data-toggle="modal" data-target="#addNewAdminModal" class="btn btn-info">Add New Admin</button>
 				<br><br>
 			</div>
 			<table id="tbl_users" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
@@ -191,26 +191,43 @@ require_once "Template/header.php";
 
 
 
-    <div class="modal fade" id="messageInstructorModal" role="dialog">
-        <div class="modal-dialog modal-lg messageInstructorModal">
+    <div class="modal fade" id="addNewAdminModal" role="dialog">
+        <div class="modal-dialog addNewAdminModal">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 align="center">Send a Message</h5>
+                <div class="modal-header" style="background-color: #A2C710;">
+                    <h5 align="center">Add New Admin</h5>
                 </div>
                 
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="subjectQuote"><span class="fas fa-envelope"></span> Subject</label>
-                        <input type="text" class="form-control" id="subjectQuote" name="subjectQuote" placeholder="Subject" autofocus maxlength="30">
-                    </div>
-                    <div class="form-group">
-                        <label for=quoteMessage><span class="fas fa-envelope-open-text"></span> Message</label>
-                        <textarea class="form-control" id="emailMsg" name="emailMsg" rows="10" placeholder="Type your message here."></textarea>
-                    </div>
-                    <button class="btn btn-dark btn-sm">Upload File</button>
+                    <form>
+                        <div class="form-group">
+                            <label for="firstName"><span class="fas fa-id-card"></span> First Name</label>
+                            <input type="text" class="form-control" id="firstName" name="branch" placeholder="First Name" autofocus maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="middleName"><span class="fas fa-id-card"></span> Middle Name</label>
+                            <input type="text" class="form-control" id="middleName" name="middleName" placeholder="Middle Name" maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName"><span class="fas fa-id-card"></span> Last Name</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name"  maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="adminEmail"><span class="fas fa-envelope"></span> E-mail Address</label>
+                            <input type="email" class="form-control" id="adminEmail" name="adminEmail" placeholder="E-mail Address" maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="adminContact"><span class="fas fa-phone"></span> Contact Number</label>
+                            <input type="text" class="form-control" id="adminContact" name="adminContact" placeholder="Contact Number" maxlength="11">
+                        </div>
+                        <div class="form-group">
+                            <label for="adminUsername"><span class="fas fa-users"></span> Username</label>
+                            <input type="text" class="form-control" id="instructorUsername" name="instructorUsername" placeholder="Username" maxlength="50">
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success">Send</button>
+                    <button type="button" class="btn btn-success">Add</button>
                     <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
