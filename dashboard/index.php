@@ -1,7 +1,8 @@
 <?php
-require_once "Template/header.php";
+require_once "template/header.php";
 ?>
 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="css/dashboard.chart.css">
 
 <div class="container">
@@ -489,7 +490,6 @@ require_once "Template/header.php";
 
 </div>
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -498,24 +498,14 @@ require_once "Template/header.php";
 
 <script type="text/javascript" src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#tbl_upcoming').DataTable();
-        $('#tbl_ongoing').DataTable();
-    });
-</script>
-
+<script src="js/dashboard.index.js"></script>
 
 <!-- Amcharts Resources -->
-<script src="https://www.amcharts.com/lib/4/core.js"></script>
-<script src="https://www.amcharts.com/lib/4/charts.js"></script>
-<script src="//www.amcharts.com/lib/4/themes/animated.js"></script>
-<script src="//www.amcharts.com/lib/4/themes/kelly.js"></script>
-<script src="//www.amcharts.com/lib/4/themes/material.js"></script>
+<script src="js/amcharts_4.9.4/core.js"></script>
+<script src="js/amcharts_4.9.4/charts.js"></script>
+<script src="js/amcharts_4.9.4/themes/animated.js"></script>
+<script src="js/amcharts_4.9.4/themes/kelly.js"></script>
+<script src="js/amcharts_4.9.4/themes/material.js"></script>
 
 <!-- Chart code -->
 <script src="js/dashboard.chart.js"></script>
-
-<?php
-require_once "Template/footer.php";
-?>

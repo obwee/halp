@@ -5,7 +5,7 @@ include_once 'utils/autoload.php';
 
 $sClassName = $_REQUEST['class'];
 $sAction = $_REQUEST['action'];
-$sFile = $_SERVER['DOCUMENT_ROOT'] . '/Nexus/class/class.' . $sClassName . '.php';
+$sFile = $_SERVER['DOCUMENT_ROOT'] . '/Nexus/class/Controllers/class.' . $sClassName . '.php';
 
 $aResult =    array(
     'result' => false,
