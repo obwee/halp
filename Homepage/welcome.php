@@ -433,7 +433,7 @@
                         </div>
                         <div class="form-group">
                             <label for="quoteContactNum"><span class="fas fa-user-circle"></span> Contact Number</label>
-                            <input type="text" class="form-control" id="quoteContactNum" name="quoteContactNum" placeholder="Contact Number" autofocus maxlength="13">
+                            <input type="text" class="form-control" id="quoteContactNum" name="quoteContactNum" placeholder="Contact Number" autofocus maxlength="12">
                         </div>
                         <div class="form-group">
                             <label for="quoteEmail"><span class="fas fa-envelope"></span> E-mail Address</label>
@@ -458,6 +458,10 @@
                                 <select class="form-control quoteSchedule" name="quoteSchedule[]" disabled>
                                     <option value="" selected disabled hidden>Select Course First</option>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="numPax"><span class="fas fa-user-friends"></span> PAX</label>
+                                <input type="number" class="form-control numPax" placeholder="Number of Persons" name="numPax[]" id="numPax" min="1" max="100" value="1">
                             </div>
                         </div>
                         <div class="form-group">

@@ -1,4 +1,4 @@
-let Homepage = (() => {
+var Homepage = (() => {
 
     let aCoursesAndSchedules = [];
 
@@ -19,12 +19,7 @@ let Homepage = (() => {
             let oCourseDiv = $('.courseAndScheduleDiv').filter(':visible').last();
 
             if (oCourseDiv.find('select.quoteCourse').val() === null) {
-                return Swal.fire({
-                    title: 'Error.',
-                    text: 'Please select a course first.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
+                return displayAlertMessage('error', 'Please select a course first.');
             }
 
             aFilteredCoursesAndSchedules = aFilteredCoursesAndSchedules.filter(function (aCourse) {
@@ -106,6 +101,13 @@ let Homepage = (() => {
             return this.value = this.value.replace(/[^a-zA-Z\s\.]/g, '');
         });
 
+        $(document).on('keyup keydown', '#numPax', function () {
+            if ($(this).val() > 100) {
+                return this.value = this.value.slice(0, -1);
+            }
+            return this.value = this.value.replace(/^0/g, '');
+        });
+
         $(document).on('keyup keydown', '#registrationContactNum, #quoteContactNum', function () {
             return this.value = this.value.replace(/[^0-9]/g, '');
         });
@@ -137,14 +139,17 @@ let Homepage = (() => {
             let aForms = {
                 '#registrationForm': {
                     'validationMethod': validateRegisterInputs(),
+                    'requestClass': 'Student',
                     'requestAction': 'registerStudent'
                 },
                 '#quotationForm': {
                     'validationMethod': validateQuoteInputs(),
+                    'requestClass': 'Student',
                     'requestAction': 'requestQuotation'
                 },
                 '#emailForm': {
                     'validationMethod': validateEmailUsInputs(),
+                    'requestClass': 'Student',
                     'requestAction': 'sendEmail'
                 }
             }
@@ -160,6 +165,9 @@ let Homepage = (() => {
             // Validate the inputs of the submitted form and store the result inside validateInputs variable.
             let validateInputs = aForms[formName].validationMethod;
 
+            // Get the request class of the form submitted.
+            let requestClass = aForms[formName].requestClass;
+
             // Get the request action of the form submitted.
             let requestAction = aForms[formName].requestAction;
 
@@ -171,6 +179,7 @@ let Homepage = (() => {
                 if (formName === '#quotationForm') {
                     let aSelectedCourses = [];
                     let aSelectedSchedules = [];
+                    let aSelectedNumPax = [];
 
                     // Get courses.
                     $('select[name="quoteCourse[]"]:visible').each(function () {
@@ -182,6 +191,11 @@ let Homepage = (() => {
                         aSelectedSchedules.push($(this).val());
                     });
 
+                    // Get numpax.
+                    $('input[name="numPax[]"]:visible').each(function () {
+                        aSelectedNumPax.push($(this).val());
+                    });
+
                     // Remove unnecessary data to be sent in AJAX request.
                     formData = formData.filter(function (sFormKey) {
                         return sFormKey.name != 'quoteCourse[]' && sFormKey.name != 'quoteSchedule[]' && sFormKey.value !== '';
@@ -189,34 +203,25 @@ let Homepage = (() => {
 
                     formData.push({ 'name': 'quoteCourses', 'value': aSelectedCourses });
                     formData.push({ 'name': 'quoteSchedules', 'value': aSelectedSchedules });
+                    formData.push({ 'name': 'quoteNumPax', 'value': aSelectedNumPax });
                 }
 
                 // Execute AJAX request.
                 $.ajax({
-                    url: '../utils/ajax.php?class=Student&action=' + requestAction,
+                    url: `../utils/ajax.php?class=${requestClass}&action=${requestAction}`,
                     type: 'post',
                     data: formData,
                     dataType: 'json',
                     success: function (response) {
                         if (response.result === true) {
                             $(formName).parents().find('div.modal').modal('hide');
-                            Swal.fire({
-                                title: 'Success.',
-                                text: response.msg,
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            });
+                            displayAlertMessage('success', response.msg);
                         } else {
                             displayErrorMessage(formName, response.msg, response.element);
                         }
                     },
                     error: function () {
-                        Swal.fire({
-                            title: 'Error.',
-                            text: 'An error has occured. Please try again.',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
+                        displayAlertMessage('error', 'An error has occured. Please try again.');
                     }
                 });
             } else { // This means that there's an error while validating inputs.
@@ -224,6 +229,25 @@ let Homepage = (() => {
             }
             disableFormState(formName, false);
         });
+    }
+
+    function displayAlertMessage(sType, sMsg) {
+        let oSwal = {
+            'error': {
+                title: 'Error.',
+                text: sMsg,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            },
+            'success': {
+                title: 'Success.',
+                text: sMsg,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }
+        };
+
+        Swal.fire(oSwal[sType]);
     }
 
     // Toggle disabled state of the form.
@@ -566,6 +590,16 @@ let Homepage = (() => {
                 element: '.quoteCourse',
                 msg: 'Please select a course.'
             };
+        }
+
+        let numPaxRegex = /^(?!-\d+|0)\d+$/g;
+        
+        if ($('#numPax').val() < 1 || $('#numPax').val() > 100 || numPaxRegex.test($('#numPax').val()) === false) {
+            return {
+                result: false,
+                element: '#numPax',
+                msg: 'Invalid value for number of persons.'
+            }
         }
 
         // Return the result of the validation.

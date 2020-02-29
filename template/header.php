@@ -21,9 +21,9 @@
    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
    <!-- Datatables -->
-   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/b-1.5.4/r-2.2.2/rg-1.1.0/rr-1.2.4/sc-1.5.0/sl-1.2.6/datatables.css">
+   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 
-   <link rel="stylesheet" type="text/css" href="CDNs/admin.css">
+   <!-- <link rel="stylesheet" type="text/css" href="../CDNs/admin.css"> -->
 
    <style type="text/css">
    .dropdown-menu{
