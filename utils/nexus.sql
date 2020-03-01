@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 28, 2020 at 06:04 PM
+-- Generation Time: Mar 01, 2020 at 05:16 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -126,10 +126,28 @@ CREATE TABLE `tbl_quotation_details` (
   `senderId` int(11) NOT NULL,
   `courseId` varchar(255) NOT NULL,
   `scheduleId` int(11) NOT NULL,
+  `numPax` int(11) NOT NULL,
+  `dateRequested` datetime NOT NULL,
   `dateSent` datetime NOT NULL,
+  `companyName` varchar(255) NOT NULL,
   `isCompanySponsored` tinyint(1) NOT NULL DEFAULT 0,
   `isQuotationSent` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_quotation_details`
+--
+
+INSERT INTO `tbl_quotation_details` (`id`, `userId`, `senderId`, `courseId`, `scheduleId`, `numPax`, `dateRequested`, `dateSent`, `companyName`, `isCompanySponsored`, `isQuotationSent`) VALUES
+(24, 0, 13, '1', 2, 1, '2020-03-01 16:29:52', '0000-00-00 00:00:00', '', 0, 0),
+(25, 0, 13, '3', 4, 2, '2020-03-01 16:29:52', '0000-00-00 00:00:00', '', 0, 0),
+(26, 0, 14, '4', 5, 2, '2020-02-29 16:30:43', '0000-00-00 00:00:00', '', 0, 0),
+(27, 0, 14, '3', 4, 1, '2020-02-29 16:30:43', '0000-00-00 00:00:00', '', 0, 0),
+(28, 98, 0, '1', 2, 4, '2020-02-28 16:31:04', '0000-00-00 00:00:00', 'Cafe24 PH', 0, 0),
+(29, 98, 0, '2', 3, 2, '2020-03-01 18:41:31', '0000-00-00 00:00:00', '', 0, 0),
+(30, 98, 0, '3', 4, 1, '2020-03-01 18:41:31', '0000-00-00 00:00:00', '', 0, 0),
+(33, 0, 13, '1', 0, 1, '2020-03-01 21:28:48', '0000-00-00 00:00:00', 'Gelabee Corp.', 1, 0),
+(34, 0, 13, '2', 3, 2, '2020-03-01 21:28:48', '0000-00-00 00:00:00', 'Gelabee Corp.', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -143,9 +161,16 @@ CREATE TABLE `tbl_quotation_senders` (
   `middleName` varchar(255) NOT NULL,
   `lastName` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `contactNum` varchar(255) NOT NULL,
-  `companyName` varchar(255) NOT NULL
+  `contactNum` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_quotation_senders`
+--
+
+INSERT INTO `tbl_quotation_senders` (`quoteSenderId`, `firstName`, `middleName`, `lastName`, `email`, `contactNum`) VALUES
+(13, 'Angela', 'Valenzuela', 'Macandili', 'macandili.gelabee@gmail.com', '09161225985'),
+(14, 'Andrei', 'Valenzuela', 'Macandili', 'itsmeandrei@gmail.com', '09171336096');
 
 -- --------------------------------------------------------
 
@@ -363,13 +388,13 @@ ALTER TABLE `tbl_payment_methods`
 -- AUTO_INCREMENT for table `tbl_quotation_details`
 --
 ALTER TABLE `tbl_quotation_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `tbl_quotation_senders`
 --
 ALTER TABLE `tbl_quotation_senders`
-  MODIFY `quoteSenderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `quoteSenderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `tbl_schedules`

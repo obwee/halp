@@ -13,4 +13,3 @@ var oSchedule = (() => {
 $(document).ready(function () {
     oSchedule.initialize();
 });
-

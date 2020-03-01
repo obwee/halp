@@ -1,14 +1,13 @@
 <?php
-require_once "Template/header.php";
+require_once "template/header.php";
 ?>
 
+<div class="container">
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+		<p class="h2">Sent Quotations</p>
 
-	<div class="container">
-		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-			<p class="h2">Sent Quotations</p>
-
-		</div>
-
+	</div>
+	<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
 		<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
 			<div align="right">
 			</div>
@@ -50,6 +49,7 @@ require_once "Template/header.php";
 			</table>
 		</div>
 	</div>
+</div>
 
 	<div class="modal fade" id="viewQuoteModal" tabindex="-1" role="dialog">
     	<div class="modal-dialog viewQuoteModal">
@@ -129,7 +129,6 @@ require_once "Template/header.php";
     	</div>
     </div>
 
-
 <?php
 require_once "template/scripts.php";
 ?>
@@ -137,5 +136,5 @@ require_once "template/scripts.php";
 <script src="js/dashboard.sentQuotations.js"></script>
 
 <?php
-require_once "Template/footer.php";
+require_once "template/footer.php";
 ?>

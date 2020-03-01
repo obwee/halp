@@ -13,6 +13,3 @@ var oEditCourse = (() => {
 $(document).ready(function () {
     oEditCourse.initialize();
 });
-
-
-
