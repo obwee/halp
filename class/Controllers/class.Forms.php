@@ -1,14 +1,7 @@
 <?php
 
-class Forms
+class Forms extends BaseController
 {
-
-    /**
-     * @var array $aParams
-     * Holder of request parameters sent by AJAX.
-     */
-    private $aParams;
-
     /**
      * @var CourseModel $oModel
      * Class instance for Course model.

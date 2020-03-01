@@ -4,14 +4,8 @@
  * Student
  * Class for student-related functionalities.
  */
-class Student
+class Student extends BaseController
 {
-    /**
-     * @var array $aParams
-     * Holder of request parameters sent by AJAX.
-     */
-    private $aParams;
-
     /**
      * @var StudentModel $oStudentModel
      * Class instance for Student model.
@@ -96,14 +90,13 @@ class Student
 
             $this->prepareData('quotation');
 
-            if (empty($iUserId) === true) {
+            if (empty($iUserId) === true && empty($iQuoteSenderId) === true) {
                 $aSenderDetails = array(
                     ':firstName'   => $this->aParams[':firstName'],
                     ':middleName'  => $this->aParams[':middleName'],
                     ':lastName'    => $this->aParams[':lastName'],
                     ':email'       => $this->aParams[':email'],
-                    ':contactNum'  => $this->aParams[':contactNum'],
-                    ':companyName' => $this->aParams[':companyName']
+                    ':contactNum'  => $this->aParams[':contactNum']
                 );
                 $iQuoteSenderId = $this->oQuotationModel->insertQuotationSender($aSenderDetails);
             }
@@ -118,7 +111,8 @@ class Student
                     ':courseId'           => $this->aParams[':quoteCourses'][$iKey],
                     ':scheduleId'         => $this->aParams[':quoteSchedules'][$iKey],
                     ':numPax'             => $this->aParams[':quoteNumPax'][$iKey],
-                    // ':dateSent'           => $sDateNow,
+                    ':companyName'        => $this->aParams[':companyName'],
+                    ':dateRequested'      => $sDateNow,
                     ':isCompanySponsored' => $this->aParams[':quoteBillToCompany']
                 );
                 $this->oQuotationModel->insertQuotationDetails($aQuotationDetails);

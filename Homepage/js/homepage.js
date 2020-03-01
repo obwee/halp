@@ -1,7 +1,6 @@
-var Homepage = (() => {
+var oHomepage = (() => {
 
     let aCoursesAndSchedules = [];
-
     let aFilteredCoursesAndSchedules = [];
 
     function init() {
@@ -12,14 +11,14 @@ var Homepage = (() => {
     function prepareDomEvents() {
 
         $(document).on('change', '.quoteCourse', function () {
-            populateCourseSchedule($(this).val());
+            oForms.populateCourseSchedule($(this).val());
         });
 
         $(document).on('click', '.addCourseBtn', function () {
             let oCourseDiv = $('.courseAndScheduleDiv').filter(':visible').last();
 
             if (oCourseDiv.find('select.quoteCourse').val() === null) {
-                return displayAlertMessage('error', 'Please select a course first.');
+                return oLibraries.displayAlertMessage('error', 'Please select a course first.');
             }
 
             aFilteredCoursesAndSchedules = aFilteredCoursesAndSchedules.filter(function (aCourse) {
@@ -29,7 +28,7 @@ var Homepage = (() => {
             oCourseDiv.find('.quoteCourse').attr('disabled', true);
             oCourseDiv.find('.quoteSchedule').attr('disabled', true);
 
-            populateCourseDropdown(aFilteredCoursesAndSchedules);
+            oForms.populateCourseDropdown(aFilteredCoursesAndSchedules);
 
             if ($('.courseAndScheduleDiv').filter(':hidden').length === 0) {
                 $('.addCourseBtn').parent().css('display', 'none');
@@ -62,7 +61,7 @@ var Homepage = (() => {
                 return aCourse.courseId == oCourseDiv.last().val();
             })[0]);
 
-            populateCourseSchedule(oCourseDiv.last().val(), true);
+            oForms.populateCourseSchedule(oCourseDiv.last().val(), true);
 
             if (oCourseDiv.parent().parent().length === 1) {
                 $('.addCourseBtn').parent().attr('class', 'col-sm-12 text-center');
@@ -77,7 +76,7 @@ var Homepage = (() => {
         $(document).on('click', 'a[data-toggle="modal"]', function () {
             let modalId = $(this).attr('data-target');
             let formName = '#' + $(modalId).find('form').attr('id') + '';
-            resetInputBorders(formName);
+            oForms.resetInputBorders(formName);
             $(formName)[0].reset();
             $('.error-msg').css('display', 'none').html('');
         });
@@ -87,7 +86,7 @@ var Homepage = (() => {
             $('.courseAndScheduleDiv:first').find('select.quoteCourse').attr('disabled', false);
             $('.courseAndScheduleDiv:first').find('select.quoteSchedule').attr('disabled', true);
             aFilteredCoursesAndSchedules = aCoursesAndSchedules;
-            cloneDivElements(aCoursesAndSchedules.length);
+            oForms.cloneDivElements(aCoursesAndSchedules.length);
             $('.addCourseBtn').parent().attr('class', 'col-sm-12 text-center').css('display', 'block');
             $('.deleteCourseBtn').parent().css('display', 'none');
         });
@@ -135,41 +134,22 @@ var Homepage = (() => {
         $(document).on('submit', 'form', function (event) {
             event.preventDefault();
 
-            // Create an object with key names of forms and its corresponding validation and request action as its value.
-            let aForms = {
-                '#registrationForm': {
-                    'validationMethod': validateRegisterInputs(),
-                    'requestClass': 'Student',
-                    'requestAction': 'registerStudent'
-                },
-                '#quotationForm': {
-                    'validationMethod': validateQuoteInputs(),
-                    'requestClass': 'Student',
-                    'requestAction': 'requestQuotation'
-                },
-                '#emailForm': {
-                    'validationMethod': validateEmailUsInputs(),
-                    'requestClass': 'Student',
-                    'requestAction': 'sendEmail'
-                }
-            }
-
             // Get the form name being submitted.
             let formName = '#' + $(this).attr('id') + '';
 
-            disableFormState(formName, true);
+            oForms.disableFormState(formName, true);
 
-            // Invoke the resetInputBorders method for that form.
-            resetInputBorders(formName);
+            // Invoke the resetInputBorders method inside oForms utils for that form.
+            oForms.resetInputBorders(formName);
 
             // Validate the inputs of the submitted form and store the result inside validateInputs variable.
-            let validateInputs = aForms[formName].validationMethod;
+            let validateInputs = oValidations.oForms[formName].validationMethod;
 
             // Get the request class of the form submitted.
-            let requestClass = aForms[formName].requestClass;
+            let requestClass = oValidations.oForms[formName].requestClass;
 
             // Get the request action of the form submitted.
-            let requestAction = aForms[formName].requestAction;
+            let requestAction = oValidations.oForms[formName].requestAction;
 
             // Check if input validation result is true.
             if (validateInputs.result === true) {
@@ -215,70 +195,20 @@ var Homepage = (() => {
                     success: function (response) {
                         if (response.result === true) {
                             $(formName).parents().find('div.modal').modal('hide');
-                            displayAlertMessage('success', response.msg);
+                            oLibraries.displayAlertMessage('success', response.msg);
                         } else {
-                            displayErrorMessage(formName, response.msg, response.element);
+                            oLibraries.displayErrorMessage(formName, response.msg, response.element);
                         }
                     },
                     error: function () {
-                        displayAlertMessage('error', 'An error has occured. Please try again.');
+                        oLibraries.displayAlertMessage('error', 'An error has occured. Please try again.');
                     }
                 });
             } else { // This means that there's an error while validating inputs.
-                displayErrorMessage(formName, validateInputs.msg, validateInputs.element);
+                oLibraries.displayErrorMessage(formName, validateInputs.msg, validateInputs.element);
             }
-            disableFormState(formName, false);
+            oForms.disableFormState(formName, false);
         });
-    }
-
-    function displayAlertMessage(sType, sMsg) {
-        let oSwal = {
-            'error': {
-                title: 'Error.',
-                text: sMsg,
-                icon: 'error',
-                confirmButtonText: 'OK'
-            },
-            'success': {
-                title: 'Success.',
-                text: sMsg,
-                icon: 'success',
-                confirmButtonText: 'OK'
-            }
-        };
-
-        Swal.fire(oSwal[sType]);
-    }
-
-    // Toggle disabled state of the form.
-    function disableFormState(formName, state) {
-        $(formName).find('div[class="modal-footer"] button').prop('disabled', state);
-        $(formName).prop('disabled', state);
-    }
-
-    // Remove existing red borders on inputs.
-    function resetInputBorders(formName) {
-        $(formName).find('input').css('border', '1px solid #ccc');
-    }
-
-    function displayErrorMessage(formName, msg, element) {
-        // Scroll to div that displays the error message.
-        $(formName).parents().find('div.modal').animate({
-            scrollTop: $('.error-msg').offset().top
-        } /* speed */);
-
-        // Display error message.
-        $('.error-msg')
-            .css('display', 'block')
-            .html("<span class='text-danger'><i class='fas fa-exclamation-triangle'></i> " + msg + "</span>");
-
-        // Highlight the input that has an error.
-        $(element).css('border', '1px solid red');
-
-        // Remove the error message after 2000 milliseconds.
-        setTimeout(function () {
-            $('.error-msg').css('display', 'none').html('');
-        }, 3000);
     }
 
     function fetchData() {
@@ -290,409 +220,10 @@ var Homepage = (() => {
             success: function (response) {
                 aCoursesAndSchedules = response;
                 aFilteredCoursesAndSchedules = aCoursesAndSchedules;
-                cloneDivElements(aCoursesAndSchedules.length);
-                populateCourseDropdown(aFilteredCoursesAndSchedules);
+                oForms.cloneDivElements(aCoursesAndSchedules.length);
+                oForms.populateCourseDropdown(aFilteredCoursesAndSchedules);
             }
         });
-    }
-
-    function cloneDivElements(iCount) {
-        for (let i = 1; i < iCount; i++) {
-            let oCourseScheduleDiv = $('.courseAndScheduleDiv:last').clone();
-            oCourseScheduleDiv.insertAfter('.courseAndScheduleDiv:last').css('display', 'none');
-        }
-    }
-
-    function populateCourseDropdown(aCourses) {
-        let oCourseDropdown = $('.courseAndScheduleDiv[style*="display: none"]').first().find('.quoteCourse');
-        oCourseDropdown.parent().parent().css('display', 'block');
-        oCourseDropdown.empty().append($('<option value="" selected disabled hidden>Select Course</option>'));
-
-        $.each(aCourses, function (iKey, oCourse) {
-            oCourseDropdown.append($('<option />').val(oCourse.courseId).text(oCourse.courseName));
-        });
-    }
-
-    function populateCourseSchedule(iCourseId, bIsDeletePressed = false) {
-        let oSchedule = $('.courseAndScheduleDiv[style*="display: block"]').last().find('.quoteSchedule');
-        let iSelectedScheduleId = oSchedule.find('option:selected').val();
-
-        let oFilteredCourse = aFilteredCoursesAndSchedules.filter(function (aCourse) {
-            return aCourse.courseId == iCourseId;
-        })[0];
-
-        let aSchedules = oFilteredCourse.schedule;
-
-        oSchedule
-            .empty()
-            .attr('disabled', false)
-            .append($('<option value="" selected disabled hidden>Select Schedule</option>'));
-
-        $.each(aSchedules, function (iKey, sSchedule) {
-            oSchedule.append($('<option />').val(oFilteredCourse.scheduleId).text(sSchedule));
-        });
-
-        if (bIsDeletePressed === true) {
-            oSchedule.val(iSelectedScheduleId);
-        } else {
-            oSchedule.find('option:eq(0)').prop('selected', true)
-        }
-    }
-
-    // This method validates the inputs of the user before submission for registration.
-    function validateRegisterInputs() {
-
-        // Declare an object with properties related to inputs that need to be validated.
-        let registerInputRules = [
-            {
-                name: 'First name',
-                element: '#registrationFname',
-                length: $.trim($('#registrationFname').val()).length,
-                minLength: 2,
-                maxLength: 30,
-                pattern: /^[a-zA-Z\s\.]+$/g
-            },
-            {
-                name: 'Last name',
-                element: '#registrationLname',
-                length: $.trim($('#registrationLname').val()).length,
-                minLength: 2,
-                maxLength: 30,
-                pattern: /^[a-zA-Z\s\.]+$/g
-            },
-            {
-                name: 'Contact number',
-                element: '#registrationContactNum',
-                length: $.trim($('#registrationContactNum').val()).length,
-                minLength: 7,
-                maxLength: 12,
-                pattern: /^[0-9]+$/g
-            },
-            {
-                name: 'Email address',
-                element: '#registrationEmail',
-                length: $.trim($('#registrationEmail').val()).length,
-                minLength: 4,
-                maxLength: 50,
-                pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
-            },
-            {
-                name: 'Username',
-                element: '#registrationUsername',
-                length: $.trim($('#registrationUsername').val()).length,
-                minLength: 4,
-                maxLength: 15,
-                pattern: /^(?![0-9_])\w+$/g
-            },
-            {
-                name: 'Password',
-                element: '#registrationPassword',
-                length: $.trim($('#registrationPassword').val()).length,
-                minLength: 4,
-                maxLength: 30
-            },
-            {
-                name: 'Password',
-                element: '#registrationConfirmPassword',
-                length: $.trim($('#registrationConfirmPassword').val()).length,
-                minLength: 4,
-                maxLength: 30
-            },
-        ];
-
-        // Declare initially the validation result to be returned by the function.
-        let validationResult = {
-            result: true
-        }
-
-        // Check if middle name has a value.
-        if ($.trim($('#registrationMname').val()).length !== 0) {
-            registerInputRules.splice(1, 0,
-                {
-                    name: 'Middle name',
-                    element: '#registrationMname',
-                    length: $.trim($('#registrationMname').val()).length,
-                    minLength: 2,
-                    maxLength: 30,
-                    pattern: /^[a-zA-Z\s\.]+$/g
-                },
-            );
-        }
-        // Check if company name has a value.
-        if ($.trim($('#registrationCompanyName').val()).length !== 0) {
-            registerInputRules.splice(4, 0,
-                {
-                    name: 'Company name',
-                    element: '#registrationCompanyName',
-                    length: $.trim($('#registrationCompanyName').val()).length,
-                    minLength: 4,
-                    maxLength: 50,
-                    pattern: /^[a-zA-Z0-9\s\.]+$/g
-                },
-            );
-        }
-
-        // Loop thru each registerInputRules and if there are rules violated, return false and the error message.
-        $.each(registerInputRules, function (key, inputRule) {
-            if (inputRule.length < inputRule.minLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
-                };
-                return false;
-            }
-            if (inputRule.length > inputRule.maxLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
-                };
-                return false;
-            }
-            if ((inputRule.name !== 'Password') && (inputRule.pattern.test($(inputRule.element).val()) === false)) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' input is invalid.'
-                };
-                return false;
-            }
-        });
-
-        // Check if passwords are equal.
-        if ($('#registrationPassword').val() !== $('#registrationConfirmPassword').val()) {
-            validationResult = {
-                result: false,
-                element: '#registrationPassword, #registrationConfirmPassword',
-                msg: 'Passwords do not match.'
-            };
-        }
-
-        // Return the result of the validation.
-        return validationResult;
-    }
-
-    // This method validates the inputs of the user before submission for quotation.
-    function validateQuoteInputs() {
-
-        // Declare an object with properties related to inputs that need to be validated.
-        let quoteInputRules = [
-            {
-                name: 'First name',
-                element: '#quoteFname',
-                length: $.trim($('#quoteFname').val()).length,
-                minLength: 2,
-                maxLength: 30,
-                pattern: /^[a-zA-Z\s\.]+$/g
-            },
-            {
-                name: 'Last name',
-                element: '#quoteLname',
-                length: $.trim($('#quoteLname').val()).length,
-                minLength: 2,
-                maxLength: 30,
-                pattern: /^[a-zA-Z\s\.]+$/g
-            },
-            {
-                name: 'Contact number',
-                element: '#quoteContactNum',
-                length: $.trim($('#quoteContactNum').val()).length,
-                minLength: 7,
-                maxLength: 12,
-                pattern: /^[0-9]+$/g
-            },
-            {
-                name: 'Email address',
-                element: '#quoteEmail',
-                length: $.trim($('#quoteEmail').val()).length,
-                minLength: 4,
-                maxLength: 50,
-                pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
-            }
-        ];
-
-        // Declare initially the validation result to be returned by the function.
-        let validationResult = {
-            result: true
-        }
-
-        // Check if middle name has a value.
-        if ($.trim($('#quoteMname').val()).length !== 0) {
-            quoteInputRules.push(
-                {
-                    name: 'Middle name',
-                    element: '#quoteMname',
-                    length: $.trim($('#quoteMname').val()).length,
-                    minLength: 2,
-                    maxLength: 30,
-                    pattern: /^[a-zA-Z\s\.]+$/g
-                },
-            );
-        }
-
-        // Check if company name has a value.
-        if ($.trim($('#quoteCompanyName').val()).length !== 0) {
-            quoteInputRules.push(
-                {
-                    name: 'Company name',
-                    element: '#quoteCompanyName',
-                    length: $.trim($('#quoteCompanyName').val()).length,
-                    minLength: 4,
-                    maxLength: 50,
-                    pattern: /^[a-zA-Z0-9\s\.]+$/g
-                },
-            );
-        }
-
-        // Loop thru each quoteInputRules and if there are rules violated, return false and the error message.
-        $.each(quoteInputRules, function (key, inputRule) {
-            if (inputRule.length < inputRule.minLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
-                };
-                return false;
-            }
-            if (inputRule.length > inputRule.maxLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
-                };
-                return false;
-            }
-            if (inputRule.pattern.test($(inputRule.element).val()) === false) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' input is invalid.'
-                };
-                return false;
-            }
-        });
-
-        let iBillToCompany = $('#quoteBillToCompany').is(':checked') ? 1 : 0;
-        $('#quoteBillToCompany').val(iBillToCompany);
-
-        if (iBillToCompany === 1 && $('#quoteCompanyName').val() === '') {
-            return {
-                result: false,
-                element: '#quoteCompanyName',
-                msg: 'Please specify company name if billing to company.'
-            };
-        }
-
-        if ($('.quoteCourse').val() === null) {
-            return {
-                result: false,
-                element: '.quoteCourse',
-                msg: 'Please select a course.'
-            };
-        }
-
-        let numPaxRegex = /^(?!-\d+|0)\d+$/g;
-        
-        if ($('#numPax').val() < 1 || $('#numPax').val() > 100 || numPaxRegex.test($('#numPax').val()) === false) {
-            return {
-                result: false,
-                element: '#numPax',
-                msg: 'Invalid value for number of persons.'
-            }
-        }
-
-        // Return the result of the validation.
-        return validationResult;
-    }
-
-    // This method validates the inputs of the user before submission for emailing.
-    function validateEmailUsInputs() {
-
-        // Declare an object with properties related to inputs that need to be validated.
-        let emailInputRules = [
-            {
-                name: 'First name',
-                element: '#emailFname',
-                length: $.trim($('#emailFname').val()).length,
-                minLength: 2,
-                maxLength: 30,
-                pattern: /^[a-zA-Z\s\.]+$/g
-            },
-            {
-                name: 'Last name',
-                element: '#emailLname',
-                length: $.trim($('#emailFname').val()).length,
-                minLength: 2,
-                maxLength: 30,
-                pattern: /^[a-zA-Z\s\.]+$/g
-            },
-            {
-                name: 'Email address',
-                element: '#emailAddress',
-                length: $.trim($('#emailAddress').val()).length,
-                minLength: 4,
-                maxLength: 50,
-                pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
-            },
-            {
-                name: 'Email title',
-                element: '#emailTitle',
-                length: $.trim($('#emailTitle').val()).length,
-                minLength: 4,
-                maxLength: 30,
-                pattern: /.+/g
-            },
-        ];
-
-        // Declare initially the validation result to be returned by the function.
-        let validationResult = {
-            result: true
-        }
-
-        // Check if middle name has a value.
-        if ($.trim($('#emailMname').val()).length !== 0) {
-            emailInputRules.push(
-                {
-                    name: 'Middle name',
-                    element: '#emailMname',
-                    length: $.trim($('#emailMname').val()).length,
-                    minLength: 2,
-                    maxLength: 30,
-                    pattern: /^[a-zA-Z\s\.]+$/g
-                },
-            );
-        }
-
-        // Loop thru each emailInputRules and if there are rules violated, return false and the error message.
-        $.each(emailInputRules, function (key, inputRule) {
-            if (inputRule.length < inputRule.minLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
-                };
-                return false;
-            }
-            if (inputRule.length > inputRule.maxLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
-                };
-                return false;
-            }
-            if (inputRule.pattern.test($(inputRule.element).val()) === false) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' input is invalid.'
-                };
-                return false;
-            }
-        });
-        // Return the result of the validation.
-        return validationResult;
     }
 
     return {
@@ -701,5 +232,5 @@ var Homepage = (() => {
 })();
 
 $(() => {
-    Homepage.initialize();
+    oHomepage.initialize();
 });
