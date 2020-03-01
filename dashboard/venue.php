@@ -2,20 +2,6 @@
 require_once "Template/header.php";
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<!-- Required meta tags -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-
-</head>
-<body>
 	<div class="container">
 		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 			<p class="h2">Venues</p>
@@ -63,7 +49,7 @@ require_once "Template/header.php";
     <div class="modal fade" id="addNewBranchModal" role="dialog">
         <div class="modal-dialog modal-lg addNewBranchModal">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="background-color: #A2C710;">
                     <h5 align="center">Add New Branch</h5>
                 </div>
                 
@@ -94,7 +80,7 @@ require_once "Template/header.php";
     <div class="modal fade" id="editVenueModal" role="dialog">
         <div class="modal-dialog modal-lg editVenueModal">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="background-color: #A2C710;">
                     <h5 align="center">Edit Venue</h5>
                 </div>
                 
@@ -122,29 +108,12 @@ require_once "Template/header.php";
         </div>
     </div>
 
-   
-	<!-- Optional JavaScript -->
-	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-		
-	<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
-	<script type="text/javascript">
-		$(document).ready( function () {
-			$('#tbl_courses').DataTable();
-	
-		} );	
-		    
-	</script>
+<?php
+require_once "template/scripts.php";
+?>
 
 
-		
-	</body>
-</html>
-
-
-	<?php
-	require_once "Template/footer.php";
-	?>
+<?php
+require_once "template/footer.php";
+?>

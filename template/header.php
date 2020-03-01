@@ -117,7 +117,7 @@
             <li><a href="payment.php"><i class="fas fa-cash-register"></i>&emsp;Payment</a></li>
             <li><a href="reservations.php"><i class="fas fa-check"></i>&emsp;Reservations</a></li>
             <li><a href="unpaidStudents.php"><i class="fas fa-user-times"></i>&emsp;Unpaid Students</a></li>
-            <li><a href="#"><i class="fas fa-times"></i>&emsp;  Cancelled Reservations</a></li>
+            <li><a href="cancelledReservations.php"><i class="fas fa-times"></i>&emsp;  Cancelled Reservations</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -160,7 +160,7 @@
             <li><a href="venue.php"><i class="fas fa-map-marked-alt"></i>&emsp; Venue</a></li>
             <li><a href="instructors.php"><i class="fas fa-chalkboard-teacher"></i>&emsp;Instructors </a></li>
             <li><a href="credentials.php"><i class="fas fa-user-edit"></i>&emsp;Credentials </a></li>
-            <li><a href="editpaymentStatus.php"><i class="fas fa-hand-holding-usd"></i>&emsp; Payment Mode </a></li>
+            <li><a href="paymentMode.php"><i class="fas fa-hand-holding-usd"></i>&emsp; Payment Mode </a></li>
           </ul>
         </li>
         <li>

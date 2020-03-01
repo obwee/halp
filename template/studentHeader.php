@@ -5,23 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>NXS - Student Profile</title>
+  <title>Nexus IT Training Center</title>
   
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">  <!-- Font Awesome -->
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">  
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="CDNs/dashboard/font-awesome/css/all.css">
+  <link rel="stylesheet" href="../CDNs/dashboard/font-awesome/css/all.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="CDNs/dist/css/AdminLTE.css">
+  <link rel="stylesheet" href="../CDNs/dist/css/AdminLTE.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
    folder instead of downloading all of them to reduce the load. -->
-   <link rel="stylesheet" href="CDNs/dist/css/skins/skin-purple.css"> 
+   <link rel="stylesheet" href="../CDNs/dist/css/skins/skin-purple.min.css"> 
    <!-- Google Font -->
    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
    <!-- Datatables -->
-   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/b-1.5.4/r-2.2.2/rg-1.1.0/rr-1.2.4/sc-1.5.0/sl-1.2.6/datatables.css">
+   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 
-   <link rel="stylesheet" type="text/css" href="CDNs/admin.css">
+   <!-- <link rel="stylesheet" type="text/css" href="../CDNs/admin.css"> -->
 
    <style type="text/css">
    .dropdown-menu{
@@ -39,9 +41,9 @@
       <!-- Logo -->
       <a class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>NXS</span>
+        <span class="logo-mini"><b>NXS</b></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg">NXS - STUDENT</span>
+        <span class="logo-lg">Nexus - Student</span>
       </a>
       <!-- Header Navbar: style can be found in header.less -->
       <nav class="navbar navbar-static-top"> <!-- OR navbar fixed-top -->
@@ -85,42 +87,53 @@
           <span>&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;NAVIGATION</span>
         </li>
         <li class="">
-          <a href="dashboard.php">
+          <a href="index.php">
             <i class="fas fa-tachometer-alt"></i>
             <span>&emsp;Dashboard</span>
           </a>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-users-cog"></i>
-            <span>&emsp;Enrollment</span>
+            <i class="fas fa-file-invoice"></i>
+            <span>&emsp;  Quotations</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#"><i class="fas fa-mail-bulk"></i>&emsp;Quotations</a></li>
-            <!-- <li><a href="pendingBookings.php"><i class="fas fa-exchange-alt"></i>&emsp;View Pending Bookings</a></li> -->
-            <li><a href="#"><i class="fas fa-check"></i>&emsp;Reservation</a></li>
-            <li><a href="#"><i class="fas fa-check-double"></i>&emsp;Payment</a></li>
+            <li><a href="student.QuotationRequest.php"><i class="fas fa-mail-bulk"></i>&emsp;Quotation Requests</a></li>  
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-users-cog"></i>
+            <span>&emsp;Registration</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="student.Enrollment.php"><i class="fas fa-cash-register"></i>&emsp;Enrollment</a></li>
+            <li><a href="student.Payment.php"><i class="fas fa-check"></i>&emsp;Payment</a></li>
+            <li><a href="unpaidStudents.php"><i class="fas fa-user-times"></i>&emsp;Unpaid Courses</a></li>
+            <li><a href="#"><i class="fas fa-times"></i>&emsp;  Rescheduling / Refund</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#.php">
-            <i class="fa fa-folder"></i> 
-            <span>&emsp;View</span>
+            <i class="fas fa-users"></i> 
+            <span>&emsp;Trainings</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#"><i class="fas fa-paper-plane"></i>&emsp;Enrolled Courses</a></li>
-            <li><a href="#"><i class="fas fa-users"></i>&emsp;Registration Form</a></li>
+            <li><a href="editCourse.php"><i class="fas fa-users"></i>&emsp;Enrolled Courses</a></li>
           </ul>
         </li>
         <li>
          <li class="treeview">
-          <a href="#">
+          <a href="">
             <i class="fa fa-cog"></i> 
             <span>&emsp;Settings</span>
             <span class="pull-right-container">
@@ -128,13 +141,12 @@
             </span>
           </a>
           <ul class="treeview-menu">
-          <li><a href="#"><i class="fas fa-user-edit"></i>&emsp;Credentials </a></li>
-          </ul>
+            <li><a href="credentials.php"><i class="fas fa-user-edit"></i>&emsp;Credentials </a></li>
         </li>
         <li>
           <a href="logout.php" class="logout">
             <i class="fas fa-sign-out-alt"></i>
-            <span>&emsp;Logout</span>
+            <span>&emsp;   Logout</span>
           </a>
         </li>
       </ul>
