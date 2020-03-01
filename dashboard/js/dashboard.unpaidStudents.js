@@ -1,9 +1,9 @@
-var oEditCourse = (() => {
+var oUnpaidStudents = (() => {
 
     function init() {
-        $('#tbl_courses').DataTable();
+        $('#tbl_unpaidStudents').DataTable()
     }
-	
+
     return {
         initialize: init
     }
@@ -11,5 +11,6 @@ var oEditCourse = (() => {
 })();
 
 $(document).ready(function () {
-    oEditCourse.initialize();
+    oUnpaidStudents.initialize();
 });
+

@@ -1,9 +1,9 @@
-var oSentQuotations = (() => {
+var oEnrollment = (() => {
 
     function init() {
-        $('#tbl_quotations').DataTable();
+        $('#tbl_enrollment').DataTable();
     }
-
+	
     return {
         initialize: init
     }
@@ -11,5 +11,8 @@ var oSentQuotations = (() => {
 })();
 
 $(document).ready(function () {
-    oSentQuotations.initialize();
+    oEnrollment.initialize();
 });
+
+
+

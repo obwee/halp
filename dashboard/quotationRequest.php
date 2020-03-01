@@ -33,7 +33,7 @@ require_once "template/header.php";
 <div class="modal fade" id="getQuoteModal" role="dialog">
     <div class="modal-dialog getQuoteModal">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color: #A2C710;">
                 <h5 align="center"><span class="glyphicon glyphicon-plane"></span>Add New Quotation Request</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>

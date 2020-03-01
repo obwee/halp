@@ -1,7 +1,7 @@
-var oSentQuotations = (() => {
+var oCredentials = (() => {
 
     function init() {
-        $('#tbl_quotations').DataTable();
+        $('#tbl_users').DataTable();
     }
 
     return {
@@ -11,5 +11,5 @@ var oSentQuotations = (() => {
 })();
 
 $(document).ready(function () {
-    oSentQuotations.initialize();
+    oCredentials.initialize();
 });

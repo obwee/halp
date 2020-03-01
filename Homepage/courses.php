@@ -8,6 +8,7 @@
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
+
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" type="text/css" href="css/animate.css-master/animate.css">
 	<!--==============================================================================================-->
@@ -16,6 +17,8 @@
 	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:800&display=swap" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/be76a30cc4.js" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 
 	<title>Nexus IT Training Center</title>
 
@@ -78,152 +81,142 @@
 		<div>
 			<h2>TRAININGS</h2>
 		</div>
-		<div class="table-responsive table-bordered">
-			<table class="table">
-				<tr>
-					<th>Official Course Title</th>
-					<th>Course Code</th>
-					<th>Duration</th>
-					<th>Training Dates</th>
-					<th>Venue</th>
-					<th>Course Outline</th>
-				</tr>
-				<tr class="course">
-					<td class="courseTitle">Cisco Certified Network Associate V4: Implementing and Administering Cisco Solutions</td>
-					<td class="courseCode">200 - 301</td>
-					<td class="duration">5 days</td>
-					<td class="schedule">
-						<select>
-							<option>June 1 - June 5,2020</option>
-						</select>
-					</td>
-					<td class="venue">Makati</td>
-					<td class="courseOutline"><a href="https://www.tiny.cc/nexus-ccnav4" target="_blank">View Full Course Outline</a></td>
-				</tr>
-				<tr class="course">
-					<td class="courseTitle" style="padding:10px 10px;">Cisco Certified Network Professional: Implementing and Operating Cisco Enterprise Network Core Technologies</td>
-					<td class="courseCode">350 - 401</td>
-					<td class="duration">5 days</td>
-					<td class="schedule">
-						<select>
-							<option>June 1 - June 5,2020</option>
-						</select>
-					</td>
-					<td class="venue">Makati</td>
-					<td class="courseOutline"><a href="https://www.tiny.cc/ccnp" target="_blank">View Full Course Outline</a></td>
-				</tr>
-				<tr class="course">
-					<td class="courseTitle">Cisco Certified Network Professional: Implementing Cisco Enterprise Advanced Routing and Services</td>
-					<td class="courseCode">300 - 410</td>
-					<td class="duration">6 days</td>
-					<td class="schedule">
-						<select>
-							<option>June 1 - June 5,2020</option>
-						</select>
-					</td>
-					<td class="venue">Makati</td>
-					<td class="courseOutline"><a href="https://www.tiny.cc/ccnp" target="_blank">View Full Course Outline</a></td>
-				</tr>
-				<tr class="course">
-					<td class="courseTitle">Installing and Configuring Windows Server 2012</td>
-					<td class="courseCode">20410D</td>
-					<td class="duration">3 days</td>
-					<td class="schedule">
-						<select>
-							<option>June 1 - June 5,2020</option>
-						</select>
-					</td>
-					<td class="venue">Makati</td>
-					<td class="courseOutline"><a href="https://www.tiny.cc/nexus-410" target="_blank">View Full Course Outline</a></td>
-				</tr>
-				<tr class="course">
-					<td class="courseTitle">Microsoft Certified Solutions Associate in Windows Server 2012</td>
-					<td class="courseCode">20410D, 20411D, 20412D</td>
-					<td class="duration">5 days</td>
-					<td class="schedule">
-						<select>
-							<option>June 1 - June 5,2020</option>
-						</select>
-					</td>
-					<td class="venue">Makati</td>
-					<td class="courseOutline"><a href="https://www.tiny.cc/mcsa2012" target="_blank">View Full Course Outline</a></td>
-				</tr>
-				<tr class="course">
-					<td class="courseTitle">Microsoft Certified Solutions Associate in Windows Server 2016</td>
-					<td class="courseCode">20740C, 20741B, 20742B</td>
-					<td class="duration">5 days</td>
-					<td class="schedule">
-						<select>
-							<option>June 1 - June 5,2020</option>
-						</select>
-					</td>
-					<td class="venue">Makati</td>
-					<td class="courseOutline"><a href="https://tiny.cc/mcsa2016" target="_blank">View Full Course Outline</a></td>
-				</tr>
-				<tr class="course">
-					<td class="courseTitle">Microsoft Certified Azure Administrator</td>
-					<td class="courseCode">AZ-1003T00-A</td>
-					<td class="duration">3 days</td>
-					<td class="schedule">
-						<select>
-							<option>June 1 - June 5,2020</option>
-						</select>
-					</td>
-					<td class="venue">Makati</td>
-					<td class="courseOutline"><a href="https://www.tiny.cc/nexus-azure" target="_blank">View Full Course Outline</a></td>
-				</tr>
-				<tr class="course">
-					<td class="courseTitle">AWS Certified Solutions Architect - Associate</td>
-					<td class="courseCode">SAA-C02</td>
-					<td class="duration">3 days</td>
-					<td class="schedule">
-						<select>
-							<option>June 1 - June 5,2020</option>
-						</select>
-					</td>
-					<td class="venue">Makati</td>
-					<td class="courseOutline"><a href="https://www.tiny.cc/nexus-aws" target="_blank">View Full Course Outline</a></td>
-				</tr>
-				<tr class="course">
-					<td class="courseTitle">VMware vSPhere 6.7 ICM</td>
-					<td class="courseCode">CWS-215</td>
-					<td class="duration">3 days</td>
-					<td class="schedule">
-						<select>
-							<option>June 1 - June 5,2020</option>
-						</select>
-					</td>
-					<td class="venue">Makati</td>
-					<td class="courseOutline"><a href="https://www.tiny.cc/nexus-vmware67" target="_blank">View Full Course Outline</a></td>
-				</tr>
-				<tr class="course">
-					<td class="courseTitle">Ethical Hacking and Penetration Testing</td>
-					<td class="courseCode">EH</td>
-					<td class="duration">2 days</td>
-					<td class="schedule">
-						<select>
-							<option>June 1 - June 5,2020</option>
-						</select>
-					</td>
-					<td class="venue">Makati</td>
-					<td class="courseOutline"><a href="https://tiny.cc/ehpt" target="_blank">View Full Course Outline</a></td>
-				</tr>
-				<tr class="course">
-					<td class="courseTitle">Certified Cybersecurity Analyst+</td>
-					<td class="courseCode">CysA+</td>
-					<td class="duration">3 days</td>
-					<td class="schedule">
-						<select>
-							<option>June 1 - June 5,2020</option>
-						</select>
-					</td>
-					<td class="venue">Makati</td>
-					<td class="courseOutline"><a href="https://tiny.cc/nxscyber" target="_blank">View Full Course Outline</a></td>
-				</tr>
+		<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+			<table id="tbl_courses" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
+				<thead>
+					<tr>
+						<th style="white-space:nowrap;">Course Code</th>
+                        <th style="white-space:nowrap;">Official Course Title</th>
+                        <th style="white-space:nowrap;">Details</th>
+						<th style="white-space:nowrap;">Venue</th>
+						<th style="white-space:nowrap;">Schedule</th>
+					</tr>
+				</thead>	
+				<tbody>
+                    <tr>
+                        <td>CCNAv4</td>
+                        <td>Cisco Certified Network Associate v4</td>
+                        <td>Implementing and Administering Cisco Solutions</td>
+                        <td>
+                        	<select class="form-control">
+                        		<option>Makati</option>
+                        		<option>Manila</option>
+                        	</select>
+                        </td>
+                        <td></td>
+                    </tr>
+					<tr>
+                        <td>CCNP ENCORE</td>
+                        <td>Cisco Certified Network Professional</td>
+                        <td>Implementing and Operating Cisco Enterprise Network Core Technologies</td>
+                        <td>
+                        	<select class="form-control">
+                        		<option>Makati</option>
+                        		<option>Manila</option>
+                        	</select>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>CCNP</td>
+                        <td>Cisco Certified Network Professional</td>
+                        <td>Implementing Cisco Enterprise Advanced Routing and Services</td>
+                        <td>
+                        	<select class="form-control">
+                        		<option>Makati</option>
+                        		<option>Manila</option>
+                        	</select>
+                        </td>
+                        <td></td>   
+                    </tr>
+                    <tr>
+                        <td>MCSA2012</td>
+                        <td>Microsoft Certified Solutions Associate in Windows Server 2012</td>
+                        <td>20410D, 20411D, 20412D</td>
+                        <td>
+                        	<select class="form-control">
+                        		<option>Makati</option>
+                        		<option>Manila</option>
+                        	</select>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>MCSA2016</td>
+                        <td>Microsoft Certified Solutions Associate in Windows Server 2016</td>
+                        <td>20740, 20741, 20742</td>
+                        <td>
+                        	<select class="form-control">
+                        		<option>Makati</option>
+                        		<option>Manila</option>
+                        	</select>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>AZ-1003T00-A</td>
+                        <td>Microsoft Certified Azure Administrator</td>
+                        <td></td>
+	                    <td>
+                        	<select class="form-control">
+                        		<option>Makati</option>
+                        		<option>Manila</option>
+                        	</select>
+                        </td>
+	                    <td></td>
+                    </tr>
+                    <tr>
+                        <td>SAA-C02</td>
+                        <td>AWS Certified Solutions Architect - Associate</td>
+                        <td></td>
+                        <td>
+                        	<select class="form-control">
+                        		<option>Makati</option>
+                        		<option>Manila</option>
+                        	</select>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>CWS-215</td>
+                        <td>VMware vSPhere 6.7 ICM</td>
+                        <td>Install, Configure and Manage</td>
+                        <td>
+                        	<select class="form-control">
+                        		<option>Makati</option>
+                        		<option>Manila</option>
+                        	</select>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>EH</td>
+                        <td>Ethical Hacking with Penetration Testing</td>
+                        <td></td>
+                        <td>
+                        	<select class="form-control">
+                        		<option>Makati</option>
+                        		<option>Manila</option>
+                        	</select>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>CysA+</td>
+                        <td>Certified Cybersecurity Analyst+</td>
+                        <td></td>
+                        <td>
+                        	<select class="form-control">
+                        		<option>Makati</option>
+                        		<option>Manila</option>
+                        	</select>
+                        </td>
+                        <td></td>
+                    </tr>
+                </tbody>
 			</table>
 		</div>
 	</div>
-</div>
 
 <!--MODALS-->
 
@@ -409,6 +402,22 @@
 
 <script src="js/homepage.js"></script>
 
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript">
+	$(document).ready( function () {
+		$('#tbl_courses').DataTable();
+
+	} );	
+
 </script>
+
+
 </body>
 </html>
