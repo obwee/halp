@@ -70,7 +70,7 @@ require_once "Template/header.php";
 
 
 
-            <table id="tbl_sales" class="table table-striped table-bordered table-hover">
+            <table id="tbl_trainings" class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr>
                         <th style="white-space:nowrap;">Course Code</th>
@@ -119,90 +119,13 @@ require_once "Template/header.php";
         </div>
     </div>
 
-    <!--Get Quote Modal-->
-
-    <div class="modal fade" id="editQuoteModal" role="dialog">
-        <div class="modal-dialog editQuoteModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 align="center"><span class="glyphicon glyphicon-plane"></span>Edit Quotation Request</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="post" id="quotationForm">
-                        <div class="form-group">
-                            <label for="quoteCourse"><span class="fas fa-book"></span> Course</label>
-                            <select class="form-control">
-                                
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="scheduleType"><span class="fas fa-calendar-week"></span> Schedule </label>
-                            <select class="form-control">
-                                
-                            </select>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#sendRequestModal">Update</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="sendRequestModal" role="dialog">
-        <div class="modal-dialog modal-lg sendRequestModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 align="center"><span class="glyphicon glyphicon-plane"></span>Send Updated Quotation Request</h5>
-                </div>
-                
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="subjectQuote"><span class="fas fa-envelope"></span> Subject</label>
-                        <input type="text" class="form-control" id="subjectQuote" name="subjectQuote" placeholder="Subject" autofocus maxlength="30">
-                    </div>
-                    <div class="form-group">
-                        <label for=quoteMessage><span class="fas fa-envelope-open-text"></span> Message</label>
-                        <textarea class="form-control" id="emailMsg" name="emailMsg" rows="7" placeholder="Type your message here."></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success">Send</button>
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-
-    <script type="text/javascript">
-        $(document).ready( function () {
-            $('#tbl_sales').DataTable({
-                "scrollX": true
-            });
-
-        } );    
-
-    </script>
-
-
-
-</body>
-</html>
-
 
 <?php
-require_once "Template/footer.php";
+require_once "template/scripts.php";
+?>
+
+<script src="js/dashboard.trainingsReport.js"></script>
+
+<?php
+require_once "template/footer.php";
 ?>
