@@ -2,7 +2,6 @@
 require_once "template/header.php";
 ?>
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="css/dashboard.chart.css">
 
 <div class="container">
@@ -490,22 +489,20 @@ require_once "template/header.php";
 
 </div>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
-<script type="text/javascript" src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<?php
+require_once "template/scripts.php";
+?>
 
 <script src="js/dashboard.index.js"></script>
 
-<!-- Amcharts Resources -->
+<!-- Amcharts Resources (for Dashboard only) -->
+<script src="js/dashboard.chart.js"></script>
 <script src="js/amcharts_4.9.4/core.js"></script>
 <script src="js/amcharts_4.9.4/charts.js"></script>
 <script src="js/amcharts_4.9.4/themes/animated.js"></script>
 <script src="js/amcharts_4.9.4/themes/kelly.js"></script>
 <script src="js/amcharts_4.9.4/themes/material.js"></script>
 
-<!-- Chart code -->
-<script src="js/dashboard.chart.js"></script>
+<?php
+require_once "template/footer.php";
+?>
