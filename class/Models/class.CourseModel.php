@@ -24,6 +24,7 @@ class CourseModel
             INNER JOIN
             tbl_schedules    ts
             ON tc.id = ts.courseId
+            WHERE ts.fromDate > CURDATE() and ts.toDate > CURDATE()
             ORDER BY ts.fromDate, tc.courseName ASC
         ");
 

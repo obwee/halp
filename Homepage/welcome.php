@@ -604,6 +604,10 @@
     <!--Sweet Alert-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
+    <script src="../utils/js/utils.Libraries.js"></script>
+    <script src="../utils/js/utils.Validations.js"></script>
+    <script src="../utils/js/utils.Forms.js"></script>
+    
     <script src="js/homepage.js"></script>
 
     <script type="text/javascript">
