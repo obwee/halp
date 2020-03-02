@@ -221,12 +221,12 @@ var oQuotationRequests = (() => {
             let oInputForms = {
                 '#quotationForm': {
                     'validationMethod': oValidations.validateQuoteInputs(),
-                    'requestClass': 'Student',
+                    'requestClass': 'Quotations',
                     'requestAction': 'requestQuotation'
                 },
                 '#insertNewRequestForm': {
                     'validationMethod': oValidations.validateNewQuoteInputs(),
-                    'requestClass': 'Student',
+                    'requestClass': 'Quotations',
                     'requestAction': 'addNewQuotation'
                 }
             }
