@@ -17,19 +17,23 @@ require_once "Template/header.php";
             <thead>
                 <tr>
                     <th style="white-space:nowrap;">Official Course Title</th>
+                    <th style="white-space:nowrap;">Official Course Title</th>
                     <th style="white-space:nowrap;">Start</th>
                     <th style="white-space:nowrap;">End</th>
                     <th style="white-space:nowrap;">Venue</th>
+                    <th style="white-space:nowrap;">No. of Students</th>
                     <th style="white-space:nowrap;">Instructor</th>
                     <th style="white-space:nowrap;">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
+                    <td>CCNAv4</td>
                     <td>Cisco Certified Network Associate V4: Implementing and Administering Cisco Solutions</td>
                     <td>Mar 5, 2020</td>
                     <td>Mar 10, 2020</td>
                     <td>Manila</td>
+                    <td>15</td>
                     <td>Christopher Buenaventura</td>
                     <td>
                         <button type="button" id="editSchedule" data-toggle="modal" data-target="#editScheduleModal" class="btn btn-info btn-sm"><i class="fas fa-pen"></i></button>

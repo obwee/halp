@@ -141,7 +141,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="credentials.php"><i class="fas fa-user-edit"></i>&emsp;Credentials </a></li>
+            <li><a href="studentProfile.php"><i class="fas fa-user-edit"></i>&emsp;Profile </a></li>
         </li>
         <li>
           <a href="logout.php" class="logout">

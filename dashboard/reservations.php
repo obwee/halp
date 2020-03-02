@@ -50,8 +50,10 @@ require_once "Template/header.php";
 			<label><i class="fas fa-calendar"></i><b> Schedule</b></label>
 			<select class="form-control">
 				<option value="" selected disabled hidden>Select Schedule</option>
-			</select>&nbsp&nbsp
-		</div>				
+			</select>
+			<label><i class="fas fa-users"></i><b> No. of Students Enrolled</b></label>
+			<input class="form-control form-inline" type="text" name="slots" readonly placeholder="1/15">
+		</div>			
 	</div>
 
 	<br>
@@ -64,7 +66,6 @@ require_once "Template/header.php";
 					<th style="white-space:nowrap;">Venue</th>
 					<th style="white-space:nowrap;">Start Date</th>
 					<th style="white-space:nowrap;">End Date</th>
-					<th style="white-space:nowrap;">Course Amount</th>
 					<th style="white-space:nowrap;">MOP</th>
 					<th style="white-space:nowrap;">Date Paid</th>
 					<th style="white-space:nowrap;">Amount Paid</th>
@@ -80,28 +81,11 @@ require_once "Template/header.php";
 					<td>Makati</td>
 					<td>Feb 28, 2020</td>
 					<td>Feb 29, 2020</td>
-					<td>20,000</td>
-					<td>BDO Bank Deposit</td>
+					<td>BDO</td>
 					<td>Feb 20, 2020</td>
 					<td>10,000</td>
 					<td>Partial</td>
 					<td>10,000</td>
-					<td>
-						<button class="btn btn-info" data-toggle="modal" data-target="#rescheduleModal">Reschedule</button>
-					</td>
-				</tr>
-				<tr>
-					<td>Paula Digman</td>
-					<td>MCSA2016</td>
-					<td>Makati</td>
-					<td>Feb 23, 2020</td>
-					<td>Feb 25, 2020</td>
-					<td>22,000</td>
-					<td>Cheque</td>
-					<td>Feb 22, 2020</td>
-					<td>22,000</td>
-					<td>Full</td>
-					<td></td>
 					<td>
 						<button class="btn btn-info" data-toggle="modal" data-target="#rescheduleModal">Reschedule</button>
 					</td>
