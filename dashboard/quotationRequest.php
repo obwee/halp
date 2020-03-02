@@ -166,27 +166,54 @@ require_once "template/header.php";
             <div class="modal-header">
                 <h5 align="center">Insert New Request</h5>
             </div>
-
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="course"><span class="fas fa-book"></span> Course</label>
-                    <select class="form-control">
-                    </select>
+            <form action="post" id="insertNewRequestForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="quoteCompanyName"><span class="far fa-building"></span> Company Name</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Company Name" name="quoteCompanyName" id="quoteCompanyName" maxlength="50">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <input type="checkbox" name="quoteBillToCompany" id="quoteBillToCompany">&nbsp;Bill to Company?
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="courseAndScheduleDiv-new" style="display: none;">
+                        <div class="form-group">
+                            <label for="quoteCourse"><span class="fas fa-book"></span> Course</label>
+                            <select class="form-control quoteCourse" name="quoteCourse[]"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quoteSchedule"><span class="fas fa-calendar-week"></span> Schedule</label>
+                            <select class="form-control quoteSchedule" name="quoteSchedule[]" disabled>
+                                <option value="" selected disabled hidden>Select Course First</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="numPax"><span class="fas fa-user-friends"></span> PAX</label>
+                            <input type="number" class="form-control numPax" placeholder="Number of Persons" name="numPax[]" id="numPax" min="1" max="100" value="1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <button type="button" class="btn btn-primary addCourseBtn">Add New Course</button>
+                            </div>
+                            <div class="col-sm-6 text-left" style="display: none;">
+                                <button type="button" class="btn btn-warning deleteCourseBtn">&nbsp;&nbsp;&nbsp;Delete Course&nbsp;&nbsp;&nbsp;</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p class="h6">To see available course and schedule, <a href="courses.php" target="_blank">Click here</a></p>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="schedule"><span class="fas fa-calendar-week"></span> Schedule</label>
-                    <select class="form-control">
-
-                    </select>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Add</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
                 </div>
-                <div class="form-group">
-                    <label for="billToCompany"><input type="checkbox" name="billToCompany"> Bill to Company?</labe>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success">Add</button>
-                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-            </div>
+            </form>
         </div>
     </div>
 </div>
@@ -251,6 +278,10 @@ require_once "template/header.php";
 <?php
 require_once "template/scripts.php";
 ?>
+
+<script src="../utils/js/utils.Libraries.js"></script>
+<script src="../utils/js/utils.Validations.js"></script>
+<script src="../utils/js/utils.Forms.js"></script>
 
 <script src="js/dashboard.quotationRequest.js"></script>
 

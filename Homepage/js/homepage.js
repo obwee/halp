@@ -84,8 +84,9 @@ var oHomepage = (() => {
 
         $('#getQuoteModal').on('hidden.bs.modal', function (e) {
             $('.courseAndScheduleDiv:not(:first)').remove();
-            $('.courseAndScheduleDiv:first').find('select.quoteCourse').attr('disabled', false);
-            $('.courseAndScheduleDiv:first').find('select.quoteSchedule').attr('disabled', true);
+            $('.courseAndScheduleDiv:first').find('select.quoteCourse').attr('disabled', false).find('option:eq(0)').prop('selected', true);
+            $('.courseAndScheduleDiv:first').find('select.quoteSchedule').attr('disabled', true).find('option:eq(0)').prop('selected', true);
+            $(`.courseAndScheduleDiv:first`).find('input.numPax').val(1);
             aFilteredCoursesAndSchedules = aCoursesAndSchedules;
             oForms.cloneDivElements(aCoursesAndSchedules.length);
             $('.addCourseBtn').parent().attr('class', 'col-sm-12 text-center').css('display', 'block');
@@ -105,7 +106,7 @@ var oHomepage = (() => {
                 },
                 '#quotationForm': {
                     'validationMethod': oValidations.validateQuoteInputs(),
-                    'requestClass': 'Student',
+                    'requestClass': 'Quotations',
                     'requestAction': 'requestQuotation'
                 },
                 '#emailForm': {
