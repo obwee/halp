@@ -124,7 +124,6 @@ require_once "template/header.php";
     </div>
 </div>
 
->>>>>>> 3e9de776132e892ac49d1d730c5bc0b862d6f375
 <?php
 require_once "template/scripts.php";
 ?>

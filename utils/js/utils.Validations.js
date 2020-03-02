@@ -267,6 +267,89 @@ class Validations
         return validationResult;
     }
 
+    // This method validates the inputs of the user before submission for quotation.
+    validateNewQuoteInputs() {
+
+        // Declare initially the validation result to be returned by the function.
+        let validationResult = {
+            result: true
+        }
+
+        // Check if company name has a value.
+        if ($.trim($('#quoteCompanyName').val()).length !== 0) {
+            quoteInputRules.push(
+                {
+                    name: 'Company name',
+                    element: '#quoteCompanyName',
+                    length: $.trim($('#quoteCompanyName').val()).length,
+                    minLength: 4,
+                    maxLength: 50,
+                    pattern: /^[a-zA-Z0-9\s\.]+$/g
+                },
+            );
+        }
+
+        // Loop thru each quoteInputRules and if there are rules violated, return false and the error message.
+        $.each(quoteInputRules, function (key, inputRule) {
+            if (inputRule.length < inputRule.minLength) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
+                };
+                return false;
+            }
+            if (inputRule.length > inputRule.maxLength) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
+                };
+                return false;
+            }
+            if (inputRule.pattern.test($(inputRule.element).val()) === false) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' input is invalid.'
+                };
+                return false;
+            }
+        });
+
+        let iBillToCompany = $('#quoteBillToCompany').is(':checked') ? 1 : 0;
+        $('#quoteBillToCompany').val(iBillToCompany);
+
+        if (iBillToCompany === 1 && $('#quoteCompanyName').val() === '') {
+            return {
+                result: false,
+                element: '#quoteCompanyName',
+                msg: 'Please specify company name if billing to company.'
+            };
+        }
+
+        if ($('.quoteCourse').val() === null) {
+            return {
+                result: false,
+                element: '.quoteCourse',
+                msg: 'Please select a course.'
+            };
+        }
+
+        let numPaxRegex = /^(?!-\d+|0)\d+$/g;
+        
+        if ($('#numPax').val() < 1 || $('#numPax').val() > 100 || numPaxRegex.test($('#numPax').val()) === false) {
+            return {
+                result: false,
+                element: '#numPax',
+                msg: 'Invalid value for number of persons.'
+            }
+        }
+
+        // Return the result of the validation.
+        return validationResult;
+    }
+
     // This method validates the inputs of the user before submission for emailing.
     validateEmailUsInputs() {
         // Declare an object with properties related to inputs that need to be validated.

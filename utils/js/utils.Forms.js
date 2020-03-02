@@ -57,6 +57,9 @@ var oForms = (() => {
         for (let i = 1; i < iCount; i++) {
             let oCourseScheduleDiv = $('.courseAndScheduleDiv:last').clone();
             oCourseScheduleDiv.insertAfter('.courseAndScheduleDiv:last').css('display', 'none');
+
+            let oCourseScheduleDivNew = $('.courseAndScheduleDiv-new:last').clone();
+            oCourseScheduleDivNew.insertAfter('.courseAndScheduleDiv-new:last').css('display', 'none');
         }
     }
 

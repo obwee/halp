@@ -13,6 +13,12 @@ class Quotations extends BaseController
     private $oQuotationModel;
 
     /**
+     * @var StudentModel $oStudentModel
+     * Class instance for Student model.
+     */
+    private $oStudentModel;
+
+    /**
      * Quotations constructor.
      * @param array $aPostVariables
      */
@@ -96,5 +102,63 @@ class Quotations extends BaseController
         }
 
         echo json_encode($aDetails);
+    }
+
+    /**
+     * requestQuotation
+     * Method for requesting quotation.
+     */
+    public function requestQuotation()
+    {
+        $this->oStudentModel = new StudentModel();
+
+        $aResult = array();
+        $aValidationResult = Validations::validateQuotationInputs($this->aParams);
+
+        if ($aValidationResult['result'] === true) {
+            Utils::sanitizeData($this->aParams);
+
+            $iUserId = $this->oStudentModel->checkIfUserExists($this->aParams['quoteFname'], $this->aParams['quoteLname']);
+            $iQuoteSenderId = $this->oQuotationModel->checkIfSenderExists($this->aParams['quoteFname'], $this->aParams['quoteLname']);
+
+            Utils::prepareData($this->aParams, 'quotation');
+
+            if (empty($iUserId) === true && empty($iQuoteSenderId) === true) {
+                $aSenderDetails = array(
+                    ':firstName'   => $this->aParams[':firstName'],
+                    ':middleName'  => $this->aParams[':middleName'],
+                    ':lastName'    => $this->aParams[':lastName'],
+                    ':email'       => $this->aParams[':email'],
+                    ':contactNum'  => $this->aParams[':contactNum']
+                );
+                $iQuoteSenderId = $this->oQuotationModel->insertQuotationSender($aSenderDetails);
+            }
+
+            $this->aParams[':senderId'] = $iQuoteSenderId;
+            $sDateNow = date('Y-m-d H:i:s');
+
+            foreach ($this->aParams[':quoteCourses'] as $iKey => $mValue) {
+                $aQuotationDetails = array(
+                    ':userId'             => $iUserId,
+                    ':senderId'           => $iQuoteSenderId,
+                    ':courseId'           => $this->aParams[':quoteCourses'][$iKey],
+                    ':scheduleId'         => $this->aParams[':quoteSchedules'][$iKey],
+                    ':numPax'             => $this->aParams[':quoteNumPax'][$iKey],
+                    ':companyName'        => $this->aParams[':companyName'],
+                    ':dateRequested'      => $sDateNow,
+                    ':isCompanySponsored' => $this->aParams[':quoteBillToCompany']
+                );
+                $this->oQuotationModel->insertQuotationDetails($aQuotationDetails);
+            }
+
+            $aResult = array(
+                'result' => true,
+                'msg'    => 'Quotation requested!'
+            );
+        } else {
+            $aResult = $aValidationResult;
+        }
+
+        echo json_encode($aResult);
     }
 }
