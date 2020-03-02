@@ -162,8 +162,29 @@ class Quotations extends BaseController
         echo json_encode($aResult);
     }
 
+    /**
+     * addNewQuotation
+     * Add a new quotation request for a specific user.
+     */
     public function addNewQuotation()
     {
         print_r($this->aParams);
+    }
+
+    /**
+     * editQuotation
+     * Edit the quotation details sent by a particular user.
+     */
+    public function editQuotation()
+    {
+        $aSenderDetails = array(
+            ':userId'         => $this->aParams['iUserId'],
+            ':senderId'       => $this->aParams['iSenderId'],
+            ':dateRequested'  => $this->aParams['sDateRequested'],
+            'isQuotationSent' => 0
+        );
+
+        $aDetails = $this->oQuotationModel->fetchQuotationDetails($aSenderDetails);
+        print_r($aDetails);
     }
 }

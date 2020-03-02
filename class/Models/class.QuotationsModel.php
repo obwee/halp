@@ -195,4 +195,27 @@ class QuotationsModel
         // Return the result of the execution of the above statement.
         return $statement->fetchAll();
     }
+
+    public function fetchQuotationDetails($aData)
+    {
+        // Query the tbl_quotation_details.
+        $statement = $this->oConnection->prepare("
+            SELECT
+                tqd.companyName, tqd.isCompanySponsored,
+                tc.courseName, tqd.numPax,
+                ts.fromDate, ts.toDate
+            FROM tbl_quotation_details tqd
+            INNER JOIN tbl_courses     tc ON tqd.courseId   = tc.id
+            LEFT  JOIN tbl_schedules   ts ON tqd.scheduleId = ts.id
+            WHERE
+                tqd.userId = :userId AND tqd.senderId = :senderId
+                AND tqd.isQuotationSent = :isQuotationSent AND tqd.dateRequested = :dateRequested
+        ");
+
+        // Execute the above statement along with the needed where clauses.
+        $statement->execute($aData);
+
+        // Return the result of the execution of the above statement.
+        return $statement->fetchAll();
+    }
 }
