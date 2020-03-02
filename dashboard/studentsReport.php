@@ -2,82 +2,123 @@
 require_once "Template/header.php";
 ?>
 
-    <style type="text/css">
-        td {
-            text-align: center;
-        }
-
-        select {
-            width: 180px;
-            text-align: center;
-        }
-    </style>
-
 <div class="container">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <p class="h2">Students Report</p>
+        <p class="h2">Class List</p>
     </div>
-    
-	<div class="container">
-		<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
-			<div align="center">
+
+    <div class="row" style="border-radius:10px 10px;border-style:solid;border-color:#d5d5d5;padding:10px 10px;margin-left:10px;margin-right:10px;border-width:2px;">
+        <div class="col-sm-4">
+            <div class="venue" >
+                <label><i class="fas fa-map-pin"></i><b> Venue</b></label><br>
+                <div class="custom-control custom-checkbox mr-sm-2">
+                    <input type="checkbox" class="custom-control-input" id="makati">
+                    <label class="custom-control-label" for="makati">Makati</label>
+                </div>   
+                <div class="custom-control custom-checkbox mr-sm-2">
+                    <input type="checkbox" class="custom-control-input" id="manila">
+                    <label class="custom-control-label" for="manila">Manila</label>
+                </div>
+            </div>  
+        </div>
+        <div class="col-sm-4">
+            <label><i class="fas fa-book"></i><b> Course</b></label>
+            <select class="form-control">
+                <option value="" selected disabled hidden>Select Course</option>
+                <option>CCNAv4</option>
+                <option>MCP</option>
+            </select>&nbsp&nbsp
+        </div>
+        <div class="col-md-4">
+            <label><i class="fas fa-calendar"></i><b> Schedule</b></label>
+            <select class="form-control">
+                <option value="" selected disabled hidden>Select Schedule</option>
+            </select>&nbsp&nbsp
+        </div> 
+    </div>
+</div>
+                     
+
+    <br>
+    <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+        <table id="tbl_students" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
+
+            <div align="center">
                 <br>
-                <button type="button" id="print" class="btn btn-dark">Export/Print</button>
+                <button type="button" id="loadClassList" class="btn btn-info">Load Class List</button>
+                <button type="button" id="addNewCourse" data-toggle="modal" data-target="#addCourseModal" class="btn btn-dark">Export/Print</button>
                 <br><br>     
             </div>
-
-            <br>
-
-            <table id="tbl_students" class="table table-striped table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th style="white-space:nowrap;">Student ID</th>
-                        <th style="white-space:nowrap;">Student Name</th>
-                        <th style="white-space:nowrap;">E-mail Address</th>
-                        <th style="white-space:nowrap;">Contact Number</th>
-                        <th style="white-space:nowrap;">Address</th>
-                        <th style="white-space:nowrap;">Username</th>
-                        <th style="white-space:nowrap;">Age</th>
-                        <th style="white-space:nowrap;">Company Name</th>                        
-                        <th style="white-space:nowrap;">Company Address</th>
-                        <th style="white-space:nowrap;">Work</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>2020-030101</td>
-                        <td>Aries Valenzuela Macandili</td>
-                        <td>macandili.aries@gmail.com</td>
-                        <td>09222222222</td>
-                        <td>Hulo, Mandaluyong</td>
-                        <td>aries</td>
-                        <td>25</td>
-                        <td>Simplex Internet Philippines</td>
-                        <td>Ortigas, Pasig City</td>
-                        <td>Web Developer</td>
-                    </tr>
-                </tbody>
-            </table>
-		</div>
-	</div>
-
-	<div class="modal fade" id="viewQuoteModal" tabindex="-1" role="dialog">
-    	<div class="modal-dialog viewQuoteModal">
-    		<div class="modal-content">
-    			<div class="modal-header" style="background-color: #A2C710;">
-    				<h5 align="center"><span class="glyphicon glyphicon-plane"></span>View Quotation</h5>
-    			</div>
-    			<div class="modal-body">
-    				<div class="quoteBody">
-    					
-    				</div>
-    			</div>
-    			<div class="modal-footer">
-    				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-    			</div>
-    		</div>
-    	</div>
+            <thead>
+                <tr>
+                    <th style="white-space:nowrap;">Student Name</th>
+                    <th style="white-space:nowrap;">E-mail Address</th>
+                    <th style="white-space:nowrap;">Contact Number</th>
+                    <th style="white-space:nowrap;">MOP</th>
+                    <th style="white-space:nowrap;">Date Paid</th>
+                    <th style="white-space:nowrap;">Amount Paid</th>
+                    <th style="white-space:nowrap;">Status</th>
+                    <th style="white-space:nowrap;">Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Mark Sale</td>
+                    <td>marksale@gmail.com</td>
+                    <td>5841881</td>
+                    <td>BDO</td>
+                    <td>Feb 20, 2020</td>
+                    <td>10,000</td>
+                    <td>Partial</td>
+                    <td>10,000</td>
+                </tr>
+            </tbody>    
+        </table>
     </div>
+</div>
+
+
+<div class="modal fade" id="rescheduleModal" role="dialog">
+    <div class="modal-dialog rescheduleModal">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #A2C710;">
+                <h5 align="center">Reschedule</h5>
+            </div>
+            <div class="modal-body" align="center">
+                <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+                    <table id="tbl_requests" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
+                        <thead>
+                            <tr>
+                                <th style="white-space:nowrap;">Course</th>
+                                <th style="white-space:nowrap;">Start Date</th>
+                                <th style="white-space:nowrap;">End Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>20410D</td>
+                                <td>Feb 28, 2020</td>
+                                <td>Feb 29, 2020</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <form>
+                    <div class="form-group">
+                        <label for="courseCode"><span class="fas fa-calendar"></span> New Schedule</label>
+                        <select class="form-control">
+                            <option value="" selected disabled>Select New Schedule</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Update</button>
+                <button type="submit" class="btn btn-info" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -86,7 +127,6 @@ require_once "Template/header.php";
 require_once "template/scripts.php";
 ?>
 
-<script src="js/dashboard.studentsReport.js"></script>
 
 <?php
 require_once "template/footer.php";

@@ -7,6 +7,18 @@ require_once "template/studentHeader.php";
 		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 			<p class="h2">Enrollment</p>
 		</div>
+
+        <div class="col-sm-6">
+            <label>Course</label>
+        </div>
+
+
+
+
+
+
+
+
 		<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
 			<div align="right">
 				<button type="button" id="addNewBranch" data-toggle="modal" data-target="#enrollModal" class="btn btn-info btn-lg">Enroll</button>
