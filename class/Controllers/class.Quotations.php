@@ -161,4 +161,9 @@ class Quotations extends BaseController
 
         echo json_encode($aResult);
     }
+
+    public function addNewQuotation()
+    {
+        print_r($this->aParams);
+    }
 }
