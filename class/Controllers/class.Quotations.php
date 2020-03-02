@@ -110,13 +110,13 @@ class Quotations extends BaseController
      */
     public function requestQuotation()
     {
-        $this->oStudentModel = new StudentModel();
-
         $aResult = array();
         $aValidationResult = Validations::validateQuotationInputs($this->aParams);
 
         if ($aValidationResult['result'] === true) {
             Utils::sanitizeData($this->aParams);
+
+            $this->oStudentModel = new StudentModel();
 
             $iUserId = $this->oStudentModel->checkIfUserExists($this->aParams['quoteFname'], $this->aParams['quoteLname']);
             $iQuoteSenderId = $this->oQuotationModel->checkIfSenderExists($this->aParams['quoteFname'], $this->aParams['quoteLname']);

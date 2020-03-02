@@ -370,11 +370,11 @@ var oQuotationRequests = (() => {
             ajax         : oData,
             responsive   : true,
             pagingType   : 'first_last_numbers',
-            pageLength   : 5,
+            pageLength   : 4,
             ordering     : true,
             searching    : true,
             lengthChange : true,
-            lengthMenu   : [ [5, 10, 15, 20, 25, 30, -1], [5, 10, 15, 20, 25, 30, "All"] ],
+            lengthMenu   : [ [4, 8, 12, 16, 20, 24, -1], [4, 8, 12, 16, 20, 24, 'All'] ],
             info         : true,
             columns      : aColumns,
             columnDefs   : aColumnDefs
