@@ -268,7 +268,7 @@ class Validations
     }
 
     // This method validates the inputs of the user before submission for quotation.
-    validateNewQuoteInputs() {
+    validateNewQuoteRequestInputs() {
 
         // Declare initially the validation result to be returned by the function.
         let validationResult = {

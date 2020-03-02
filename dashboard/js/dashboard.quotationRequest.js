@@ -46,6 +46,9 @@ var oQuotationRequests = (() => {
                     <button class="btn btn-success btn-sm" data-toggle="modal" id="approveRequest" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}" data-date-requested="${oRow.dateRequested}">
                         <i class="fa fa-check"></i>
                     </button>
+                    <button class="btn btn-warning btn-sm" data-toggle="modal" id="editRequest" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}" data-date-requested="${oRow.dateRequested}">
+                        <i class="fa fa-pencil-alt"></i>
+                    </button>
                     <button class="btn btn-danger btn-sm" data-toggle="modal" id="deleteRequest" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}" data-date-requested="${oRow.dateRequested}">
                         <i class="fa fa-trash"></i>
                     </button>`
@@ -101,6 +104,28 @@ var oQuotationRequests = (() => {
             populateDetailsTable(oDetails);
 
             $('#viewDetailsModal').modal('show');
+        });
+
+        $(document).on('click', '#editRequest', function() {
+            let oDetails = {
+                iSenderId      : $(this).attr('data-sender-id'),
+                iUserId        : $(this).attr('data-user-id'),
+                sDateRequested : $(this).attr('data-date-requested')  
+            };
+
+            // Execute AJAX request.
+            $.ajax({
+                url: `../utils/ajax.php?class=Quotations&action=editQuotation`,
+                type: 'POST',
+                data: oDetails,
+                dataType: 'JSON',
+                success: (oResponse) => {
+                    // $('#editRequestModal').modal('show');
+                }
+            });
+
+            $('#editRequestModal').modal('show');
+
         });
         
         $(document).on('change', '.quoteCourse', function () {
@@ -225,7 +250,12 @@ var oQuotationRequests = (() => {
                     'requestAction': 'requestQuotation'
                 },
                 '#insertNewRequestForm': {
-                    'validationMethod': oValidations.validateNewQuoteInputs(),
+                    'validationMethod': oValidations.validateNewQuoteRequestInputs(),
+                    'requestClass': 'Quotations',
+                    'requestAction': 'addNewQuotation'
+                },
+                '#insertNewRequestForm': {
+                    'validationMethod': oValidations.validateNewQuoteRequestInputs(),
                     'requestClass': 'Quotations',
                     'requestAction': 'addNewQuotation'
                 }
