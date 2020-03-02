@@ -406,4 +406,103 @@ class Validations
         // Return the result of the validation.
         return $aValidationResult;
     }
+
+    /**
+     * validateNewQuotationRequestInputs
+     * Method for validating quotation inputs sent by AJAX.
+     * @return array
+     */
+    public static function validateNewQuotationRequestInputs($aParams)
+    {
+        // Prepare the validation result.
+        $aValidationResult = array(
+            'result' => true
+        );
+
+        if (empty($aParams['quoteCompanyName']) === false) {
+            array_splice(self::$aQuotationRules, 2, 0, array(
+                array(
+                    'sName'       => 'Company name',
+                    'sElement'    => 'quoteCompanyName',
+                    'sColumnName' => ':companyName',
+                    'iMinLength'  => 4,
+                    'iMaxLength'  => 50,
+                    'oPattern'    => '/^[a-zA-Z0-9\s\.]+$/'
+                )
+            ));
+        }
+
+        // Loop thru each inputRules and if there are rules violated, return false and the error message.
+        foreach (self::$aQuotationRules as $aInputRule) {
+            $sInput = trim($aParams[$aInputRule['sElement']]);
+
+            if (strlen($sInput) < $aInputRule['iMinLength']) {
+                $aValidationResult = array(
+                    'result'  => false,
+                    'element' => '#' . $aInputRule['sElement'],
+                    'msg'     => $aInputRule['sName'] . ' must be minimum of ' . $aInputRule['iMinLength'] . ' characters.'
+                );
+                break;
+            }
+            if (strlen($sInput) > $aInputRule['iMaxLength']) {
+                $aValidationResult = array(
+                    'result'  => false,
+                    'element' => '#' . $aInputRule['sElement'],
+                    'msg'     => $aInputRule['sName'] . ' must be maximum of ' . $aInputRule['iMaxLength'] . ' characters.'
+                );
+                break;
+            }
+            if (!preg_match($aInputRule['oPattern'], $sInput)) {
+                $aValidationResult = array(
+                    'result'  => false,
+                    'element' => '#' . $aInputRule['sElement'],
+                    'msg'     => $aInputRule['sName'] . ' input is invalid.'
+                );
+                break;
+            }
+        }
+
+        if (empty($aParams['quoteBillToCompany']) === false) {
+            array_push(self::$aQuotationRules, array(
+                'sElement'    => 'quoteBillToCompany',
+                'sColumnName' => ':quoteBillToCompany'
+            ));
+
+            if ($aParams['quoteBillToCompany'] === 1 && empty($aParams['quoteCompanyName']) === true) {
+                return array(
+                    'result'  =>  false,
+                    'element' =>  '#quoteCompanyName',
+                    'msg'     => 'Please specify company name if billing to company.'
+                );
+            }
+        }
+
+        $sNumPaxRegex = '/^(?!-\d+|0)\d+$/';
+
+        foreach ($aParams['numPax'] as $iNumPax) {
+            if ($iNumPax < 1 || $iNumPax > 100 || !preg_match($sNumPaxRegex, $iNumPax)) {
+                return array(
+                    'result'  =>  false,
+                    'element' =>  '#numPax',
+                    'msg'     => 'Invalid value for number of persons.'
+                );
+            }
+        }
+
+        if (empty($aParams['quoteSchedules']) === false) {
+            array_push(self::$aQuotationRules, array(
+                'sElement'    => 'quoteSchedules',
+                'sColumnName' => ':quoteSchedules'
+            ));
+        }
+
+        array_push(self::$aQuotationRules, array(
+            'sElement'    => 'quoteNumPax',
+            'sColumnName' => ':quoteNumPax'
+        ));
+
+        // Return the result of the validation.
+        return $aValidationResult;
+    }
+
 }

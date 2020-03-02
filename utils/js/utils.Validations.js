@@ -1,5 +1,4 @@
-class Validations
-{
+class Validations {
     // This method validates the inputs of the user before submission for registration.
     validateRegisterInputs() {
 
@@ -254,7 +253,7 @@ class Validations
         }
 
         let numPaxRegex = /^(?!-\d+|0)\d+$/g;
-        
+
         if ($('#numPax').val() < 1 || $('#numPax').val() > 100 || numPaxRegex.test($('#numPax').val()) === false) {
             return {
                 result: false,
@@ -277,7 +276,7 @@ class Validations
 
         // Check if company name has a value.
         if ($.trim($('#quoteCompanyName').val()).length !== 0) {
-            quoteInputRules.push(
+            let quoteInputRules = [
                 {
                     name: 'Company name',
                     element: '#quoteCompanyName',
@@ -286,36 +285,37 @@ class Validations
                     maxLength: 50,
                     pattern: /^[a-zA-Z0-9\s\.]+$/g
                 },
-            );
-        }
+            ];
 
-        // Loop thru each quoteInputRules and if there are rules violated, return false and the error message.
-        $.each(quoteInputRules, function (key, inputRule) {
-            if (inputRule.length < inputRule.minLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
-                };
-                return false;
-            }
-            if (inputRule.length > inputRule.maxLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
-                };
-                return false;
-            }
-            if (inputRule.pattern.test($(inputRule.element).val()) === false) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' input is invalid.'
-                };
-                return false;
-            }
-        });
+            // Loop thru each quoteInputRules and if there are rules violated, return false and the error message.
+            $.each(quoteInputRules, function (key, inputRule) {
+                if (inputRule.length < inputRule.minLength) {
+                    validationResult = {
+                        result: false,
+                        element: inputRule.element,
+                        msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
+                    };
+                    return false;
+                }
+                if (inputRule.length > inputRule.maxLength) {
+                    validationResult = {
+                        result: false,
+                        element: inputRule.element,
+                        msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
+                    };
+                    return false;
+                }
+                if (inputRule.pattern.test($(inputRule.element).val()) === false) {
+                    validationResult = {
+                        result: false,
+                        element: inputRule.element,
+                        msg: inputRule.name + ' input is invalid.'
+                    };
+                    return false;
+                }
+            });
+
+        }
 
         let iBillToCompany = $('#quoteBillToCompany').is(':checked') ? 1 : 0;
         $('#quoteBillToCompany').val(iBillToCompany);
@@ -337,7 +337,7 @@ class Validations
         }
 
         let numPaxRegex = /^(?!-\d+|0)\d+$/g;
-        
+
         if ($('#numPax').val() < 1 || $('#numPax').val() > 100 || numPaxRegex.test($('#numPax').val()) === false) {
             return {
                 result: false,

@@ -254,10 +254,10 @@ var oQuotationRequests = (() => {
                     'requestClass': 'Quotations',
                     'requestAction': 'addNewQuotation'
                 },
-                '#insertNewRequestForm': {
+                '#editRequestForm': {
                     'validationMethod': oValidations.validateNewQuoteRequestInputs(),
                     'requestClass': 'Quotations',
-                    'requestAction': 'addNewQuotation'
+                    'requestAction': 'editQuotation'
                 }
             }
 
