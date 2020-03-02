@@ -282,7 +282,7 @@ class Validations
             {
                 name: 'Last name',
                 element: '#emailLname',
-                length: $.trim($('#emailFname').val()).length,
+                length: $.trim($('#emailLname').val()).length,
                 minLength: 2,
                 maxLength: 30,
                 pattern: /^[a-zA-Z\s\.]+$/g
