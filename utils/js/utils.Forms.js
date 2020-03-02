@@ -1,5 +1,46 @@
 var oForms = (() => {
-    
+
+    function prepareDomEvents() {
+        // Allow only alphabetical characters and a period on first, middle, and last name via RegExp.
+        $(document).on('keyup keydown', '#registrationFname, #registrationMname, #registrationLname, #quoteFname, #quoteMname, #quoteLname, #emailFname, #emailMname, #emailLname', function () {
+            // Input must not start by a period.
+            if (this.value.length === 1 && this.value.match(/[^a-zA-Z]/)) {
+                return this.value = this.value.replace(this.value, '');
+            }
+            return this.value = this.value.replace(/[^a-zA-Z\s\.]/g, '');
+        });
+
+        $(document).on('keyup keydown', '#numPax', function () {
+            if ($(this).val() > 100) {
+                return this.value = this.value.slice(0, -1);
+            }
+            return this.value = this.value.replace(/^0/g, '');
+        });
+
+        $(document).on('keyup keydown', '#registrationContactNum, #quoteContactNum', function () {
+            return this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        // Allow only alphanumeric characters and an underscore on username input via RegExp.
+        $(document).on('keyup keydown', '#registrationUsername', function () {
+            // Input must not start by a number or any special character.
+            if (this.value.length === 1 && this.value.match(/[^a-zA-Z]/)) {
+                return this.value = this.value.replace(this.value, '');
+            }
+            return this.value = this.value.replace(/[^a-zA-Z0-9_]/g, '');
+        });
+
+        // Trim excess spaces and dots on specific inputs via RegExp on focusout event.
+        $(document).on('focusout', '#registrationFname, #registrationMname, #registrationLname, #registrationCompany, #quoteFname, #quoteMname, #quoteLname, #quoteCompanyName', function () {
+            $(this).val($(this).val().replace(/\s+/g, ' ').replace(/\.+/g, '.').trim());
+        });
+
+        // Remove red border on focus event on any input.
+        $(document).on('focus', 'input, select', function () {
+            $(this).css('border', '1px solid #ccc');
+        });
+    }
+
     // Toggle disabled state of the form.
     function disableFormState(formName, state) {
         $(formName).find('div[class="modal-footer"] button').prop('disabled', state);
@@ -19,51 +60,12 @@ var oForms = (() => {
         }
     }
 
-    // Populate the course dropdown select.
-    function populateCourseDropdown(aCourses) {
-        let oCourseDropdown = $('.courseAndScheduleDiv[style*="display: none"]').first().find('.quoteCourse');
-        oCourseDropdown.parent().parent().css('display', 'block');
-        oCourseDropdown.empty().append($('<option value="" selected disabled hidden>Select Course</option>'));
-
-        $.each(aCourses, function (iKey, oCourse) {
-            oCourseDropdown.append($('<option />').val(oCourse.courseId).text(oCourse.courseName));
-        });
-    }
-
-    // Populate the schedule dropdown select.
-    function populateCourseSchedule(iCourseId, bIsDeletePressed = false) {
-        let oSchedule = $('.courseAndScheduleDiv[style*="display: block"]').last().find('.quoteSchedule');
-        let iSelectedScheduleId = oSchedule.find('option:selected').val();
-
-        let oFilteredCourse = aFilteredCoursesAndSchedules.filter(function (aCourse) {
-            return aCourse.courseId == iCourseId;
-        })[0];
-
-        let aSchedules = oFilteredCourse.schedule;
-
-        oSchedule
-            .empty()
-            .attr('disabled', false)
-            .append($('<option value="" selected disabled hidden>Select Schedule</option>'));
-
-        $.each(aSchedules, function (iKey, sSchedule) {
-            oSchedule.append($('<option />').val(oFilteredCourse.scheduleId).text(sSchedule));
-        });
-
-        if (bIsDeletePressed === true) {
-            oSchedule.val(iSelectedScheduleId);
-        } else {
-            oSchedule.find('option:eq(0)').prop('selected', true)
-        }
-    }
-
     // Return public pointers.
     return {
-        disableFormState       : disableFormState,
-        resetInputBorders      : resetInputBorders,
-        cloneDivElements       : cloneDivElements,
-        populateCourseDropdown : populateCourseDropdown,
-        populateCourseSchedule : populateCourseSchedule
-    }
+        prepareDomEvents,
+        disableFormState,
+        resetInputBorders,
+        cloneDivElements
+    };
 
 })();

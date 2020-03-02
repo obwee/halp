@@ -9,9 +9,10 @@ var oHomepage = (() => {
     }
 
     function prepareDomEvents() {
+        oForms.prepareDomEvents();
 
         $(document).on('change', '.quoteCourse', function () {
-            oForms.populateCourseSchedule($(this).val());
+            populateCourseSchedule($(this).val());
         });
 
         $(document).on('click', '.addCourseBtn', function () {
@@ -28,7 +29,7 @@ var oHomepage = (() => {
             oCourseDiv.find('.quoteCourse').attr('disabled', true);
             oCourseDiv.find('.quoteSchedule').attr('disabled', true);
 
-            oForms.populateCourseDropdown(aFilteredCoursesAndSchedules);
+            populateCourseDropdown(aFilteredCoursesAndSchedules);
 
             if ($('.courseAndScheduleDiv').filter(':hidden').length === 0) {
                 $('.addCourseBtn').parent().css('display', 'none');
@@ -61,7 +62,7 @@ var oHomepage = (() => {
                 return aCourse.courseId == oCourseDiv.last().val();
             })[0]);
 
-            oForms.populateCourseSchedule(oCourseDiv.last().val(), true);
+            populateCourseSchedule(oCourseDiv.last().val(), true);
 
             if (oCourseDiv.parent().parent().length === 1) {
                 $('.addCourseBtn').parent().attr('class', 'col-sm-12 text-center');
@@ -91,48 +92,28 @@ var oHomepage = (() => {
             $('.deleteCourseBtn').parent().css('display', 'none');
         });
 
-        // Allow only alphabetical characters and a period on first, middle, and last name via RegExp.
-        $(document).on('keyup keydown', '#registrationFname, #registrationMname, #registrationLname, #quoteFname, #quoteMname, #quoteLname, #emailFname, #emailMname, #emailLname', function () {
-            // Input must not start by a period.
-            if (this.value.length === 1 && this.value.match(/[^a-zA-Z]/)) {
-                return this.value = this.value.replace(this.value, '');
-            }
-            return this.value = this.value.replace(/[^a-zA-Z\s\.]/g, '');
-        });
-
-        $(document).on('keyup keydown', '#numPax', function () {
-            if ($(this).val() > 100) {
-                return this.value = this.value.slice(0, -1);
-            }
-            return this.value = this.value.replace(/^0/g, '');
-        });
-
-        $(document).on('keyup keydown', '#registrationContactNum, #quoteContactNum', function () {
-            return this.value = this.value.replace(/[^0-9]/g, '');
-        });
-
-        // Allow only alphanumeric characters and an underscore on username input via RegExp.
-        $(document).on('keyup keydown', '#registrationUsername', function () {
-            // Input must not start by a number or any special character.
-            if (this.value.length === 1 && this.value.match(/[^a-zA-Z]/)) {
-                return this.value = this.value.replace(this.value, '');
-            }
-            return this.value = this.value.replace(/[^a-zA-Z0-9_]/g, '');
-        });
-
-        // Trim excess spaces and dots on specific inputs via RegExp on focusout event.
-        $(document).on('focusout', '#registrationFname, #registrationMname, #registrationLname, #registrationCompany, #quoteFname, #quoteMname, #quoteLname, #quoteCompanyName', function () {
-            $(this).val($(this).val().replace(/\s+/g, ' ').replace(/\.+/g, '.').trim());
-        });
-
-        // Remove red border on focus event on any input.
-        $(document).on('focus', 'input, select', function () {
-            $(this).css('border', '1px solid #ccc');
-        });
-
         // Function for submission of any form.
         $(document).on('submit', 'form', function (event) {
             event.preventDefault();
+
+            // Create an object with key names of forms and its corresponding validation and request action as its value.
+            let oInputForms = {
+                '#registrationForm': {
+                    'validationMethod': oValidations.validateRegisterInputs(),
+                    'requestClass': 'Student',
+                    'requestAction': 'registerStudent'
+                },
+                '#quotationForm': {
+                    'validationMethod': oValidations.validateQuoteInputs(),
+                    'requestClass': 'Student',
+                    'requestAction': 'requestQuotation'
+                },
+                '#emailForm': {
+                    'validationMethod': oValidations.validateEmailUsInputs(),
+                    'requestClass': 'Student',
+                    'requestAction': 'sendEmail'
+                }
+            }
 
             // Get the form name being submitted.
             let formName = '#' + $(this).attr('id') + '';
@@ -143,13 +124,13 @@ var oHomepage = (() => {
             oForms.resetInputBorders(formName);
 
             // Validate the inputs of the submitted form and store the result inside validateInputs variable.
-            let validateInputs = oValidations.oForms[formName].validationMethod;
+            let validateInputs = oInputForms[formName].validationMethod;
 
             // Get the request class of the form submitted.
-            let requestClass = oValidations.oForms[formName].requestClass;
+            let requestClass = oInputForms[formName].requestClass;
 
             // Get the request action of the form submitted.
-            let requestAction = oValidations.oForms[formName].requestAction;
+            let requestAction = oInputForms[formName].requestAction;
 
             // Check if input validation result is true.
             if (validateInputs.result === true) {
@@ -217,13 +198,51 @@ var oHomepage = (() => {
             url: '../utils/ajax.php?class=Forms&action=fetchHomepageData',
             type: 'GET',
             dataType: 'json',
-            success: function (response) {
-                aCoursesAndSchedules = response;
-                aFilteredCoursesAndSchedules = aCoursesAndSchedules;
-                oForms.cloneDivElements(aCoursesAndSchedules.length);
-                oForms.populateCourseDropdown(aFilteredCoursesAndSchedules);
+            success: function (oResponse) {
+                aCoursesAndSchedules = oResponse;
+                aFilteredCoursesAndSchedules = oResponse;
+                oForms.cloneDivElements(oResponse.length);
+                populateCourseDropdown(oResponse);
             }
         });
+    }
+
+    // Populate the course dropdown select.
+    function populateCourseDropdown(aCourses) {
+        let oCourseDropdown = $('.courseAndScheduleDiv[style*="display: none"]').first().find('.quoteCourse');
+        oCourseDropdown.parent().parent().css('display', 'block');
+        oCourseDropdown.empty().append($('<option value="" selected disabled hidden>Select Course</option>'));
+
+        $.each(aCourses, function (iKey, oCourse) {
+            oCourseDropdown.append($('<option />').val(oCourse.courseId).text(oCourse.courseName));
+        });
+    }
+
+    // Populate the schedule dropdown select.
+    function populateCourseSchedule(iCourseId, bIsDeletePressed = false) {
+        let oSchedule = $('.courseAndScheduleDiv[style*="display: block"]').last().find('.quoteSchedule');
+        let iSelectedScheduleId = oSchedule.find('option:selected').val();
+
+        let oFilteredCourse = aFilteredCoursesAndSchedules.filter(function (aCourse) {
+            return aCourse.courseId == iCourseId;
+        })[0];
+
+        let aSchedules = oFilteredCourse.schedule;
+
+        oSchedule
+            .empty()
+            .attr('disabled', false)
+            .append($('<option value="" selected disabled hidden>Select Schedule</option>'));
+
+        $.each(aSchedules, function (iKey, sSchedule) {
+            oSchedule.append($('<option />').val(oFilteredCourse.scheduleId).text(sSchedule));
+        });
+
+        if (bIsDeletePressed === true) {
+            oSchedule.val(iSelectedScheduleId);
+        } else {
+            oSchedule.find('option:eq(0)').prop('selected', true)
+        }
     }
 
     return {
