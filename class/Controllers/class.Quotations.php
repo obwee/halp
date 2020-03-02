@@ -146,7 +146,7 @@ class Quotations extends BaseController
                     ':numPax'             => $this->aParams[':quoteNumPax'][$iKey],
                     ':companyName'        => $this->aParams[':companyName'],
                     ':dateRequested'      => $sDateNow,
-                    ':isCompanySponsored' => $this->aParams[':quoteBillToCompany']
+                    ':isCompanySponsored' => ($this->aParams[':quoteBillToCompany'] === 1) ? 1 : 0
                 );
                 $this->oQuotationModel->insertQuotationDetails($aQuotationDetails);
             }
