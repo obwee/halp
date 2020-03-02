@@ -1,26 +1,7 @@
-var oValidations = (() => {
-
-    // Create an object with key names of forms and its corresponding validation and request action as its value.
-    let oForms = {
-        '#registrationForm': {
-            'validationMethod': validateRegisterInputs(),
-            'requestClass': 'Student',
-            'requestAction': 'registerStudent'
-        },
-        '#quotationForm': {
-            'validationMethod': validateQuoteInputs(),
-            'requestClass': 'Student',
-            'requestAction': 'requestQuotation'
-        },
-        '#emailForm': {
-            'validationMethod': validateEmailUsInputs(),
-            'requestClass': 'Student',
-            'requestAction': 'sendEmail'
-        }
-    }
-
+class Validations
+{
     // This method validates the inputs of the user before submission for registration.
-    function validateRegisterInputs() {
+    validateRegisterInputs() {
 
         // Declare an object with properties related to inputs that need to be validated.
         let registerInputRules = [
@@ -154,7 +135,7 @@ var oValidations = (() => {
     }
 
     // This method validates the inputs of the user before submission for quotation.
-    function validateQuoteInputs() {
+    validateQuoteInputs() {
 
         // Declare an object with properties related to inputs that need to be validated.
         let quoteInputRules = [
@@ -287,8 +268,7 @@ var oValidations = (() => {
     }
 
     // This method validates the inputs of the user before submission for emailing.
-    function validateEmailUsInputs() {
-
+    validateEmailUsInputs() {
         // Declare an object with properties related to inputs that need to be validated.
         let emailInputRules = [
             {
@@ -375,12 +355,6 @@ var oValidations = (() => {
         return validationResult;
     }
 
-    // Return public pointers.
-    return {
-        oForms         : oForms,
-        emailUsInputs  : validateEmailUsInputs,
-        quoteInputs    : validateQuoteInputs,
-        registerInputs : validateRegisterInputs
-    }
+};
 
-})();
+let oValidations = new Validations();
