@@ -162,7 +162,7 @@
     <section class="padding" id="services">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 text-center">
+                <div>
                     <h2 class="section-heading">WHY NEXUS?</h2>
                 </div>
             </div>

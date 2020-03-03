@@ -113,10 +113,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="student.Enrollment.php"><i class="fas fa-cash-register"></i>&emsp;Enrollment</a></li>
-            <li><a href="student.Payment.php"><i class="fas fa-check"></i>&emsp;Payment</a></li>
-            <li><a href="unpaidStudents.php"><i class="fas fa-user-times"></i>&emsp;Unpaid Courses</a></li>
-            <li><a href="#"><i class="fas fa-times"></i>&emsp;  Rescheduling / Refund</a></li>
+            <li><a href="student.Enrollment.php"><i class="fas fa-users"></i>&emsp;Enrollment</a></li>
+            <li><a href="student.Payment.php"><i class="fas fa-money"></i>&emsp;Payment</a></li>
           </ul>
         </li>
         <li class="treeview">
