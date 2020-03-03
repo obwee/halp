@@ -140,32 +140,32 @@ class Validations {
         let quoteInputRules = [
             {
                 name: 'First name',
-                element: '#quoteFname',
-                length: $.trim($('#quoteFname').val()).length,
+                element: '.quoteFname',
+                length: $.trim($('.quoteFname').val()).length,
                 minLength: 2,
                 maxLength: 30,
                 pattern: /^[a-zA-Z\s\.]+$/g
             },
             {
                 name: 'Last name',
-                element: '#quoteLname',
-                length: $.trim($('#quoteLname').val()).length,
+                element: '.quoteLname',
+                length: $.trim($('.quoteLname').val()).length,
                 minLength: 2,
                 maxLength: 30,
                 pattern: /^[a-zA-Z\s\.]+$/g
             },
             {
                 name: 'Contact number',
-                element: '#quoteContactNum',
-                length: $.trim($('#quoteContactNum').val()).length,
+                element: '.quoteContactNum',
+                length: $.trim($('.quoteContactNum').val()).length,
                 minLength: 7,
                 maxLength: 12,
                 pattern: /^[0-9]+$/g
             },
             {
                 name: 'Email address',
-                element: '#quoteEmail',
-                length: $.trim($('#quoteEmail').val()).length,
+                element: '.quoteEmail',
+                length: $.trim($('.quoteEmail').val()).length,
                 minLength: 4,
                 maxLength: 50,
                 pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
@@ -178,12 +178,12 @@ class Validations {
         }
 
         // Check if middle name has a value.
-        if ($.trim($('#quoteMname').val()).length !== 0) {
+        if ($.trim($('.quoteMname').val()).length !== 0) {
             quoteInputRules.push(
                 {
                     name: 'Middle name',
-                    element: '#quoteMname',
-                    length: $.trim($('#quoteMname').val()).length,
+                    element: '.quoteMname',
+                    length: $.trim($('.quoteMname').val()).length,
                     minLength: 2,
                     maxLength: 30,
                     pattern: /^[a-zA-Z\s\.]+$/g
@@ -192,12 +192,12 @@ class Validations {
         }
 
         // Check if company name has a value.
-        if ($.trim($('#quoteCompanyName').val()).length !== 0) {
+        if ($.trim($('.quoteCompanyName').val()).length !== 0) {
             quoteInputRules.push(
                 {
                     name: 'Company name',
-                    element: '#quoteCompanyName',
-                    length: $.trim($('#quoteCompanyName').val()).length,
+                    element: '.quoteCompanyName',
+                    length: $.trim($('.quoteCompanyName').val()).length,
                     minLength: 4,
                     maxLength: 50,
                     pattern: /^[a-zA-Z0-9\s\.]+$/g
@@ -233,13 +233,13 @@ class Validations {
             }
         });
 
-        let iBillToCompany = $('#quoteBillToCompany').is(':checked') ? 1 : 0;
-        $('#quoteBillToCompany').val(iBillToCompany);
+        let iBillToCompany = $('.quoteBillToCompany').is(':checked') ? 1 : 0;
+        $('.quoteBillToCompany').val(iBillToCompany);
 
-        if (iBillToCompany === 1 && $('#quoteCompanyName').val() === '') {
+        if (iBillToCompany === 1 && $('.quoteCompanyName').val() === '') {
             return {
                 result: false,
-                element: '#quoteCompanyName',
+                element: '.quoteCompanyName',
                 msg: 'Please specify company name if billing to company.'
             };
         }
@@ -254,10 +254,10 @@ class Validations {
 
         let numPaxRegex = /^(?!-\d+|0)\d+$/g;
 
-        if ($('#numPax').val() < 1 || $('#numPax').val() > 100 || numPaxRegex.test($('#numPax').val()) === false) {
+        if ($('.numPax').val() < 1 || $('.numPax').val() > 100 || numPaxRegex.test($('.numPax').val()) === false) {
             return {
                 result: false,
-                element: '#numPax',
+                element: '.numPax',
                 msg: 'Invalid value for number of persons.'
             }
         }
@@ -269,23 +269,24 @@ class Validations {
     // This method validates the inputs of the user before submission for quotation.
     validateNewQuoteRequestInputs() {
 
-        // Declare initially the validation result to be returned by the function.
         let validationResult = {
             result: true
         }
 
+        let quoteInputRules = [];
+
         // Check if company name has a value.
-        if ($.trim($('#quoteCompanyName').val()).length !== 0) {
-            let quoteInputRules = [
+        if ($.trim($('form[id="insertNewRequestForm"]').find('.quoteCompanyName').val()).length !== 0) {
+            quoteInputRules.push(
                 {
                     name: 'Company name',
-                    element: '#quoteCompanyName',
-                    length: $.trim($('#quoteCompanyName').val()).length,
+                    element: $('form[id="insertNewRequestForm"]').find('.quoteCompanyName'),
+                    length: $.trim($('form[id="insertNewRequestForm"]').find('.quoteCompanyName').val()).length,
                     minLength: 4,
                     maxLength: 50,
                     pattern: /^[a-zA-Z0-9\s\.]+$/g
                 },
-            ];
+            );
 
             // Loop thru each quoteInputRules and if there are rules violated, return false and the error message.
             $.each(quoteInputRules, function (key, inputRule) {
@@ -305,7 +306,7 @@ class Validations {
                     };
                     return false;
                 }
-                if (inputRule.pattern.test($(inputRule.element).val()) === false) {
+                if (inputRule.pattern.test(inputRule.element.val()) === false) {
                     validationResult = {
                         result: false,
                         element: inputRule.element,
@@ -317,18 +318,18 @@ class Validations {
 
         }
 
-        let iBillToCompany = $('#quoteBillToCompany').is(':checked') ? 1 : 0;
-        $('#quoteBillToCompany').val(iBillToCompany);
+        let iBillToCompany = $('form[id="insertNewRequestForm"]').find('.quoteBillToCompany').is(':checked') ? 1 : 0;
+        $('form[id="insertNewRequestForm"]').find('.quoteBillToCompany').val(iBillToCompany);
 
-        if (iBillToCompany === 1 && $('#quoteCompanyName').val() === '') {
+        if (iBillToCompany === 1 && $('form[id="insertNewRequestForm"]').find('.quoteCompanyName').val() === '') {
             return {
                 result: false,
-                element: '#quoteCompanyName',
+                element: '.quoteCompanyName',
                 msg: 'Please specify company name if billing to company.'
             };
         }
 
-        if ($('.quoteCourse').val() === null) {
+        if ($('form[id="insertNewRequestForm"]').find('.quoteCourse').val() === null) {
             return {
                 result: false,
                 element: '.quoteCourse',
@@ -338,10 +339,10 @@ class Validations {
 
         let numPaxRegex = /^(?!-\d+|0)\d+$/g;
 
-        if ($('#numPax').val() < 1 || $('#numPax').val() > 100 || numPaxRegex.test($('#numPax').val()) === false) {
+        if ($('.numPax').val() < 1 || $('.numPax').val() > 100 || numPaxRegex.test($('.numPax').val()) === false) {
             return {
                 result: false,
-                element: '#numPax',
+                element: '.numPax',
                 msg: 'Invalid value for number of persons.'
             }
         }

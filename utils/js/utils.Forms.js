@@ -49,7 +49,7 @@ var oForms = (() => {
 
     // Remove existing red borders on inputs.
     function resetInputBorders(formName) {
-        $(formName).find('input').css('border', '1px solid #ccc');
+        $(formName).find('input, select').css('border', '1px solid #ccc');
     }
 
     // Clone courseAndScheduleDiv based on the count fetched from DB.
