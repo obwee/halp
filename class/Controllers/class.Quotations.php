@@ -72,7 +72,7 @@ class Quotations extends BaseController
         $aDetails = $this->oQuotationModel->fetchRequests($aData);
 
         foreach ($aDetails as $iKey => $aDetail) {
-            $aDetails[$iKey]['isCompanySponsored'] = ($aDetail['isCompanySponsored'] === true) ? 'Yes' : 'No';
+            $aDetails[$iKey]['isCompanySponsored'] = ($aDetail['isCompanySponsored'] === 1) ? 'Yes' : 'No';
             $aDetails[$iKey]['fullDate'] = date('F j, Y', strtotime($aDetail['dateRequested']));
         }
 
@@ -80,9 +80,9 @@ class Quotations extends BaseController
     }
 
     /**
-    * fetchDetails
-    * Fetch quotation details of a particular quote request.
-    */
+     * fetchDetails
+     * Fetch quotation details of a particular quote request.
+     */
     public function fetchDetails()
     {
         $aData = array(
@@ -234,6 +234,20 @@ class Quotations extends BaseController
         );
 
         $aDetails = $this->oQuotationModel->fetchQuotationDetails($aSenderDetails);
-        print_r($aDetails);
+
+        foreach ($aDetails as $iKey => $aDetail) {
+            $iFromDate = strtotime($aDetail['fromDate']);
+            $iToDate = strtotime($aDetail['toDate']);
+            $iInterval = (($iToDate - $iFromDate) / 86400) + 1;
+
+            $aResult['courseId'] = $aDetail['courseId'];
+            $aResult['quoteCompanyName'] = $aDetail['companyName'];
+            $aResult['isCompanySponsored'] = $aDetail['isCompanySponsored'];
+            $aResult['numPax'][$iKey] = $aDetail['numPax'];
+            $aResult['aCourses'][$iKey] = $aDetail['courseName'];
+            $aResult['aSchedules'][$iKey] = $aDetail['fromDate'] . ' - ' . $aDetail['toDate'] . ' (' . $iInterval . ' days)';
+        }
+
+        echo json_encode($aResult);
     }
 }
