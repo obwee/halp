@@ -248,30 +248,32 @@ require_once "template/header.php";
             <form action="post" id="editRequestForm">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="quoteCompanyName"><span class="far fa-building"></span> Company Name</label>
+                        <label for="editQuoteCompanyName"><span class="far fa-building"></span> Company Name</label>
                         <div class="input-group">
-                            <input type="text" class="form-control quoteCompanyName" placeholder="Company Name" name="quoteCompanyName" maxlength="50">
+                            <input type="text" class="form-control editQuoteCompanyName" placeholder="Company Name" name="editQuoteCompanyName" maxlength="50">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <input type="checkbox" name="quoteBillToCompany" class="quoteBillToCompany">&nbsp;Bill to Company?
+                                    <input type="checkbox" name="editQuoteBillToCompany" class="editQuoteBillToCompany">&nbsp;Bill to Company?
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="courseAndScheduleDiv-edit" style="display: block;">
-                        <div class="form-group">
-                            <label for="quoteCourse"><span class="fas fa-book"></span> Course</label>
-                            <select class="form-control quoteCourse" name="quoteCourse[]"></select>
-                        </div>
-                        <div class="form-group">
-                            <label for="quoteSchedule"><span class="fas fa-calendar-week"></span> Schedule</label>
-                            <select class="form-control quoteSchedule" name="quoteSchedule[]" disabled>
-                                <option value="" selected disabled hidden>Select Course First</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="numPax"><span class="fas fa-user-friends"></span> PAX</label>
-                            <input type="number" class="form-control numPax" placeholder="Number of Persons" name="numPax[]" min="1" max="100" value="1">
+                    <div class="template">
+                        <div class="courseAndScheduleDiv-edit" hidden>
+                            <div class="form-group">
+                                <label for="editQuoteCourse"><span class="fas fa-book"></span> Course</label>
+                                <select class="form-control editQuoteCourse" name="editQuoteCourse[]"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editQuoteSchedule"><span class="fas fa-calendar-week"></span> Schedule</label>
+                                <select class="form-control editQuoteSchedule" name="editQuoteSchedule[]">
+                                    <option value="" selected disabled hidden>Select Course First</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editNumPax"><span class="fas fa-user-friends"></span> PAX</label>
+                                <input type="number" class="form-control editNumPax" placeholder="Number of Persons" name="editNumPax[]" min="1" max="100" value="1">
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">

@@ -202,7 +202,7 @@ class QuotationsModel
         $statement = $this->oConnection->prepare("
             SELECT
                 tqd.companyName, tqd.isCompanySponsored,
-                tc.courseName, tqd.numPax,
+                tqd.courseId, tc.courseName, tqd.numPax,
                 ts.fromDate, ts.toDate
             FROM tbl_quotation_details tqd
             INNER JOIN tbl_courses     tc ON tqd.courseId   = tc.id

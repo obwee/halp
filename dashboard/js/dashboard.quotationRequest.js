@@ -3,6 +3,8 @@ var oQuotationRequests = (() => {
     let oTblSenders  = $('#quotationSenders');
     let oTblRequests = $('#quotationRequests');
     let oTblDetails  = $('#quotationDetails');
+
+    let oTemplate = {};
     
     let aCoursesAndSchedules = [];
     let aFilteredCoursesAndSchedules = [];
@@ -132,11 +134,12 @@ var oQuotationRequests = (() => {
                 data: oDetails,
                 dataType: 'JSON',
                 success: (oResponse) => {
-                    // $('#editRequestModal').modal('show');
+                    $('#editRequestModal').find('.quoteCompanyName').val(oResponse.quoteCompanyName);
+                    $('#editRequestModal').find('.quoteBillToCompany').attr('checked', oResponse.isCompanySponsored);
+                    cloneDivElementsForEditing(oResponse);
+                    $('#editRequestModal').modal('show');
                 }
             });
-
-            $('#editRequestModal').modal('show');
 
         });
         
@@ -487,6 +490,57 @@ var oQuotationRequests = (() => {
                 populateCourseDropdown(oResponse);
                 populateCourseDropdown(oResponse, '-new');
             }
+        });
+    }
+
+    function getTemplate() {
+        if ($.isEmptyObject(oTemplate) === true) {
+            oTemplate = $('.courseAndScheduleDiv-edit').clone();
+        }
+        return oTemplate;
+    }
+
+    function cloneDivElementsForEditing(oData) {
+        getTemplate();
+
+        $('.template')
+            .empty()
+            .find('div[class="clonedTemplate"]')
+            .remove();
+
+        let aCoursesAndSchedulesForEdit = aCoursesAndSchedules;
+
+        $.each(oData.aCourses, function(iKey, sCourseName) {
+            let sRow = oTemplate.clone().attr({
+                'hidden': false,
+                'class' : 'clonedTemplate'
+            });
+
+            $('.template').append(sRow);
+
+            populateCourseDropdownForEdit(aCoursesAndSchedulesForEdit);
+            
+            sRow.find(`select.editQuoteCourse option:contains(${oData.aCourses[iKey]})`).prop('selected', true);
+
+            aFilteredCoursesAndSchedules = aCoursesAndSchedulesForEdit.filter(function(aCourse) {
+                return aCourse.courseName != oData.aCourses[iKey];
+            });
+
+            aCoursesAndSchedulesForEdit = aFilteredCoursesAndSchedules;
+
+            populateCourseSchedule(aCoursesAndSchedulesForEdit, false, '-edit');
+
+            sRow.find(`select.editQuoteSchedule option:contains(${oData.aSchedules[iKey]})`).prop('selected', true);
+        });
+    }
+
+    // Populate the course dropdown select.
+    function populateCourseDropdownForEdit(aCourses) {
+        let oCourseDropdown = $('.clonedTemplate').last().find('.editQuoteCourse');
+        oCourseDropdown.empty().append($('<option value="" selected disabled hidden>Select Course</option>'));
+
+        $.each(aCourses, function (iKey, oCourse) {
+            oCourseDropdown.append($('<option />').val(oCourse.courseId).text(oCourse.courseName));
         });
     }
 
