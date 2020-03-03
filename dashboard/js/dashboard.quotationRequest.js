@@ -75,6 +75,9 @@ var oQuotationRequests = (() => {
             {
                 title: 'Training Date', className: 'text-center', render: (aData, oType, oRow) =>
                     [oRow.fromDate, oRow.toDate].join(' - ')
+            },
+            {
+                title: 'Number of Persons', className: 'text-center', data: 'numPax'
             }
         ]
     };

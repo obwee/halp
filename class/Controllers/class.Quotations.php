@@ -72,7 +72,7 @@ class Quotations extends BaseController
         $aDetails = $this->oQuotationModel->fetchRequests($aData);
 
         foreach ($aDetails as $iKey => $aDetail) {
-            $aDetails[$iKey]['isCompanySponsored'] = ($aDetail['isCompanySponsored'] === true) ? 'Yes' : 'No';
+            $aDetails[$iKey]['isCompanySponsored'] = ($aDetail['isCompanySponsored'] === 1) ? 'Yes' : 'No';
             $aDetails[$iKey]['fullDate'] = date('F j, Y', strtotime($aDetail['dateRequested']));
         }
 

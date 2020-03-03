@@ -180,10 +180,10 @@ class QuotationsModel
         $statement = $this->oConnection->prepare("
             SELECT
                 tc.courseDescription, tc.courseName, tc.examCode,
-                ts.fromDate, ts.toDate
+                tqd.numPax, ts.fromDate, ts.toDate
             FROM tbl_quotation_details tqd
-            INNER JOIN tbl_courses     tc ON tqd.courseId   = tc.id
-            LEFT  JOIN tbl_schedules   ts ON tqd.scheduleId = ts.id
+            INNER JOIN tbl_courses           tc ON tqd.courseId   = tc.id
+            LEFT  JOIN tbl_schedules         ts ON tqd.scheduleId = ts.id
             WHERE
                 tqd.userId = :userId AND tqd.senderId = :senderId
                 AND tqd.isQuotationSent = :isQuotationSent AND tqd.dateRequested = :dateRequested
