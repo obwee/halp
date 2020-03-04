@@ -1,11 +1,11 @@
 var oQuotationRequests = (() => {
 
-    let oTblSenders  = $('#quotationSenders');
+    let oTblSenders = $('#quotationSenders');
     let oTblRequests = $('#quotationRequests');
-    let oTblDetails  = $('#quotationDetails');
+    let oTblDetails = $('#quotationDetails');
 
     let oTemplate = {};
-    
+
     let aCoursesAndSchedules = [];
     let aFilteredCoursesAndSchedules = [];
     let aSenders = [];
@@ -15,7 +15,7 @@ var oQuotationRequests = (() => {
         aSender: [
             {
                 title: 'Sender Name', render: (aData, oType, oRow) =>
-                [oRow.firstName, oRow.middleName, oRow.lastName].join(' ')
+                    [oRow.firstName, oRow.middleName, oRow.lastName].join(' ')
             },
             {
                 title: 'Email Address', data: 'email'
@@ -27,6 +27,12 @@ var oQuotationRequests = (() => {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
                     `<button class="btn btn-primary btn-sm" data-toggle="modal" id="viewRequest" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}">
                         <i class="fa fa-eye"></i>
+                    </button>
+                    <button class="btn btn-warning btn-sm" data-toggle="modal" id="editSenderDetails" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}">
+                        <i class="fa fa-pencil-alt"></i>
+                    </button>
+                    <button class="btn btn-danger btn-sm" data-toggle="modal" id="deleteSender" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}">
+                        <i class="fa fa-trash"></i>
                     </button>`
             },
         ],
@@ -61,13 +67,13 @@ var oQuotationRequests = (() => {
                     </button>`
             },
         ],
-        aDetails : [
+        aDetails: [
             {
                 title: 'Course Name', className: 'text-center', render: (aData, oType, oRow) =>
                     (oRow.courseName === '') ? ' - ' : oRow.courseName
             },
             {
-                title: 'Course Description', className: 'text-center',render: (aData, oType, oRow) =>
+                title: 'Course Description', className: 'text-center', render: (aData, oType, oRow) =>
                     (oRow.courseDescription === '') ? ' - ' : oRow.courseDescription
             },
             {
@@ -92,11 +98,11 @@ var oQuotationRequests = (() => {
 
     function setEvents() {
         oForms.prepareDomEvents();
-        
-        $(document).on('click', '#viewRequest', function() {
+
+        $(document).on('click', '#viewRequest', function () {
             let oDetails = {
-                iSenderId      : $(this).attr('data-sender-id'),
-                iUserId        : $(this).attr('data-user-id')
+                iSenderId: $(this).attr('data-sender-id'),
+                iUserId: $(this).attr('data-user-id')
             }
 
             populateRequestsTable(oDetails);
@@ -108,11 +114,11 @@ var oQuotationRequests = (() => {
             $('#viewRequestModal').modal('show');
         });
 
-        $(document).on('click', '#viewDetails', function() {
+        $(document).on('click', '#viewDetails', function () {
             let oDetails = {
-                iSenderId      : $(this).attr('data-sender-id'),
-                iUserId        : $(this).attr('data-user-id'),
-                sDateRequested : $(this).attr('data-date-requested')  
+                iSenderId: $(this).attr('data-sender-id'),
+                iUserId: $(this).attr('data-user-id'),
+                sDateRequested: $(this).attr('data-date-requested')
             }
 
             populateDetailsTable(oDetails);
@@ -120,11 +126,11 @@ var oQuotationRequests = (() => {
             $('#viewDetailsModal').modal('show');
         });
 
-        $(document).on('click', '#editRequest', function() {
+        $(document).on('click', '#editRequest', function () {
             let oDetails = {
-                iSenderId      : $(this).attr('data-sender-id'),
-                iUserId        : $(this).attr('data-user-id'),
-                sDateRequested : $(this).attr('data-date-requested')  
+                iSenderId: $(this).attr('data-sender-id'),
+                iUserId: $(this).attr('data-user-id'),
+                sDateRequested: $(this).attr('data-date-requested')
             };
 
             // Execute AJAX request.
@@ -137,31 +143,34 @@ var oQuotationRequests = (() => {
                     $('#editRequestModal').find('.quoteCompanyName').val(oResponse.quoteCompanyName);
                     $('#editRequestModal').find('.quoteBillToCompany').attr('checked', oResponse.isCompanySponsored);
                     cloneDivElementsForEditing(oResponse);
+                    showAddDeleteButtons(oResponse.aCourses.length);
                     $('#editRequestModal').modal('show');
                 }
             });
 
         });
-        
+
         $(document).on('change', '.quoteCourse', function () {
             let oModal = {
-                'getQuoteModal'         : '',
-                'insertNewRequestModal' : '-new'
+                'getQuoteModal': '',
+                'insertNewRequestModal': '-new',
+                'editRequestModal': '-edit'
             };
 
             let sSuffix = oModal[$(this).closest('.modal').attr('id')];
-            
+
             populateCourseSchedule($(this).val(), false, sSuffix);
         });
 
         $(document).on('click', '.addCourseBtn', function () {
             let oModal = {
-                'getQuoteModal'         : '',
-                'insertNewRequestModal' : '-new'
+                'getQuoteModal': '',
+                'insertNewRequestModal': '-new',
+                'editRequestModal': '-edit'
             };
 
             let sSuffix = oModal[$(this).closest('.modal').attr('id')];
-            
+
             let oCourseDiv = $(`.courseAndScheduleDiv${sSuffix}`).filter(':visible').last();
 
             if (oCourseDiv.find('select.quoteCourse').val() === null) {
@@ -174,30 +183,41 @@ var oQuotationRequests = (() => {
 
             oCourseDiv.find('.quoteCourse').attr('disabled', true);
             oCourseDiv.find('.quoteSchedule').attr('disabled', true);
-            
+
             populateCourseDropdown(aFilteredCoursesAndSchedules, sSuffix);
 
             if ($(`.courseAndScheduleDiv${sSuffix}`).filter(':hidden').length === 0) {
                 $('.addCourseBtn').parent().css('display', 'none');
-                $('.deleteCourseBtn').parent().attr('class', 'col-sm-12 text-center');
+                $('.deleteCourseBtn').parent().css('display', 'block');
             } else {
-                $('.addCourseBtn').parent().attr('class', 'col-sm-6 text-right').css('display', 'block');
-                $('.deleteCourseBtn').parent().attr('class', 'col-sm-6 text-left').css('display', 'block');
+                // $('.addCourseBtn').parent().attr('class', 'col-sm-6 text-right').css('display', 'block');
+                // $('.deleteCourseBtn').parent().attr('class', 'col-sm-6 text-left').css('display', 'block');
+                oCourseDiv.find('.deleteCourseBtn').parent().css('display', 'block');
             }
         });
 
         $(document).on('click', '.deleteCourseBtn', function () {
-
             let oModal = {
-                'getQuoteModal'         : '',
-                'insertNewRequestModal' : '-new'
+                'getQuoteModal': '',
+                'insertNewRequestModal': '-new',
+                'editRequestModal': '-edit'
             };
 
-            let sSuffix = oModal[$(this).closest('.modal').attr('id')];
-            let oCourseAndScheduleDiv = $(`.courseAndScheduleDiv${sSuffix}`).filter(':visible').last();
+            let sModalName = $(this).closest('.modal').attr('id');
+            let sSuffix = oModal[sModalName];
+            let oCourseAndScheduleDiv = $(this).closest(`.courseAndScheduleDiv${sSuffix}`);
 
-            // Reset schedule select option.
-            oCourseAndScheduleDiv
+            let iSelectedCourseId = oCourseAndScheduleDiv.find('.quoteCourse').val();
+
+            let oCourseProperties = aCoursesAndSchedules.filter(function (oProperty) {
+                return oProperty.courseId == iSelectedCourseId;
+            })[0];
+
+            aFilteredCoursesAndSchedules.push(oCourseProperties);
+
+            let oClone = oCourseAndScheduleDiv.clone().css('display', 'none');
+
+            oClone
                 .find('.quoteSchedule')
                 .empty()
                 .attr('disabled', true)
@@ -205,24 +225,27 @@ var oQuotationRequests = (() => {
                 .find('option:eq(0)')
                 .prop('selected', true);
 
-            oCourseAndScheduleDiv.css('display', 'none');
-            oCourseAndScheduleDiv.prev().find('.quoteSchedule').attr('disabled', false);
-            oCourseAndScheduleDiv.prev().find('.quoteCourse').attr('disabled', false);
+            oClone
+                .find('.quoteCourse')
+                .empty()
+                .attr('disabled', false);
 
-            let oCourseDiv = $(`.courseAndScheduleDiv${sSuffix}`).filter(':visible').find('.quoteCourse');
+            oCourseAndScheduleDiv.remove();
 
-            aFilteredCoursesAndSchedules.push(aCoursesAndSchedules.filter(function (aCourse) {
-                return aCourse.courseId == oCourseDiv.last().val();
-            })[0]);
+            oClone.insertAfter($(`#${sModalName}`).find(`.courseAndScheduleDiv${sSuffix}:last`));
 
-            populateCourseSchedule(oCourseDiv.last().val(), true, sSuffix);
-
-            if (oCourseDiv.parent().parent().length === 1) {
-                $('.addCourseBtn').parent().attr('class', 'col-sm-12 text-center');
+            // Re-add the course into the select dropdown.
+            $(`#${sModalName}`)
+                .find(`.courseAndScheduleDiv${sSuffix}:visible`)
+                .not(':disabled')
+                .find('select.quoteCourse')
+                .prepend($('<option />').val(oCourseProperties.courseId).text(oCourseProperties.courseName))
+                
+            if ($(`#${sModalName}`).filter(':visible').length === 1) {
+                $('.addCourseBtn').parent().css('display', 'block');
                 $('.deleteCourseBtn').parent().css('display', 'none');
             } else {
-                $('.addCourseBtn').parent().attr('class', 'col-sm-6 text-right').css('display', 'block');
-                $('.deleteCourseBtn').parent().attr('class', 'col-sm-6 text-left').css('display', 'block');
+                $('.deleteCourseBtn').parent().css('display', 'block');
             }
         });
 
@@ -241,8 +264,8 @@ var oQuotationRequests = (() => {
 
         $('#getQuoteModal, #insertNewRequestModal').on('hidden.bs.modal', function () {
             let oModal = {
-                'getQuoteModal'         : '',
-                'insertNewRequestModal' : '-new'
+                'getQuoteModal': '',
+                'insertNewRequestModal': '-new'
             };
 
             let sSuffix = oModal[$(this).attr('id')];
@@ -355,18 +378,18 @@ var oQuotationRequests = (() => {
 
     function populateSendersTable() {
         let oAjax = {
-            url      : `../utils/ajax.php?class=Quotations&action=fetchSenders`,
-            type     : 'GET',
-            dataType : 'JSON',
-            dataSrc  : function(oJson) {
+            url: `../utils/ajax.php?class=Quotations&action=fetchSenders`,
+            type: 'GET',
+            dataType: 'JSON',
+            dataSrc: function (oJson) {
                 aSenders = oJson.aData;
                 return aSenders;
             },
-            async    : false
+            async: false
         };
 
         let aColumnDefs = [
-            { orderable : false, targets : [1, 2, 3] }
+            { orderable: false, targets: [1, 2, 3] }
         ];
 
         loadTable(oTblSenders.attr('id'), oAjax, oColumns.aSender, aColumnDefs);
@@ -374,17 +397,17 @@ var oQuotationRequests = (() => {
 
     function populateRequestsTable(oData) {
         let oAjax = {
-            url      : `../utils/ajax.php?class=Quotations&action=fetchRequests`,
-            type     : 'POST',
-            data     : oData,
-            dataSrc  : (oJson) => {
+            url: `../utils/ajax.php?class=Quotations&action=fetchRequests`,
+            type: 'POST',
+            data: oData,
+            dataSrc: (oJson) => {
                 return oJson;
             },
-            async    : false
+            async: false
         };
 
         let aColumnDefs = [
-            { orderable : false, targets : [1, 2, 3, 4] }
+            { orderable: false, targets: [1, 2, 3, 4] }
         ];
 
         loadTable(oTblRequests.attr('id'), oAjax, oColumns.aRequest, aColumnDefs);
@@ -392,17 +415,17 @@ var oQuotationRequests = (() => {
 
     function populateDetailsTable(oData) {
         let oAjax = {
-            url      : `../utils/ajax.php?class=Quotations&action=fetchDetails`,
-            type     : 'POST',
-            data     : oData,
-            dataSrc  : (oJson) => {
+            url: `../utils/ajax.php?class=Quotations&action=fetchDetails`,
+            type: 'POST',
+            data: oData,
+            dataSrc: (oJson) => {
                 return oJson;
             },
-            async    : false
+            async: false
         };
 
         let aColumnDefs = [
-            { orderable : false, targets : '_all' }
+            { orderable: false, targets: '_all' }
         ];
 
         loadTable(oTblDetails.attr('id'), oAjax, oColumns.aDetails, aColumnDefs);
@@ -410,19 +433,19 @@ var oQuotationRequests = (() => {
 
     function loadTable(sTableName, oData, aColumns, aColumnDefs) {
         $(`#${sTableName} > tbody`).empty().parent().DataTable({
-            destroy      : true,
-            deferRender  : true,
-            ajax         : oData,
-            responsive   : true,
-            pagingType   : 'first_last_numbers',
-            pageLength   : 4,
-            ordering     : true,
-            searching    : true,
-            lengthChange : true,
-            lengthMenu   : [ [4, 8, 12, 16, 20, 24, -1], [4, 8, 12, 16, 20, 24, 'All'] ],
-            info         : true,
-            columns      : aColumns,
-            columnDefs   : aColumnDefs
+            destroy: true,
+            deferRender: true,
+            ajax: oData,
+            responsive: true,
+            pagingType: 'first_last_numbers',
+            pageLength: 4,
+            ordering: true,
+            searching: true,
+            lengthChange: true,
+            lengthMenu: [[4, 8, 12, 16, 20, 24, -1], [4, 8, 12, 16, 20, 24, 'All']],
+            info: true,
+            columns: aColumns,
+            columnDefs: aColumnDefs
         });
     }
 
@@ -437,7 +460,7 @@ var oQuotationRequests = (() => {
         });
     }
 
-    // Populate the schedule dropdown select.
+    // Populate the schedule select dropdown.
     function populateCourseSchedule(iCourseId, bIsDeletePressed, sSuffix) {
         let oSchedule = $(`.courseAndScheduleDiv${sSuffix}[style*="display: block"]`).last().find('.quoteSchedule');
         let iSelectedScheduleId = oSchedule.find('option:selected').val();
@@ -501,47 +524,91 @@ var oQuotationRequests = (() => {
     }
 
     function cloneDivElementsForEditing(oData) {
+        // Add the old company name and if company sponsored for editing.
+        $('#editRequestForm').find('.editQuoteCompanyName').val(oData.quoteCompanyName);
+        $('#editRequestForm').find('.editQuoteBillToCompany').prop('checked', oData.isCompanySponsored);
+
         getTemplate();
 
         $('.template')
             .empty()
-            .find('div[class="clonedTemplate"]')
+            .find('div[class="courseAndScheduleDiv-edit"]:visible')
             .remove();
 
         let aCoursesAndSchedulesForEdit = aCoursesAndSchedules;
 
-        $.each(oData.aCourses, function(iKey, sCourseName) {
+        $.each(oData.aCourses, function (iKey, sCourseName) {
             let sRow = oTemplate.clone().attr({
-                'hidden': false,
-                'class' : 'clonedTemplate'
+                'hidden': false
             });
 
             $('.template').append(sRow);
 
             populateCourseDropdownForEdit(aCoursesAndSchedulesForEdit);
-            
-            sRow.find(`select.editQuoteCourse option:contains(${oData.aCourses[iKey]})`).prop('selected', true);
+            sRow.find(`select.quoteCourse option:contains(${oData.aCourses[iKey]})`).prop('selected', true);
 
-            aFilteredCoursesAndSchedules = aCoursesAndSchedulesForEdit.filter(function(aCourse) {
+            aFilteredCoursesAndSchedules = aCoursesAndSchedulesForEdit.filter(function (aCourse) {
                 return aCourse.courseName != oData.aCourses[iKey];
             });
 
+            let aSchedules = aCoursesAndSchedulesForEdit.filter(function (aCourse) {
+                return aCourse.courseName == sCourseName;
+            })[0];
+
             aCoursesAndSchedulesForEdit = aFilteredCoursesAndSchedules;
 
-            populateCourseSchedule(aCoursesAndSchedulesForEdit, false, '-edit');
+            populateCourseScheduleForEdit(aSchedules, oData.aSchedules[iKey]);
+            sRow.find(`select.quoteSchedule option:contains(${oData.aSchedules[iKey]})`).prop('selected', true);
 
-            sRow.find(`select.editQuoteSchedule option:contains(${oData.aSchedules[iKey]})`).prop('selected', true);
+            sRow.find(`input.numPax`).val(oData.numPax[iKey]);
         });
+
+        // Get the number of cloned divs and subtract it to the number of courses and schedules fetched from the database.
+        let iClonedDivCount = $('.template').find('div.courseAndScheduleDiv-edit').length;
+
+        let iRemainingDivsToClone = aCoursesAndSchedules.length - iClonedDivCount;
+
+        while (iRemainingDivsToClone != 0) {
+            let sRow = oTemplate.clone();
+            $('.template').append(sRow);
+            iRemainingDivsToClone--;
+        };
     }
 
     // Populate the course dropdown select.
-    function populateCourseDropdownForEdit(aCourses) {
-        let oCourseDropdown = $('.clonedTemplate').last().find('.editQuoteCourse');
+    function populateCourseDropdownForEdit(aCourse) {
+        let oCourseDropdown = $('.courseAndScheduleDiv-edit').last().find('.quoteCourse');
         oCourseDropdown.empty().append($('<option value="" selected disabled hidden>Select Course</option>'));
 
-        $.each(aCourses, function (iKey, oCourse) {
+        $.each(aCourse, function (iKey, oCourse) {
             oCourseDropdown.append($('<option />').val(oCourse.courseId).text(oCourse.courseName));
         });
+    }
+
+    function populateCourseScheduleForEdit(aCourse, sSchedule) {
+        let oScheduleDropdown = $('.courseAndScheduleDiv-edit').last().find('.quoteSchedule');
+        oScheduleDropdown.empty().append($('<option value="" selected disabled hidden>Select Course First</option>'));
+
+        $.each(aCourse.schedule, function (iKey, oCourse) {
+            oScheduleDropdown.append($('<option />').val(aCourse.scheduleId).text(sSchedule));
+        });
+    }
+
+    function showAddDeleteButtons(iDataLength) {
+        let oEditForm = $('#editRequestForm');
+
+        if (iDataLength === 1) {
+            oEditForm.find('.addCourseBtn').parent().attr('class', 'col-sm-12 text-center');
+            oEditForm.find('.deleteCourseBtn').parent().css('display', 'none');
+        } else {
+            if (iDataLength === aCoursesAndSchedules.length) {
+                oEditForm.find('.deleteCourseBtn').parent().attr('class', 'col-sm-12 text-center');
+                oEditForm.find('.addCourseBtn').parent().css('display', 'none');
+            } else {
+                oEditForm.find('.addCourseBtn').parent().attr('class', 'col-sm-6 text-right').css('display', 'block');
+                oEditForm.find('.deleteCourseBtn').parent().attr('class', 'col-sm-6 text-left').css('display', 'block');
+            }
+        }
     }
 
     return {
