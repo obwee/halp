@@ -88,15 +88,15 @@ require_once "template/header.php";
                             <label for="numPax"><span class="fas fa-user-friends"></span> PAX</label>
                             <input type="number" class="form-control numPax" placeholder="Number of Persons" name="numPax[]" min="1" max="100" value="1">
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-sm-12 text-center">
-                                <button type="button" class="btn btn-primary addCourseBtn">Add New Course</button>
-                            </div>
-                            <div class="col-sm-6 text-left" style="display: none;">
+                        <div class="form-group">
+                            <div class="col-sm-12 text-center" style="display: none;">
                                 <button type="button" class="btn btn-warning deleteCourseBtn">&nbsp;&nbsp;&nbsp;Delete Course&nbsp;&nbsp;&nbsp;</button>
                             </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary addCourseBtn">Add New Course</button>
                         </div>
                     </div>
                     <div class="form-group">
@@ -215,15 +215,15 @@ require_once "template/header.php";
                             <label for="numPax"><span class="fas fa-user-friends"></span> PAX</label>
                             <input type="number" class="form-control numPax" placeholder="Number of Persons" name="numPax[]" min="1" max="100" value="1">
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-sm-12 text-center">
-                                <button type="button" class="btn btn-primary addCourseBtn">Add New Course</button>
-                            </div>
-                            <div class="col-sm-6 text-left" style="display: none;">
+                        <div class="form-group">
+                            <div class="col-sm-12 text-center" style="display: none;">
                                 <button type="button" class="btn btn-warning deleteCourseBtn">&nbsp;&nbsp;&nbsp;Delete Course&nbsp;&nbsp;&nbsp;</button>
                             </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary addCourseBtn">Add New Course</button>
                         </div>
                     </div>
                     <div class="form-group">
@@ -261,18 +261,18 @@ require_once "template/header.php";
                     <div class="template">
                         <div class="courseAndScheduleDiv-edit" hidden>
                             <div class="form-group">
-                                <label for="editQuoteCourse"><span class="fas fa-book"></span> Course</label>
-                                <select class="form-control editQuoteCourse" name="editQuoteCourse[]"></select>
+                                <label for="quoteCourse"><span class="fas fa-book"></span> Course</label>
+                                <select class="form-control quoteCourse" name="quoteCourse[]"></select>
                             </div>
                             <div class="form-group">
-                                <label for="editQuoteSchedule"><span class="fas fa-calendar-week"></span> Schedule</label>
-                                <select class="form-control editQuoteSchedule" name="editQuoteSchedule[]">
+                                <label for="quoteSchedule"><span class="fas fa-calendar-week"></span> Schedule</label>
+                                <select class="form-control quoteSchedule" name="quoteSchedule[]">
                                     <option value="" selected disabled hidden>Select Course First</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="editNumPax"><span class="fas fa-user-friends"></span> PAX</label>
-                                <input type="number" class="form-control editNumPax" placeholder="Number of Persons" name="editNumPax[]" min="1" max="100" value="1">
+                                <label for="numPax"><span class="fas fa-user-friends"></span> PAX</label>
+                                <input type="number" class="form-control numPax" placeholder="Number of Persons" name="numPax[]" min="1" max="100" value="1">
                             </div>
                         </div>
                     </div>
