@@ -274,16 +274,16 @@ require_once "template/header.php";
                                 <label for="numPax"><span class="fas fa-user-friends"></span> PAX</label>
                                 <input type="number" class="form-control numPax" placeholder="Number of Persons" name="numPax[]" min="1" max="100" value="1">
                             </div>
+                            <div class="form-group">
+                                <div class="col-sm-12 text-center" style="display: none;">
+                                    <button type="button" class="btn btn-warning deleteCourseBtn">&nbsp;&nbsp;&nbsp;Delete Course&nbsp;&nbsp;&nbsp;</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row">
-                            <div class="col-sm-12 text-center">
-                                <button type="button" class="btn btn-primary addCourseBtn">Add New Course</button>
-                            </div>
-                            <div class="col-sm-6 text-left" style="display: none;">
-                                <button type="button" class="btn btn-warning deleteCourseBtn">&nbsp;&nbsp;&nbsp;Delete Course&nbsp;&nbsp;&nbsp;</button>
-                            </div>
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary addCourseBtn">Add New Course</button>
                         </div>
                     </div>
                     <div class="form-group">
