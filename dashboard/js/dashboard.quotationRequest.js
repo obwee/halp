@@ -169,34 +169,35 @@ var oQuotationRequests = (() => {
                 'editRequestModal': '-edit'
             };
 
-            let sSuffix = oModal[$(this).closest('.modal').attr('id')];
+            let sModalName = $(this).closest('.modal').attr('id');
+            let sSuffix = oModal[sModalName];
 
-            let oCourseDiv = $(`.courseAndScheduleDiv${sSuffix}`).filter(':visible').last();
+            let oCourseAndScheduleDiv = $(`.courseAndScheduleDiv${sSuffix}`).filter(':visible').last();
 
-            if (oCourseDiv.find('select.quoteCourse').val() === null) {
+            if (oCourseAndScheduleDiv.find('select.quoteCourse').val() === null) {
                 return oLibraries.displayAlertMessage('error', 'Please select a course first.');
             }
 
             aFilteredCoursesAndSchedules = aFilteredCoursesAndSchedules.filter(function (aCourse) {
-                return aCourse.courseId != oCourseDiv.find('select.quoteCourse').val();
+                return aCourse.courseId != oCourseAndScheduleDiv.find('select.quoteCourse').val();
             });
 
-            oCourseDiv.find('.quoteCourse').attr('disabled', true);
-            oCourseDiv.find('.quoteSchedule').attr('disabled', true);
+            oCourseAndScheduleDiv.find('.quoteCourse').attr('disabled', true);
 
             populateCourseDropdown(aFilteredCoursesAndSchedules, sSuffix);
 
             if ($(`.courseAndScheduleDiv${sSuffix}`).filter(':hidden').length === 0) {
+                $(`.courseAndScheduleDiv${sSuffix}`).filter(':visible').last().prev().find('.deleteCourseBtn').parent().css('display', 'block');
+                $(`.courseAndScheduleDiv${sSuffix}`).filter(':visible').last().find('.deleteCourseBtn').parent().css('display', 'none');
                 $('.addCourseBtn').parent().css('display', 'none');
-                $('.deleteCourseBtn').parent().css('display', 'block');
-            } else {
-                // $('.addCourseBtn').parent().attr('class', 'col-sm-6 text-right').css('display', 'block');
-                // $('.deleteCourseBtn').parent().attr('class', 'col-sm-6 text-left').css('display', 'block');
-                oCourseDiv.find('.deleteCourseBtn').parent().css('display', 'block');
+            }
+            if ($(`.courseAndScheduleDiv${sSuffix}`).filter(':hidden').length !== 0) {
+                $(`.courseAndScheduleDiv${sSuffix}`).filter(':visible').last().prev().find('.deleteCourseBtn').parent().css('display', 'block');
+                $(`.courseAndScheduleDiv${sSuffix}`).filter(':visible').last().find('.deleteCourseBtn').parent().css('display', 'none');
             }
         });
 
-        $(document).on('click', '.deleteCourseBtn', function () {
+        $(document).on('click', '.deleteCourseBtn', function (e) {
             let oModal = {
                 'getQuoteModal': '',
                 'insertNewRequestModal': '-new',
@@ -217,6 +218,8 @@ var oQuotationRequests = (() => {
 
             let oClone = oCourseAndScheduleDiv.clone().css('display', 'none');
 
+            $(this).closest(`.courseAndScheduleDiv${sSuffix}`).remove();
+
             oClone
                 .find('.quoteSchedule')
                 .empty()
@@ -230,22 +233,37 @@ var oQuotationRequests = (() => {
                 .empty()
                 .attr('disabled', false);
 
-            oCourseAndScheduleDiv.remove();
-
             oClone.insertAfter($(`#${sModalName}`).find(`.courseAndScheduleDiv${sSuffix}:last`));
 
             // Re-add the course into the select dropdown.
+            let aCourseDropDown = $(`#${sModalName}`)
+                                    .find(`.courseAndScheduleDiv${sSuffix}`)
+                                    .filter(':visible')
+                                    .last()
+                                    .find('select.quoteCourse')
+                                    .empty()
+                                    .append($('<option value="" selected disabled hidden>Select Course</option>'));
+            
+            
             $(`#${sModalName}`)
-                .find(`.courseAndScheduleDiv${sSuffix}:visible`)
-                .not(':disabled')
-                .find('select.quoteCourse')
-                .prepend($('<option />').val(oCourseProperties.courseId).text(oCourseProperties.courseName))
-                
-            if ($(`#${sModalName}`).filter(':visible').length === 1) {
+                .find(`.courseAndScheduleDiv${sSuffix}`)
+                .filter(':visible')
+                .last()
+                .find('select.quoteSchedule')
+                .empty()
+                .append($('<option value="" selected disabled hidden>Select Course First</option>'));
+
+            $.each(aFilteredCoursesAndSchedules, function (iKey, oCourse) {
+                aCourseDropDown.append($('<option />').val(oCourse.courseId).text(oCourse.courseName)).find('option:eq(0)').prop('selected', true);
+            });
+
+            if ($(`#${sModalName}`).find(`.courseAndScheduleDiv${sSuffix}`).filter(':hidden').length === 0) {
+                $('.addCourseBtn').parent().css('display', 'none');
+                $(this).closest(`.courseAndScheduleDiv${sSuffix}`).find('.deleteCourseBtn').parent().css('display', 'none');
+            }
+            if ($(`#${sModalName}`).find(`.courseAndScheduleDiv${sSuffix}`).filter(':hidden').length !== 0) {
                 $('.addCourseBtn').parent().css('display', 'block');
-                $('.deleteCourseBtn').parent().css('display', 'none');
-            } else {
-                $('.deleteCourseBtn').parent().css('display', 'block');
+                $(this).closest(`.courseAndScheduleDiv${sSuffix}`).find('.deleteCourseBtn').parent().css('display', 'block');
             }
         });
 
