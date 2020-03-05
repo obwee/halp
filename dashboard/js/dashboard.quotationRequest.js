@@ -10,6 +10,7 @@ var oQuotationRequests = (() => {
     let aFilteredCoursesAndSchedules = [];
     let aSenders = [];
     let aSenderDetails = [];
+    let oEditIds = {};
 
     let oColumns = {
         aSender: [
@@ -140,10 +141,16 @@ var oQuotationRequests = (() => {
                 data: oDetails,
                 dataType: 'JSON',
                 success: (oResponse) => {
+                    oEditIds = oDetails;
                     $('#editRequestModal').find('.quoteCompanyName').val(oResponse.quoteCompanyName);
                     $('#editRequestModal').find('.quoteBillToCompany').attr('checked', oResponse.isCompanySponsored);
                     cloneDivElementsForEditing(oResponse);
                     showAddDeleteButtons(oResponse.aCourses.length);
+                    $('#editRequestModal')
+                        .find('.courseAndScheduleDiv-edit')
+                        .eq(oResponse.aCourses.length - 1)
+                        .find('.quoteCourse')
+                        .prop('disabled', false);
                     $('#editRequestModal').modal('show');
                 }
             });
@@ -161,7 +168,7 @@ var oQuotationRequests = (() => {
             let sSuffix = oModal[modalName];
 
             let oCourseAndScheduleDiv = $(`.courseAndScheduleDiv${sSuffix}`).filter(':visible').last();
-            
+
             if (oCourseAndScheduleDiv.find('.quoteCourse').val() !== '') {
                 populateCourseSchedule($(this).val(), false, sSuffix);
             } else {
@@ -250,14 +257,14 @@ var oQuotationRequests = (() => {
 
             // Re-add the course into the select dropdown.
             let aCourseDropDown = $(`#${sModalName}`)
-                                    .find(`.courseAndScheduleDiv${sSuffix}`)
-                                    .filter(':visible')
-                                    .last()
-                                    .find('select.quoteCourse')
-                                    .empty()
-                                    .append($('<option value="" selected>Select Course</option>'));
-            
-            
+                .find(`.courseAndScheduleDiv${sSuffix}`)
+                .filter(':visible')
+                .last()
+                .find('select.quoteCourse')
+                .empty()
+                .append($('<option value="" selected>Select Course</option>'));
+
+
             $(`#${sModalName}`)
                 .find(`.courseAndScheduleDiv${sSuffix}`)
                 .filter(':visible')
@@ -293,10 +300,11 @@ var oQuotationRequests = (() => {
             }
         });
 
-        $('#getQuoteModal, #insertNewRequestModal').on('hidden.bs.modal', function () {
+        $('#getQuoteModal, #insertNewRequestModal, #editRequestModal').on('hidden.bs.modal', function () {
             let oModal = {
                 'getQuoteModal': '',
-                'insertNewRequestModal': '-new'
+                'insertNewRequestModal': '-new',
+                'editRequestModal': '-edit'
             };
 
             let sSuffix = oModal[$(this).attr('id')];
@@ -323,9 +331,14 @@ var oQuotationRequests = (() => {
                     'requestAction': 'requestQuotation'
                 },
                 '#insertNewRequestForm': {
-                    'validationMethod': oValidations.validateNewQuoteRequestInputs(),
+                    'validationMethod': oValidations.validateQuoteRequestInputs('insertNewRequestForm'),
                     'requestClass': 'Quotations',
                     'requestAction': 'requestQuotation'
+                },
+                '#editRequestForm': {
+                    'validationMethod': oValidations.validateQuoteRequestInputs('editRequestForm'),
+                    'requestClass': 'Quotations',
+                    'requestAction': 'updateQuotation'
                 }
             }
 
@@ -351,34 +364,38 @@ var oQuotationRequests = (() => {
                 // Extract form data.
                 let formData = $(formName).serializeArray();
 
-                if (['#quotationForm', '#insertNewRequestForm'].includes(formName)) {
-                    let aSelectedCourses = [];
-                    let aSelectedSchedules = [];
-                    let aSelectedNumPax = [];
+                let aSelectedCourses = [];
+                let aSelectedSchedules = [];
+                let aSelectedNumPax = [];
 
-                    // Get courses.
-                    $('select[name="quoteCourse[]"]:visible').each(function () {
-                        aSelectedCourses.push($(this).val());
-                    });
+                // Get courses.
+                $('select[name="quoteCourse[]"]:visible').each(function () {
+                    aSelectedCourses.push($(this).val());
+                });
 
-                    // Get schedules.
-                    $('select[name="quoteSchedule[]"]:visible').each(function () {
-                        aSelectedSchedules.push($(this).val());
-                    });
+                // Get schedules.
+                $('select[name="quoteSchedule[]"]:visible').each(function () {
+                    aSelectedSchedules.push($(this).val());
+                });
 
-                    // Get numpax.
-                    $('input[name="numPax[]"]:visible').each(function () {
-                        aSelectedNumPax.push($(this).val());
-                    });
+                // Get numpax.
+                $('input[name="numPax[]"]:visible').each(function () {
+                    aSelectedNumPax.push($(this).val());
+                });
 
-                    // Remove unnecessary data to be sent in AJAX request.
-                    formData = formData.filter(function (sFormKey) {
-                        return sFormKey.name != 'quoteCourse[]' && sFormKey.name != 'quoteSchedule[]' && sFormKey.value !== '';
-                    });
+                // Remove unnecessary data to be sent in AJAX request.
+                formData = formData.filter(function (sFormKey) {
+                    return sFormKey.name != 'quoteCourse[]' && sFormKey.name != 'quoteSchedule[]' && sFormKey.value !== '';
+                });
 
-                    formData.push({ 'name': 'quoteCourses', 'value': aSelectedCourses });
-                    formData.push({ 'name': 'quoteSchedules', 'value': aSelectedSchedules });
-                    formData.push({ 'name': 'quoteNumPax', 'value': aSelectedNumPax });
+                formData.push({ 'name': 'quoteCourses',   'value': aSelectedCourses });
+                formData.push({ 'name': 'quoteSchedules', 'value': aSelectedSchedules });
+                formData.push({ 'name': 'quoteNumPax',    'value': aSelectedNumPax });
+
+                if (formName === '#editRequestForm') {
+                    formData.push({ 'name': ':senderId',      'value': oEditIds.iSenderId });
+                    formData.push({ 'name': ':userId',        'value': oEditIds.iUserId });
+                    formData.push({ 'name': ':dateRequested', 'value': oEditIds.sDateRequested });
                 }
 
                 // Execute AJAX request.
@@ -556,8 +573,8 @@ var oQuotationRequests = (() => {
 
     function cloneDivElementsForEditing(oData) {
         // Add the old company name and if company sponsored for editing.
-        $('#editRequestForm').find('.editQuoteCompanyName').val(oData.quoteCompanyName);
-        $('#editRequestForm').find('.editQuoteBillToCompany').prop('checked', oData.isCompanySponsored);
+        $('#editRequestForm').find('.quoteCompanyName').val(oData.quoteCompanyName);
+        $('#editRequestForm').find('.quoteBillToCompany').prop('checked', oData.isCompanySponsored);
 
         getTemplate();
 
@@ -569,9 +586,7 @@ var oQuotationRequests = (() => {
         let aCoursesAndSchedulesForEdit = aCoursesAndSchedules;
 
         $.each(oData.aCourses, function (iKey, sCourseName) {
-            let sRow = oTemplate.clone().attr({
-                'hidden': false
-            });
+            let sRow = oTemplate.clone().css('display', 'block');
 
             $('.template').append(sRow);
 
@@ -589,7 +604,7 @@ var oQuotationRequests = (() => {
             aCoursesAndSchedulesForEdit = aFilteredCoursesAndSchedules;
 
             populateCourseScheduleForEdit(aSchedules);
-            // sRow.find(`select.quoteSchedule option:contains(${oData.aSchedules[iKey]})`).prop('selected', true);
+            sRow.find(`select.quoteSchedule option:contains(${oData.aSchedules[iKey]})`).prop('selected', true);
 
             sRow.find(`input.numPax`).val(oData.numPax[iKey]);
         });
@@ -608,7 +623,7 @@ var oQuotationRequests = (() => {
 
     // Populate the course dropdown select.
     function populateCourseDropdownForEdit(aCourse) {
-        let oCourseDropdown = $('.courseAndScheduleDiv-edit').last().find('.quoteCourse');
+        let oCourseDropdown = $('.courseAndScheduleDiv-edit').last().find('.quoteCourse').prop('disabled', 'true');
         oCourseDropdown.empty().append($('<option value="" selected disabled hidden>Select Course</option>'));
 
         $.each(aCourse, function (iKey, oCourse) {
@@ -619,8 +634,8 @@ var oQuotationRequests = (() => {
     function populateCourseScheduleForEdit(aData) {
         let oScheduleDropdown = $('.courseAndScheduleDiv-edit').last().find('.quoteSchedule');
 
-        $.each(aData.schedule, function (iKey, aSchedule) {
-            oScheduleDropdown.append($('<option />').val(aData.scheduleId).text(aSchedule[iKey]));
+        $.each(aData.schedule, function (iKey, sSchedule) {
+            oScheduleDropdown.append($('<option />').val(aData.scheduleId).text(sSchedule));
         });
     }
 
@@ -628,16 +643,15 @@ var oQuotationRequests = (() => {
         let oEditForm = $('#editRequestForm');
 
         if (iDataLength === 1) {
-            oEditForm.find('.addCourseBtn').parent().attr('class', 'col-sm-12 text-center');
             oEditForm.find('.deleteCourseBtn').parent().css('display', 'none');
         } else {
             if (iDataLength === aCoursesAndSchedules.length) {
-                oEditForm.find('.deleteCourseBtn').parent().attr('class', 'col-sm-12 text-center');
                 oEditForm.find('.addCourseBtn').parent().css('display', 'none');
             } else {
-                oEditForm.find('.addCourseBtn').parent().attr('class', 'col-sm-6 text-right').css('display', 'block');
-                oEditForm.find('.deleteCourseBtn').parent().attr('class', 'col-sm-6 text-left').css('display', 'block');
+                oEditForm.find('.addCourseBtn').parent().css('display', 'block');
+                oEditForm.find('.deleteCourseBtn').parent().css('display', 'block');
             }
+            oEditForm.find('.courseAndScheduleDiv-edit').eq(iDataLength - 1).find('.deleteCourseBtn').parent().css('display', 'none');
         }
     }
 

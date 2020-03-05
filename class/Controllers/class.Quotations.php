@@ -250,4 +250,48 @@ class Quotations extends BaseController
 
         echo json_encode($aResult);
     }
+
+    public function updateQuotation()
+    {
+        $aResult = array();
+        $aValidationResult = Validations::validateQuotationInputsForEdit($this->aParams);
+
+        if ($aValidationResult['result'] === true) {
+            Utils::sanitizeData($this->aParams);
+            Utils::prepareData($this->aParams, 'updateQuotation');
+
+            $aIds = array(
+                ':userId'        => $this->aParams[':userId']   ?? 0,
+                ':senderId'      => $this->aParams[':senderId'] ?? 0,
+                ':dateRequested' => $this->aParams[':dateRequested']
+            );
+
+            $mParams = array_merge($aIds, $this->aParams);
+            
+            $this->oQuotationModel->deleteOldQuotation($aIds);
+
+            foreach ($mParams[':quoteCourses'] as $iKey => $mValue) {
+                $aQuotationDetails = array(
+                    ':userId'             => $mParams[':userId'],
+                    ':senderId'           => $mParams[':senderId'],
+                    ':courseId'           => $mParams[':quoteCourses'][$iKey],
+                    ':scheduleId'         => $mParams[':quoteSchedules'][$iKey],
+                    ':numPax'             => $mParams[':quoteNumPax'][$iKey],
+                    ':companyName'        => $mParams[':companyName'],
+                    ':isCompanySponsored' => $mParams[':quoteBillToCompany'],
+                    ':dateRequested'      => $mParams[':dateRequested']
+                );
+                $this->oQuotationModel->insertQuotationDetails($aQuotationDetails);
+            }
+
+            $aResult = array(
+                'result' => true,
+                'msg'    => 'Quotation updated!'
+            );
+        } else {
+            $aResult = $aValidationResult;
+        }
+
+        echo json_encode($aResult);
+    }
 }
