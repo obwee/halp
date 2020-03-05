@@ -109,7 +109,7 @@ class Validations
 
 
     /**
-     * @var array $aInputRules
+     * @var array $aQuotationRules
      * Array of rules for validating inputs sent by AJAX.
      */
     public static $aQuotationRules = array(
@@ -145,6 +145,21 @@ class Validations
             'iMaxLength'  => 50,
             'oPattern'    => '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD'
         ),
+        array(
+            'sName'       => 'Course',
+            'sElement'    => 'quoteCourses',
+            'sColumnName' => ':quoteCourses',
+            'iMinLength'  => 0,
+            'iMaxLength'  => PHP_INT_MAX,
+            'oPattern'    => '/.+/'
+        )
+    );
+
+    /**
+     * @var array $aQuoteToEditRules
+     * Array of rules for validating inputs sent by AJAX.
+     */
+    public static $aQuoteToEditRules = array(
         array(
             'sName'       => 'Course',
             'sElement'    => 'quoteCourses',
@@ -408,11 +423,11 @@ class Validations
     }
 
     /**
-     * validateNewQuotationRequestInputs
+     * validateQuotationInputsForEdit
      * Method for validating quotation inputs sent by AJAX.
      * @return array
      */
-    public static function validateNewQuotationRequestInputs($aParams)
+    public static function validateQuotationInputsForEdit($aParams)
     {
         // Prepare the validation result.
         $aValidationResult = array(
@@ -420,7 +435,7 @@ class Validations
         );
 
         if (empty($aParams['quoteCompanyName']) === false) {
-            array_splice(self::$aQuotationRules, 2, 0, array(
+            array_splice(self::$aQuoteToEditRules, 2, 0, array(
                 array(
                     'sName'       => 'Company name',
                     'sElement'    => 'quoteCompanyName',
@@ -433,7 +448,7 @@ class Validations
         }
 
         // Loop thru each inputRules and if there are rules violated, return false and the error message.
-        foreach (self::$aQuotationRules as $aInputRule) {
+        foreach (self::$aQuoteToEditRules as $aInputRule) {
             $sInput = trim($aParams[$aInputRule['sElement']]);
 
             if (strlen($sInput) < $aInputRule['iMinLength']) {
@@ -463,7 +478,7 @@ class Validations
         }
 
         if (empty($aParams['quoteBillToCompany']) === false) {
-            array_push(self::$aQuotationRules, array(
+            array_push(self::$aQuoteToEditRules, array(
                 'sElement'    => 'quoteBillToCompany',
                 'sColumnName' => ':quoteBillToCompany'
             ));
@@ -490,13 +505,13 @@ class Validations
         }
 
         if (empty($aParams['quoteSchedules']) === false) {
-            array_push(self::$aQuotationRules, array(
+            array_push(self::$aQuoteToEditRules, array(
                 'sElement'    => 'quoteSchedules',
                 'sColumnName' => ':quoteSchedules'
             ));
         }
 
-        array_push(self::$aQuotationRules, array(
+        array_push(self::$aQuoteToEditRules, array(
             'sElement'    => 'quoteNumPax',
             'sColumnName' => ':quoteNumPax'
         ));

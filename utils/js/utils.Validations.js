@@ -267,7 +267,7 @@ class Validations {
     }
 
     // This method validates the inputs of the user before submission for quotation.
-    validateNewQuoteRequestInputs() {
+    validateQuoteRequestInputs(sFormId) {
 
         let validationResult = {
             result: true
@@ -276,12 +276,12 @@ class Validations {
         let quoteInputRules = [];
 
         // Check if company name has a value.
-        if ($.trim($('form[id="insertNewRequestForm"]').find('.quoteCompanyName').val()).length !== 0) {
+        if ($.trim($(`form[id="${sFormId}"]`).find('.quoteCompanyName').val()).length !== 0) {
             quoteInputRules.push(
                 {
                     name: 'Company name',
-                    element: $('form[id="insertNewRequestForm"]').find('.quoteCompanyName'),
-                    length: $.trim($('form[id="insertNewRequestForm"]').find('.quoteCompanyName').val()).length,
+                    element: $(`form[id="${sFormId}"]`).find('.quoteCompanyName'),
+                    length: $.trim($(`form[id="${sFormId}"]`).find('.quoteCompanyName').val()).length,
                     minLength: 4,
                     maxLength: 50,
                     pattern: /^[a-zA-Z0-9\s\.]+$/g
@@ -318,10 +318,10 @@ class Validations {
 
         }
 
-        let iBillToCompany = $('form[id="insertNewRequestForm"]').find('.quoteBillToCompany').is(':checked') ? 1 : 0;
-        $('form[id="insertNewRequestForm"]').find('.quoteBillToCompany').val(iBillToCompany);
+        let iBillToCompany = $(`form[id="${sFormId}"]`).find('.quoteBillToCompany').is(':checked') ? 1 : 0;
+        $(`form[id="${sFormId}"]`).find('.quoteBillToCompany').val(iBillToCompany);
 
-        if (iBillToCompany === 1 && $('form[id="insertNewRequestForm"]').find('.quoteCompanyName').val() === '') {
+        if (iBillToCompany === 1 && $(`form[id="${sFormId}"]`).find('.quoteCompanyName').val() === '') {
             return {
                 result: false,
                 element: '.quoteCompanyName',
@@ -329,7 +329,7 @@ class Validations {
             };
         }
 
-        if ($('form[id="insertNewRequestForm"]').find('.quoteCourse').val() === null) {
+        if ($(`form[id="${sFormId}"]`).find('.quoteCourse').val() === null) {
             return {
                 result: false,
                 element: '.quoteCourse',
