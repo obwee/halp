@@ -1,4 +1,4 @@
-var oEnrollment = (() => {
+var oStudentQuotationRequests = (() => {
 
     function init() {
         $('#tbl_quotations').DataTable();
@@ -11,7 +11,7 @@ var oEnrollment = (() => {
 })();
 
 $(document).ready(function () {
-    oEnrollment.initialize();
+    oStudentQuotationRequests.initialize();
 });
 
 

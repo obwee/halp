@@ -38,82 +38,81 @@ require_once "template/studentHeader.php";
     </div>
 </div>
 
-    <div class="modal fade" id="addQuoteModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog addQuoteModal">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: #A2C710;">
-                    <h5 align="center">Add Request</h5>
-                </div>
-                <div class="modal-body">
-                    <form method="post" id="quotationForm">
-                        <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
-                        <div class="form-group">
-                            <label for="quoteFname"><span class="fas fa-user-circle"></span> First Name</label>
-                            <input type="text" class="form-control" id="quoteFname" name="quoteFname" placeholder="First Name" autofocus maxlength="30">
-                        </div>
-                        <div class="form-group">
-                            <label for="quoteMname"><span class="fas fa-user-circle"></span> Middle Name</label>
-                            <input type="text" class="form-control" id="quoteMname" name="quoteMname" placeholder="Middle Name" autofocus maxlength="30">
-                        </div>
-                        <div class="form-group">
-                            <label for="quoteLname"><span class="fas fa-user-circle"></span> Last Name</label>
-                            <input type="text" class="form-control" id="quoteLname" name="quoteLname" placeholder="Last Name" autofocus maxlength="30">
-                        </div>
-                        <div class="form-group">
-                            <label for="quoteContactNum"><span class="fas fa-user-circle"></span> Contact Number</label>
-                            <input type="text" class="form-control" id="quoteContactNum" name="quoteContactNum" placeholder="Contact Number" autofocus maxlength="12">
-                        </div>
-                        <div class="form-group">
-                            <label for="quoteEmail"><span class="fas fa-envelope"></span> E-mail Address</label>
-                            <input type="email" class="form-control" id="quoteEmail" name="quoteEmail" placeholder="E-mail Address" maxlength="50">
-                        </div>
-                        <div class="form-group">
-                            <label for="quoteCompanyName"><span class="far fa-building"></span> Company Name</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Company Name" name="quoteCompanyName" id="quoteCompanyName" maxlength="50" aria-describedby="basic-addon2">
-                                <span class="input-group-addon" id="basic-addon2">
-                                    <input type="checkbox" name="quoteBillToCompany" id="quoteBillToCompany"> Bill to Company?</span>
-                            </div>
-                        </div>
-                        <div class="courseAndScheduleDiv" style="display: none;">
-                            <div class="form-group">
-                                <label for="quoteCourse"><span class="fas fa-book"></span> Course</label>
-                                <select class="form-control quoteCourse" name="quoteCourse[]">
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="quoteSchedule"><span class="fas fa-calendar-week"></span> Schedule</label>
-                                <select class="form-control quoteSchedule" name="quoteSchedule[]" disabled>
-                                    <option value="" selected disabled hidden>Select Course First</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="numPax"><span class="fas fa-user-friends"></span> PAX</label>
-                                <input type="number" class="form-control numPax" placeholder="Number of Persons" name="numPax[]" id="numPax" min="1" max="100" value="1">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-sm-12 text-center">
-                                    <button type="button" class="btn btn-primary addCourseBtn">Add New Course</button>
-                                </div>
-                                <div class="col-sm-6 text-left" style="display: none;">
-                                    <button type="button" class="btn btn-warning deleteCourseBtn">&nbsp;&nbsp;&nbsp;Delete Course&nbsp;&nbsp;&nbsp;</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <p class="h6">To see available course and schedule, <a href="courses.php" target="_blank">Click here</a></p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-success">Submit</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        </div>
-                    </form>
-                </div>
+<div class="modal fade" id="addQuoteModal" role="dialog">
+    <div class="modal-dialog addQuoteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 align="center">Insert New Request</h5>
             </div>
+            <form action="post" id="insertNewRequestForm">
+                <div class="modal-body">
+                    <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+                    <div class="form-group" hidden>
+                        <label for="quoteFname"><span class="fas fa-user-circle"></span> First Name</label>
+                        <input type="text" class="form-control quoteFname" name="quoteFname" placeholder="First Name" autofocus maxlength="30">
+                    </div>
+                    <div class="form-group" hidden>
+                        <label for="quoteMname"><span class="fas fa-user-circle"></span> Middle Name</label>
+                        <input type="text" class="form-control quoteMname" name="quoteMname" placeholder="Middle Name" autofocus maxlength="30">
+                    </div>
+                    <div class="form-group" hidden>
+                        <label for="quoteLname"><span class="fas fa-user-circle"></span> Last Name</label>
+                        <input type="text" class="form-control quoteLname" name="quoteLname" placeholder="Last Name" autofocus maxlength="30">
+                    </div>
+                    <div class="form-group" hidden>
+                        <label for="quoteContactNum"><span class="fas fa-phone"></span> Contact Number</label>
+                        <input type="text" class="form-control quoteContactNum" name="quoteContactNum" placeholder="Contact Number" autofocus maxlength="12">
+                    </div>
+                    <div class="form-group" hidden>
+                        <label for="quoteEmail"><span class="fas fa-envelope"></span> E-mail Address</label>
+                        <input type="email" class="form-control quoteEmail" name="quoteEmail" placeholder="E-mail Address" maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="quoteCompanyName"><span class="far fa-building"></span> Company Name</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control quoteCompanyName" placeholder="Company Name" name="quoteCompanyName" maxlength="50">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <input type="checkbox" name="quoteBillToCompany" class="quoteBillToCompany">&nbsp;Bill to Company?
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="courseAndScheduleDiv-new" style="display: none;">
+                        <div class="form-group">
+                            <label for="quoteCourse"><span class="fas fa-book"></span> Course</label>
+                            <select class="form-control quoteCourse" name="quoteCourse[]"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quoteSchedule"><span class="fas fa-calendar-week"></span> Schedule</label>
+                            <select class="form-control quoteSchedule" name="quoteSchedule[]" disabled>
+                                <option value="" selected disabled hidden>Select Course First</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="numPax"><span class="fas fa-user-friends"></span> PAX</label>
+                            <input type="number" class="form-control numPax" placeholder="Number of Persons" name="numPax[]" min="1" max="100" value="1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <button type="button" class="btn btn-primary addCourseBtn">Add New Course</button>
+                            </div>
+                            <div class="col-sm-6 text-left" style="display: none;">
+                                <button type="button" class="btn btn-warning deleteCourseBtn">&nbsp;&nbsp;&nbsp;Delete Course&nbsp;&nbsp;&nbsp;</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Add</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 
 
 <?php

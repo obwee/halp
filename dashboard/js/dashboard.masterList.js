@@ -1,9 +1,9 @@
-var oEnrollment = (() => {
+var oMasterList = (() => {
 
     function init() {
-        $('#tbl_enrollment').DataTable()
+        $('#tbl_students').DataTable();
     }
-
+	
     return {
         initialize: init
     }
@@ -11,5 +11,5 @@ var oEnrollment = (() => {
 })();
 
 $(document).ready(function () {
-    oEnrollment.initialize();
+    oMasterList.initialize();
 });
