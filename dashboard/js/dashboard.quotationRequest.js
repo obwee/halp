@@ -248,6 +248,28 @@ var oQuotationRequests = (() => {
 
             oClone.insertAfter($(`#${sModalName}`).find(`.courseAndScheduleDiv${sSuffix}:last`));
 
+            // Re-add the course into the select dropdown.
+            let aCourseDropDown = $(`#${sModalName}`)
+                                    .find(`.courseAndScheduleDiv${sSuffix}`)
+                                    .filter(':visible')
+                                    .last()
+                                    .find('select.quoteCourse')
+                                    .empty()
+                                    .append($('<option value="" selected>Select Course</option>'));
+            
+            
+            $(`#${sModalName}`)
+                .find(`.courseAndScheduleDiv${sSuffix}`)
+                .filter(':visible')
+                .last()
+                .find('select.quoteSchedule')
+                .empty()
+                .append($('<option value="" selected disabled hidden>Select Course First</option>'));
+
+            $.each(aFilteredCoursesAndSchedules, function (iKey, oCourse) {
+                aCourseDropDown.append($('<option />').val(oCourse.courseId).text(oCourse.courseName)).find('option:eq(0)').prop('selected', true);
+            });
+
             if ($(`#${sModalName}`).find(`.courseAndScheduleDiv${sSuffix}`).filter(':hidden').length === 0) {
                 $('.addCourseBtn').parent().css('display', 'none');
                 $(this).closest(`.courseAndScheduleDiv${sSuffix}`).find('.deleteCourseBtn').parent().css('display', 'none');
@@ -566,8 +588,8 @@ var oQuotationRequests = (() => {
 
             aCoursesAndSchedulesForEdit = aFilteredCoursesAndSchedules;
 
-            populateCourseScheduleForEdit(aSchedules, oData.aSchedules[iKey]);
-            sRow.find(`select.quoteSchedule option:contains(${oData.aSchedules[iKey]})`).prop('selected', true);
+            populateCourseScheduleForEdit(aSchedules);
+            // sRow.find(`select.quoteSchedule option:contains(${oData.aSchedules[iKey]})`).prop('selected', true);
 
             sRow.find(`input.numPax`).val(oData.numPax[iKey]);
         });
@@ -594,12 +616,11 @@ var oQuotationRequests = (() => {
         });
     }
 
-    function populateCourseScheduleForEdit(aCourse, sSchedule) {
+    function populateCourseScheduleForEdit(aData) {
         let oScheduleDropdown = $('.courseAndScheduleDiv-edit').last().find('.quoteSchedule');
-        oScheduleDropdown.empty().append($('<option value="" selected disabled hidden>Select Course First</option>'));
 
-        $.each(aCourse.schedule, function (iKey, oCourse) {
-            oScheduleDropdown.append($('<option />').val(aCourse.scheduleId).text(sSchedule));
+        $.each(aData.schedule, function (iKey, aSchedule) {
+            oScheduleDropdown.append($('<option />').val(aData.scheduleId).text(aSchedule[iKey]));
         });
     }
 
