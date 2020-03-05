@@ -15,7 +15,9 @@ class Utils
      */
     public static function sortByDate(&$aData)
     {
-        return usort($aData, fn($aFirstElement, $aSecondElement) =>
+        return usort(
+            $aData,
+            fn ($aFirstElement, $aSecondElement) =>
             strtotime($aFirstElement['dateRequested']) - strtotime($aSecondElement['dateRequested'])
         );
     }
@@ -46,23 +48,31 @@ class Utils
     public static function prepareData(&$aParams, $sInputRuleName)
     {
         $aInputRules = array(
-            'registration' => array(
-                'validationRule' => Validations::$aRegistrationRules,
+            'registration'    => array(
+                'validationRule'    => Validations::$aRegistrationRules,
                 'notRequiredInputs' => array(
                     ':middleName',
                     ':companyName'
                 )
             ),
-            'sendEmail'    => array(
-                'validationRule' => Validations::$aSendEmailRules,
+            'sendEmail'       => array(
+                'validationRule'    => Validations::$aSendEmailRules,
                 'notRequiredInputs' => array(
                     ':middleName',
                 )
             ),
-            'quotation'    => array(
-                'validationRule' => Validations::$aQuotationRules,
+            'quotation'       => array(
+                'validationRule'    => Validations::$aQuotationRules,
                 'notRequiredInputs' => array(
                     ':middleName',
+                    ':companyName',
+                    ':quoteBillToCompany',
+                    ':quoteSchedules'
+                )
+            ),
+            'updateQuotation' => array(
+                'validationRule'    => Validations::$aQuoteToEditRules,
+                'notRequiredInputs' => array(
                     ':companyName',
                     ':quoteBillToCompany',
                     ':quoteSchedules'
@@ -91,11 +101,11 @@ class Utils
             unset($aParams['registrationConfirmPassword']);
         }
 
-        if ($sInputRuleName === 'quotation') {
+        if (in_array($sInputRuleName, ['quotation', 'updateQuotation'])) {
             $aParams[':quoteCourses']   = explode(',', $aParams[':quoteCourses']);
             $aParams[':quoteSchedules'] = explode(',', $aParams[':quoteSchedules']);
             $aParams[':quoteNumPax'] = explode(',', $aParams[':quoteNumPax']);
+            unset($aParams['numPax']);
         }
     }
-
 }

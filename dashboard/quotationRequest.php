@@ -247,19 +247,20 @@ require_once "template/header.php";
             </div>
             <form action="post" id="editRequestForm">
                 <div class="modal-body">
+                    <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                     <div class="form-group">
-                        <label for="editQuoteCompanyName"><span class="far fa-building"></span> Company Name</label>
+                        <label for="quoteCompanyName"><span class="far fa-building"></span> Company Name</label>
                         <div class="input-group">
-                            <input type="text" class="form-control editQuoteCompanyName" placeholder="Company Name" name="editQuoteCompanyName" maxlength="50">
+                            <input type="text" class="form-control quoteCompanyName" placeholder="Company Name" name="quoteCompanyName" maxlength="50">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <input type="checkbox" name="editQuoteBillToCompany" class="editQuoteBillToCompany">&nbsp;Bill to Company?
+                                    <input type="checkbox" name="quoteBillToCompany" class="quoteBillToCompany">&nbsp;Bill to Company?
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="template">
-                        <div class="courseAndScheduleDiv-edit" hidden>
+                        <div class="courseAndScheduleDiv-edit" style="display: none;">
                             <div class="form-group">
                                 <label for="quoteCourse"><span class="fas fa-book"></span> Course</label>
                                 <select class="form-control quoteCourse" name="quoteCourse[]"></select>
@@ -291,7 +292,7 @@ require_once "template/header.php";
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Add</button>
+                    <button type="submit" class="btn btn-success">Update</button>
                     <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
                 </div>
             </form>

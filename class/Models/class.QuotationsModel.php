@@ -218,4 +218,20 @@ class QuotationsModel
         // Return the result of the execution of the above statement.
         return $statement->fetchAll();
     }
+
+    /**
+     * deleteOldQuotation
+     * Delete the old quotation for editing purposes.
+     */
+    public function deleteOldQuotation($aIds)
+    {
+        // Prepare a delete query for the tbl_quotation_details table.
+        $statement = $this->oConnection->prepare("
+            DELETE FROM tbl_quotation_details
+            WHERE senderId = :senderId AND userId = :userId AND dateRequested = :dateRequested
+        ");
+
+        // Execute the above statement along with the needed where clauses then return.
+        return $statement->execute($aIds);
+    }
 }
