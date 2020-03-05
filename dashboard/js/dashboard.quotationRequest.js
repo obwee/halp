@@ -157,9 +157,22 @@ var oQuotationRequests = (() => {
                 'editRequestModal': '-edit'
             };
 
-            let sSuffix = oModal[$(this).closest('.modal').attr('id')];
+            let modalName = $(this).closest('.modal').attr('id');
+            let sSuffix = oModal[modalName];
 
-            populateCourseSchedule($(this).val(), false, sSuffix);
+            let oCourseAndScheduleDiv = $(`.courseAndScheduleDiv${sSuffix}`).filter(':visible').last();
+            
+            if (oCourseAndScheduleDiv.find('.quoteCourse').val() !== '') {
+                populateCourseSchedule($(this).val(), false, sSuffix);
+            } else {
+                oCourseAndScheduleDiv
+                    .find('.quoteSchedule')
+                    .empty()
+                    .attr('disabled', true)
+                    .append($('<option value="" selected disabled hidden>Select Course First</option>'))
+                    .find('option:eq(0)')
+                    .prop('selected', true);
+            }
         });
 
         $(document).on('click', '.addCourseBtn', function () {
@@ -174,12 +187,12 @@ var oQuotationRequests = (() => {
 
             let oCourseAndScheduleDiv = $(`.courseAndScheduleDiv${sSuffix}`).filter(':visible').last();
 
-            if (oCourseAndScheduleDiv.find('select.quoteCourse').val() === null) {
+            if (oCourseAndScheduleDiv.find('.quoteCourse').val() === '') {
                 return oLibraries.displayAlertMessage('error', 'Please select a course first.');
             }
 
             aFilteredCoursesAndSchedules = aFilteredCoursesAndSchedules.filter(function (aCourse) {
-                return aCourse.courseId != oCourseAndScheduleDiv.find('select.quoteCourse').val();
+                return aCourse.courseId != oCourseAndScheduleDiv.find('.quoteCourse').val();
             });
 
             oCourseAndScheduleDiv.find('.quoteCourse').attr('disabled', true);
@@ -234,28 +247,6 @@ var oQuotationRequests = (() => {
                 .attr('disabled', false);
 
             oClone.insertAfter($(`#${sModalName}`).find(`.courseAndScheduleDiv${sSuffix}:last`));
-
-            // Re-add the course into the select dropdown.
-            let aCourseDropDown = $(`#${sModalName}`)
-                                    .find(`.courseAndScheduleDiv${sSuffix}`)
-                                    .filter(':visible')
-                                    .last()
-                                    .find('select.quoteCourse')
-                                    .empty()
-                                    .append($('<option value="" selected disabled hidden>Select Course</option>'));
-            
-            
-            $(`#${sModalName}`)
-                .find(`.courseAndScheduleDiv${sSuffix}`)
-                .filter(':visible')
-                .last()
-                .find('select.quoteSchedule')
-                .empty()
-                .append($('<option value="" selected disabled hidden>Select Course First</option>'));
-
-            $.each(aFilteredCoursesAndSchedules, function (iKey, oCourse) {
-                aCourseDropDown.append($('<option />').val(oCourse.courseId).text(oCourse.courseName)).find('option:eq(0)').prop('selected', true);
-            });
 
             if ($(`#${sModalName}`).find(`.courseAndScheduleDiv${sSuffix}`).filter(':hidden').length === 0) {
                 $('.addCourseBtn').parent().css('display', 'none');
@@ -471,7 +462,7 @@ var oQuotationRequests = (() => {
     function populateCourseDropdown(aCourses, sSuffix = '') {
         let oCourseDropdown = $(`.courseAndScheduleDiv${sSuffix}[style*="display: none"]`).first().find('.quoteCourse');
         oCourseDropdown.parent().parent().css('display', 'block');
-        oCourseDropdown.empty().append($('<option value="" selected disabled hidden>Select Course</option>'));
+        oCourseDropdown.empty().append($('<option value="" selected>Select Course</option>'));
 
         $.each(aCourses, function (iKey, oCourse) {
             oCourseDropdown.append($('<option />').val(oCourse.courseId).text(oCourse.courseName));
