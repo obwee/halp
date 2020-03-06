@@ -73,6 +73,7 @@
                     <li><a href="" data-toggle="modal" data-target="#emailUsModal">Email Us</a></li>
                     <li><a href="#contact">Contact</a></li>
                     <li><a href="#faqs">FAQs</a></li>
+                    <li><a href="#terms">Terms and Conditions</a></li>
                 </ul>
             </div>
         </div>
@@ -162,7 +163,7 @@
     <section class="padding" id="services">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 text-center">
+                <div>
                     <h2 class="section-heading">WHY NEXUS?</h2>
                 </div>
             </div>
@@ -345,9 +346,7 @@
                     </div>
                     <div id="collapseSeven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSeven">
                         <div class="panel-body">
-                            Cancellation of reservations must be done <b>1 week</b> before the training starts. Please give us a week to process your refund. <br>
-
-                            <strong style="color: red;">NO REFUND</strong> once the training has already started.
+                            No. A reservation may be rescheduled or transferred to another student but cannot be refunded. <br>
                         </div>
                     </div>
                 </div>
@@ -370,6 +369,33 @@
         </div>
     </div>
 
+    <!-- TERMS -->
+
+    <div class="padding" id="terms">
+        <div class="container">
+            <div class="col-sm-12 section-heading" align="center">
+                <h3>TERMS AND CONDITIONS</h3>
+            </div>
+            <div>
+                <ol>
+                    <div class="col-sm-6">
+                        <li>NEXUS ITTC reserves the right to change schedules, instructors or even cancel a class if the need arises.</li>
+                        <li>All schedule and fees are subject to change without prior notice.</li>
+                        <li>Minimum of five (5) students to commence a class</li>
+                        <li>No refund is allowed.</li>
+                        <li>Rescheduling of reservations should be done at least three (3) days prior your reserved schedule.</li>
+                    </div>
+                    <div class="col-sm-6">
+                        <li>Walk-ins are accepted depending on the availability of slots.</li>
+                        <li>Upon uploading a proof of payment, please wait for the confirmation of your slot via email.</li>
+                        <li>Students who wish to enroll must be at least a high school graduate.</li>
+                        <li>Maximum of 12 students per class only to ensure the efficiency of the training.</li>
+                        <li>Rescheduling of reservations should be done at least three (3) days prior your reserved schedule.</li>
+                    </div>
+                </ol>
+            </div>
+        </div>
+    </div>
 
 
     <footer class="container-fluid text-center" id="contact">

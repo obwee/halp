@@ -77,14 +77,9 @@ require_once "template/header.php";
     </div>
 </div>
 
-<div class="modal fade" id="editCourseModal" role="dialog">
-    <div class="modal-dialog modal-lg vertical-align-center editCourseModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 align="center"><span class="glyphicon glyphicon-plane"></span>Edit Course</h5>
-            </div>
+
     <div class="modal fade" id="editCourseModal" role="dialog">
-        <div class="modal-dialog modal-lg vertical-align-center editCourseModal">
+        <div class="modal-dialog vertical-align-center editCourseModal">
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #A2C710;">
                     <h5 align="center"><span class="glyphicon glyphicon-plane"></span>Edit Course</h5>

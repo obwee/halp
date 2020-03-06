@@ -46,9 +46,9 @@ require_once "Template/header.php";
 </div>
 
 <div class="modal fade" id="addScheduleModal" role="dialog">
-    <div class="modal-dialog modal-lg vertical-align-center addCourseModal">
-        <div class="modal-content">
-            <div class="modal-header">
+    <div class="modal-dialog addScheduleModal">
+        <div class="modal-content" >
+            <div class="modal-header" style="background-color: #A2C710;">
                 <h5 align="center"><span class="fas fa-calendar"></span> Add New Schedule</h5>
             </div>
 
@@ -102,9 +102,9 @@ require_once "Template/header.php";
 </div>
 
 <div class="modal fade" id="editScheduleModal" role="dialog">
-    <div class="modal-dialog modal-lg vertical-align-center editScheduleModal">
+    <div class="modal-dialog editScheduleModal">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color: #A2C710;">
                 <h5 align="center"><span class="fas fa-calendar"></span> Edit Schedule</h5>
             </div>
 

@@ -130,8 +130,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="salesReport.php"><i class="fas fa-money-check"></i>&emsp;Sales</a></li>
-            <li><a href="studentsReport.php"><i class="fas fa-user-graduate"></i>&emsp;  Students</a></li>
-            <li><a href="trainingsReport.php"><i class="fas fa-users"></i>&emsp;Trainings</a></li>
+            <li><a href="masterList.php"><i class="fas fa-user-graduate"></i>&emsp;  Students</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -143,7 +142,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="editCourse.php"><i class="fas fa-users"></i>&emsp;Courses</a></li>
+            <li><a href="editCourse.php"><i class="fas fa-book"></i>&emsp;Courses</a></li>
             <li><a href="schedule.php"><i class="far fa-calendar-alt"></i>&emsp;  Schedule</a></li>
           </ul>
         </li>

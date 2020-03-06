@@ -56,6 +56,12 @@ require_once "Template/header.php";
 		</div>			
 	</div>
 
+	<div align="center">
+		<br>
+        <button type="submit" id="loadClassList" class="btn btn-primary"><i class="fas fa-eraser"></i> Clear Selection</button>
+        <button type="submit" id="loadClassList" class="btn btn-success"><i class="fas fa-spinner"></i> Load Class List</button>
+    </div>
+
 	<br>
 	<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
 		<table id="tbl_reserved" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
