@@ -142,7 +142,7 @@
             <li><a href="studentProfile.php"><i class="fas fa-user-edit"></i>&emsp;Profile </a></li>
         </li>
         <li>
-          <a href="logout.php" class="logout">
+          <a href="" class="logout">
             <i class="fas fa-sign-out-alt"></i>
             <span>&emsp;   Logout</span>
           </a>

@@ -163,7 +163,7 @@
           </ul>
         </li>
         <li>
-          <a href="logout.php" class="logout">
+          <a href="" class="logout">
             <i class="fas fa-sign-out-alt"></i>
             <span>&emsp;   Logout</span>
           </a>
