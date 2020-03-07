@@ -97,7 +97,7 @@ class QuotationsModel
      * Fetch quotation senders from the tbl_quotation_senders table using quoteSenderId.
      * @return array
      */
-    public function fetchSendersBySenderId()
+    public function fetchSendersBySenderId($aIsQuotationSent)
     {
         // Prepare an inner join select query.
         $statement = $this->oConnection->prepare("
@@ -108,12 +108,12 @@ class QuotationsModel
             FROM       tbl_quotation_details tqd
             INNER JOIN tbl_quotation_senders tqs
             ON tqs.quoteSenderId = tqd.senderId
-            WHERE tqd.isQuotationSent = 0
+            WHERE tqd.isQuotationSent = :isQuotationSent
             GROUP BY tqd.userId, tqd.senderId
         ");
 
         // Execute the above statement.
-        $statement->execute();
+        $statement->execute($aIsQuotationSent);
 
         // Return the result of the execution of the above statement.
         return $statement->fetchAll();
@@ -123,7 +123,7 @@ class QuotationsModel
      * fetchSendersByUserId
      * Fetch quotation senders from the tbl_quotation_senders table using userId.
      */
-    public function fetchSendersByUserId()
+    public function fetchSendersByUserId($aIsQuotationSent)
     {
         // Query the tbl_quotation_senders.
         $statement = $this->oConnection->prepare("
@@ -134,12 +134,12 @@ class QuotationsModel
             FROM       tbl_quotation_details tqd
             INNER JOIN tbl_users             tu
             ON tu.userId = tqd.userId
-            WHERE tqd.isQuotationSent = 0
+            WHERE tqd.isQuotationSent = :isQuotationSent
             GROUP BY tqd.userId, tqd.senderId
         ");
 
         // Execute the above statement.
-        $statement->execute();
+        $statement->execute($aIsQuotationSent);
 
         // Return the result of the execution of the above statement.
         return $statement->fetchAll();

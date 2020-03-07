@@ -11,40 +11,10 @@ require_once "template/header.php";
 		<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
 			<div align="right">
 			</div>
-			<table id="tbl_quotations" style="width:100%" class="table table-striped table-bordered table-hover">
+			<table id="quotationSenders" style="width:100%" class="table table-striped table-bordered table-hover">
 				<thead>
-					<tr>
-						<th style="white-space:nowrap;">Date Sent</th>
-						<th style="white-space:nowrap;">Student Name</th>
-						<th style="white-space:nowrap;">Company Name</th>
-						<th style="white-space:nowrap;">E-mail Address</th>
-						<th style="white-space:nowrap;">Contact No.</th>
-						<th style="white-space:nowrap;">Actions</th>
-					</tr>
 				</thead>
 				<tbody>
-				<tr>
-					<td>2020-Feb-21</td>
-					<td>Aries Valenzuela Macandili</td>
-					<td>Simplex Internet Philippines</td>
-					<td>macandili.aries@gmail.com</td>
-					<td>09161234567</td>
-					<td>
-						<button class="btn btn-info" data-toggle="modal" data-target="#viewQuoteModal"><i class="fa fa-eye"></i></button>
-						<button class="btn btn-secondary" data-toggle="modal" data-target="#editQuoteModal"><i class="fa fa-pen"></i></button>
-					</td>
-				</tr>
-				<tr>
-					<td>2020-Feb-21</td>
-					<td>Angelika Aubrey Arbiol</td>
-					<td>Nexus Technologies</td>
-					<td>obwee@gmail.com</td>
-					<td>09261759750</td>
-					<td>
-						<button class="btn btn-info" data-toggle="modal" data-target="#viewQuoteModal"><i class="fa fa-eye"></i></button>
-						<button class="btn btn-secondary" data-toggle="modal" data-target="#editQuoteModal"><i class="fa fa-pen"></i></button>
-					</td>
-				</tr>
 				</tbody>
 			</table>
 		</div>

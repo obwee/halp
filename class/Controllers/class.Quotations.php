@@ -36,8 +36,12 @@ class Quotations extends BaseController
      */
     public function fetchSenders()
     {
-        $aSendersViaSenderId = $this->oQuotationModel->fetchSendersBySenderId();
-        $aSendersViaUserId   = $this->oQuotationModel->fetchSendersByUserId();
+        $aIsQuotationSent = array(
+            ':isQuotationSent' => $this->aParams['iIsQuotationSent']
+        );
+
+        $aSendersViaSenderId = $this->oQuotationModel->fetchSendersBySenderId($aIsQuotationSent);
+        $aSendersViaUserId   = $this->oQuotationModel->fetchSendersByUserId($aIsQuotationSent);
 
         $aSenders = [...$aSendersViaSenderId, ...$aSendersViaUserId];
 
@@ -146,7 +150,7 @@ class Quotations extends BaseController
                     ':numPax'             => $this->aParams[':quoteNumPax'][$iKey],
                     ':companyName'        => $this->aParams[':companyName'],
                     ':dateRequested'      => $sDateNow,
-                    ':isCompanySponsored' => ($this->aParams[':quoteBillToCompany'] === 1) ? 1 : 0
+                    ':isCompanySponsored' => ($this->aParams[':quoteBillToCompany'] == 1) ? 1 : 0
                 );
                 $this->oQuotationModel->insertQuotationDetails($aQuotationDetails);
             }
