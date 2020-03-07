@@ -70,7 +70,7 @@ class Quotations extends BaseController
         $aData = array(
             ':userId'         => $this->aParams['iUserId'],
             ':senderId'       => $this->aParams['iSenderId'],
-            'isQuotationSent' => 0
+            'isQuotationSent' => $this->aParams['iIsQuotationSent']
         );
 
         $aDetails = $this->oQuotationModel->fetchRequests($aData);
@@ -93,7 +93,7 @@ class Quotations extends BaseController
             ':userId'         => $this->aParams['iUserId'],
             ':senderId'       => $this->aParams['iSenderId'],
             ':dateRequested'  => $this->aParams['sDateRequested'],
-            'isQuotationSent' => 0
+            'isQuotationSent' => $this->aParams['iIsQuotationSent']
         );
 
         $aDetails = $this->oQuotationModel->fetchDetails($aData);
@@ -346,8 +346,9 @@ class Quotations extends BaseController
         $aCourseDetails = $this->oQuotationModel->fetchDetails($aIds);
 
         $aSenderDetails = array_splice($this->aParams, 3, 3);
-        $aSenderDetails['sCompanyName'] = ($aCourseDetails[0]['isCompanySponsored'] === 0) ? 'N/A' : $aCourseDetails[0]['companyName'];
+        $aSenderDetails['sCompanyName'] = ($aCourseDetails[0]['isCompanySponsored'] == 0) ? 'N/A' : $aCourseDetails[0]['companyName'];
 
+        print_r($aSenderDetails); die;
         $this->oQuotationModel->approveQuotation(array_splice($aIds, 0, -1));
 
         $this->processSendingEmail($aSenderDetails, $aCourseDetails);
