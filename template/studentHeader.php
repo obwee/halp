@@ -36,7 +36,6 @@
 
 <body class="hold-transition skin-purple sidebar-mini">
   <div class="wrapper">
-
     <header class="main-header">
       <!-- Logo -->
       <a class="logo">
@@ -57,24 +56,24 @@
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
 
-           <li class="dropdown notifications-menu">
-            <a href="#" class="dropdown-toggle notifsToggle" data-toggle="dropdown">
-              <i class="fas fa-bell"></i>
-              <span class="label label-warning count"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <ul class="notifsMenu">
+            <li class="dropdown notifications-menu">
+              <a href="#" class="dropdown-toggle notifsToggle" data-toggle="dropdown">
+                <i class="fas fa-bell"></i>
+                <span class="label label-warning count"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <ul class="notifsMenu">
+                </ul>
               </ul>
-            </ul>
-          </li>
+            </li>
 
-          <!-- User Account: style can be found in dropdown.less -->
+            <!-- User Account: style can be found in dropdown.less -->
 
-          <!-- Control Sidebar Toggle Button -->
-        </ul>
-      </div>
-    </nav>
-  </header>
+            <!-- Control Sidebar Toggle Button -->
+          </ul>
+        </div>
+      </nav>
+    </header>
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -140,15 +139,19 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="studentProfile.php"><i class="fas fa-user-edit"></i>&emsp;Profile </a></li>
-        </li>
-        <li>
+          </li>
+          </ul>
+          <li>
+            <a href="student.Help.php"><i class="fas fa-question-circle"></i>&emsp;Help</a>
+          </li>
+          <li>
           <a href="" class="logout">
             <i class="fas fa-sign-out-alt"></i>
             <span>&emsp;   Logout</span>
           </a>
-        </li>
-      </ul>
-    </section>
+          </li>
+        </ul>
+      </section>
     <!-- /.sidebar -->
   </aside>
 

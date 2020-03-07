@@ -29,31 +29,6 @@ require_once "template/studentHeader.php";
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="birthdate" class="col-sm-3 col-form-label"><span class="fas fa-calendar-alt"></span> Birthdate</label>
-                        <div class="col-sm-4">
-                            <input type="date" class="form-control" id="birthdate">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="gener" class="col-sm-3 col-form-label"><span class="fas fa-venus-mars"></span> Gender</label>
-                        <div class="col-sm-9">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                                <label class="form-check-label" for="gridRadios1">Female</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                                <label class="form-check-label" for="gridRadios2">Male</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="homeAddress" class="col-sm-3 col-form-label"><span class="fas fa-home"></span> Home Address</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="homeAddress">
-                        </div>
-                    </div>
-                    <div class="form-group row">
                         <label for="contact" class="col-sm-3 col-form-label"><span class="fas fa-mobile-alt"></span> Contact No.</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" id="contact">
@@ -65,23 +40,17 @@ require_once "template/studentHeader.php";
                             <input type="email" class="form-control" id="email">
                         </div>
                     </div>
-                </form>
-            </div>
-
-            <div class="col-sm-6">
-                <form>
                     <div class="form-group row">
                         <label for="company" class="col-sm-3 col-form-label"><span class="fas fa-building"></span> Company</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" id="company">
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="companyAddress" class="col-sm-3 col-form-label"><span class="fas fa-map-pin"></span> Company Address</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="companyAddress">
-                        </div>
-                    </div>
+                </form>
+            </div>
+
+            <div class="col-sm-6">
+                <form>
                     <div class="credentials" style="border-style:solid;border-width:1px;border-color:#d5d5d5;padding:10px 10px;">
                         <div class="form-group row">
                             <label for="username" class="col-sm-4 col-form-label"><span class="fas fa-user"></span> Username</label>

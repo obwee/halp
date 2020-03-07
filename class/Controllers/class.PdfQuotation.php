@@ -88,7 +88,6 @@ class PdfQuotation extends Fpdf
 
         $this->SetFont('Calibri', '', 12);
 
-
         $this->Cell(100, 14, 'Dela Costa St., Ayala North, Makati City');
 
         // Move to the right.
@@ -283,7 +282,6 @@ class PdfQuotation extends Fpdf
      */
     public function setSignature()
     {
-
         // Move to the right.
         $this->Cell(95);
         $this->Cell(100, 5, 'I have agreed to all the terms and conditions stated above.', 0, 1, 'R');
