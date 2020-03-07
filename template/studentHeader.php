@@ -126,6 +126,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="studentProfile.php"><i class="fas fa-user-edit"></i>&emsp;Profile </a></li>
+<<<<<<< HEAD
           </li>
           </ul>
           <li>
@@ -133,6 +134,11 @@
           </li>
           <li>
           <a href="logout.php" class="logout">
+=======
+        </li>
+        <li>
+          <a href="" class="logout">
+>>>>>>> 951c388ba12f8ecb37d213f9351b3332d3e00b63
             <i class="fas fa-sign-out-alt"></i>
             <span>&emsp;   Logout</span>
           </a>
