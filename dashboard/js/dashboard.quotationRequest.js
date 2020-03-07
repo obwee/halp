@@ -515,6 +515,7 @@ var oQuotationRequests = (() => {
     }
 
     function populateRequestsTable(oData) {
+        oData.iIsQuotationSent = 0;
         let oAjax = {
             url: `../utils/ajax.php?class=Quotations&action=fetchRequests`,
             type: 'POST',
@@ -533,6 +534,7 @@ var oQuotationRequests = (() => {
     }
 
     function populateDetailsTable(oData) {
+        oData.iIsQuotationSent = 0;
         let oAjax = {
             url: `../utils/ajax.php?class=Quotations&action=fetchDetails`,
             type: 'POST',
