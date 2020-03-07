@@ -346,8 +346,9 @@ class Quotations extends BaseController
         $aCourseDetails = $this->oQuotationModel->fetchDetails($aIds);
 
         $aSenderDetails = array_splice($this->aParams, 3, 3);
-        $aSenderDetails['sCompanyName'] = ($aCourseDetails[0]['isCompanySponsored'] === 0) ? 'N/A' : $aCourseDetails[0]['companyName'];
+        $aSenderDetails['sCompanyName'] = ($aCourseDetails[0]['isCompanySponsored'] == 0) ? 'N/A' : $aCourseDetails[0]['companyName'];
 
+        print_r($aSenderDetails); die;
         $this->oQuotationModel->approveQuotation(array_splice($aIds, 0, -1));
 
         $this->processSendingEmail($aSenderDetails, $aCourseDetails);
