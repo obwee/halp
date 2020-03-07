@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2020 at 01:56 PM
+-- Generation Time: Mar 07, 2020 at 05:45 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -149,9 +149,11 @@ INSERT INTO `tbl_quotation_details` (`id`, `userId`, `senderId`, `courseId`, `sc
 (39, 0, 14, '4', 5, 3, '2020-03-02 23:25:09', '', 0, 0),
 (44, 0, 14, '3', 4, 10, '2020-02-29 16:30:43', '', 0, 0),
 (45, 0, 14, '4', 5, 2, '2020-02-29 16:30:43', '', 0, 0),
-(48, 0, 17, '1', 0, 1, '2020-03-07 16:51:31', 'TEST', 0, 0),
-(49, 0, 17, '3', 0, 1, '2020-03-07 16:51:31', 'TEST', 0, 0),
-(50, 0, 17, '2', 0, 1, '2020-03-07 16:51:31', 'TEST', 0, 0);
+(48, 0, 17, '1', 0, 1, '2020-03-07 16:51:31', 'TEST', 0, 1),
+(49, 0, 17, '3', 0, 1, '2020-03-07 16:51:31', 'TEST', 0, 1),
+(50, 0, 17, '2', 0, 1, '2020-03-07 16:51:31', 'TEST', 0, 1),
+(54, 98, 0, '1', 2, 1, '2020-03-01 16:29:52', '', 0, 0),
+(55, 98, 0, '3', 4, 2, '2020-03-01 16:29:52', '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -175,7 +177,7 @@ CREATE TABLE `tbl_quotation_senders` (
 INSERT INTO `tbl_quotation_senders` (`quoteSenderId`, `firstName`, `middleName`, `lastName`, `email`, `contactNum`) VALUES
 (13, 'Angela', 'Valenzuela', 'Macandili', 'macandili.gelabee@gmail.com', '09161225985'),
 (14, 'Andrei', 'Valenzuela', 'Macandili', 'itsmeandrei@gmail.com', '09171336096'),
-(16, 'Arianne', 'Valenzuela', 'Macandili', 'arianne.macandili@gmail.com', '09754538593'),
+(16, 'Arianne', 'Valenzuela', 'Macandili', 'macandili.arianne@gmail.com', '09754538593'),
 (17, 'Angelika Aubrey', 'Albano', 'Arbiol', 'angelikaaubreyarbiol@gmail.com', '412444214');
 
 -- --------------------------------------------------------
@@ -411,13 +413,13 @@ ALTER TABLE `tbl_payment_methods`
 -- AUTO_INCREMENT for table `tbl_quotation_details`
 --
 ALTER TABLE `tbl_quotation_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `tbl_quotation_senders`
 --
 ALTER TABLE `tbl_quotation_senders`
-  MODIFY `quoteSenderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `quoteSenderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `tbl_schedules`
