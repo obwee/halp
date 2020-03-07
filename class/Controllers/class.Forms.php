@@ -36,7 +36,7 @@ class Forms extends BaseController
             $iToDate = strtotime($aCourse['toDate']);
             $iInterval = (($iToDate - $iFromDate) / 86400) + 1;
 
-            $aSchedules[$aCourse['courseId']][] = $aCourse['fromDate'] . ' - ' . $aCourse['toDate'] . ' (' . $iInterval . ' days)';
+            $aSchedules[$aCourse['courseId']][$aCourse['scheduleId']] = $aCourse['fromDate'] . ' - ' . $aCourse['toDate'] . ' (' . $iInterval . ' days)';
             $aCourses[$aCourse['courseId']] = $aCourse;
         }
 

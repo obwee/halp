@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 05, 2020 at 04:43 PM
+-- Generation Time: Mar 07, 2020 at 01:56 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -128,7 +128,6 @@ CREATE TABLE `tbl_quotation_details` (
   `scheduleId` int(11) NOT NULL,
   `numPax` int(11) NOT NULL,
   `dateRequested` datetime NOT NULL,
-  `dateSent` datetime NOT NULL,
   `companyName` varchar(255) NOT NULL,
   `isCompanySponsored` tinyint(1) NOT NULL DEFAULT 0,
   `isQuotationSent` tinyint(1) NOT NULL DEFAULT 0
@@ -138,21 +137,21 @@ CREATE TABLE `tbl_quotation_details` (
 -- Dumping data for table `tbl_quotation_details`
 --
 
-INSERT INTO `tbl_quotation_details` (`id`, `userId`, `senderId`, `courseId`, `scheduleId`, `numPax`, `dateRequested`, `dateSent`, `companyName`, `isCompanySponsored`, `isQuotationSent`) VALUES
-(24, 0, 13, '1', 2, 1, '2020-03-01 16:29:52', '0000-00-00 00:00:00', '', 0, 0),
-(25, 0, 13, '3', 4, 2, '2020-03-01 16:29:52', '0000-00-00 00:00:00', '', 0, 0),
-(29, 98, 0, '2', 3, 2, '2020-03-01 18:41:31', '0000-00-00 00:00:00', '', 0, 0),
-(30, 98, 0, '3', 4, 1, '2020-03-01 18:41:31', '0000-00-00 00:00:00', '', 0, 0),
-(33, 0, 13, '1', 0, 1, '2020-03-01 21:28:48', '0000-00-00 00:00:00', 'Gelabee Corp.', 1, 0),
-(34, 0, 13, '2', 3, 2, '2020-03-01 21:28:48', '0000-00-00 00:00:00', 'Gelabee Corp.', 1, 0),
-(35, 0, 16, '1', 0, 1, '2020-03-02 21:28:03', '0000-00-00 00:00:00', '', 0, 0),
-(36, 0, 16, '4', 5, 2, '2020-03-02 21:28:03', '0000-00-00 00:00:00', '', 0, 0),
-(37, 0, 14, '1', 2, 2, '2020-03-02 23:25:09', '0000-00-00 00:00:00', '', 0, 0),
-(38, 0, 14, '2', 3, 1, '2020-03-02 23:25:09', '0000-00-00 00:00:00', '', 0, 0),
-(39, 0, 14, '4', 5, 3, '2020-03-02 23:25:09', '0000-00-00 00:00:00', '', 0, 0),
-(44, 0, 14, '3', 4, 10, '2020-02-29 16:30:43', '0000-00-00 00:00:00', '', 0, 0),
-(45, 0, 14, '4', 5, 2, '2020-02-29 16:30:43', '0000-00-00 00:00:00', '', 0, 0),
-(46, 98, 0, '1', 2, 2, '2020-02-28 16:31:04', '0000-00-00 00:00:00', 'Cafe24 PH', 0, 0);
+INSERT INTO `tbl_quotation_details` (`id`, `userId`, `senderId`, `courseId`, `scheduleId`, `numPax`, `dateRequested`, `companyName`, `isCompanySponsored`, `isQuotationSent`) VALUES
+(24, 0, 13, '1', 2, 1, '2020-03-01 16:29:52', '', 0, 0),
+(25, 0, 13, '3', 4, 2, '2020-03-01 16:29:52', '', 0, 0),
+(33, 0, 13, '1', 0, 1, '2020-03-01 21:28:48', 'Gelabee Corp.', 1, 0),
+(34, 0, 13, '2', 3, 2, '2020-03-01 21:28:48', 'Gelabee Corp.', 1, 0),
+(35, 0, 16, '1', 0, 1, '2020-03-02 21:28:03', '', 0, 0),
+(36, 0, 16, '4', 5, 2, '2020-03-02 21:28:03', '', 0, 0),
+(37, 0, 14, '1', 2, 2, '2020-03-02 23:25:09', '', 0, 0),
+(38, 0, 14, '2', 3, 1, '2020-03-02 23:25:09', '', 0, 0),
+(39, 0, 14, '4', 5, 3, '2020-03-02 23:25:09', '', 0, 0),
+(44, 0, 14, '3', 4, 10, '2020-02-29 16:30:43', '', 0, 0),
+(45, 0, 14, '4', 5, 2, '2020-02-29 16:30:43', '', 0, 0),
+(48, 0, 17, '1', 0, 1, '2020-03-07 16:51:31', 'TEST', 0, 0),
+(49, 0, 17, '3', 0, 1, '2020-03-07 16:51:31', 'TEST', 0, 0),
+(50, 0, 17, '2', 0, 1, '2020-03-07 16:51:31', 'TEST', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -176,7 +175,8 @@ CREATE TABLE `tbl_quotation_senders` (
 INSERT INTO `tbl_quotation_senders` (`quoteSenderId`, `firstName`, `middleName`, `lastName`, `email`, `contactNum`) VALUES
 (13, 'Angela', 'Valenzuela', 'Macandili', 'macandili.gelabee@gmail.com', '09161225985'),
 (14, 'Andrei', 'Valenzuela', 'Macandili', 'itsmeandrei@gmail.com', '09171336096'),
-(16, 'Arianne', 'Valenzuela', 'Macandili', 'arianne.macandili@gmail.com', '09754538593');
+(16, 'Arianne', 'Valenzuela', 'Macandili', 'arianne.macandili@gmail.com', '09754538593'),
+(17, 'Angelika Aubrey', 'Albano', 'Arbiol', 'angelikaaubreyarbiol@gmail.com', '412444214');
 
 -- --------------------------------------------------------
 
@@ -188,7 +188,6 @@ CREATE TABLE `tbl_schedules` (
   `id` int(11) NOT NULL,
   `courseId` int(11) NOT NULL,
   `venueId` int(11) NOT NULL,
-  `scheduleType` varchar(255) NOT NULL,
   `fromDate` date NOT NULL,
   `toDate` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -197,12 +196,24 @@ CREATE TABLE `tbl_schedules` (
 -- Dumping data for table `tbl_schedules`
 --
 
-INSERT INTO `tbl_schedules` (`id`, `courseId`, `venueId`, `scheduleType`, `fromDate`, `toDate`) VALUES
-(2, 1, 1, 'Weekdays', '2020-03-16', '2020-03-20'),
-(3, 2, 1, 'Weekdays', '2020-03-23', '2020-03-27'),
-(4, 3, 2, 'Weekends', '2020-03-28', '2020-03-29'),
-(5, 4, 1, 'Sundays', '2020-03-29', '2020-03-29'),
-(6, 1, 1, 'Weekdays', '2020-03-09', '2020-03-13');
+INSERT INTO `tbl_schedules` (`id`, `courseId`, `venueId`, `fromDate`, `toDate`) VALUES
+(2, 1, 1, '2020-03-16', '2020-03-20'),
+(3, 2, 1, '2020-03-23', '2020-03-27'),
+(4, 3, 2, '2020-03-28', '2020-03-29'),
+(5, 4, 1, '2020-03-29', '2020-03-29'),
+(6, 1, 1, '2020-03-09', '2020-03-13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_sent_quotations`
+--
+
+CREATE TABLE `tbl_sent_quotations` (
+  `invoiceNum` int(11) NOT NULL,
+  `quotationId` int(11) NOT NULL,
+  `dateSent` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -339,6 +350,12 @@ ALTER TABLE `tbl_schedules`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_sent_quotations`
+--
+ALTER TABLE `tbl_sent_quotations`
+  ADD PRIMARY KEY (`invoiceNum`);
+
+--
 -- Indexes for table `tbl_training`
 --
 ALTER TABLE `tbl_training`
@@ -394,19 +411,25 @@ ALTER TABLE `tbl_payment_methods`
 -- AUTO_INCREMENT for table `tbl_quotation_details`
 --
 ALTER TABLE `tbl_quotation_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `tbl_quotation_senders`
 --
 ALTER TABLE `tbl_quotation_senders`
-  MODIFY `quoteSenderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `quoteSenderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tbl_schedules`
 --
 ALTER TABLE `tbl_schedules`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `tbl_sent_quotations`
+--
+ALTER TABLE `tbl_sent_quotations`
+  MODIFY `invoiceNum` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_training`

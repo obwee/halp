@@ -233,7 +233,7 @@ class Quotations extends BaseController
             'isQuotationSent' => 0
         );
 
-        $aDetails = $this->oQuotationModel->fetchQuotationDetails($aSenderDetails);
+        $aDetails = $this->oQuotationModel->fetchDetails($aSenderDetails);
 
         foreach ($aDetails as $iKey => $aDetail) {
             $iFromDate = strtotime($aDetail['fromDate']);
@@ -268,7 +268,7 @@ class Quotations extends BaseController
 
             $mParams = array_merge($aIds, $this->aParams);
             
-            $this->oQuotationModel->deleteOldQuotation($aIds);
+            $this->oQuotationModel->deleteQuotation($aIds);
 
             foreach ($mParams[':quoteCourses'] as $iKey => $mValue) {
                 $aQuotationDetails = array(
@@ -293,5 +293,80 @@ class Quotations extends BaseController
         }
 
         echo json_encode($aResult);
+    }
+
+    public function deleteQuotation()
+    {
+        $aIds = array(
+            ':userId'        => $this->aParams['iUserId']   ?? 0,
+            ':senderId'      => $this->aParams['iSenderId'] ?? 0,
+            ':dateRequested' => $this->aParams['sDateRequested']
+        );
+
+        $this->oQuotationModel->deleteQuotation($aIds);
+
+        echo json_encode(
+            array(
+                'result' => true,
+                'msg'    => 'Quotation deleted!'
+            )
+        );
+    }
+
+    public function deleteSender()
+    {
+        $aIds = array(
+            ':userId'        => $this->aParams['iUserId']   ?? 0,
+            ':senderId'      => $this->aParams['iSenderId'] ?? 0
+        );
+
+        $this->oQuotationModel->deleteSenderAndQuotations($aIds);
+
+        echo json_encode(
+            array(
+                'result' => true,
+                'msg'    => 'Sender and quotations deleted!'
+            )
+        );
+    }
+
+    public function approveQuotation()
+    {
+        $aIds = array(
+            ':userId'          => $this->aParams['iUserId']   ?? 0,
+            ':senderId'        => $this->aParams['iSenderId'] ?? 0,
+            ':dateRequested'   => $this->aParams['sDateRequested'],
+            ':isQuotationSent' => 0,
+        );
+
+        $aCourseDetails = $this->oQuotationModel->fetchDetails($aIds);
+
+        $aSenderDetails = array_splice($this->aParams, 3, 3);
+        $aSenderDetails['sCompanyName'] = ($aCourseDetails[0]['isCompanySponsored'] === 0) ? 'N/A' : $aCourseDetails[0]['companyName'];
+
+        $this->oQuotationModel->approveQuotation(array_splice($aIds, 0, -1));
+
+        $this->processSendingEmail($aSenderDetails, $aCourseDetails);
+
+        echo json_encode(
+            array(
+                'bResult' => true,
+                'sMsg'    => 'Quotation approved!'
+            )
+        );
+    }
+
+    private function processSendingEmail($aSenderDetails, $aCourseDetails)
+    {
+        $oPdf = new PdfQuotation($aSenderDetails, $aCourseDetails);
+        $sOutput = $oPdf->Output('Quotation.pdf', 'S');
+
+        $oMail = new Email();
+        $oMail->addSingleRecipient($aSenderDetails['sEmail'], $aSenderDetails['sFullName']);
+        $oMail->setEmailSender('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
+        $oMail->setTitle('Quotation Request');
+        $oMail->addAttachment($sOutput);
+        // $oMail->setBody('');
+        $oMail->send();
     }
 }

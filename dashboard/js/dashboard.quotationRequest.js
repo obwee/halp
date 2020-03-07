@@ -29,9 +29,6 @@ var oQuotationRequests = (() => {
                     `<button class="btn btn-primary btn-sm" data-toggle="modal" id="viewRequest" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}">
                         <i class="fa fa-eye"></i>
                     </button>
-                    <button class="btn btn-warning btn-sm" data-toggle="modal" id="editSenderDetails" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}">
-                        <i class="fa fa-pencil-alt"></i>
-                    </button>
                     <button class="btn btn-danger btn-sm" data-toggle="modal" id="deleteSender" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}">
                         <i class="fa fa-trash"></i>
                     </button>`
@@ -54,7 +51,7 @@ var oQuotationRequests = (() => {
             },
             {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
-                    `<button class="btn btn-primary btn-sm" data-toggle="modal" id="viewDetails" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}" data-date-requested="${oRow.dateRequested}">
+                    `<button class="btn btn-primary btn-sm viewDetails" data-toggle="modal" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}" data-date-requested="${oRow.dateRequested}">
                         <i class="fa fa-eye"></i>
                     </button>
                     <button class="btn btn-success btn-sm" data-toggle="modal" id="approveRequest" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}" data-date-requested="${oRow.dateRequested}">
@@ -100,6 +97,79 @@ var oQuotationRequests = (() => {
     function setEvents() {
         oForms.prepareDomEvents();
 
+        $(document).on('click', '#deleteRequest', function () {
+            Swal.fire({
+                title: 'Delete the request?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((bResult) => {
+                if (bResult.value === true) {
+                    let oDetails = {
+                        iSenderId: $(this).attr('data-sender-id'),
+                        iUserId: $(this).attr('data-user-id'),
+                        sDateRequested: $(this).attr('data-date-requested')
+                    };
+                    oLibraries.displayAlertMessage('success', deleteRequest(oDetails));
+                    delete oDetails.sDateRequested;
+                    populateRequestsTable(oDetails);
+                }
+            });
+        });
+
+        $(document).on('click', '#deleteSender', function () {
+            Swal.fire({
+                title: 'Delete the sender?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((bResult) => {
+                if (bResult.value === true) {
+                    let oDetails = {
+                        iSenderId: $(this).attr('data-sender-id'),
+                        iUserId: $(this).attr('data-user-id')
+                    };
+                    oLibraries.displayAlertMessage('success', deleteSender(oDetails));
+                    populateSendersTable();
+                }
+            });
+        });
+
+        $(document).on('click', '#approveRequest', function () {
+            let oDetails = {
+                iSenderId: $(this).attr('data-sender-id'),
+                iUserId: $(this).attr('data-user-id'),
+                sDateRequested: $(this).attr('data-date-requested'),
+                sFullName: `${aSenderDetails[0]['firstName']} ${aSenderDetails[0]['lastName']}`,
+                sEmail: aSenderDetails[0]['email'],
+                iContactNum: aSenderDetails[0]['contactNum']
+            };
+
+            Swal.fire({
+                title: 'Approve the request?',
+                text: 'This will send an email to the sender.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, approve it!',
+                showLoaderOnConfirm: true,
+                preConfirm: () => {
+                    return approveQuotation(oDetails);
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((oResponse) => {
+                if (oResponse.value.bResult === true) {
+                    oLibraries.displayAlertMessage('success', oResponse.value.sMsg);
+                    populateSendersTable();
+                }
+            });
+        });
+
         $(document).on('click', '#viewRequest', function () {
             let oDetails = {
                 iSenderId: $(this).attr('data-sender-id'),
@@ -115,7 +185,7 @@ var oQuotationRequests = (() => {
             $('#viewRequestModal').modal('show');
         });
 
-        $(document).on('click', '#viewDetails', function () {
+        $(document).on('click', '.viewDetails', function () {
             let oDetails = {
                 iSenderId: $(this).attr('data-sender-id'),
                 iUserId: $(this).attr('data-user-id'),
@@ -134,7 +204,7 @@ var oQuotationRequests = (() => {
                 sDateRequested: $(this).attr('data-date-requested')
             };
 
-            // Execute AJAX request.
+            // Execute AJAX request to fetch request details.
             $.ajax({
                 url: `../utils/ajax.php?class=Quotations&action=editQuotation`,
                 type: 'POST',
@@ -388,13 +458,13 @@ var oQuotationRequests = (() => {
                     return sFormKey.name != 'quoteCourse[]' && sFormKey.name != 'quoteSchedule[]' && sFormKey.value !== '';
                 });
 
-                formData.push({ 'name': 'quoteCourses',   'value': aSelectedCourses });
+                formData.push({ 'name': 'quoteCourses', 'value': aSelectedCourses });
                 formData.push({ 'name': 'quoteSchedules', 'value': aSelectedSchedules });
-                formData.push({ 'name': 'quoteNumPax',    'value': aSelectedNumPax });
+                formData.push({ 'name': 'quoteNumPax', 'value': aSelectedNumPax });
 
                 if (formName === '#editRequestForm') {
-                    formData.push({ 'name': ':senderId',      'value': oEditIds.iSenderId });
-                    formData.push({ 'name': ':userId',        'value': oEditIds.iUserId });
+                    formData.push({ 'name': ':senderId', 'value': oEditIds.iSenderId });
+                    formData.push({ 'name': ':userId', 'value': oEditIds.iUserId });
                     formData.push({ 'name': ':dateRequested', 'value': oEditIds.sDateRequested });
                 }
 
@@ -525,7 +595,7 @@ var oQuotationRequests = (() => {
             .append($('<option value="" selected disabled hidden>Select Schedule</option>'));
 
         $.each(aSchedules, function (iKey, sSchedule) {
-            oSchedule.append($('<option />').val(oFilteredCourse.scheduleId).text(sSchedule));
+            oSchedule.append($('<option />').val(iKey).text(sSchedule));
         });
 
         if (bIsDeletePressed === true) {
@@ -604,7 +674,7 @@ var oQuotationRequests = (() => {
             aCoursesAndSchedulesForEdit = aFilteredCoursesAndSchedules;
 
             populateCourseScheduleForEdit(aSchedules);
-            sRow.find(`select.quoteSchedule option:contains(${oData.aSchedules[iKey]})`).prop('selected', true);
+            sRow.find(`.quoteSchedule option:contains(${oData.aSchedules[iKey]})`).prop('selected', true);
 
             sRow.find(`input.numPax`).val(oData.numPax[iKey]);
         });
@@ -635,7 +705,7 @@ var oQuotationRequests = (() => {
         let oScheduleDropdown = $('.courseAndScheduleDiv-edit').last().find('.quoteSchedule');
 
         $.each(aData.schedule, function (iKey, sSchedule) {
-            oScheduleDropdown.append($('<option />').val(aData.scheduleId).text(sSchedule));
+            oScheduleDropdown.append($('<option />').val(iKey).text(sSchedule));
         });
     }
 
@@ -653,6 +723,40 @@ var oQuotationRequests = (() => {
             }
             oEditForm.find('.courseAndScheduleDiv-edit').eq(iDataLength - 1).find('.deleteCourseBtn').parent().css('display', 'none');
         }
+    }
+
+    function deleteRequest(oData) {
+        $.ajax({
+            url: '../utils/ajax.php?class=Quotations&action=deleteQuotation',
+            type: 'POST',
+            data: oData,
+            dataType: 'json',
+            success: function (oResponse) {
+                return oResponse.msg;
+            }
+        });
+    }
+
+    function deleteSender(oData) {
+        $.ajax({
+            url: '../utils/ajax.php?class=Quotations&action=deleteSender',
+            type: 'POST',
+            data: oData,
+            dataType: 'json',
+            success: function (oResponse) {
+                return oResponse.msg;
+            }
+        });
+    }
+
+    function approveQuotation(oData) {
+        return axios.post('../utils/ajax.php?class=Quotations&action=approveQuotation', oData)
+            .then(function (oResponse) {
+                return oResponse.data;
+            })
+            .catch(function (oError) {
+                return oError;
+            });
     }
 
     return {

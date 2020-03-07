@@ -140,14 +140,15 @@ class Email
     /**
      * addAttachment
      * Method for adding an attachment for the email to be sent.
-     * @param string $sFilePath
-     * @param string $sFileName
+     * @param string $sOutput
      */
-    public function addAttachment($sFilePath, $sFileName)
+    public function addAttachment($sOutput)
     {
-        $oAttachment = Swift_Attachment::fromPath($sFilePath);
-        $oAttachment->setFilename($sFileName);
+        $oAttachment = new Swift_Attachment($sOutput, 'Quotation.pdf', 'application/pdf');
         $this->oMessage->attach($oAttachment);
+        // $oAttachment = Swift_Attachment::fromPath($sFilePath);
+        // $oAttachment->setFilename($sFileName);
+        // $this->oMessage->attach($oAttachment);
     }
 
     /**

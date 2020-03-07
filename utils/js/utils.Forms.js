@@ -2,7 +2,7 @@ var oForms = (() => {
 
     function prepareDomEvents() {
         // Allow only alphabetical characters and a period on first, middle, and last name via RegExp.
-        $(document).on('keyup keydown', '#registrationFname, #registrationMname, #registrationLname, #quoteFname, #quoteMname, #quoteLname, #emailFname, #emailMname, #emailLname', function () {
+        $(document).on('keyup keydown', '#registrationFname, #registrationMname, #registrationLname, .quoteFname, .quoteMname, .quoteLname, #emailFname, #emailMname, #emailLname', function () {
             // Input must not start by a period.
             if (this.value.length === 1 && this.value.match(/[^a-zA-Z]/)) {
                 return this.value = this.value.replace(this.value, '');
@@ -17,7 +17,7 @@ var oForms = (() => {
             return this.value = this.value.replace(/^0/g, '');
         });
 
-        $(document).on('keyup keydown', '#registrationContactNum, #quoteContactNum', function () {
+        $(document).on('keyup keydown', '#registrationContactNum, .quoteContactNum', function () {
             return this.value = this.value.replace(/[^0-9]/g, '');
         });
 
@@ -31,7 +31,7 @@ var oForms = (() => {
         });
 
         // Trim excess spaces and dots on specific inputs via RegExp on focusout event.
-        $(document).on('focusout', '#registrationFname, #registrationMname, #registrationLname, #registrationCompany, #quoteFname, #quoteMname, #quoteLname, #quoteCompanyName', function () {
+        $(document).on('focusout', '#registrationFname, #registrationMname, #registrationLname, #registrationCompany, .quoteFname, .quoteMname, .quoteLname, .quoteCompanyName', function () {
             $(this).val($(this).val().replace(/\s+/g, ' ').replace(/\.+/g, '.').trim());
         });
 
