@@ -497,7 +497,8 @@ var oQuotationRequests = (() => {
     function populateSendersTable() {
         let oAjax = {
             url: `../utils/ajax.php?class=Quotations&action=fetchSenders`,
-            type: 'GET',
+            type: 'POST',
+            data: {iIsQuotationSent : 0},
             dataType: 'JSON',
             dataSrc: function (oJson) {
                 aSenders = oJson.aData;

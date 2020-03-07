@@ -244,7 +244,6 @@ class Validations {
             };
         }
 
-        console.log($('.quoteCourse').val());
         if ($('.quoteCourse').val() === '') {
             return {
                 result: false,
