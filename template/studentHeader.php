@@ -116,6 +116,19 @@
             <li><a href="student.Payment.php"><i class="fas fa-money"></i>&emsp;Payment</a></li>
           </ul>
         </li>
+        <li class="treeview">
+          <a href="#.php">
+            <i class="fas fa-info-circle"></i> 
+            <span>&emsp;Help</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="student.Help.php"><i class="fas fa-question-circle"></i>&emsp;FAQs</a></li>
+          </ul>
+        </li>
+        <li>
          <li class="treeview">
           <a href="">
             <i class="fa fa-cog"></i> 
@@ -126,7 +139,6 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="studentProfile.php"><i class="fas fa-user-edit"></i>&emsp;Profile </a></li>
-<<<<<<< HEAD
           </li>
           </ul>
           <li>
@@ -134,11 +146,10 @@
           </li>
           <li>
           <a href="logout.php" class="logout">
-=======
         </li>
         <li>
           <a href="" class="logout">
->>>>>>> 951c388ba12f8ecb37d213f9351b3332d3e00b63
+
             <i class="fas fa-sign-out-alt"></i>
             <span>&emsp;   Logout</span>
           </a>
