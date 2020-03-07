@@ -86,10 +86,10 @@ class StudentModel
     }
 
     /**
-     * checkIfUserExists
-     * Check if user exists inside the tbl_users table.
+     * getUserId
+     * Get user ID inside the tbl_users table.
      */
-    public function checkIfUserExists($sFirstName, $sLastName)
+    public function getUserId($sFirstName, $sLastName)
     {
         // Query the tbl_users for a username equal to $username.
         $statement = $this->oConnection->prepare("
@@ -109,4 +109,25 @@ class StudentModel
         // Return the result of the execution of the above statement.
         return $statement->fetchColumn();
     }
+
+    /**
+     * getUserDetails
+     * Get user ID inside the tbl_users table.
+     */
+    public function getUserDetails($aUserId)
+    {
+        // Query the tbl_users for a username equal to $username.
+        $statement = $this->oConnection->prepare("
+            SELECT firstName, middleName, lastName, contactNum, email
+            FROM tbl_users
+            WHERE userId = :userId
+        ");
+
+        // Execute the above statement.
+        $statement->execute($aUserId);
+
+        // Return the result of the execution of the above statement.
+        return $statement->fetchColumn();
+    }
+
 }
