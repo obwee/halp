@@ -2,44 +2,25 @@
 require_once "template/studentHeader.php";
 ?>
 
-
 <div class="container">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <p class="h2">Quotations</p>
-
     </div>
 
     <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
         <div align="right">
-            <button type="button" id="addNewQuoteRequest" data-toggle="modal" data-target="#addQuoteModal" class="btn btn-info btn-lg">Add a Request</button>
+            <button type="button" id="addNewQuoteRequest" data-toggle="modal" data-target="#insertNewRequestModal" class="btn btn-info btn-lg">Add a Request</button>
             <br><br>
         </div>
-        <table id="tbl_quotations" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
-            <thead>
-                <tr>
-                    <th style="white-space:nowrap;">Date Requested</th>
-                    <th style="white-space:nowrap;">Course</th>
-                    <th style="white-space:nowrap;">PAX</th>
-                    <th style="white-space:nowrap;">Start Date</th>
-                    <th style="white-space:nowrap;">End Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Mar 01, 2020</td>
-                    <td>20410D</td>
-                    <td>1</td>
-                    <td>Mar 05, 2020</td>
-                    <td>Mar 08, 2020</td>
-                </tr>
-            </tbody>
-
+        <table id="quotationRequests" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
+            <thead></thead>
+            <tbody></tbody>
         </table>
     </div>
 </div>
 
-<div class="modal fade" id="addQuoteModal" role="dialog">
-    <div class="modal-dialog addQuoteModal">
+<div class="modal fade" id="insertNewRequestModal" role="dialog">
+    <div class="modal-dialog insertNewRequestModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 align="center">Insert New Request</h5>
@@ -47,26 +28,6 @@ require_once "template/studentHeader.php";
             <form action="post" id="insertNewRequestForm">
                 <div class="modal-body">
                     <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
-                    <div class="form-group" hidden>
-                        <label for="quoteFname"><span class="fas fa-user-circle"></span> First Name</label>
-                        <input type="text" class="form-control quoteFname" name="quoteFname" placeholder="First Name" autofocus maxlength="30">
-                    </div>
-                    <div class="form-group" hidden>
-                        <label for="quoteMname"><span class="fas fa-user-circle"></span> Middle Name</label>
-                        <input type="text" class="form-control quoteMname" name="quoteMname" placeholder="Middle Name" autofocus maxlength="30">
-                    </div>
-                    <div class="form-group" hidden>
-                        <label for="quoteLname"><span class="fas fa-user-circle"></span> Last Name</label>
-                        <input type="text" class="form-control quoteLname" name="quoteLname" placeholder="Last Name" autofocus maxlength="30">
-                    </div>
-                    <div class="form-group" hidden>
-                        <label for="quoteContactNum"><span class="fas fa-phone"></span> Contact Number</label>
-                        <input type="text" class="form-control quoteContactNum" name="quoteContactNum" placeholder="Contact Number" autofocus maxlength="12">
-                    </div>
-                    <div class="form-group" hidden>
-                        <label for="quoteEmail"><span class="fas fa-envelope"></span> E-mail Address</label>
-                        <input type="email" class="form-control quoteEmail" name="quoteEmail" placeholder="E-mail Address" maxlength="50">
-                    </div>
                     <div class="form-group">
                         <label for="quoteCompanyName"><span class="far fa-building"></span> Company Name</label>
                         <div class="input-group">
@@ -93,16 +54,18 @@ require_once "template/studentHeader.php";
                             <label for="numPax"><span class="fas fa-user-friends"></span> PAX</label>
                             <input type="number" class="form-control numPax" placeholder="Number of Persons" name="numPax[]" min="1" max="100" value="1">
                         </div>
+                        <div class="form-group">
+                            <div class="col-sm-12 text-center" style="display: none;">
+                                    <button type="button" class="btn btn-warning deleteCourseBtn">&nbsp;&nbsp;&nbsp;Delete Course&nbsp;&nbsp;&nbsp;</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <div class="row">
                             <div class="col-sm-12 text-center">
                                 <button type="button" class="btn btn-primary addCourseBtn">Add New Course</button>
                             </div>
-                            <div class="col-sm-6 text-left" style="display: none;">
-                                <button type="button" class="btn btn-warning deleteCourseBtn">&nbsp;&nbsp;&nbsp;Delete Course&nbsp;&nbsp;&nbsp;</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -114,12 +77,37 @@ require_once "template/studentHeader.php";
     </div>
 </div>
 
+<div class="modal fade" id="viewDetailsModal" role="dialog" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-dialog-centered modal-xl viewDetailsModal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 align="center"></span>Quotation Details</h5>
+			</div>
+			<div class="modal-body">
+				<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+					<br><br>
+					<table id="quotationDetails" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
+						<thead></thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <?php
 require_once "template/scripts.php";
 ?>
 
-<script src="js/studentDash.QuotationRequests.js"></script>
+<script src="../utils/js/utils.Libraries.js"></script>
+<script src="../utils/js/utils.Validations.js"></script>
+<script src="../utils/js/utils.Forms.js"></script>
+
+<script src="js/student.quotationRequest.js"></script>
 
 <?php
 require_once "template/studentFooter.php";

@@ -120,4 +120,16 @@ class Student extends BaseController
         $oMail->setBody($sEmailHeader . $this->aParams['message']);
         return $oMail->send();
     }
+
+    public function fetchStudentDetails()
+    {
+        $aStudentName = explode(' ', Session::get('fullName'));
+        $iUserId = $this->oStudentModel->getUserId($aStudentName[0], $aStudentName[1]);
+
+        $aUserId = array(
+            ':userId' => $iUserId
+        );
+
+        return $this->oStudentModel->getUserDetails($aUserId);
+    }
 }

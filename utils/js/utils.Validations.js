@@ -329,7 +329,7 @@ class Validations {
             };
         }
 
-        if ($(`form[id="${sFormId}"]`).find('.quoteCourse').val() === null) {
+        if ($(`form[id="${sFormId}"]`).find('.quoteCourse').val() === '') {
             return {
                 result: false,
                 element: '.quoteCourse',
