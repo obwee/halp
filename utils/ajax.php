@@ -19,6 +19,8 @@ if (isset($_REQUEST['class']) === false || file_exists($sFile) === false) {
     exit;
 }
 
+$_POST = (empty($_POST) === false) ? $_POST : json_decode(file_get_contents("php://input"), TRUE);
+
 // Invoke the class.
 $oClass = new $sClassName($_POST);
 

@@ -244,7 +244,8 @@ class Validations {
             };
         }
 
-        if ($('.quoteCourse').val() === null) {
+        console.log($('.quoteCourse').val());
+        if ($('.quoteCourse').val() === '') {
             return {
                 result: false,
                 element: '.quoteCourse',
