@@ -91,18 +91,7 @@
             <span>&emsp;Dashboard</span>
           </a>
         </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fas fa-file-invoice"></i>
-            <span>&emsp;  Quotations</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="student.QuotationRequest.php"><i class="fas fa-mail-bulk"></i>&emsp;Quotation Requests</a></li>  
-          </ul>
-        </li>
+        <li><a href="student.QuotationRequest.php"><i class="fas fa-mail-bulk"></i>&emsp;Quotation Requests</a></li>  
         <li class="treeview">
           <a href="#">
             <i class="fa fa-users-cog"></i>
@@ -116,36 +105,12 @@
             <li><a href="student.Payment.php"><i class="fas fa-money"></i>&emsp;Payment</a></li>
           </ul>
         </li>
-        <li class="treeview">
-          <a href="#.php">
-            <i class="fas fa-info-circle"></i> 
-            <span>&emsp;Help</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="student.Help.php"><i class="fas fa-question-circle"></i>&emsp;FAQs</a></li>
-          </ul>
+        <li>
+        <li>
+          <a href="studentProfile.php"><i class="fas fa-user-edit"></i>&emsp;Profile </a>
         </li>
         <li>
-         <li class="treeview">
-          <a href="">
-            <i class="fa fa-cog"></i> 
-            <span>&emsp;Settings</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="studentProfile.php"><i class="fas fa-user-edit"></i>&emsp;Profile </a></li>
-          </li>
-          </ul>
-          <li>
-            <a href="student.Help.php"><i class="fas fa-question-circle"></i>&emsp;Help</a>
-          </li>
-          <li>
-          <a href="logout.php" class="logout">
+            <a href="student.Help.php"><i class="fas fa-question-circle"></i>&emsp; Help</a>
         </li>
         <li>
           <a href="" class="logout">

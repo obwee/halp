@@ -51,6 +51,7 @@ require_once "template/studentHeader.php";
 
             <div class="col-sm-6">
                 <form>
+
                     <div class="credentials" style="border-style:solid;border-width:1px;border-color:#d5d5d5;padding:10px 10px;">
                         <div class="form-group row">
                             <label for="username" class="col-sm-4 col-form-label"><span class="fas fa-user"></span> Username</label>
