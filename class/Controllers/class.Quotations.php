@@ -70,7 +70,7 @@ class Quotations extends BaseController
         $aData = array(
             ':userId'         => $this->aParams['iUserId'],
             ':senderId'       => $this->aParams['iSenderId'],
-            'isQuotationSent' => 0
+            'isQuotationSent' => $this->aParams['iIsQuotationSent']
         );
 
         $aDetails = $this->oQuotationModel->fetchRequests($aData);
@@ -93,7 +93,7 @@ class Quotations extends BaseController
             ':userId'         => $this->aParams['iUserId'],
             ':senderId'       => $this->aParams['iSenderId'],
             ':dateRequested'  => $this->aParams['sDateRequested'],
-            'isQuotationSent' => 0
+            'isQuotationSent' => $this->aParams['iIsQuotationSent']
         );
 
         $aDetails = $this->oQuotationModel->fetchDetails($aData);

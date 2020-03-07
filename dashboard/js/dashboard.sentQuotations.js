@@ -20,9 +20,6 @@ var oSentQuotations = (() => {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
                     `<button class="btn btn-primary btn-sm" data-toggle="modal" id="viewRequest" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}">
                         <i class="fa fa-eye"></i>
-                    </button>
-                    <button class="btn btn-danger btn-sm" data-toggle="modal" id="deleteSender" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}">
-                        <i class="fa fa-trash"></i>
                     </button>`
             },
         ],
@@ -45,15 +42,6 @@ var oSentQuotations = (() => {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
                     `<button class="btn btn-primary btn-sm viewDetails" data-toggle="modal" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}" data-date-requested="${oRow.dateRequested}">
                         <i class="fa fa-eye"></i>
-                    </button>
-                    <button class="btn btn-success btn-sm" data-toggle="modal" id="approveRequest" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}" data-date-requested="${oRow.dateRequested}">
-                        <i class="fa fa-check"></i>
-                    </button>
-                    <button class="btn btn-warning btn-sm" data-toggle="modal" id="editRequest" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}" data-date-requested="${oRow.dateRequested}">
-                        <i class="fa fa-pencil-alt"></i>
-                    </button>
-                    <button class="btn btn-danger btn-sm" data-toggle="modal" id="deleteRequest" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}" data-date-requested="${oRow.dateRequested}">
-                        <i class="fa fa-trash"></i>
                     </button>`
             },
         ],
@@ -83,7 +71,36 @@ var oSentQuotations = (() => {
     function init() {
         populateSendersTable();
         // fetchCoursesAndSchedules();
-        // setEvents();
+        setEvents();
+    }
+
+    function setEvents() {
+        $(document).on('click', '#viewRequest', function () {
+            let oDetails = {
+                iSenderId: $(this).attr('data-sender-id'),
+                iUserId: $(this).attr('data-user-id')
+            }
+
+            populateRequestsTable(oDetails);
+
+            // aSenderDetails = aSenders.filter(function (aSender) {
+            //     return aSender.senderId == oDetails.iSenderId && aSender.userId == oDetails.iUserId;
+            // });
+
+            $('#viewRequestModal').modal('show');
+        });
+
+        $(document).on('click', '.viewDetails', function () {
+            let oDetails = {
+                iSenderId: $(this).attr('data-sender-id'),
+                iUserId: $(this).attr('data-user-id'),
+                sDateRequested: $(this).attr('data-date-requested')
+            }
+
+            populateDetailsTable(oDetails);
+
+            $('#viewDetailsModal').modal('show');
+        });
     }
 
     function populateSendersTable() {
@@ -107,6 +124,7 @@ var oSentQuotations = (() => {
     }
 
     function populateRequestsTable(oData) {
+        oData.iIsQuotationSent = 1;
         let oAjax = {
             url: `../utils/ajax.php?class=Quotations&action=fetchRequests`,
             type: 'POST',
@@ -125,6 +143,7 @@ var oSentQuotations = (() => {
     }
 
     function populateDetailsTable(oData) {
+        oData.iIsQuotationSent = 1;
         let oAjax = {
             url: `../utils/ajax.php?class=Quotations&action=fetchDetails`,
             type: 'POST',
