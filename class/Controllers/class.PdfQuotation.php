@@ -77,8 +77,8 @@ class PdfQuotation extends Fpdf
         // Move to the right.
         $this->Cell(55);
 
-        // Set page header title.
-        $this->Cell(15, 14, 'Invoice No. ');
+        // // Set page header title.
+        // $this->Cell(15, 14, 'Invoice No. ');
 
         // Line break.
         $this->Ln(5);
@@ -93,8 +93,8 @@ class PdfQuotation extends Fpdf
         // Move to the right.
         $this->Cell(55);
 
-        //Invoice Number
-        $this->Cell(10, 12, '1', 0, 0, 'R');
+        // //Invoice Number
+        // $this->Cell(10, 12, '1', 0, 0, 'R');
 
         // Line break.
         $this->Ln(5);
