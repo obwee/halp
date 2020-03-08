@@ -97,7 +97,7 @@ class QuotationsModel
      * Fetch quotation senders from the tbl_quotation_senders table using quoteSenderId.
      * @return array
      */
-    public function fetchSendersBySenderId()
+    public function fetchSendersBySenderId($aIsQuotationSent)
     {
         // Prepare an inner join select query.
         $statement = $this->oConnection->prepare("
@@ -108,11 +108,12 @@ class QuotationsModel
             FROM       tbl_quotation_details tqd
             INNER JOIN tbl_quotation_senders tqs
             ON tqs.quoteSenderId = tqd.senderId
+            WHERE tqd.isQuotationSent = :isQuotationSent
             GROUP BY tqd.userId, tqd.senderId
         ");
 
         // Execute the above statement.
-        $statement->execute();
+        $statement->execute($aIsQuotationSent);
 
         // Return the result of the execution of the above statement.
         return $statement->fetchAll();
@@ -122,7 +123,7 @@ class QuotationsModel
      * fetchSendersByUserId
      * Fetch quotation senders from the tbl_quotation_senders table using userId.
      */
-    public function fetchSendersByUserId()
+    public function fetchSendersByUserId($aIsQuotationSent)
     {
         // Query the tbl_quotation_senders.
         $statement = $this->oConnection->prepare("
@@ -133,11 +134,12 @@ class QuotationsModel
             FROM       tbl_quotation_details tqd
             INNER JOIN tbl_users             tu
             ON tu.userId = tqd.userId
+            WHERE tqd.isQuotationSent = :isQuotationSent
             GROUP BY tqd.userId, tqd.senderId
         ");
 
         // Execute the above statement.
-        $statement->execute();
+        $statement->execute($aIsQuotationSent);
 
         // Return the result of the execution of the above statement.
         return $statement->fetchAll();
@@ -171,7 +173,7 @@ class QuotationsModel
 
     /**
      * fetchDetails
-     * Fetch quotation details from the tbl_quotation_senders table using senderId and userId.
+     * Fetch quotation details from the tbl_quotation_details table using senderId and userId.
      * @param array $aData
      */
     public function fetchDetails($aData)
@@ -179,11 +181,13 @@ class QuotationsModel
         // Query the tbl_quotation_details.
         $statement = $this->oConnection->prepare("
             SELECT
-                tc.courseDescription, tc.courseName, tc.examCode,
-                tqd.numPax, ts.fromDate, ts.toDate
+                tqd.courseId, tc.courseDescription, tc.courseName, tc.examCode, tc.coursePrice,
+                tqd.numPax, tqd.companyName, tqd.isCompanySponsored,
+                ts.fromDate, ts.toDate, tv.venue
             FROM tbl_quotation_details tqd
             INNER JOIN tbl_courses           tc ON tqd.courseId   = tc.id
             LEFT  JOIN tbl_schedules         ts ON tqd.scheduleId = ts.id
+            LEFT  JOIN tbl_venue             tv ON ts.venueId = tv.id
             WHERE
                 tqd.userId = :userId AND tqd.senderId = :senderId
                 AND tqd.isQuotationSent = :isQuotationSent AND tqd.dateRequested = :dateRequested
@@ -196,7 +200,67 @@ class QuotationsModel
         return $statement->fetchAll();
     }
 
-    public function fetchQuotationDetails($aData)
+    /**
+     * deleteQuotation
+     * Delete the old quotation for editing purposes.
+     */
+    public function deleteQuotation($aIds)
+    {
+        // Prepare a delete query for the tbl_quotation_details table.
+        $statement = $this->oConnection->prepare("
+            DELETE FROM tbl_quotation_details
+            WHERE senderId = :senderId AND userId = :userId AND dateRequested = :dateRequested
+        ");
+
+        // Execute the above statement along with the needed where clauses then return.
+        return $statement->execute($aIds);
+    }
+
+    public function deleteSenderAndQuotations($aIds)
+    {
+        // Prepare a delete query for the tbl_quotation_senders table.
+        $statement = $this->oConnection->prepare("
+            DELETE FROM tbl_quotation_senders WHERE quoteSenderId = :quoteSenderId
+        ");
+
+        // Execute the above statement along with the needed where clauses.
+        $statement->execute(
+            array(
+                ':quoteSenderId' => $aIds[':senderId']
+            )
+        );
+
+        // Prepare a delete query for the tbl_quotation_details table.
+        $statement = $this->oConnection->prepare("
+            DELETE FROM tbl_quotation_details WHERE senderId = :senderId AND userId = :userId
+        ");
+    
+        // Execute the above statement along with the needed where clauses then return.
+        return $statement->execute($aIds);
+    }
+    
+    /**
+     * approveQuotation
+     * Approve the quotation.
+     */
+    public function approveQuotation($aIds)
+    {
+        // Prepare a delete query for the tbl_quotation_details table.
+        $statement = $this->oConnection->prepare("
+            UPDATE tbl_quotation_details
+            SET isQuotationSent = 1
+            WHERE senderId = :senderId AND userId = :userId AND dateRequested = :dateRequested
+        ");
+
+        // Execute the above statement along with the needed where clauses then return.
+        return $statement->execute($aIds);
+    }
+
+    /**
+     * fetchSenderAndQuotationDetails
+     * Fetch sender and quotation details.
+     */
+    public function fetchSenderAndQuotationDetails($aIds)
     {
         // Query the tbl_quotation_details.
         $statement = $this->oConnection->prepare("
@@ -213,25 +277,6 @@ class QuotationsModel
         ");
 
         // Execute the above statement along with the needed where clauses.
-        $statement->execute($aData);
-
-        // Return the result of the execution of the above statement.
-        return $statement->fetchAll();
-    }
-
-    /**
-     * deleteOldQuotation
-     * Delete the old quotation for editing purposes.
-     */
-    public function deleteOldQuotation($aIds)
-    {
-        // Prepare a delete query for the tbl_quotation_details table.
-        $statement = $this->oConnection->prepare("
-            DELETE FROM tbl_quotation_details
-            WHERE senderId = :senderId AND userId = :userId AND dateRequested = :dateRequested
-        ");
-
-        // Execute the above statement along with the needed where clauses then return.
-        return $statement->execute($aIds);
+        $statement->execute($aIds);
     }
 }

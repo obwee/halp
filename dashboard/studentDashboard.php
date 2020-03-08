@@ -10,6 +10,7 @@ require_once "Template/studentHeader.php";
 
     <!--   Analytics -->
     <h4>Analytics</h4><br>
+
     <div class='row'>
 
         <div class="col-md-3 col-sm-6 col-xs-12">
@@ -80,5 +81,11 @@ require_once "template/scripts.php";
 ?>
 
 <?php
-require_once "Template/studentFooter.php";
+require_once "template/scripts.php";
+?>
+
+<!-- <script src="js/studentDash.Enrollment.js"></script> -->
+
+<?php
+require_once "template/studentFooter.php";
 ?>

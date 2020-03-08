@@ -244,7 +244,7 @@ class Validations {
             };
         }
 
-        if ($('.quoteCourse').val() === null) {
+        if ($('.quoteCourse').val() === '') {
             return {
                 result: false,
                 element: '.quoteCourse',
@@ -329,7 +329,7 @@ class Validations {
             };
         }
 
-        if ($(`form[id="${sFormId}"]`).find('.quoteCourse').val() === null) {
+        if ($(`form[id="${sFormId}"]`).find('.quoteCourse').val() === '') {
             return {
                 result: false,
                 element: '.quoteCourse',

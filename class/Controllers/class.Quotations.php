@@ -36,8 +36,12 @@ class Quotations extends BaseController
      */
     public function fetchSenders()
     {
-        $aSendersViaSenderId = $this->oQuotationModel->fetchSendersBySenderId();
-        $aSendersViaUserId   = $this->oQuotationModel->fetchSendersByUserId();
+        $aIsQuotationSent = array(
+            ':isQuotationSent' => $this->aParams['iIsQuotationSent']
+        );
+
+        $aSendersViaSenderId = $this->oQuotationModel->fetchSendersBySenderId($aIsQuotationSent);
+        $aSendersViaUserId   = $this->oQuotationModel->fetchSendersByUserId($aIsQuotationSent);
 
         $aSenders = [...$aSendersViaSenderId, ...$aSendersViaUserId];
 
@@ -66,7 +70,7 @@ class Quotations extends BaseController
         $aData = array(
             ':userId'         => $this->aParams['iUserId'],
             ':senderId'       => $this->aParams['iSenderId'],
-            'isQuotationSent' => 0
+            ':isQuotationSent' => $this->aParams['iIsQuotationSent']
         );
 
         $aDetails = $this->oQuotationModel->fetchRequests($aData);
@@ -89,7 +93,7 @@ class Quotations extends BaseController
             ':userId'         => $this->aParams['iUserId'],
             ':senderId'       => $this->aParams['iSenderId'],
             ':dateRequested'  => $this->aParams['sDateRequested'],
-            'isQuotationSent' => 0
+            ':isQuotationSent' => $this->aParams['iIsQuotationSent']
         );
 
         $aDetails = $this->oQuotationModel->fetchDetails($aData);
@@ -118,7 +122,7 @@ class Quotations extends BaseController
 
             $this->oStudentModel = new StudentModel();
 
-            $iUserId = $this->oStudentModel->checkIfUserExists($this->aParams['quoteFname'], $this->aParams['quoteLname']);
+            $iUserId = $this->oStudentModel->getUserId($this->aParams['quoteFname'], $this->aParams['quoteLname']);
             $iQuoteSenderId = $this->oQuotationModel->checkIfSenderExists($this->aParams['quoteFname'], $this->aParams['quoteLname']);
 
             Utils::prepareData($this->aParams, 'quotation');
@@ -146,7 +150,7 @@ class Quotations extends BaseController
                     ':numPax'             => $this->aParams[':quoteNumPax'][$iKey],
                     ':companyName'        => $this->aParams[':companyName'],
                     ':dateRequested'      => $sDateNow,
-                    ':isCompanySponsored' => ($this->aParams[':quoteBillToCompany'] === 1) ? 1 : 0
+                    ':isCompanySponsored' => ($this->aParams[':quoteBillToCompany'] == 1) ? 1 : 0
                 );
                 $this->oQuotationModel->insertQuotationDetails($aQuotationDetails);
             }
@@ -176,7 +180,7 @@ class Quotations extends BaseController
 
             $this->oStudentModel = new StudentModel();
 
-            $iUserId = $this->oStudentModel->checkIfUserExists($this->aParams['quoteFname'], $this->aParams['quoteLname']);
+            $iUserId = $this->oStudentModel->getUserId($this->aParams['quoteFname'], $this->aParams['quoteLname']);
             $iQuoteSenderId = $this->oQuotationModel->checkIfSenderExists($this->aParams['quoteFname'], $this->aParams['quoteLname']);
 
             Utils::prepareData($this->aParams, 'quotation');
@@ -230,10 +234,10 @@ class Quotations extends BaseController
             ':userId'         => $this->aParams['iUserId'],
             ':senderId'       => $this->aParams['iSenderId'],
             ':dateRequested'  => $this->aParams['sDateRequested'],
-            'isQuotationSent' => 0
+            ':isQuotationSent' => 0
         );
 
-        $aDetails = $this->oQuotationModel->fetchQuotationDetails($aSenderDetails);
+        $aDetails = $this->oQuotationModel->fetchDetails($aSenderDetails);
 
         foreach ($aDetails as $iKey => $aDetail) {
             $iFromDate = strtotime($aDetail['fromDate']);
@@ -268,7 +272,7 @@ class Quotations extends BaseController
 
             $mParams = array_merge($aIds, $this->aParams);
             
-            $this->oQuotationModel->deleteOldQuotation($aIds);
+            $this->oQuotationModel->deleteQuotation($aIds);
 
             foreach ($mParams[':quoteCourses'] as $iKey => $mValue) {
                 $aQuotationDetails = array(
@@ -287,6 +291,144 @@ class Quotations extends BaseController
             $aResult = array(
                 'result' => true,
                 'msg'    => 'Quotation updated!'
+            );
+        } else {
+            $aResult = $aValidationResult;
+        }
+
+        echo json_encode($aResult);
+    }
+
+    public function deleteQuotation()
+    {
+        $aIds = array(
+            ':userId'        => $this->aParams['iUserId']   ?? 0,
+            ':senderId'      => $this->aParams['iSenderId'] ?? 0,
+            ':dateRequested' => $this->aParams['sDateRequested']
+        );
+
+        $this->oQuotationModel->deleteQuotation($aIds);
+
+        echo json_encode(
+            array(
+                'result' => true,
+                'msg'    => 'Quotation deleted!'
+            )
+        );
+    }
+
+    public function deleteSender()
+    {
+        $aIds = array(
+            ':userId'        => $this->aParams['iUserId']   ?? 0,
+            ':senderId'      => $this->aParams['iSenderId'] ?? 0
+        );
+
+        $this->oQuotationModel->deleteSenderAndQuotations($aIds);
+
+        echo json_encode(
+            array(
+                'result' => true,
+                'msg'    => 'Sender and quotations deleted!'
+            )
+        );
+    }
+
+    public function approveQuotation()
+    {
+        $aIds = array(
+            ':userId'          => $this->aParams['iUserId']   ?? 0,
+            ':senderId'        => $this->aParams['iSenderId'] ?? 0,
+            ':dateRequested'   => $this->aParams['sDateRequested'],
+            ':isQuotationSent' => 0,
+        );
+
+        $aCourseDetails = $this->oQuotationModel->fetchDetails($aIds);
+
+        $aSenderDetails = array_splice($this->aParams, 3, 3);
+        $aSenderDetails['sCompanyName'] = ($aCourseDetails[0]['isCompanySponsored'] == 0) ? 'N/A' : $aCourseDetails[0]['companyName'];
+
+        print_r($aSenderDetails); die;
+        $this->oQuotationModel->approveQuotation(array_splice($aIds, 0, -1));
+
+        $this->processSendingEmail($aSenderDetails, $aCourseDetails);
+
+        echo json_encode(
+            array(
+                'bResult' => true,
+                'sMsg'    => 'Quotation approved!'
+            )
+        );
+    }
+
+    private function processSendingEmail($aSenderDetails, $aCourseDetails)
+    {
+        $oPdf = new PdfQuotation($aSenderDetails, $aCourseDetails);
+        $sOutput = $oPdf->Output('Quotation.pdf', 'S');
+
+        $oMail = new Email();
+        $oMail->addSingleRecipient($aSenderDetails['sEmail'], $aSenderDetails['sFullName']);
+        $oMail->setEmailSender('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
+        $oMail->setTitle('Quotation Request');
+        $oMail->addAttachment($sOutput);
+        // $oMail->setBody('');
+        $oMail->send();
+    }
+
+    public function fetchStudentRequests() {
+        // Get student first and last name from session variables.
+        $aStudentDetails = explode(' ', Session::get('fullName'));
+
+        // Instantiate the Student model.
+        $this->oStudentModel = new StudentModel();
+
+        // Re-initialize the $aParams variable.
+        $this->aParams = array(
+            'iUserId'          => $this->oStudentModel->getUserId($aStudentDetails[0], $aStudentDetails[1]),
+            'iSenderId'        => 0,
+            'iIsQuotationSent' => 0
+        );
+
+        // Invoke the existing fetchRequests method and return its result.
+        $this->fetchRequests();
+    }
+
+    public function requestQuotationForStudent()
+    {
+        $aResult = array();
+        $aStudentDetails = explode(' ', Session::get('fullName'));
+
+        $this->oStudentModel = new StudentModel();
+        $iUserId = $this->oStudentModel->getUserId($aStudentDetails[0], $aStudentDetails[1]);
+        
+        print_r($aStudentDetails); die;
+        $aValidationResult = Validations::validateQuotationInputs($this->aParams);
+
+        if ($aValidationResult['result'] === true) {
+            Utils::sanitizeData($this->aParams);
+            Utils::prepareData($this->aParams, 'quotation');
+
+
+            $iSenderId = 0;
+            $sDateNow = date('Y-m-d H:i:s');
+
+            foreach ($this->aParams[':quoteCourses'] as $iKey => $mValue) {
+                $aQuotationDetails = array(
+                    ':userId'             => $iUserId,
+                    ':senderId'           => $iSenderId,
+                    ':courseId'           => $this->aParams[':quoteCourses'][$iKey],
+                    ':scheduleId'         => $this->aParams[':quoteSchedules'][$iKey],
+                    ':numPax'             => $this->aParams[':quoteNumPax'][$iKey],
+                    ':companyName'        => $this->aParams[':companyName'],
+                    ':dateRequested'      => $sDateNow,
+                    ':isCompanySponsored' => ($this->aParams[':quoteBillToCompany'] == 1) ? 1 : 0
+                );
+                $this->oQuotationModel->insertQuotationDetails($aQuotationDetails);
+            }
+
+            $aResult = array(
+                'result' => true,
+                'msg'    => 'Quotation requested!'
             );
         } else {
             $aResult = $aValidationResult;

@@ -28,3 +28,6 @@
 
 	<!-- Accounting JS -->
 	<script type="text/javascript" src="https://raw.githubusercontent.com/openexchangerates/accounting.js/master/accounting.min.js"></script>
+
+	<!-- Axios -->
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
