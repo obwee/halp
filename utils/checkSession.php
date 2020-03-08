@@ -12,7 +12,7 @@ require_once 'utils/vendor/autoload.php';
 if (Session::isset('isLoggedIn') === true) {
     if (preg_match('/\/homepage\/|\/login\//i', $_SERVER['REQUEST_URI'])) {
         // Redirect to dashboard.
-        $_SESSION["LOA"] === 'Student' ? header('Location: /Nexus/dashboard/studentDashboard') : header('Location: /Nexus/dashboard');
+        $_SESSION["LOA"] === 'Student' ? header('Location: /Nexus/dashboard/student/studentDashboard') : header('Location: /Nexus/dashboard');
         exit();
     }
 } else {

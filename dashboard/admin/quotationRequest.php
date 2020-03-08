@@ -332,7 +332,7 @@ require_once "template/header.php";
     <script src="../utils/js/utils.Validations.js"></script>
     <script src="../utils/js/utils.Forms.js"></script>
 
-    <script src="js/dashboard.quotationRequest.js"></script>
+    <script src="admin/js/dashboard.quotationRequest.js"></script>
 
     <?php
     require_once "template/footer.php";

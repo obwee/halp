@@ -1,6 +1,6 @@
 
 
-	<script src="js/dashboard.common.js"></script>
+	<script src="../js/common/dashboard.common.js"></script>
 
 	</body>
 </html>

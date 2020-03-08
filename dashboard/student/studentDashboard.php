@@ -80,10 +80,6 @@ require_once "Template/studentHeader.php";
 require_once "template/scripts.php";
 ?>
 
-<?php
-require_once "template/scripts.php";
-?>
-
 <!-- <script src="js/studentDash.Enrollment.js"></script> -->
 
 <?php

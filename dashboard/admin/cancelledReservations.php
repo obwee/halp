@@ -116,7 +116,7 @@ require_once "Template/header.php";
 require_once "template/scripts.php";
 ?>
 
-<script src="js/dashboard.cancelledReservations.js"></script>
+<script src="admin/js/dashboard.cancelledReservations.js"></script>
 
 <?php
 require_once "template/footer.php";

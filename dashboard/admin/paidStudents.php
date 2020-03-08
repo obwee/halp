@@ -56,7 +56,7 @@ require_once "template/header.php";
 require_once "template/scripts.php";
 ?>
 
-<script src="js/dashboard.paidStudents.js"></script>
+<script src="admin/js/dashboard.paidStudents.js"></script>
 
 <?php
 require_once "template/footer.php";

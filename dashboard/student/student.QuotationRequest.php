@@ -107,7 +107,7 @@ require_once "template/scripts.php";
 <script src="../utils/js/utils.Validations.js"></script>
 <script src="../utils/js/utils.Forms.js"></script>
 
-<script src="js/student.quotationRequest.js"></script>
+<script src="student/js/student.quotationRequest.js"></script>
 
 <?php
 require_once "template/studentFooter.php";
