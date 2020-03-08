@@ -1,3 +1,6 @@
+<?php
+//   echo $_SESSION["LOA"] !== 'Student' ? "<script type='text/javascript'>window.history.back();</script>" : '';
+?>
 <!DOCTYPE html>
 <html>
 
@@ -12,12 +15,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../CDNs/dashboard/font-awesome/css/all.css">
+    <link rel="stylesheet" href="/Nexus/CDNs/dashboard/font-awesome/css/all.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="../CDNs/dist/css/AdminLTE.css">
+    <link rel="stylesheet" href="/Nexus/CDNs/dist/css/AdminLTE.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
    folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="../CDNs/dist/css/skins/skin-purple.min.css">
+    <link rel="stylesheet" href="/Nexus/CDNs/dist/css/skins/skin-purple.min.css">
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
@@ -88,7 +91,7 @@
                         <span>&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;NAVIGATION</span>
                     </li>
                     <li class="">
-                        <a href="studentdashboard.php">
+                        <a href="/Nexus/dashboard/student/">
                             <i class="fas fa-tachometer-alt"></i>
                             <span>&emsp;Dashboard</span>
                         </a>
@@ -102,7 +105,7 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="student.QuotationRequest.php"><i class="fas fa-mail-bulk"></i>&emsp;Quotation Requests</a></li>
+                            <li><a href="/Nexus/dashboard/student/quotationRequest"><i class="fas fa-mail-bulk"></i>&emsp;Quotation Requests</a></li>
                         </ul>
                     </li>
                     <li class="treeview">
@@ -114,8 +117,8 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="student.Enrollment.php"><i class="fas fa-users"></i>&emsp;Enrollment</a></li>
-                            <li><a href="student.Payment.php"><i class="fas fa-money"></i>&emsp;Payment</a></li>
+                            <li><a href="/Nexus/dashboard/student/enrollment"><i class="fas fa-users"></i>&emsp;Enrollment</a></li>
+                            <li><a href="/Nexus/dashboard/student/payment"><i class="fas fa-money"></i>&emsp;Payment</a></li>
                         </ul>
                     </li>
                     <li class="treeview">
@@ -127,7 +130,7 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="student.Help.php"><i class="fas fa-question-circle"></i>&emsp;FAQs</a></li>
+                            <li><a href="/Nexus/dashboard/student/help"><i class="fas fa-question-circle"></i>&emsp;FAQs</a></li>
                         </ul>
                     </li>
                     <li>
@@ -140,11 +143,11 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="studentProfile.php"><i class="fas fa-user-edit"></i>&emsp;Profile </a></li>
+                            <li><a href="/Nexus/dashboard/student/profile"><i class="fas fa-user-edit"></i>&emsp;Profile </a></li>
                     </li>
                 </ul>
                 <li>
-                    <a href="student.Help.php"><i class="fas fa-question-circle"></i>&emsp;Help</a>
+                    <a href="/Nexus/dashboard/student/help"><i class="fas fa-question-circle"></i>&emsp;Help</a>
                 </li>
                 <li>
                     <a href="" class="logout">
@@ -160,3 +163,4 @@
         <!-- START OF PAGE CONTENTS (MAIN) -->
 
         <div class="content-wrapper">
+

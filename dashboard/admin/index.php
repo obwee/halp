@@ -2,7 +2,12 @@
 require_once "template/header.php";
 ?>
 
-<link rel="stylesheet" href="css/dashboard.chart.css">
+<style>
+    #chartData {
+        width: 100%;
+        height: 500px;
+    }
+</style>
 
 <div class="container">
 
@@ -82,8 +87,7 @@ require_once "template/header.php";
 
     </div>
 
-
-    <!--   Table -->
+    <!-- Table -->
     <br><br>
     <div class="container">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 mb-3 border-bottom">
@@ -151,14 +155,14 @@ require_once "template/scripts.php";
 ?>
 
 <!-- Amcharts Resources (for Dashboard only) -->
-<script src="js/amcharts_4.9.4/core.js"></script>
-<script src="js/amcharts_4.9.4/charts.js"></script>
-<script src="js/amcharts_4.9.4/themes/animated.js"></script>
-<script src="js/amcharts_4.9.4/themes/kelly.js"></script>
-<script src="js/amcharts_4.9.4/themes/material.js"></script>
+<script src="/Nexus/dashboard/js/amcharts_4.9.4/core.js"></script>
+<script src="/Nexus/dashboard/js/amcharts_4.9.4/charts.js"></script>
+<script src="/Nexus/dashboard/js/amcharts_4.9.4/themes/animated.js"></script>
+<script src="/Nexus/dashboard/js/amcharts_4.9.4/themes/kelly.js"></script>
+<script src="/Nexus/dashboard/js/amcharts_4.9.4/themes/material.js"></script>
+<script src="/Nexus/dashboard/js/admin/dashboard.chart.js"></script>
 
-<script src="js/dashboard.chart.js"></script>
-<script src="js/dashboard.index.js"></script>
+<script src="/Nexus/dashboard/js/admin/dashboard.index.js"></script>
 
 <?php
 require_once "template/footer.php";

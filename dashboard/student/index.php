@@ -76,7 +76,6 @@ require_once "Template/studentHeader.php";
     </div>
 
 </div>
-
 <?php
 require_once "template/scripts.php";
 ?>

@@ -226,7 +226,7 @@ require_once "Template/header.php";
 require_once "template/scripts.php";
 ?>
 
-<script src="js/dashboard.credentials.js"></script>
+<script src="/Nexus/dashboard/admin/js/dashboard.credentials.js"></script>
 
 <?php
 require_once "template/footer.php";

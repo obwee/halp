@@ -115,7 +115,7 @@ require_once "template/studentHeader.php";
     require_once "template/scripts.php";
     ?>
 
-    <script src="js/studentDash.Enrollment.js"></script>
+    <script src="student/js/studentDash.Enrollment.js"></script>
 
     <?php
     require_once "template/studentFooter.php";

@@ -1,5 +1,6 @@
-var oStudentQuotationRequests = (() => {
+var oQuotationRequests = (() => {
 
+    let oTblSenders = $('#quotationSenders');
     let oTblRequests = $('#quotationRequests');
     let oTblDetails = $('#quotationDetails');
 
@@ -7,9 +8,32 @@ var oStudentQuotationRequests = (() => {
 
     let aCoursesAndSchedules = [];
     let aFilteredCoursesAndSchedules = [];
+    let aSenders = [];
+    let aSenderDetails = [];
     let oEditIds = {};
 
     let oColumns = {
+        aSender: [
+            {
+                title: 'Sender Name', render: (aData, oType, oRow) =>
+                    [oRow.firstName, oRow.middleName, oRow.lastName].join(' ')
+            },
+            {
+                title: 'Email Address', data: 'email'
+            },
+            {
+                title: 'Contact Number', data: 'contactNum'
+            },
+            {
+                title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
+                    `<button class="btn btn-primary btn-sm" data-toggle="modal" id="viewRequest" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}">
+                        <i class="fa fa-eye"></i>
+                    </button>
+                    <button class="btn btn-danger btn-sm" data-toggle="modal" id="deleteSender" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}">
+                        <i class="fa fa-trash"></i>
+                    </button>`
+            },
+        ],
         aRequest: [
             {
                 title: 'Date Requested', className: 'text-center', data: 'fullDate'
@@ -29,6 +53,9 @@ var oStudentQuotationRequests = (() => {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
                     `<button class="btn btn-primary btn-sm viewDetails" data-toggle="modal" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}" data-date-requested="${oRow.dateRequested}">
                         <i class="fa fa-eye"></i>
+                    </button>
+                    <button class="btn btn-success btn-sm" data-toggle="modal" id="approveRequest" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}" data-date-requested="${oRow.dateRequested}">
+                        <i class="fa fa-check"></i>
                     </button>
                     <button class="btn btn-warning btn-sm" data-toggle="modal" id="editRequest" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}" data-date-requested="${oRow.dateRequested}">
                         <i class="fa fa-pencil-alt"></i>
@@ -62,7 +89,7 @@ var oStudentQuotationRequests = (() => {
     };
 
     function init() {
-        populateRequestsTable();
+        populateSendersTable();
         fetchCoursesAndSchedules();
         setEvents();
     }
@@ -70,8 +97,139 @@ var oStudentQuotationRequests = (() => {
     function setEvents() {
         oForms.prepareDomEvents();
 
+        $(document).on('click', '#deleteRequest', function () {
+            Swal.fire({
+                title: 'Delete the request?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((bResult) => {
+                if (bResult.value === true) {
+                    let oDetails = {
+                        iSenderId: $(this).attr('data-sender-id'),
+                        iUserId: $(this).attr('data-user-id'),
+                        sDateRequested: $(this).attr('data-date-requested')
+                    };
+                    oLibraries.displayAlertMessage('success', deleteRequest(oDetails));
+                    delete oDetails.sDateRequested;
+                    populateRequestsTable(oDetails);
+                }
+            });
+        });
+
+        $(document).on('click', '#deleteSender', function () {
+            Swal.fire({
+                title: 'Delete the sender?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((bResult) => {
+                if (bResult.value === true) {
+                    let oDetails = {
+                        iSenderId: $(this).attr('data-sender-id'),
+                        iUserId: $(this).attr('data-user-id')
+                    };
+                    oLibraries.displayAlertMessage('success', deleteSender(oDetails));
+                    populateSendersTable();
+                }
+            });
+        });
+
+        $(document).on('click', '#approveRequest', function () {
+            let oDetails = {
+                iSenderId: $(this).attr('data-sender-id'),
+                iUserId: $(this).attr('data-user-id'),
+                sDateRequested: $(this).attr('data-date-requested'),
+                sFullName: `${aSenderDetails[0]['firstName']} ${aSenderDetails[0]['lastName']}`,
+                sEmail: aSenderDetails[0]['email'],
+                iContactNum: aSenderDetails[0]['contactNum']
+            };
+
+            Swal.fire({
+                title: 'Approve the request?',
+                text: 'This will send an email to the sender.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, approve it!',
+                showLoaderOnConfirm: true,
+                preConfirm: () => {
+                    return approveQuotation(oDetails);
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((oResponse) => {
+                if (oResponse.value.bResult === true) {
+                    oLibraries.displayAlertMessage('success', oResponse.value.sMsg);
+                    populateSendersTable();
+                }
+            });
+        });
+
+        $(document).on('click', '#viewRequest', function () {
+            let oDetails = {
+                iSenderId: $(this).attr('data-sender-id'),
+                iUserId: $(this).attr('data-user-id')
+            }
+
+            populateRequestsTable(oDetails);
+
+            aSenderDetails = aSenders.filter(function (aSender) {
+                return aSender.senderId == oDetails.iSenderId && aSender.userId == oDetails.iUserId;
+            });
+
+            $('#viewRequestModal').modal('show');
+        });
+
+        $(document).on('click', '.viewDetails', function () {
+            let oDetails = {
+                iSenderId: $(this).attr('data-sender-id'),
+                iUserId: $(this).attr('data-user-id'),
+                sDateRequested: $(this).attr('data-date-requested')
+            }
+
+            populateDetailsTable(oDetails);
+
+            $('#viewDetailsModal').modal('show');
+        });
+
+        $(document).on('click', '#editRequest', function () {
+            let oDetails = {
+                iSenderId: $(this).attr('data-sender-id'),
+                iUserId: $(this).attr('data-user-id'),
+                sDateRequested: $(this).attr('data-date-requested')
+            };
+
+            // Execute AJAX request to fetch request details.
+            $.ajax({
+                url: `/Nexus/utils/ajax.php?class=Quotations&action=editQuotation`,
+                type: 'POST',
+                data: oDetails,
+                dataType: 'JSON',
+                success: (oResponse) => {
+                    oEditIds = oDetails;
+                    $('#editRequestModal').find('.quoteCompanyName').val(oResponse.quoteCompanyName);
+                    $('#editRequestModal').find('.quoteBillToCompany').attr('checked', oResponse.isCompanySponsored);
+                    cloneDivElementsForEditing(oResponse);
+                    showAddDeleteButtons(oResponse.aCourses.length);
+                    $('#editRequestModal')
+                        .find('.courseAndScheduleDiv-edit')
+                        .eq(oResponse.aCourses.length - 1)
+                        .find('.quoteCourse')
+                        .prop('disabled', false);
+                    $('#editRequestModal').modal('show');
+                }
+            });
+
+        });
+
         $(document).on('change', '.quoteCourse', function () {
             let oModal = {
+                'getQuoteModal': '',
                 'insertNewRequestModal': '-new',
                 'editRequestModal': '-edit'
             };
@@ -96,6 +254,7 @@ var oStudentQuotationRequests = (() => {
 
         $(document).on('click', '.addCourseBtn', function () {
             let oModal = {
+                'getQuoteModal': '',
                 'insertNewRequestModal': '-new',
                 'editRequestModal': '-edit'
             };
@@ -128,38 +287,9 @@ var oStudentQuotationRequests = (() => {
             }
         });
 
-        $(document).on('click', '#editRequest', function () {
-            let oDetails = {
-                iSenderId: $(this).attr('data-sender-id'),
-                iUserId: $(this).attr('data-user-id'),
-                sDateRequested: $(this).attr('data-date-requested')
-            };
-
-            // Execute AJAX request to fetch request details.
-            $.ajax({
-                url: `../utils/ajax.php?class=Quotations&action=editQuotation`,
-                type: 'POST',
-                data: oDetails,
-                dataType: 'JSON',
-                success: (oResponse) => {
-                    oEditIds = oDetails;
-                    $('#editRequestModal').find('.quoteCompanyName').val(oResponse.quoteCompanyName);
-                    $('#editRequestModal').find('.quoteBillToCompany').attr('checked', oResponse.isCompanySponsored);
-                    cloneDivElementsForEditing(oResponse);
-                    showAddDeleteButtons(oResponse.aCourses.length);
-                    $('#editRequestModal')
-                        .find('.courseAndScheduleDiv-edit')
-                        .eq(oResponse.aCourses.length - 1)
-                        .find('.quoteCourse')
-                        .prop('disabled', false);
-                    $('#editRequestModal').modal('show');
-                }
-            });
-
-        });
-
         $(document).on('click', '.deleteCourseBtn', function (e) {
             let oModal = {
+                'getQuoteModal': '',
                 'insertNewRequestModal': '-new',
                 'editRequestModal': '-edit'
             };
@@ -227,77 +357,36 @@ var oStudentQuotationRequests = (() => {
             }
         });
 
-        $(document).on('click', '#deleteRequest', function () {
-            Swal.fire({
-                title: 'Delete the request?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((bResult) => {
-                if (bResult.value === true) {
-                    let oDetails = {
-                        iSenderId: $(this).attr('data-sender-id'),
-                        iUserId: $(this).attr('data-user-id'),
-                        sDateRequested: $(this).attr('data-date-requested')
-                    };
-                    oLibraries.displayAlertMessage('success', deleteRequest(oDetails));
-                    delete oDetails.sDateRequested;
-                    populateRequestsTable(oDetails);
-                }
-            });
-        });
-
-        $(document).on('click', '#approveRequest', function () {
-            let oDetails = {
-                iSenderId: $(this).attr('data-sender-id'),
-                iUserId: $(this).attr('data-user-id'),
-                sDateRequested: $(this).attr('data-date-requested'),
-                sFullName: `${aSenderDetails[0]['firstName']} ${aSenderDetails[0]['lastName']}`,
-                sEmail: aSenderDetails[0]['email'],
-                iContactNum: aSenderDetails[0]['contactNum']
-            };
-
-            Swal.fire({
-                title: 'Approve the request?',
-                text: 'This will send an email to the sender.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, approve it!',
-                showLoaderOnConfirm: true,
-                preConfirm: () => {
-                    return approveQuotation(oDetails);
-                },
-                allowOutsideClick: () => !Swal.isLoading()
-            }).then((oResponse) => {
-                if (oResponse.value.bResult === true) {
-                    oLibraries.displayAlertMessage('success', oResponse.value.sMsg);
-                    populateSendersTable();
-                }
-            });
-        });
-
-        $(document).on('click', '.viewDetails', function () {
-            let oDetails = {
-                iSenderId: $(this).attr('data-sender-id'),
-                iUserId: $(this).attr('data-user-id'),
-                sDateRequested: $(this).attr('data-date-requested')
-            }
-
-            populateDetailsTable(oDetails);
-
-            $('#viewDetailsModal').modal('show');
-        });
-
         // Reset inputs before opening any modal.
-        $(document).on('click', '#addNewQuoteRequest', function () {
+        $(document).on('click', '#insertNewQuoteRequest, #addNewQuoteRequest', function () {
             let modalId = $(this).attr('data-target');
             let formName = '#' + $(modalId).find('form').attr('id') + '';
             oForms.resetInputBorders(formName);
             $(formName)[0].reset();
             $('.error-msg').css('display', 'none').html('');
+
+            if ($(this).attr('id') === 'insertNewQuoteRequest') {
+                includeSenderDetailsToForm();
+            }
+        });
+
+        $('#getQuoteModal, #insertNewRequestModal, #editRequestModal').on('hidden.bs.modal', function () {
+            let oModal = {
+                'getQuoteModal': '',
+                'insertNewRequestModal': '-new',
+                'editRequestModal': '-edit'
+            };
+
+            let sSuffix = oModal[$(this).attr('id')];
+
+            $(`.courseAndScheduleDiv${sSuffix}:not(:first)`).remove();
+            $(`.courseAndScheduleDiv${sSuffix}:first`).find('select.quoteCourse').attr('disabled', false).find('option:eq(0)').prop('selected', true);
+            $(`.courseAndScheduleDiv${sSuffix}:first`).find('select.quoteSchedule').attr('disabled', true).find('option:eq(0)').prop('selected', true);
+            $(`.courseAndScheduleDiv${sSuffix}:first`).find('input.numPax').val(1);
+            aFilteredCoursesAndSchedules = aCoursesAndSchedules;
+            oForms.cloneDivElements(aCoursesAndSchedules.length);
+            $('.addCourseBtn').parent().attr('class', 'col-sm-12 text-center').css('display', 'block');
+            $('.deleteCourseBtn').parent().css('display', 'none');
         });
 
         // Function for submission of any form.
@@ -306,15 +395,20 @@ var oStudentQuotationRequests = (() => {
 
             // Create an object with key names of forms and its corresponding validation and request action as its value.
             let oInputForms = {
+                '#quotationForm': {
+                    'validationMethod': oValidations.validateQuoteInputs(),
+                    'requestClass': 'Quotations',
+                    'requestAction': 'requestQuotation'
+                },
                 '#insertNewRequestForm': {
                     'validationMethod': oValidations.validateQuoteRequestInputs('insertNewRequestForm'),
                     'requestClass': 'Quotations',
-                    'requestAction': 'requestQuotationForStudent'
+                    'requestAction': 'requestQuotation'
                 },
                 '#editRequestForm': {
                     'validationMethod': oValidations.validateQuoteRequestInputs('editRequestForm'),
                     'requestClass': 'Quotations',
-                    'requestAction': 'updateQuotationForStudent'
+                    'requestAction': 'updateQuotation'
                 }
             }
 
@@ -374,20 +468,16 @@ var oStudentQuotationRequests = (() => {
                     formData.push({ 'name': ':dateRequested', 'value': oEditIds.sDateRequested });
                 }
 
-                let aStudentDetails = fetchUserDetails();
-                console.log(aStudentDetails);
-                return;
-
                 // Execute AJAX request.
                 $.ajax({
-                    url: `../utils/ajax.php?class=${requestClass}&action=${requestAction}`,
+                    url: `/Nexus/utils/ajax.php?class=${requestClass}&action=${requestAction}`,
                     type: 'post',
                     data: formData,
                     dataType: 'json',
                     success: function (response) {
                         if (response.result === true) {
                             $(formName).parents().find('div.modal').modal('hide');
-                            populateRequestsTable();
+                            populateSendersTable();
                             oLibraries.displayAlertMessage('success', response.msg);
                         } else {
                             oLibraries.displayErrorMessage(formName, response.msg, response.element);
@@ -401,6 +491,149 @@ var oStudentQuotationRequests = (() => {
                 oLibraries.displayErrorMessage(formName, validateInputs.msg, validateInputs.element);
             }
             oForms.disableFormState(formName, false);
+        });
+    }
+
+    function populateSendersTable() {
+        let oAjax = {
+            url: `/Nexus/utils/ajax.php?class=Quotations&action=fetchSenders`,
+            type: 'POST',
+            data: {iIsQuotationSent : 0},
+            dataType: 'JSON',
+            dataSrc: function (oJson) {
+                aSenders = oJson.aData;
+                return aSenders;
+            },
+            async: false
+        };
+
+        let aColumnDefs = [
+            { orderable: false, targets: [1, 2, 3] }
+        ];
+
+        loadTable(oTblSenders.attr('id'), oAjax, oColumns.aSender, aColumnDefs);
+    }
+
+    function populateRequestsTable(oData) {
+        oData.iIsQuotationSent = 0;
+        let oAjax = {
+            url: `/Nexus/utils/ajax.php?class=Quotations&action=fetchRequests`,
+            type: 'POST',
+            data: oData,
+            dataSrc: (oJson) => {
+                return oJson;
+            },
+            async: false
+        };
+
+        let aColumnDefs = [
+            { orderable: false, targets: [1, 2, 3, 4] }
+        ];
+
+        loadTable(oTblRequests.attr('id'), oAjax, oColumns.aRequest, aColumnDefs);
+    }
+
+    function populateDetailsTable(oData) {
+        oData.iIsQuotationSent = 0;
+        let oAjax = {
+            url: `/Nexus/utils/ajax.php?class=Quotations&action=fetchDetails`,
+            type: 'POST',
+            data: oData,
+            dataSrc: (oJson) => {
+                return oJson;
+            },
+            async: false
+        };
+
+        let aColumnDefs = [
+            { orderable: false, targets: '_all' }
+        ];
+
+        loadTable(oTblDetails.attr('id'), oAjax, oColumns.aDetails, aColumnDefs);
+    }
+
+    function loadTable(sTableName, oData, aColumns, aColumnDefs) {
+        $(`#${sTableName} > tbody`).empty().parent().DataTable({
+            destroy: true,
+            deferRender: true,
+            ajax: oData,
+            responsive: true,
+            pagingType: 'first_last_numbers',
+            pageLength: 4,
+            ordering: true,
+            searching: true,
+            lengthChange: true,
+            lengthMenu: [[4, 8, 12, 16, 20, 24, -1], [4, 8, 12, 16, 20, 24, 'All']],
+            info: true,
+            columns: aColumns,
+            columnDefs: aColumnDefs
+        });
+    }
+
+    // Populate the course dropdown select.
+    function populateCourseDropdown(aCourses, sSuffix = '') {
+        let oCourseDropdown = $(`.courseAndScheduleDiv${sSuffix}[style*="display: none"]`).first().find('.quoteCourse');
+        oCourseDropdown.parent().parent().css('display', 'block');
+        oCourseDropdown.empty().append($('<option value="" selected>Select Course</option>'));
+
+        $.each(aCourses, function (iKey, oCourse) {
+            oCourseDropdown.append($('<option />').val(oCourse.courseId).text(oCourse.courseName));
+        });
+    }
+
+    // Populate the schedule select dropdown.
+    function populateCourseSchedule(iCourseId, bIsDeletePressed, sSuffix) {
+        let oSchedule = $(`.courseAndScheduleDiv${sSuffix}[style*="display: block"]`).last().find('.quoteSchedule');
+        let iSelectedScheduleId = oSchedule.find('option:selected').val();
+
+        let oFilteredCourse = aFilteredCoursesAndSchedules.filter(function (aCourse) {
+            return aCourse.courseId == iCourseId;
+        })[0];
+
+        let aSchedules = oFilteredCourse.schedule;
+
+        oSchedule
+            .empty()
+            .attr('disabled', false)
+            .append($('<option value="" selected disabled hidden>Select Schedule</option>'));
+
+        $.each(aSchedules, function (iKey, sSchedule) {
+            oSchedule.append($('<option />').val(iKey).text(sSchedule));
+        });
+
+        if (bIsDeletePressed === true) {
+            oSchedule.val(iSelectedScheduleId);
+        } else {
+            oSchedule.find('option:eq(0)').prop('selected', true)
+        }
+    }
+
+    function includeSenderDetailsToForm() {
+        let oData = aSenderDetails[0];
+        let oInsertNewRequestForm = $('#insertNewRequestForm');
+        oInsertNewRequestForm.find('.quoteFname').val(oData.firstName);
+        oInsertNewRequestForm.find('.quoteMname').val(oData.middleName);
+        oInsertNewRequestForm.find('.quoteLname').val(oData.lastName);
+        oInsertNewRequestForm.find('.quoteEmail').val(oData.email);
+        oInsertNewRequestForm.find('.quoteContactNum').val(oData.contactNum);
+    }
+
+    /**
+     * fetchCoursesAndSchedules
+     */
+    function fetchCoursesAndSchedules() {
+        // Execute AJAX request.
+        $.ajax({
+            url: '/Nexus/utils/ajax.php?class=Forms&action=fetchHomepageData',
+            type: 'GET',
+            dataType: 'json',
+            success: function (oResponse) {
+                aCoursesAndSchedules = oResponse;
+                aFilteredCoursesAndSchedules = oResponse;
+                oForms.cloneDivElements(oResponse.length);
+                populateCourseDropdown(oResponse);
+                populateCourseDropdown(oResponse, '-new');
+            }
         });
     }
 
@@ -495,124 +728,38 @@ var oStudentQuotationRequests = (() => {
         }
     }
 
-    // Populate the course dropdown select.
-    function populateCourseDropdown(aCourses, sSuffix = '') {
-        let oCourseDropdown = $(`.courseAndScheduleDiv${sSuffix}[style*="display: none"]`).first().find('.quoteCourse');
-        oCourseDropdown.parent().parent().css('display', 'block');
-        oCourseDropdown.empty().append($('<option value="" selected>Select Course</option>'));
-
-        $.each(aCourses, function (iKey, oCourse) {
-            oCourseDropdown.append($('<option />').val(oCourse.courseId).text(oCourse.courseName));
-        });
-    }
-
-    // Populate the schedule select dropdown.
-    function populateCourseSchedule(iCourseId, bIsDeletePressed, sSuffix) {
-        let oSchedule = $(`.courseAndScheduleDiv${sSuffix}[style*="display: block"]`).last().find('.quoteSchedule');
-        let iSelectedScheduleId = oSchedule.find('option:selected').val();
-
-        let oFilteredCourse = aFilteredCoursesAndSchedules.filter(function (aCourse) {
-            return aCourse.courseId == iCourseId;
-        })[0];
-
-        let aSchedules = oFilteredCourse.schedule;
-
-        oSchedule
-            .empty()
-            .attr('disabled', false)
-            .append($('<option value="" selected disabled hidden>Select Schedule</option>'));
-
-        $.each(aSchedules, function (iKey, sSchedule) {
-            oSchedule.append($('<option />').val(iKey).text(sSchedule));
-        });
-
-        if (bIsDeletePressed === true) {
-            oSchedule.val(iSelectedScheduleId);
-        } else {
-            oSchedule.find('option:eq(0)').prop('selected', true)
-        }
-    }
-
-    /**
-     * fetchCoursesAndSchedules
-     */
-    function fetchCoursesAndSchedules() {
-        // Execute AJAX request.
+    function deleteRequest(oData) {
         $.ajax({
-            url: '../utils/ajax.php?class=Forms&action=fetchHomepageData',
-            type: 'GET',
+            url: '/Nexus/utils/ajax.php?class=Quotations&action=deleteQuotation',
+            type: 'POST',
+            data: oData,
             dataType: 'json',
             success: function (oResponse) {
-                aCoursesAndSchedules = oResponse;
-                aFilteredCoursesAndSchedules = oResponse;
-                oForms.cloneDivElements(oResponse.length);
-                populateCourseDropdown(oResponse, '-new');
+                return oResponse.msg;
             }
         });
     }
 
-    function populateRequestsTable() {
-        let oAjax = {
-            url: `../utils/ajax.php?class=Quotations&action=fetchStudentRequests`,
-            type: 'POST',
-            data: {
-                iIsQuotationSent: 0
-            },
-            dataSrc: (oJson) => {
-                return oJson;
-            },
-            async: false
-        };
-
-        let aColumnDefs = [
-            { orderable: false, targets: [1, 2, 3, 4] }
-        ];
-
-        loadTable(oTblRequests.attr('id'), oAjax, oColumns.aRequest, aColumnDefs);
-    }
-
-    function populateDetailsTable(oData) {
-        oData.iIsQuotationSent = 0;
-        let oAjax = {
-            url: `../utils/ajax.php?class=Quotations&action=fetchDetails`,
+    function deleteSender(oData) {
+        $.ajax({
+            url: '/Nexus/utils/ajax.php?class=Quotations&action=deleteSender',
             type: 'POST',
             data: oData,
-            dataSrc: (oJson) => {
-                return oJson;
-            },
-            async: false
-        };
-
-        let aColumnDefs = [
-            { orderable: false, targets: '_all' }
-        ];
-
-        loadTable(oTblDetails.attr('id'), oAjax, oColumns.aDetails, aColumnDefs);
-    }
-
-    function loadTable(sTableName, oData, aColumns, aColumnDefs) {
-        $(`#${sTableName} > tbody`).empty().parent().DataTable({
-            destroy: true,
-            deferRender: true,
-            ajax: oData,
-            responsive: true,
-            pagingType: 'first_last_numbers',
-            pageLength: 4,
-            ordering: true,
-            searching: true,
-            lengthChange: true,
-            lengthMenu: [[4, 8, 12, 16, 20, 24, -1], [4, 8, 12, 16, 20, 24, 'All']],
-            info: true,
-            columns: aColumns,
-            columnDefs: aColumnDefs
+            dataType: 'json',
+            success: function (oResponse) {
+                return oResponse.msg;
+            }
         });
     }
 
-    function fetchUserDetails() {
-        axios.get('../utils/ajax.php?class=Student&action=fetchStudentDetails')
+    function approveQuotation(oData) {
+        return axios.post('/Nexus/utils/ajax.php?class=Quotations&action=approveQuotation', oData)
             .then(function (oResponse) {
-                return oResponse.json().value;
+                return oResponse.data;
             })
+            .catch(function (oError) {
+                return oError;
+            });
     }
 
     return {
@@ -622,8 +769,5 @@ var oStudentQuotationRequests = (() => {
 })();
 
 $(() => {
-    oStudentQuotationRequests.initialize();
+    oQuotationRequests.initialize();
 });
-
-
-

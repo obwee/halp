@@ -9,16 +9,16 @@ require_once 'utils/vendor/autoload.php';
  * It also performs redirection. 
  */
 
-// if (Session::isset('isLoggedIn') === true) {
-//     if (preg_match('/\/homepage\/|\/login\//i', $_SERVER['REQUEST_URI'])) {
-//         // Redirect to dashboard.
-//         header('Location: /Nexus/dashboard');
-//         exit();
-//     }
-// } else {
-//     if (!preg_match('/\/homepage\/|\/login\//i', $_SERVER['REQUEST_URI'])) {
-//         // Redirect to homepage.
-//         header('Location: /Nexus/homepage/welcome');
-//         exit();
-//     }
-// }
+if (Session::isset('isLoggedIn') === true) {
+    if (preg_match('/\/homepage\/|\/login\//i', $_SERVER['REQUEST_URI'])) {
+        // Redirect to dashboard.
+        $_SESSION["LOA"] === 'Student' ? header('Location: /Nexus/dashboard/student/studentDashboard') : header('Location: /Nexus/dashboard');
+        exit();
+    }
+} else {
+    if (!preg_match('/\/homepage\/|\/login\//i', $_SERVER['REQUEST_URI'])) {
+        // Redirect to homepage.
+        header('Location: /Nexus/homepage/welcome');
+        exit();
+    }
+}
