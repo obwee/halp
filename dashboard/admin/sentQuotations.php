@@ -147,7 +147,7 @@ require_once "template/header.php";
 require_once "template/scripts.php";
 ?>
 
-<script src="admin/js/dashboard.sentQuotations.js"></script>
+<script src="/Nexus/dashboard/admin/js/dashboard.sentQuotations.js"></script>
 
 <?php
 require_once "template/footer.php";

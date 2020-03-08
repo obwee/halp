@@ -1,5 +1,5 @@
 <?php
-  echo $_SESSION["LOA"] !== 'Student'? "<script type='text/javascript'>window.history.back();</script>" : '';
+//   echo $_SESSION["LOA"] !== 'Student' ? "<script type='text/javascript'>window.history.back();</script>" : '';
 ?>
 <!DOCTYPE html>
 <html>
@@ -91,7 +91,7 @@
                         <span>&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;NAVIGATION</span>
                     </li>
                     <li class="">
-                        <a href="studentdashboard.php">
+                        <a href="/Nexus/dashboard/student/">
                             <i class="fas fa-tachometer-alt"></i>
                             <span>&emsp;Dashboard</span>
                         </a>
@@ -105,7 +105,7 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="student.QuotationRequest.php"><i class="fas fa-mail-bulk"></i>&emsp;Quotation Requests</a></li>
+                            <li><a href="/Nexus/dashboard/student/quotationRequest"><i class="fas fa-mail-bulk"></i>&emsp;Quotation Requests</a></li>
                         </ul>
                     </li>
                     <li class="treeview">
@@ -117,8 +117,8 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="student.Enrollment.php"><i class="fas fa-users"></i>&emsp;Enrollment</a></li>
-                            <li><a href="student.Payment.php"><i class="fas fa-money"></i>&emsp;Payment</a></li>
+                            <li><a href="/Nexus/dashboard/student/enrollment"><i class="fas fa-users"></i>&emsp;Enrollment</a></li>
+                            <li><a href="/Nexus/dashboard/student/payment"><i class="fas fa-money"></i>&emsp;Payment</a></li>
                         </ul>
                     </li>
                     <li class="treeview">
@@ -130,7 +130,7 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="student.Help.php"><i class="fas fa-question-circle"></i>&emsp;FAQs</a></li>
+                            <li><a href="/Nexus/dashboard/student/help"><i class="fas fa-question-circle"></i>&emsp;FAQs</a></li>
                         </ul>
                     </li>
                     <li>
@@ -143,11 +143,11 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="studentProfile.php"><i class="fas fa-user-edit"></i>&emsp;Profile </a></li>
+                            <li><a href="/Nexus/dashboard/student/profile"><i class="fas fa-user-edit"></i>&emsp;Profile </a></li>
                     </li>
                 </ul>
                 <li>
-                    <a href="student.Help.php"><i class="fas fa-question-circle"></i>&emsp;Help</a>
+                    <a href="/Nexus/dashboard/student/help"><i class="fas fa-question-circle"></i>&emsp;Help</a>
                 </li>
                 <li>
                     <a href="" class="logout">

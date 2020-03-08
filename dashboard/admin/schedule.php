@@ -160,7 +160,7 @@ require_once "Template/header.php";
     require_once "template/scripts.php";
     ?>
 
-    <script src="admin/js/dashboard.schedule.js"></script>
+    <script src="/Nexus/dashboard/admin/js/dashboard.schedule.js"></script>
 
     <?php
     require_once "template/footer.php";
