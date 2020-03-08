@@ -2,7 +2,6 @@
 require_once "template/header.php";
 ?>
 
-<link rel="stylesheet" href="css/dashboard.chart.css">
 
 <div class="container">
 
@@ -151,14 +150,14 @@ require_once "template/scripts.php";
 ?>
 
 <!-- Amcharts Resources (for Dashboard only) -->
-<script src="js/amcharts_4.9.4/core.js"></script>
-<script src="js/amcharts_4.9.4/charts.js"></script>
-<script src="js/amcharts_4.9.4/themes/animated.js"></script>
-<script src="js/amcharts_4.9.4/themes/kelly.js"></script>
-<script src="js/amcharts_4.9.4/themes/material.js"></script>
+<script src="./js/amcharts_4.9.4/core.js"></script>
+<script src="./js/amcharts_4.9.4/charts.js"></script>
+<script src="./js/amcharts_4.9.4/themes/animated.js"></script>
+<script src="./js/amcharts_4.9.4/themes/kelly.js"></script>
+<script src="./js/amcharts_4.9.4/themes/material.js"></script>
 
-<script src="js/dashboard.chart.js"></script>
-<script src="js/dashboard.index.js"></script>
+<script src="admin/js/dashboard.chart.js"></script>
+<script src="admin/js/dashboard.index.js"></script>
 
 <?php
 require_once "template/footer.php";
