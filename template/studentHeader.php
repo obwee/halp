@@ -1,3 +1,6 @@
+<?php
+  echo $_SESSION["LOA"] !== 'Student'? "<script type='text/javascript'>window.history.back();</script>" : '';
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -140,6 +143,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="studentProfile.php"><i class="fas fa-user-edit"></i>&emsp;Profile </a></li>
+          </ul>
         </li>
         <li>
           <a href="" class="logout">
