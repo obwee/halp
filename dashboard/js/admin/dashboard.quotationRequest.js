@@ -455,7 +455,7 @@ var oQuotationRequests = (() => {
 
                 // Remove unnecessary data to be sent in AJAX request.
                 formData = formData.filter(function (sFormKey) {
-                    return sFormKey.name != 'quoteCourse[]' && sFormKey.name != 'quoteSchedule[]' && sFormKey.name != 'numPax[]' && sFormKey.value !== '';
+                    return sFormKey.name != 'quoteCourse[]' && sFormKey.name != 'quoteSchedule[]' && sFormKey.value !== '';
                 });
 
                 formData.push({ 'name': 'quoteCourses', 'value': aSelectedCourses });
@@ -657,6 +657,7 @@ var oQuotationRequests = (() => {
             .remove();
 
         let aCoursesAndSchedulesForEdit = aCoursesAndSchedules;
+        let oLastCourse = {};
 
         $.each(oData.aCourses, function (iKey, sCourseName) {
             let sRow = oTemplate.clone().css('display', 'block');
@@ -680,7 +681,15 @@ var oQuotationRequests = (() => {
             sRow.find(`.quoteSchedule option:contains(${oData.aSchedules[iKey]})`).prop('selected', true);
 
             sRow.find(`input.numPax`).val(oData.numPax[iKey]);
+
+            // Get last added course.
+            oLastCourse = aCoursesAndSchedules.filter(function (aCourse) {
+                return aCourse.courseName == oData.aCourses[iKey];
+            })[0];
         });
+
+        // Push the last added course to the aFilteredCoursesAndSchedules.
+        aFilteredCoursesAndSchedules.push(oLastCourse);
 
         // Get the number of cloned divs and subtract it to the number of courses and schedules fetched from the database.
         let iClonedDivCount = $('.template').find('div.courseAndScheduleDiv-edit').length;

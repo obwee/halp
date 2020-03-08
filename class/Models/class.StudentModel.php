@@ -127,7 +127,7 @@ class StudentModel
         $statement->execute($aUserId);
 
         // Return the result of the execution of the above statement.
-        return $statement->fetchColumn();
+        return $statement->fetch();
     }
 
 }
