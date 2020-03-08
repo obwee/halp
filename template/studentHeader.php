@@ -1,3 +1,6 @@
+<?php
+  echo $_SESSION["LOA"] !== 'Student'? "<script type='text/javascript'>window.history.back();</script>" : '';
+?>
 <!DOCTYPE html>
 <html>
 
@@ -160,3 +163,4 @@
         <!-- START OF PAGE CONTENTS (MAIN) -->
 
         <div class="content-wrapper">
+

@@ -1,3 +1,6 @@
+<?php
+  echo $_SESSION["LOA"] === 'Student'? "<script type='text/javascript'>window.history.back();</script>" : '';
+?>
 <!DOCTYPE html>
 <html>
 <head>
