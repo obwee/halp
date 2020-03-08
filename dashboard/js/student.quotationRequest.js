@@ -30,9 +30,6 @@ var oStudentQuotationRequests = (() => {
                     `<button class="btn btn-primary btn-sm viewDetails" data-toggle="modal" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}" data-date-requested="${oRow.dateRequested}">
                         <i class="fa fa-eye"></i>
                     </button>
-                    <button class="btn btn-success btn-sm" data-toggle="modal" id="approveRequest" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}" data-date-requested="${oRow.dateRequested}">
-                        <i class="fa fa-check"></i>
-                    </button>
                     <button class="btn btn-warning btn-sm" data-toggle="modal" id="editRequest" data-sender-id="${oRow.senderId}" data-user-id="${oRow.userId}" data-date-requested="${oRow.dateRequested}">
                         <i class="fa fa-pencil-alt"></i>
                     </button>
@@ -129,6 +126,36 @@ var oStudentQuotationRequests = (() => {
                 $(`.courseAndScheduleDiv${sSuffix}`).filter(':visible').last().prev().find('.deleteCourseBtn').parent().css('display', 'block');
                 $(`.courseAndScheduleDiv${sSuffix}`).filter(':visible').last().find('.deleteCourseBtn').parent().css('display', 'none');
             }
+        });
+
+        $(document).on('click', '#editRequest', function () {
+            let oDetails = {
+                iSenderId: $(this).attr('data-sender-id'),
+                iUserId: $(this).attr('data-user-id'),
+                sDateRequested: $(this).attr('data-date-requested')
+            };
+
+            // Execute AJAX request to fetch request details.
+            $.ajax({
+                url: `../utils/ajax.php?class=Quotations&action=editQuotation`,
+                type: 'POST',
+                data: oDetails,
+                dataType: 'JSON',
+                success: (oResponse) => {
+                    oEditIds = oDetails;
+                    $('#editRequestModal').find('.quoteCompanyName').val(oResponse.quoteCompanyName);
+                    $('#editRequestModal').find('.quoteBillToCompany').attr('checked', oResponse.isCompanySponsored);
+                    cloneDivElementsForEditing(oResponse);
+                    showAddDeleteButtons(oResponse.aCourses.length);
+                    $('#editRequestModal')
+                        .find('.courseAndScheduleDiv-edit')
+                        .eq(oResponse.aCourses.length - 1)
+                        .find('.quoteCourse')
+                        .prop('disabled', false);
+                    $('#editRequestModal').modal('show');
+                }
+            });
+
         });
 
         $(document).on('click', '.deleteCourseBtn', function (e) {
@@ -375,6 +402,97 @@ var oStudentQuotationRequests = (() => {
             }
             oForms.disableFormState(formName, false);
         });
+    }
+
+    function getTemplate() {
+        if ($.isEmptyObject(oTemplate) === true) {
+            oTemplate = $('.courseAndScheduleDiv-edit').clone();
+        }
+        return oTemplate;
+    }
+
+    function cloneDivElementsForEditing(oData) {
+        // Add the old company name and if company sponsored for editing.
+        $('#editRequestForm').find('.quoteCompanyName').val(oData.quoteCompanyName);
+        $('#editRequestForm').find('.quoteBillToCompany').prop('checked', oData.isCompanySponsored);
+
+        getTemplate();
+
+        $('.template')
+            .empty()
+            .find('div[class="courseAndScheduleDiv-edit"]:visible')
+            .remove();
+
+        let aCoursesAndSchedulesForEdit = aCoursesAndSchedules;
+
+        $.each(oData.aCourses, function (iKey, sCourseName) {
+            let sRow = oTemplate.clone().css('display', 'block');
+
+            $('.template').append(sRow);
+
+            populateCourseDropdownForEdit(aCoursesAndSchedulesForEdit);
+            sRow.find(`select.quoteCourse option:contains(${oData.aCourses[iKey]})`).prop('selected', true);
+
+            aFilteredCoursesAndSchedules = aCoursesAndSchedulesForEdit.filter(function (aCourse) {
+                return aCourse.courseName != oData.aCourses[iKey];
+            });
+
+            let aSchedules = aCoursesAndSchedulesForEdit.filter(function (aCourse) {
+                return aCourse.courseName == sCourseName;
+            })[0];
+
+            aCoursesAndSchedulesForEdit = aFilteredCoursesAndSchedules;
+
+            populateCourseScheduleForEdit(aSchedules);
+            sRow.find(`.quoteSchedule option:contains(${oData.aSchedules[iKey]})`).prop('selected', true);
+
+            sRow.find(`input.numPax`).val(oData.numPax[iKey]);
+        });
+
+        // Get the number of cloned divs and subtract it to the number of courses and schedules fetched from the database.
+        let iClonedDivCount = $('.template').find('div.courseAndScheduleDiv-edit').length;
+
+        let iRemainingDivsToClone = aCoursesAndSchedules.length - iClonedDivCount;
+
+        while (iRemainingDivsToClone != 0) {
+            let sRow = oTemplate.clone();
+            $('.template').append(sRow);
+            iRemainingDivsToClone--;
+        };
+    }
+
+    // Populate the course dropdown select.
+    function populateCourseDropdownForEdit(aCourse) {
+        let oCourseDropdown = $('.courseAndScheduleDiv-edit').last().find('.quoteCourse').prop('disabled', 'true');
+        oCourseDropdown.empty().append($('<option value="" selected disabled hidden>Select Course</option>'));
+
+        $.each(aCourse, function (iKey, oCourse) {
+            oCourseDropdown.append($('<option />').val(oCourse.courseId).text(oCourse.courseName));
+        });
+    }
+
+    function populateCourseScheduleForEdit(aData) {
+        let oScheduleDropdown = $('.courseAndScheduleDiv-edit').last().find('.quoteSchedule');
+
+        $.each(aData.schedule, function (iKey, sSchedule) {
+            oScheduleDropdown.append($('<option />').val(iKey).text(sSchedule));
+        });
+    }
+
+    function showAddDeleteButtons(iDataLength) {
+        let oEditForm = $('#editRequestForm');
+
+        if (iDataLength === 1) {
+            oEditForm.find('.deleteCourseBtn').parent().css('display', 'none');
+        } else {
+            if (iDataLength === aCoursesAndSchedules.length) {
+                oEditForm.find('.addCourseBtn').parent().css('display', 'none');
+            } else {
+                oEditForm.find('.addCourseBtn').parent().css('display', 'block');
+                oEditForm.find('.deleteCourseBtn').parent().css('display', 'block');
+            }
+            oEditForm.find('.courseAndScheduleDiv-edit').eq(iDataLength - 1).find('.deleteCourseBtn').parent().css('display', 'none');
+        }
     }
 
     // Populate the course dropdown select.

@@ -298,42 +298,43 @@ require_once "template/header.php";
             </form>
         </div>
     </div>
+</div>
 
-    <div class="modal fade" id="sendRequestModal" role="dialog">
-        <div class="modal-dialog modal-lg sendRequestModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 align="center"><span class="glyphicon glyphicon-plane"></span>Send Quotation Request</h5>
-                </div>
+<div class="modal fade" id="sendRequestModal" role="dialog">
+    <div class="modal-dialog modal-lg sendRequestModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 align="center"><span class="glyphicon glyphicon-plane"></span>Send Quotation Request</h5>
+            </div>
 
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="subjectQuote"><span class="fas fa-envelope"></span> Subject</label>
-                        <input type="text" class="form-control subjectQuote" name="subjectQuote" placeholder="Subject" autofocus maxlength="30">
-                    </div>
-                    <div class="form-group">
-                        <label for=quoteMessage><span class="fas fa-envelope-open-text"></span> Message</label>
-                        <textarea class="form-control emailMsg" name="emailMsg" rows="7" placeholder="Type your message here."></textarea>
-                    </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="subjectQuote"><span class="fas fa-envelope"></span> Subject</label>
+                    <input type="text" class="form-control subjectQuote" name="subjectQuote" placeholder="Subject" autofocus maxlength="30">
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success">Send Quote</button>
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                <div class="form-group">
+                    <label for=quoteMessage><span class="fas fa-envelope-open-text"></span> Message</label>
+                    <textarea class="form-control emailMsg" name="emailMsg" rows="7" placeholder="Type your message here."></textarea>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success">Send Quote</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
+</div>
 
-    <?php
-    require_once "template/scripts.php";
-    ?>
+<?php
+require_once "template/scripts.php";
+?>
 
-    <script src="../utils/js/utils.Libraries.js"></script>
-    <script src="../utils/js/utils.Validations.js"></script>
-    <script src="../utils/js/utils.Forms.js"></script>
+<script src="../utils/js/utils.Libraries.js"></script>
+<script src="../utils/js/utils.Validations.js"></script>
+<script src="../utils/js/utils.Forms.js"></script>
 
-    <script src="js/dashboard.quotationRequest.js"></script>
+<script src="js/dashboard.quotationRequest.js"></script>
 
-    <?php
-    require_once "template/footer.php";
-    ?>
+<?php
+require_once "template/footer.php";
+?>

@@ -99,6 +99,67 @@ require_once "template/studentHeader.php";
 	</div>
 </div>
 
+<div class="modal fade" id="editRequestModal" role="dialog">
+    <div class="modal-dialog editRequestModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 align="center">Edit Request Details</h5>
+            </div>
+            <form action="post" id="editRequestForm">
+                <div class="modal-body">
+                    <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+                    <div class="form-group">
+                        <label for="quoteCompanyName"><span class="far fa-building"></span> Company Name</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control quoteCompanyName" placeholder="Company Name" name="quoteCompanyName" maxlength="50">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <input type="checkbox" name="quoteBillToCompany" class="quoteBillToCompany">&nbsp;Bill to Company?
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="template">
+                        <div class="courseAndScheduleDiv-edit" style="display: none;">
+                            <div class="form-group">
+                                <label for="quoteCourse"><span class="fas fa-book"></span> Course</label>
+                                <select class="form-control quoteCourse" name="quoteCourse[]"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="quoteSchedule"><span class="fas fa-calendar-week"></span> Schedule</label>
+                                <select class="form-control quoteSchedule" name="quoteSchedule[]">
+                                    <option value="" selected disabled hidden>Select Course First</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="numPax"><span class="fas fa-user-friends"></span> PAX</label>
+                                <input type="number" class="form-control numPax" placeholder="Number of Persons" name="numPax[]" min="1" max="100" value="1">
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12 text-center" style="display: none;">
+                                    <button type="button" class="btn btn-warning deleteCourseBtn">&nbsp;&nbsp;&nbsp;Delete Course&nbsp;&nbsp;&nbsp;</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary addCourseBtn">Add New Course</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p class="h6">To see available course and schedule, <a href="courses.php" target="_blank">Click here</a></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Update</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <?php
 require_once "template/scripts.php";
 ?>
