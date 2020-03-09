@@ -13,3 +13,4 @@ var oCredentials = (() => {
 $(document).ready(function () {
     oCredentials.initialize();
 });
+
