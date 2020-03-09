@@ -56,7 +56,7 @@ var oSentQuotations = (() => {
             },
             {
                 title: 'Exam Code', className: 'text-center', render: (aData, oType, oRow) =>
-                    (oRow.examCode === '') ? ' - ' : oRow.examCode
+                    (oRow.courseCode === '') ? ' - ' : oRow.courseCode
             },
             {
                 title: 'Training Date', className: 'text-center', render: (aData, oType, oRow) =>
@@ -105,7 +105,7 @@ var oSentQuotations = (() => {
 
     function populateSendersTable() {
         let oAjax = {
-            url: `../utils/ajax.php?class=Quotations&action=fetchSenders`,
+            url: `/Nexus/utils/ajax.php?class=Quotations&action=fetchSenders`,
             type: 'POST',
             data: { iIsQuotationSent: 1 },
             dataType: 'JSON',

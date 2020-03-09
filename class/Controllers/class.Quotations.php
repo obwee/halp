@@ -13,12 +13,6 @@ class Quotations extends BaseController
     private $oQuotationModel;
 
     /**
-     * @var StudentModel $oStudentModel
-     * Class instance for Student model.
-     */
-    private $oStudentModel;
-
-    /**
      * Quotations constructor.
      * @param array $aPostVariables
      */
@@ -26,7 +20,7 @@ class Quotations extends BaseController
     {
         // Store the $_POST variables inside $this->aParams variable.
         $this->aParams = $aPostVariables;
-        // Instantiate the StudentModel class and store it inside $this->oStudentModel.
+        // Instantiate the QuotationsModel class and store it inside $this->oQuotationModel.
         $this->oQuotationModel = new QuotationsModel();
     }
 
@@ -119,8 +113,6 @@ class Quotations extends BaseController
 
         if ($aValidationResult['result'] === true) {
             Utils::sanitizeData($this->aParams);
-
-            $this->oStudentModel = new StudentModel();
 
             $iUserId = $this->oStudentModel->getUserId($this->aParams['quoteFname'], $this->aParams['quoteLname']);
             $iQuoteSenderId = $this->oQuotationModel->checkIfSenderExists($this->aParams['quoteFname'], $this->aParams['quoteLname']);
@@ -375,15 +367,9 @@ class Quotations extends BaseController
     }
 
     public function fetchStudentRequests() {
-        // Get student first and last name from session variables.
-        $aStudentDetails = explode(' ', Session::get('fullName'));
-
-        // Instantiate the Student model.
-        $this->oStudentModel = new StudentModel();
-
         // Re-initialize the $aParams variable.
         $this->aParams = array(
-            'iUserId'          => $this->oStudentModel->getUserId($aStudentDetails[0], $aStudentDetails[1]),
+            'iUserId'          => $this->getUserId(),
             'iSenderId'        => 0,
             'iIsQuotationSent' => 0
         );
@@ -395,10 +381,6 @@ class Quotations extends BaseController
     public function requestQuotationForStudent()
     {
         $aResult = array();
-        $aStudentDetails = explode(' ', Session::get('fullName'));
-
-        $this->oStudentModel = new StudentModel();
-        $iUserId = $this->oStudentModel->getUserId($aStudentDetails[0], $aStudentDetails[1]);
         
         $aValidationResult = Validations::validateQuotationInputsForEdit($this->aParams);
 
@@ -410,7 +392,7 @@ class Quotations extends BaseController
 
             foreach ($this->aParams[':quoteCourses'] as $iKey => $mValue) {
                 $aQuotationDetails = array(
-                    ':userId'             => $iUserId,
+                    ':userId'             => $this->getUserId(),
                     ':senderId'           => 0,
                     ':courseId'           => $this->aParams[':quoteCourses'][$iKey],
                     ':scheduleId'         => $this->aParams[':quoteSchedules'][$iKey],

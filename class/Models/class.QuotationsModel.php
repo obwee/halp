@@ -181,7 +181,7 @@ class QuotationsModel
         // Query the tbl_quotation_details.
         $statement = $this->oConnection->prepare("
             SELECT
-                tqd.courseId, tc.courseDescription, tc.courseName, tc.examCode, tc.coursePrice,
+                tqd.courseId, tc.courseDescription, tc.courseName, tc.courseCode, tc.coursePrice,
                 tqd.numPax, tqd.companyName, tqd.isCompanySponsored,
                 ts.fromDate, ts.toDate, tv.venue
             FROM tbl_quotation_details tqd

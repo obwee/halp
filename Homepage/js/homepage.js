@@ -215,7 +215,7 @@ var oHomepage = (() => {
         oCourseDropdown.empty().append($('<option value="" selected disabled hidden>Select Course</option>'));
 
         $.each(aCourses, function (iKey, oCourse) {
-            oCourseDropdown.append($('<option />').val(oCourse.courseId).text(oCourse.courseName));
+            oCourseDropdown.append($('<option />').val(oCourse.courseId).text(`${oCourse.courseName} (${oCourse.courseCode})`));
         });
     }
 

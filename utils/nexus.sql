@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2020 at 05:45 PM
+-- Generation Time: Mar 09, 2020 at 03:32 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -35,18 +35,26 @@ CREATE TABLE `tbl_courses` (
   `courseName` varchar(255) NOT NULL,
   `coursePrice` decimal(10,0) NOT NULL,
   `courseDescription` varchar(255) NOT NULL,
-  `examCode` varchar(255) NOT NULL
+  `courseCode` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tbl_courses`
 --
 
-INSERT INTO `tbl_courses` (`id`, `courseName`, `coursePrice`, `courseDescription`, `examCode`) VALUES
-(1, 'CCNA v4', '12000', 'Implementing and Administering Cisco Solutions', '200-301'),
-(2, 'CCNP', '12000', 'Implementing Cisco Enterprise Advanced Routing and Services', ''),
-(3, 'MCP', '8000', 'Windows 2012 R2', '20410'),
-(4, 'Ethical Hacking with Penetration Testing', '3000', '', '');
+INSERT INTO `tbl_courses` (`id`, `courseName`, `coursePrice`, `courseDescription`, `courseCode`) VALUES
+(1, 'Cisco Certified Network Associate v4', '20000', 'Implementing and Administering Cisco Solutions', 'CCNAv4'),
+(2, 'Cisco Certified Network Professional', '28000', 'Enterprise Core', 'CCNP&CCIE'),
+(3, 'Cisco Certified Network Professional', '28000', 'Implementing Cisco Enterprise Advanced Routing and Services', 'CCNP ENARSI'),
+(4, 'MCP 20410D', '8000', 'Installing and Configuring Windows Server 2012', '20410D'),
+(5, 'MCSA in Windows Server 2016', '22500', 'Microsoft Certified Solutions Associate in Windows Server 2016', 'MCSA2016'),
+(6, 'MCSA in Windows Server 2012', '18000', 'Microsoft Certified Solutions Associate in Windows Server 2012', 'MCSA2012'),
+(7, 'Microsoft Azure Administrator', '30000', '', 'AZ-1003T00-A'),
+(8, 'AWS - Solutions Architecht', '18000', 'Amazon Web Services Solutions Architect', 'AWS'),
+(9, 'VMware 6.7 ICM', '25000', 'Vmware vSphere 6.7: Install, Configure and Manage', 'VMware'),
+(10, 'Vmware Hyper-Converged Infrastructure', '55000', '', 'HCI'),
+(11, 'Ethical Hacking & Penetration Testing', '3000', '', 'EH'),
+(12, 'Certified Digital Forensics Examiner', '45000', '', 'CDFE');
 
 -- --------------------------------------------------------
 
@@ -152,8 +160,13 @@ INSERT INTO `tbl_quotation_details` (`id`, `userId`, `senderId`, `courseId`, `sc
 (48, 0, 17, '1', 0, 1, '2020-03-07 16:51:31', 'TEST', 0, 1),
 (49, 0, 17, '3', 0, 1, '2020-03-07 16:51:31', 'TEST', 0, 1),
 (50, 0, 17, '2', 0, 1, '2020-03-07 16:51:31', 'TEST', 0, 1),
-(54, 98, 0, '1', 2, 1, '2020-03-01 16:29:52', '', 0, 0),
-(55, 98, 0, '3', 4, 2, '2020-03-01 16:29:52', '', 0, 0);
+(56, 0, 20, '1', 0, 1, '2020-03-08 22:13:31', 'asdasd', 1, 0),
+(57, 0, 21, '1', 0, 0, '2020-03-08 22:14:09', '', 0, 0),
+(58, 0, 22, '1', 0, 1, '2020-03-08 22:16:42', '', 0, 0),
+(59, 0, 22, '1', 0, 1, '2020-03-08 22:16:46', '', 0, 0),
+(60, 0, 23, '1', 6, 1, '2020-03-08 22:17:27', 'fsaffsa', 1, 0),
+(61, 0, 23, '2', 0, 1, '2020-03-08 22:17:27', 'fsaffsa', 1, 0),
+(68, 98, 0, '4', 5, 21, '2020-03-01 16:29:52', '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -178,7 +191,11 @@ INSERT INTO `tbl_quotation_senders` (`quoteSenderId`, `firstName`, `middleName`,
 (13, 'Angela', 'Valenzuela', 'Macandili', 'macandili.gelabee@gmail.com', '09161225985'),
 (14, 'Andrei', 'Valenzuela', 'Macandili', 'itsmeandrei@gmail.com', '09171336096'),
 (16, 'Arianne', 'Valenzuela', 'Macandili', 'macandili.arianne@gmail.com', '09754538593'),
-(17, 'Angelika Aubrey', 'Albano', 'Arbiol', 'angelikaaubreyarbiol@gmail.com', '412444214');
+(17, 'Angelika Aubrey', 'Albano', 'Arbiol', 'angelikaaubreyarbiol@gmail.com', '412444214'),
+(20, 'asdasd', '', 'asdasd', 'dsadasd@adasdas.com', '12412412'),
+(21, 'fsafasf', '', 'fasfas', 'dsadasd@adasdas.com', '2141241241'),
+(22, 'sasadasd', 'dsadasd', 'jfklsjfdlk', 'asjfklsafj@gmail.com', '42141241'),
+(23, 'fsafasf', 'fsafasf', 'fsdfas', 'asjfklsafj@gmail.com', '4328423');
 
 -- --------------------------------------------------------
 
@@ -190,6 +207,8 @@ CREATE TABLE `tbl_schedules` (
   `id` int(11) NOT NULL,
   `courseId` int(11) NOT NULL,
   `venueId` int(11) NOT NULL,
+  `numSlots` int(11) NOT NULL,
+  `remainingSlots` int(11) NOT NULL,
   `fromDate` date NOT NULL,
   `toDate` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -198,12 +217,12 @@ CREATE TABLE `tbl_schedules` (
 -- Dumping data for table `tbl_schedules`
 --
 
-INSERT INTO `tbl_schedules` (`id`, `courseId`, `venueId`, `fromDate`, `toDate`) VALUES
-(2, 1, 1, '2020-03-16', '2020-03-20'),
-(3, 2, 1, '2020-03-23', '2020-03-27'),
-(4, 3, 2, '2020-03-28', '2020-03-29'),
-(5, 4, 1, '2020-03-29', '2020-03-29'),
-(6, 1, 1, '2020-03-09', '2020-03-13');
+INSERT INTO `tbl_schedules` (`id`, `courseId`, `venueId`, `numSlots`, `remainingSlots`, `fromDate`, `toDate`) VALUES
+(2, 1, 2, 50, 50, '2020-03-23', '2020-03-27'),
+(3, 2, 1, 50, 50, '2020-03-23', '2020-03-27'),
+(4, 3, 2, 50, 50, '2020-03-28', '2020-03-29'),
+(5, 4, 1, 50, 50, '2020-03-29', '2020-03-29'),
+(6, 1, 1, 50, 50, '2020-03-16', '2020-03-20');
 
 -- --------------------------------------------------------
 
@@ -239,8 +258,8 @@ CREATE TABLE `tbl_training` (
 --
 
 INSERT INTO `tbl_training` (`id`, `studentId`, `courseId`, `instructorId`, `scheduleId`, `isDone`, `paymentId`, `certificateIssued`) VALUES
-(1, 3, 1, 2, 1, 0, 1, 0),
-(2, 4, 1, 2, 1, 0, 2, 0);
+(1, 98, 3, 2, 1, 0, 1, 0),
+(2, 98, 2, 2, 1, 0, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -277,7 +296,8 @@ INSERT INTO `tbl_users` (`userId`, `username`, `password`, `firstName`, `middleN
 (92, 'student15', 'student', 'Ora Mayert Sr.', 'Pouros', 'Heathcote', 'Student', 'Eichmann Group', '16384', 'tschowalter@example.com', 'Active'),
 (97, 'student12', 'student', 'Fay Gorczany', 'Bergnaum', 'Hilpert', 'Student', 'Botsford and Sons', '89606', 'coreilly@example.net', 'Inactive'),
 (98, 'aries', 'student', 'Aries', 'Valenzuela', 'Macandili', 'Student', 'Cafe24 PH', '09161225985', 'macandili.aries@gmail.com', 'Active'),
-(103, 'student13', 'student', 'Milton Dibbert', 'Quitzon', 'Hyatt', 'Student', 'Bradtke-West', '28141', 'gregg33@example.net', 'Inactive');
+(103, 'student13', 'student', 'Milton Dibbert', 'Quitzon', 'Hyatt', 'Student', 'Bradtke-West', '28141', 'gregg33@example.net', 'Inactive'),
+(108, 'angelyn', 'angelyn', 'Angelyn', '', 'Dequito', 'Student', 'Google', '09123456789', 'gelyn@gmail.com', 'Active');
 
 -- --------------------------------------------------------
 
@@ -383,7 +403,7 @@ ALTER TABLE `tbl_venue`
 -- AUTO_INCREMENT for table `tbl_courses`
 --
 ALTER TABLE `tbl_courses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_emails`
@@ -413,13 +433,13 @@ ALTER TABLE `tbl_payment_methods`
 -- AUTO_INCREMENT for table `tbl_quotation_details`
 --
 ALTER TABLE `tbl_quotation_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `tbl_quotation_senders`
 --
 ALTER TABLE `tbl_quotation_senders`
-  MODIFY `quoteSenderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `quoteSenderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `tbl_schedules`
@@ -443,7 +463,7 @@ ALTER TABLE `tbl_training`
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT for table `tbl_venue`
