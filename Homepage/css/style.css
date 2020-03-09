@@ -336,7 +336,32 @@ footer h3 {
     margin-top: 80px;   
 }
 
+.courses {
+    width: 100%;
+    padding: 5% 5% 10% 5%;
+}
 
+
+.heading-course {
+    background-color:black;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    height: 100px;
+    width: 500px;
+    text-align: center;
+    padding: 10px 10px;
+    margin-top: 25px;
+}
+
+.course-content {
+    font-family: 'Montserrat', sans-serif;
+    height: 100px;
+    width: 500px;
+    text-align: justify;
+    margin-top: 15px;
+    padding: 40px 5px;
+    font-size: 18px;
+}
 
 /*============================================*/
 

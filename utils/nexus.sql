@@ -3,9 +3,10 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
+
 -- Generation Time: Mar 09, 2020 at 03:32 PM
 -- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.1
+-- PHP Version: 7.4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,8 +22,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `nexus`
 --
-CREATE DATABASE IF NOT EXISTS `nexus` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `nexus`;
 
 -- --------------------------------------------------------
 
@@ -55,6 +54,7 @@ INSERT INTO `tbl_courses` (`id`, `courseName`, `coursePrice`, `courseDescription
 (10, 'Vmware Hyper-Converged Infrastructure', '55000', '', 'HCI'),
 (11, 'Ethical Hacking & Penetration Testing', '3000', '', 'EH'),
 (12, 'Certified Digital Forensics Examiner', '45000', '', 'CDFE');
+ Forensics Examiner', '0', '', 'CDFE');
 
 -- --------------------------------------------------------
 

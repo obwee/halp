@@ -63,11 +63,12 @@ require_once "template/studentHeader.php";
                 </div>
             </div>
         </div>
-        <div class="col-sm-12" align="right">
-            <button type="button" class="btn btn-success">Submit</button>
-            <button type="button" class="btn btn-dark " data-dismiss="modal">&nbsp&nbspClear&nbsp&nbsp</button>
+        <div class="col-sm-12" align="center">
+            <button type="submit" class="btn btn-success"><span class="far fa-paper-plane"></span> Submit</button>
+            <button type="button" class="btn btn-dark"><span class="fas fa-eraser"></span>&nbsp Clear&nbsp&nbsp&nbsp</button>
         </div>
     </div>
+</div>
 
     <br>
 	<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
@@ -75,12 +76,12 @@ require_once "template/studentHeader.php";
 		<table id="tbl_enrollment" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
 			<thead>
 				<tr>
-					<th style="white-space:nowrap;">Course Code</th>
-                    <th style="white-space:nowrap;">Start Date</th>
-                    <th style="white-space:nowrap;">End Date</th>
-                    <th style="white-space:nowrap;">Venue</th>
-                    <th style="white-space:nowrap;">Instructor</th>
-					<th style="white-space:nowrap;">Actions</th>
+					<th style="white-space:nowrap;text-align:center;">Course Code</th>
+                    <th style="white-space:nowrap;text-align:center;">Start Date</th>
+                    <th style="white-space:nowrap;text-align:center;">End Date</th>
+                    <th style="white-space:nowrap;text-align:center;">Venue</th>
+                    <th style="white-space:nowrap;text-align:center;">Instructor</th>
+					<th style="white-space:nowrap;text-align:center;">Actions</th>
 				</tr>
             </thead>
 			<tbody>
@@ -90,7 +91,7 @@ require_once "template/studentHeader.php";
                     <td>Mar 8, 2020</td>
                     <td>Makati</td>
                     <td>Mark Sampayan</td>
-                    <td>
+                    <td style="text-align:center;">
                         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#paymentModal">
                             <i class="fas fa-hand-holding-usd"></i>
                         </button>
@@ -132,7 +133,7 @@ require_once "template/studentHeader.php";
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Sumbit</button>
+                    <button type="submit" class="btn btn-success">Upload</button>
                     <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
