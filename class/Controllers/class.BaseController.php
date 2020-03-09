@@ -5,9 +5,23 @@
  */
 class BaseController
 {
+
+    protected $oStudentModel;
+
     /**
      * @var array $aParams
      * Holder of request parameters sent by AJAX.
      */
     protected $aParams;
+
+    public function __construct()
+    {
+        // Instantiate the StudentModel class and store it inside $this->oStudentModel.
+        $this->oStudentModel = new StudentModel();
+    }
+
+    protected function getUserId() {
+        [$aStudentFirstName, $aStudentLastName] = explode(' ', Session::get('fullName'));
+        return $this->oStudentModel->getUserId($aStudentFirstName, $aStudentLastName);
+    }
 }

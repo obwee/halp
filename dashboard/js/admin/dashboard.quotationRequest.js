@@ -76,7 +76,7 @@ var oQuotationRequests = (() => {
             },
             {
                 title: 'Exam Code', className: 'text-center', render: (aData, oType, oRow) =>
-                    (oRow.examCode === '') ? ' - ' : oRow.examCode
+                    (oRow.courseCode === '') ? ' - ' : oRow.courseCode
             },
             {
                 title: 'Training Date', className: 'text-center', render: (aData, oType, oRow) =>
@@ -577,7 +577,7 @@ var oQuotationRequests = (() => {
         oCourseDropdown.empty().append($('<option value="" selected>Select Course</option>'));
 
         $.each(aCourses, function (iKey, oCourse) {
-            oCourseDropdown.append($('<option />').val(oCourse.courseId).text(oCourse.courseName));
+            oCourseDropdown.append($('<option />').val(oCourse.courseId).text(`${oCourse.courseName} (${oCourse.courseCode})`));
         });
     }
 
@@ -709,7 +709,7 @@ var oQuotationRequests = (() => {
         oCourseDropdown.empty().append($('<option value="" selected disabled hidden>Select Course</option>'));
 
         $.each(aCourse, function (iKey, oCourse) {
-            oCourseDropdown.append($('<option />').val(oCourse.courseId).text(oCourse.courseName));
+            oCourseDropdown.append($('<option />').val(oCourse.courseId).text(`${oCourse.courseName} (${oCourse.courseCode})`));
         });
     }
 

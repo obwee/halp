@@ -147,11 +147,11 @@ require_once "template/studentHeader.php";
 require_once "template/scripts.php";
 ?>
 
-<script >
-    $(document).ready(function() {
-    $('#tbl_enrollment').DataTable();
-});
-</script>
+<script src="/Nexus/utils/js/utils.Libraries.js"></script>
+<script src="/Nexus/utils/js/utils.Validations.js"></script>
+<script src="/Nexus/utils/js/utils.Forms.js"></script>
+
+<script src="/Nexus/dashboard/js/student/student.enrollment.js"></script>
 
 <?php
 require_once "template/studentFooter.php";

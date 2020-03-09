@@ -188,7 +188,7 @@ class PdfQuotation extends Fpdf
             $sCourseName = $aCourse['courseName'];
             $sCourseDescription = ($aCourse['courseDescription'] !== '') ? ' - ' . $aCourse['courseDescription'] : '';
 
-            $this->Cell(25, 5, ($aCourse['examCode'] !== '') ? $aCourse['examCode'] : '-', 1, 0, 'C');
+            $this->Cell(25, 5, ($aCourse['courseCode'] !== '') ? $aCourse['courseCode'] : '-', 1, 0, 'C');
             $this->Cell(80, 5, $sCourseName . $sCourseDescription, 1, 0, 'C');
             $this->Cell(40, 5, $aCourse['fromDate'] . ' - ' . $aCourse['toDate'], 1, 0, 'C');
             $this->Cell(20, 5, ($aCourse['venue'] !== '') ? $aCourse['venue'] : '-', 1, 0, 'C');
@@ -312,7 +312,7 @@ class PdfQuotation extends Fpdf
 //       'courseId' => '3',
 //       'courseDescription' => 'Windows 2012 R2',
 //       'courseName' => 'MCP',
-//       'examCode' => '20410',
+//       'courseCode' => '20410',
 //       'coursePrice' => '8000',
 //       'numPax' => 10,
 //       'companyName' => '',
@@ -326,7 +326,7 @@ class PdfQuotation extends Fpdf
 //       'courseId' => '4',
 //       'courseDescription' => '',
 //       'courseName' => 'Ethical Hacking with Penetration Testing',
-//       'examCode' => '',
+//       'courseCode' => '',
 //       'coursePrice' => '3000',
 //       'numPax' => 2,
 //       'companyName' => '',
