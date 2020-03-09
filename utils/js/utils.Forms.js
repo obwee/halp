@@ -39,6 +39,34 @@ var oForms = (() => {
         $(document).on('focus', 'input, select', function () {
             $(this).css('border', '1px solid #ccc');
         });
+
+        prepareCourseEvents();
+    }
+
+    /**
+     * prepareCourseEvents
+     * jQuery event handlers for editCourse.php
+     */
+    function prepareCourseEvents() {
+        // Trim excess spaces and dots on specific inputs via RegExp on focusout event.
+        $(document).on('focusout', '#courseCode, #courseTitle, #courseDetails', function () {
+            $(this).val($(this).val().replace(/\s+/g, ' ').replace(/\.+/g, '.').trim());
+        });
+
+        $(document).on('keyup keydown', '#courseCode, #courseTitle, #courseDetails', function () {
+            if (this.value.length === 1 && this.value.match(/[^a-zA-Z0-9]/)) {
+                return this.value = this.value.replace(this.value, '');
+            }
+            return this.value = this.value.replace(/[^a-zA-Z0-9\s\.]/g, '');
+        });
+
+        $(document).on('keyup keydown', '#courseAmount', function () {
+            // Input must always start by a numeric character.
+            if (this.value.length === 1 && this.value.match(/[^1-9]/)) {
+                return this.value = this.value.replace(this.value, '');
+            }
+            return this.value = this.value.replace(/[^0-9]/g, '');
+        });
     }
 
     // Toggle disabled state of the form.

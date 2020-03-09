@@ -14,6 +14,22 @@ class CourseModel
         $this->oConnection = new dbConnection();
     }
 
+    public function fetchAllCourses()
+    {
+        // Query the tbl_courses.
+        $statement = $this->oConnection->prepare("
+            SELECT *
+            FROM tbl_courses tc
+            ORDER BY tc.courseName ASC
+        ");
+
+        // Execute the above statement.
+        $statement->execute();
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetchAll();
+    }
+
     public function fetchCourses()
     {
         // Query the tbl_courses.

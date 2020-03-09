@@ -28,6 +28,18 @@ class Courses extends BaseController
         parent::__construct();
     }
 
+    public function fetchAllCourses()
+    {
+        $aCourses = $this->oCourseModel->fetchAllCourses();
+
+        foreach($aCourses as $iKey => $aCourse) {
+            $aCourses[$iKey]['coursePrice'] = 'P' . number_format($aCourse['coursePrice']);
+            $aCourses[$iKey]['courseDescription'] = ($aCourse['courseDescription'] !== '') ? $aCourse['courseDescription'] : '-';
+        }
+
+        echo json_encode($aCourses);
+    }
+
     /**
      * fetchCoursesToEnroll
      */
@@ -42,7 +54,7 @@ class Courses extends BaseController
         // Get the difference of the aCourses and aEnrolledCourses by serializing the arrays and performing an array_diff.
         // Afterwards, unserialize the difference.
         $aCoursesAvailable = array_map('unserialize', (array_diff(array_map('serialize', $aCourses), array_map('serialize', $aEnrolledCourses))));
-        
+
         $aCoursesToEnroll = array();
         $aSchedules = array();
 
@@ -58,8 +70,9 @@ class Courses extends BaseController
         foreach ($aCoursesToEnroll as $aCourse) {
             $aCoursesToEnroll[$aCourse['courseId']]['schedule'] = $aSchedules[$aCourse['courseId']];
         }
-        
-        print_r($aCoursesToEnroll); die;
+
+        print_r($aCoursesToEnroll);
+        die;
         // print_r($aEnrolledCourses);
         // print_r($aCoursesAvailable); die;
     }

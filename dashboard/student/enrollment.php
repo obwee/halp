@@ -3,9 +3,9 @@ require_once "template/studentHeader.php";
 ?>
 
 <div class="container">
-	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-		<p class="h3">Enrollment</p>
-	</div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <p class="h3">Enrollment</p>
+    </div>
 
     <div class="row">
         <div class="col-sm-6">
@@ -19,7 +19,7 @@ require_once "template/studentHeader.php";
                     </select>
                 </div>
                 <div class="col-sm-9">
-                   <input type="text" class="form-control-plaintext" id="courseDetails" readonly>
+                    <input type="text" class="form-control-plaintext" id="courseDetails" readonly>
                 </div>
             </div>
             <div class="form-group row">
@@ -30,11 +30,11 @@ require_once "template/studentHeader.php";
                     <input type="text" class="form-control" id="branch" readonly>
                 </div>
                 <div class="col-sm-9">
-                   <input type="text" class="form-control-plaintext" id="branchAddress" readonly>
+                    <input type="text" class="form-control-plaintext" id="branchAddress" readonly>
                 </div>
             </div>
         </div>
-            
+
         <div class="col-sm-6">
             <div class="form-group row">
                 <label for="schedule" class="col-sm-3 col-form-label">
@@ -70,21 +70,22 @@ require_once "template/studentHeader.php";
     </div>
 </div>
 
-    <br>
-	<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+<br>
+<div class="container">
+    <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
         <p class="h3 border-bottom">Enrolled Courses</p>
-		<table id="tbl_enrollment" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
-			<thead>
-				<tr>
-					<th style="white-space:nowrap;text-align:center;">Course Code</th>
+        <table id="tbl_enrollment" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
+            <thead>
+                <tr>
+                    <th style="white-space:nowrap;text-align:center;">Course Code</th>
                     <th style="white-space:nowrap;text-align:center;">Start Date</th>
                     <th style="white-space:nowrap;text-align:center;">End Date</th>
                     <th style="white-space:nowrap;text-align:center;">Venue</th>
                     <th style="white-space:nowrap;text-align:center;">Instructor</th>
-					<th style="white-space:nowrap;text-align:center;">Actions</th>
-				</tr>
+                    <th style="white-space:nowrap;text-align:center;">Actions</th>
+                </tr>
             </thead>
-			<tbody>
+            <tbody>
                 <tr>
                     <td>20410D</td>
                     <td>Mar 5, 2020</td>
@@ -106,43 +107,40 @@ require_once "template/studentHeader.php";
             </tbody>
         </table>
     </div>
+</div>
 
-
-    <div class="modal fade" id="paymentModal" role="dialog">
-        <div class="modal-dialog modal-lg paymentModal">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: #A2C710;">
-                    <h5 align="center">Upload Payment</h5>
+<div class="modal fade" id="paymentModal" role="dialog">
+    <div class="modal-dialog modal-lg paymentModal">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #A2C710;">
+                <h5 align="center">Upload Payment</h5>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+                    <table id="tbl_enrollment" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
+                        <thead>
+                            <tr>
+                                <th style="white-space:nowrap;">Course Code</th>
+                                <th style="white-space:nowrap;">Start Date</th>
+                                <th style="white-space:nowrap;">End Date</th>
+                                <th style="white-space:nowrap;">Venue</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
-                <div class="modal-body">
-                    <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
-                        <table id="tbl_enrollment" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
-                            <thead>
-                                <tr>
-                                    <th style="white-space:nowrap;">Course Code</th>
-                                    <th style="white-space:nowrap;">Start Date</th>
-                                    <th style="white-space:nowrap;">End Date</th>
-                                    <th style="white-space:nowrap;">Venue</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="customFile">
-                        <label class="custom-file-label" for="customFile">Upload File</label>
-                    </div>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Upload File</label>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Upload</button>
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Upload</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
+</div>
 
-
-                   
-   
 <?php
 require_once "template/scripts.php";
 ?>

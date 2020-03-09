@@ -22,6 +22,8 @@ class Quotations extends BaseController
         $this->aParams = $aPostVariables;
         // Instantiate the QuotationsModel class and store it inside $this->oQuotationModel.
         $this->oQuotationModel = new QuotationsModel();
+
+        parent::__construct();
     }
 
     /**
@@ -169,8 +171,6 @@ class Quotations extends BaseController
 
         if ($aValidationResult['result'] === true) {
             Utils::sanitizeData($this->aParams);
-
-            $this->oStudentModel = new StudentModel();
 
             $iUserId = $this->oStudentModel->getUserId($this->aParams['quoteFname'], $this->aParams['quoteLname']);
             $iQuoteSenderId = $this->oQuotationModel->checkIfSenderExists($this->aParams['quoteFname'], $this->aParams['quoteLname']);
