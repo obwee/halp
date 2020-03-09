@@ -34,8 +34,8 @@ require_once "Template/header.php";
                         <td>09261759759 </td>
                         <td>
                             <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editAdminCredentialsModal"><i class="fas fa-pen"></i></button>
-                            <button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#resetPasswordModal"><i class="fas fa-undo"></i></button>
-                            <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#disableAccountModal"><i class="fas fa-times"></i></button>
+                            <button type="button" class="btn btn-dark btn-sm" id="resetPassword"><i class="fas fa-undo"></i></button>
+                            <button class="btn btn-danger btn-sm" id="disableAccount"><i class="fas fa-times"></i></button>
                         </td>
                     </tr>
                 
@@ -43,43 +43,6 @@ require_once "Template/header.php";
             </table>
         </div>
     </div>
-
-    <div class="modal fade" id="resetPasswordModal" role="dialog">
-        <div class="modal-dialog addNewAdmin">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: #A2C710;">
-                    <h5 align="center">Reset Password</h5>
-                </div>
-                
-                <div class="modal-body" align="center">
-                    Are you sure you want to reset the password for <p><strong>Angelika Aubrey Arbiol</strong></p>?
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Yes</button>
-                    <button type="submit" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="disableAccountModal" role="dialog">
-        <div class="modal-dialog disableAccount">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: #A2C710;">
-                    <h5 align="center">Reset Password</h5>
-                </div>
-                
-                <div class="modal-body" align="center">
-                    Are you sure you want to disable the account of <p><strong>Angelika Aubrey Arbiol</strong></p>?
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Yes</button>
-                    <button type="submit" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
     <div class="modal fade" id="editCredentialsModal" role="dialog">
         <div class="modal-dialog editCredentials">
@@ -227,6 +190,7 @@ require_once "template/scripts.php";
 ?>
 
 <script src="/Nexus/dashboard/admin/js/dashboard.credentials.js"></script>
+
 
 <?php
 require_once "template/footer.php";

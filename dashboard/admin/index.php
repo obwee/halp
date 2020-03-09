@@ -87,7 +87,7 @@ require_once "template/header.php";
 
     </div>
 
-    <!-- Table -->
+
     <br><br>
     <div class="container">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 mb-3 border-bottom">
@@ -148,7 +148,7 @@ require_once "template/header.php";
             </table>
         </div>
     </div>
-</div>
+</div> 
 
 <?php
 require_once "template/scripts.php";

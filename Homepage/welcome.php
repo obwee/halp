@@ -34,12 +34,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand">NEXUS ITTC</a>
+                <a class="navbar-brand" href="#my-slider">NEXUS ITTC</a>
             </div>
 
             <div class="navbar-collapse collapse" id="navbar-collapse-main">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Home</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="courses.php" target="_blank">Courses</a></li>
                     <!--    <li class="dropdown">
@@ -619,6 +618,30 @@
             </div>
         </div>
     </div>
+
+
+<!--
+    <div class="container" id="courses">
+        <div class="row">
+            <div class="col-sm-6 heading">
+                <div class="heading-course">
+                    <h2>Learning has no limits.</h2>
+                </div>
+                <div class="course-content">
+                    <p>Here at Nexus, you can enroll whichever course you want to learn. We value each student and provide the quality education and satisfaction with great assurance that when they go outside, they are more than ready to be certified and take on the IT world.</p>
+                </div>
+            </div>
+            <div class="col-sm-6 heading">
+                <div class="heading-course">
+                    <h4>The first and only IT training center in the Philippines to offer the "HYPER-CONVERGED INFRASTRUCTURE (HCI) TURN-KEY SOLUTIONS"</h4>
+                </div>
+                <div class="course-content">
+                    <p>Hyper-converged infrastructure (HCI) allows the convergence of physical storage onto industry-standard x86 servers, enabling a building block approach with scale-out capabilities.</p>
+                </div>  
+            </div>
+        </div>
+
+    </div> -->
 
     <!--SCRIPTS-->
     <!--Font Awesome-->
