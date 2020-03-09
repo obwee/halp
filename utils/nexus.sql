@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2020 at 05:45 PM
+-- Generation Time: Mar 09, 2020 at 02:50 PM
 -- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.1
+-- PHP Version: 7.4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,8 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `nexus`
 --
-CREATE DATABASE IF NOT EXISTS `nexus` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `nexus`;
 
 -- --------------------------------------------------------
 
@@ -43,10 +41,18 @@ CREATE TABLE `tbl_courses` (
 --
 
 INSERT INTO `tbl_courses` (`id`, `courseName`, `coursePrice`, `courseDescription`, `examCode`) VALUES
-(1, 'CCNA v4', '12000', 'Implementing and Administering Cisco Solutions', '200-301'),
-(2, 'CCNP', '12000', 'Implementing Cisco Enterprise Advanced Routing and Services', ''),
-(3, 'MCP', '8000', 'Windows 2012 R2', '20410'),
-(4, 'Ethical Hacking with Penetration Testing', '3000', '', '');
+(1, 'Cisco Certified Network Associate v4', '0', 'Implementing and Administering Cisco Solutions', 'CCNAv4'),
+(2, 'Cisco Certified Network Professional', '0', 'Enterprise Core', 'CCNP ENCORE'),
+(3, 'Cisco Certified Network Professional', '0', 'Implementing Cisco Enterprise Advanced Routing and Services', 'CCNP&CCIE'),
+(4, 'MCP 20410D', '0', 'Installing and Configuring Windows Server 2012', '20410D'),
+(5, 'MCSA in Windows Server 2016', '0', 'Microsoft Certified Solutions Associate in Windows Server 2016', 'MCSA2016'),
+(6, 'MCSA in Windows Server 2012', '0', 'Microsoft Certified Solutions Associate in Windows Server 2012', 'MCSA2012'),
+(7, 'Microsoft Azure Administrator', '0', '', 'AZ-1003T00-A'),
+(8, 'AWS - Solutions Architecht', '0', 'Amazon Web Services Solutions Architect', 'AWS'),
+(9, 'VMware 6.7 ICM', '0', 'Vmware vSphere 6.7: Install, Configure and Manage', 'VMware'),
+(10, 'Vmware Hyper-Converged Infrastructure', '0', '', 'HCI'),
+(11, 'Ethical Hacking & Penetration Testing', '0', '', 'EH'),
+(12, 'Certified Digital Forensics Examiner', '0', '', 'CDFE');
 
 -- --------------------------------------------------------
 
@@ -383,7 +389,7 @@ ALTER TABLE `tbl_venue`
 -- AUTO_INCREMENT for table `tbl_courses`
 --
 ALTER TABLE `tbl_courses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_emails`
