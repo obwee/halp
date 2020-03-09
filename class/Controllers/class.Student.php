@@ -130,6 +130,6 @@ class Student extends BaseController
             ':userId' => $iUserId
         );
 
-        return $this->oStudentModel->getUserDetails($aUserId);
+        echo json_encode($this->oStudentModel->getUserDetails($aUserId));
     }
 }

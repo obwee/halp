@@ -111,7 +111,7 @@ require_once "Template/header.php";
 require_once "template/scripts.php";
 ?>
 
-<script src="js/dashboard.salesReport.js"></script>
+<script src="/Nexus/dashboard/admin/js/dashboard.salesReport.js"></script>
 
 <?php
 require_once "template/footer.php";

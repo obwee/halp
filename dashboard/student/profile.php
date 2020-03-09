@@ -86,7 +86,11 @@ require_once "template/studentHeader.php";
 require_once "template/scripts.php";
 ?>
 
+<<<<<<< HEAD:dashboard/studentProfile.php
 <script src="js/studentDash.Enrollment.js"></script>
+=======
+    <script src="student/js/studentDash.Enrollment.js"></script>
+>>>>>>> 19b0052ac9cc4ba35953488a4e96bc8b65a786f3:dashboard/student/profile.php
 
 <?php
 require_once "template/studentFooter.php";

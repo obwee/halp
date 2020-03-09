@@ -348,7 +348,6 @@ class Quotations extends BaseController
         $aSenderDetails = array_splice($this->aParams, 3, 3);
         $aSenderDetails['sCompanyName'] = ($aCourseDetails[0]['isCompanySponsored'] == 0) ? 'N/A' : $aCourseDetails[0]['companyName'];
 
-        print_r($aSenderDetails); die;
         $this->oQuotationModel->approveQuotation(array_splice($aIds, 0, -1));
 
         $this->processSendingEmail($aSenderDetails, $aCourseDetails);
@@ -401,21 +400,18 @@ class Quotations extends BaseController
         $this->oStudentModel = new StudentModel();
         $iUserId = $this->oStudentModel->getUserId($aStudentDetails[0], $aStudentDetails[1]);
         
-        print_r($aStudentDetails); die;
-        $aValidationResult = Validations::validateQuotationInputs($this->aParams);
+        $aValidationResult = Validations::validateQuotationInputsForEdit($this->aParams);
 
         if ($aValidationResult['result'] === true) {
             Utils::sanitizeData($this->aParams);
-            Utils::prepareData($this->aParams, 'quotation');
+            Utils::prepareData($this->aParams, 'updateQuotation');
 
-
-            $iSenderId = 0;
             $sDateNow = date('Y-m-d H:i:s');
 
             foreach ($this->aParams[':quoteCourses'] as $iKey => $mValue) {
                 $aQuotationDetails = array(
                     ':userId'             => $iUserId,
-                    ':senderId'           => $iSenderId,
+                    ':senderId'           => 0,
                     ':courseId'           => $this->aParams[':quoteCourses'][$iKey],
                     ':scheduleId'         => $this->aParams[':quoteSchedules'][$iKey],
                     ':numPax'             => $this->aParams[':quoteNumPax'][$iKey],
