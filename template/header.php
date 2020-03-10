@@ -147,7 +147,7 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="/Nexus/dashboard/admin/editCourse"><i class="fas fa-book"></i>&emsp;Courses</a></li>
+                            <li><a href="/Nexus/dashboard/admin/courses"><i class="fas fa-book"></i>&emsp;Courses</a></li>
                             <li><a href="/Nexus/dashboard/admin/schedule"><i class="far fa-calendar-alt"></i>&emsp; Schedule</a></li>
                         </ul>
                     </li>

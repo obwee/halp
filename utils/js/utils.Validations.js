@@ -440,32 +440,32 @@ class Validations {
     }
 
     // This method validates the inputs of the user before submission for course addition.
-    validateAddCourseInputs() {
+    validateAddUpdateCourseInputs() {
         // Declare an object with properties related to inputs that need to be validated.
         let addCourseRules = [
             {
                 name: 'Course code',
-                element: '#courseCode',
-                length: $.trim($('#courseCode').val()).length,
+                element: '.courseCode',
+                length: $.trim($('.courseCode').val()).length,
                 minLength: 2,
                 maxLength: 10,
-                pattern: /^[a-zA-Z0-9\s\.]+$/g,
+                pattern: /^[a-zA-Z0-9&\-\s\.]+$/g,
             },
             {
                 name: 'Course title',
-                element: '#courseTitle',
-                length: $.trim($('#courseTitle').val()).length,
+                element: '.courseTitle',
+                length: $.trim($('.courseTitle').val()).length,
                 minLength: 2,
                 maxLength: 50,
-                pattern: /^[a-zA-Z0-9\s\.]+$/g,
+                pattern: /^[a-zA-Z0-9&\-\s\.]+$/g,
             },
             {
                 name: 'Course details',
-                element: '#courseDetails',
-                length: $.trim($('#courseDetails').val()).length,
+                element: '.courseDetails',
+                length: $.trim($('.courseDetails').val()).length,
                 minLength: 0,
                 maxLength: 50,
-                pattern: /^[a-zA-Z0-9\s\.]+$/g,
+                pattern: /^[a-zA-Z0-9&\-\s\.]+$/g,
             }
         ];
 
@@ -503,18 +503,18 @@ class Validations {
         });
 
         if (validationResult.result === true) {
-            if ($('#courseAmount').val() == '' || $('#courseAmount').val() <= 0) {
+            if ($('.courseAmount').val() == '' || $('.courseAmount').val() <= 0) {
                 return {
                     result: false,
-                    element: '#courseAmount',
+                    element: '.courseAmount',
                     msg: 'Course amount cannot be empty/zero.'
                 };
             }
 
-            if (/^[0-9]+$/g.test($('#courseAmount').val()) === false) {
+            if (/^[0-9]+$/g.test($('.courseAmount').val()) === false) {
                 return {
                     result: false,
-                    element: '#courseAmount',
+                    element: '.courseAmount',
                     msg: 'Invalid course amount.'
                 };
             }

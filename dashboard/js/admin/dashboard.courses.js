@@ -1,6 +1,7 @@
-var oEditCourse = (() => {
+var oCourses = (() => {
 
     let oTblCourses = $('#tbl_courses');
+    let aCourses = [];
 
     let oColumns = {
         aCourses: [
@@ -11,17 +12,19 @@ var oEditCourse = (() => {
                 title: 'Official Course Title', className: 'text-center', data: 'courseName'
             },
             {
-                title: 'Details', className: 'text-center', data: 'courseDescription'
+                title: 'Details', className: 'text-center', render: (aData, oType, oRow) =>
+                    (oRow.courseDescription === '') ? '' : oRow.courseDescription
             },
             {
-                title: 'Amount', className: 'text-center', data: 'coursePrice'
+                title: 'Amount', className: 'text-center', render: (aData, oType, oRow) =>
+                    'P' + parseInt(oRow.coursePrice, 10).toLocaleString()
             },
             {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
-                    `<button class="btn btn-warning btn-sm" data-toggle="modal" id="editRequest" data-id="${oRow.id}">
+                    `<button class="btn btn-warning btn-sm" data-toggle="modal" id="editCourse" data-id="${oRow.id}">
                         <i class="fa fa-pencil-alt"></i>
                     </button>
-                    <button class="btn btn-danger btn-sm" data-toggle="modal" id="deleteRequest" data-id="${oRow.id}">
+                    <button class="btn btn-danger btn-sm" data-toggle="modal" id="deleteCourse" data-id="${oRow.id}">
                         <i class="fa fa-trash"></i>
                     </button>`
             },
@@ -35,6 +38,44 @@ var oEditCourse = (() => {
 
     function setEvents() {
         oForms.prepareDomEvents();
+
+        $(document).on('click', '#editCourse', function() {
+            let iCourseId = $(this).attr('data-id');
+
+            // Get the course by filtering the fetched courses using the course ID.
+            let oCourse = aCourses.filter((aCourse) => {
+                return aCourse.id == iCourseId
+            })[0];
+
+            // Populate the fields with its corresponding data from the table.
+            $('.courseId').val(oCourse.id);
+            $('.courseCode').val(oCourse.courseCode);
+            $('.courseTitle').val(oCourse.courseName);
+            $('.courseDetails').val((oCourse.courseDescription === '-') ? '' : oCourse.courseDescription);
+            $('.courseAmount').val(oCourse.coursePrice);
+
+            $('#editCourseModal').modal('show');
+        });
+
+        $(document).on('click', '#deleteCourse', function() {
+            Swal.fire({
+                title: 'Delete the course?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((bResult) => {
+                if (bResult.value === true) {
+                    let oDetails = {
+                        iCourseId: $(this).attr('data-id')
+                    };
+                    oLibraries.displayAlertMessage('success', deleteCourse(oDetails));
+                    populateCoursesTable();
+                }
+            });
+        });
     
         $(document).on('submit', 'form', function(oEvent) {
             oEvent.preventDefault();
@@ -42,12 +83,17 @@ var oEditCourse = (() => {
             // Create an object with key names of forms and its corresponding validation and request action as its value.
             let oInputForms = {
                 '#addCourseForm': {
-                    'validationMethod': oValidations.validateAddCourseInputs(),
+                    'validationMethod': oValidations.validateAddUpdateCourseInputs(),
                     'requestClass': 'Courses',
                     'requestAction': 'addCourse'
+                },
+                '#editCourseForm': {
+                    'validationMethod': oValidations.validateAddUpdateCourseInputs(),
+                    'requestClass': 'Courses',
+                    'requestAction': 'updateCourse'
                 }
             }
-
+            
             // Get the form name being submitted.
             let formName = '#' + $(this).attr('id') + '';
 
@@ -70,53 +116,19 @@ var oEditCourse = (() => {
                 // Extract form data.
                 let formData = $(formName).serializeArray();
 
-                let aSelectedCourses = [];
-                let aSelectedSchedules = [];
-                let aSelectedNumPax = [];
-
-                // Get courses.
-                $('select[name="quoteCourse[]"]:visible').each(function () {
-                    aSelectedCourses.push($(this).val());
-                });
-
-                // Get schedules.
-                $('select[name="quoteSchedule[]"]:visible').each(function () {
-                    aSelectedSchedules.push($(this).val());
-                });
-
-                // Get numpax.
-                $('input[name="numPax[]"]:visible').each(function () {
-                    aSelectedNumPax.push($(this).val());
-                });
-
-                // Remove unnecessary data to be sent in AJAX request.
-                formData = formData.filter(function (sFormKey) {
-                    return sFormKey.name != 'quoteCourse[]' && sFormKey.name != 'quoteSchedule[]' && sFormKey.value !== '';
-                });
-
-                formData.push({ 'name': 'quoteCourses', 'value': aSelectedCourses });
-                formData.push({ 'name': 'quoteSchedules', 'value': aSelectedSchedules });
-                formData.push({ 'name': 'quoteNumPax', 'value': aSelectedNumPax });
-
-                if (formName === '#editRequestForm') {
-                    formData.push({ 'name': ':senderId', 'value': oEditIds.iSenderId });
-                    formData.push({ 'name': ':userId', 'value': oEditIds.iUserId });
-                    formData.push({ 'name': ':dateRequested', 'value': oEditIds.sDateRequested });
-                }
-
                 // Execute AJAX request.
                 $.ajax({
                     url: `/Nexus/utils/ajax.php?class=${requestClass}&action=${requestAction}`,
                     type: 'post',
                     data: formData,
                     dataType: 'json',
-                    success: function (response) {
-                        if (response.result === true) {
+                    success: function (oResponse) {
+                        if (oResponse.bResult === true) {
                             $(formName).parents().find('div.modal').modal('hide');
-                            populateSendersTable();
-                            oLibraries.displayAlertMessage('success', response.msg);
+                            populateCoursesTable();
+                            oLibraries.displayAlertMessage('success', oResponse.sMsg);
                         } else {
-                            oLibraries.displayErrorMessage(formName, response.msg, response.element);
+                            oLibraries.displayErrorMessage(formName, oResponse.sMsg, oResponse.sElement);
                         }
                     },
                     error: function () {
@@ -130,12 +142,25 @@ var oEditCourse = (() => {
         });
     }
 
+    function deleteCourse(oData) {
+        $.ajax({
+            url: '/Nexus/utils/ajax.php?class=Courses&action=deleteCourse',
+            type: 'POST',
+            data: oData,
+            dataType: 'json',
+            success: function (oResponse) {
+                return oResponse.sMsg;
+            }
+        });
+    }
+
     function populateCoursesTable() {
         let oAjax = {
             url: `/Nexus/utils/ajax.php?class=Courses&action=fetchAllCourses`,
             type: 'GET',
             dataType: 'JSON',
             dataSrc: function (oData) {
+                aCourses = oData;
                 return oData;
             },
             async: false
@@ -174,5 +199,5 @@ var oEditCourse = (() => {
 })();
 
 $(document).ready(function() {
-    oEditCourse.initialize();
+    oCourses.initialize();
 });
