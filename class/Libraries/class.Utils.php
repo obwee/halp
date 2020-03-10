@@ -77,6 +77,12 @@ class Utils
                     ':quoteBillToCompany',
                     ':quoteSchedules'
                 )
+            ),
+            'addUpdateCourse'  => array(
+                'validationRule'    => Validations::$aAddUpdateCourseRules,
+                'notRequiredInputs' => array(
+                    'courseDetails'
+                ) 
             )
         );
 
@@ -97,7 +103,7 @@ class Utils
             $aParams[$aInputRule['sColumnName']] = $sInput;
             // Unset old keys.
             unset($aParams[$aInputRule['sElement']]);
-            // Unset confirm password field.
+            // Unset confirm password field, if any.
             unset($aParams['registrationConfirmPassword']);
         }
 
