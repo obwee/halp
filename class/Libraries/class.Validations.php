@@ -170,6 +170,33 @@ class Validations
         )
     );
 
+    public static $aAddUpdateCourseRules = array(
+        array(
+            'sName'       => 'Course code',
+            'sElement'    => 'courseCode',
+            'sColumnName' => ':courseCode',
+            'iMinLength'  => 2,
+            'iMaxLength'  => 10,
+            'oPattern'    => '/^[a-zA-Z0-9&\-\s\.]+$/'
+        ),
+        array(
+            'sName'       => 'Course title',
+            'sElement'    => 'courseTitle',
+            'sColumnName' => ':courseName',
+            'iMinLength'  => 2,
+            'iMaxLength'  => 50,
+            'oPattern'    => '/^[a-zA-Z0-9&\-\s\.]+$/'
+        ),
+        array(
+            'sName'       => 'Course details',
+            'sElement'    => 'courseDetails',
+            'sColumnName' => ':courseDescription',
+            'iMinLength'  => 0,
+            'iMaxLength'  => 50,
+            'oPattern'    => '/^[a-zA-Z0-9&\-\s\.]+$/'
+        ),
+    );          
+
     /**
      * validateRegistrationInputs
      * Method for validating registration inputs sent by AJAX.
@@ -514,6 +541,74 @@ class Validations
         array_push(self::$aQuoteToEditRules, array(
             'sElement'    => 'quoteNumPax',
             'sColumnName' => ':quoteNumPax'
+        ));
+
+        // Return the result of the validation.
+        return $aValidationResult;
+    }
+
+    /**
+     * validateAddUpdateCourseInputs
+     * Method for validating add course inputs sent by AJAX.
+     */
+    public static function validateAddUpdateCourseInputs($aParams)
+    {
+        // Prepare the validation result.
+        $aValidationResult = array(
+            'bResult' => true
+        );
+
+        // Loop thru each inputRules and if there are rules violated, return false and the error message.
+        foreach (self::$aAddUpdateCourseRules as $aInputRule) {
+            $sInput = trim($aParams[$aInputRule['sElement']]);
+
+            if (strlen($sInput) < $aInputRule['iMinLength']) {
+                $aValidationResult = array(
+                    'bResult'  => false,
+                    'sElement' => '.' . $aInputRule['sElement'],
+                    'sMsg'     => $aInputRule['sName'] . ' must be minimum of ' . $aInputRule['iMinLength'] . ' characters.'
+                );
+                break;
+            }
+            if (strlen($sInput) > $aInputRule['iMaxLength']) {
+                $aValidationResult = array(
+                    'bResult'  => false,
+                    'sElement' => '.' . $aInputRule['sElement'],
+                    'sMsg'     => $aInputRule['sName'] . ' must be maximum of ' . $aInputRule['iMaxLength'] . ' characters.'
+                );
+                break;
+            }
+            if (!preg_match($aInputRule['oPattern'], $sInput)) {
+                $aValidationResult = array(
+                    'bResult'  => false,
+                    'sElement' => '.' . $aInputRule['sElement'],
+                    'sMsg'     => $aInputRule['sName'] . ' input is invalid.'
+                );
+                break;
+            }
+        }
+
+        if ($aValidationResult['bResult'] === true) {
+            if (empty($aParams['courseAmount']) === true || $aParams['courseAmount'] <= 0) {
+                return array(
+                    'bResult'  => false,
+                    'sElement' => '.courseAmount',
+                    'sMsg'     => 'Course amount cannot be empty/zero.'
+                );
+            }
+            if (!preg_match('/^[0-9]+$/', $aParams['courseAmount'])) {
+                return array(
+                    'bResult'  => false,
+                    'sElement' => '.courseAmount',
+                    'sMsg'     => 'Invalid course amount.'
+                );
+            }
+        }
+
+        // Add course amount inside the $aAddCourseRules array for data preparation.
+        array_push(self::$aAddUpdateCourseRules, array(
+            'sElement'    => 'courseAmount',
+            'sColumnName' => ':coursePrice'
         ));
 
         // Return the result of the validation.

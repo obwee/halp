@@ -14,6 +14,65 @@ class CourseModel
         $this->oConnection = new dbConnection();
     }
 
+    public function addCourse($aCourseDetails)
+    {
+        // Prepare an insert query.
+        $statement = $this->oConnection->prepare("
+            INSERT INTO tbl_courses
+                (courseName, coursePrice, courseDescription, courseCode)
+            VALUES
+                (:courseName, :coursePrice, :courseDescription, :courseCode)
+        ");
+
+        // Return the result of the execution of the above statement.
+        return $statement->execute($aCourseDetails);
+    }
+
+    public function updateCourse($aCourseDetails)
+    {
+        // Prepare an insert query.
+        $statement = $this->oConnection->prepare("
+            UPDATE tbl_courses
+            SET
+                courseName = :courseName,
+                coursePrice = :coursePrice,
+                courseDescription = :courseDescription,
+                courseCode = :courseCode
+            WHERE id = :courseId
+        ");
+
+        // Return the result of the execution of the above statement.
+        return $statement->execute($aCourseDetails);
+    }
+
+    public function deleteCourse($aCourseId)
+    {
+        // Prepare a delete query for the tbl_quotation_details table.
+        $statement = $this->oConnection->prepare("
+            DELETE FROM tbl_courses
+            WHERE id = :id
+        ");
+
+        // Execute the above statement along with the needed where clauses then return.
+        return $statement->execute($aCourseId);
+    }
+
+    public function fetchAllCourses()
+    {
+        // Query the tbl_courses.
+        $statement = $this->oConnection->prepare("
+            SELECT *
+            FROM tbl_courses tc
+            ORDER BY tc.courseName ASC
+        ");
+
+        // Execute the above statement.
+        $statement->execute();
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetchAll();
+    }
+
     public function fetchCourses()
     {
         // Query the tbl_courses.

@@ -47,7 +47,7 @@ require_once "Template/header.php";
 
 <div class="modal fade" id="addScheduleModal" role="dialog">
     <div class="modal-dialog addScheduleModal">
-        <div class="modal-content" >
+        <div class="modal-content">
             <div class="modal-header" style="background-color: #A2C710;">
                 <h5 align="center"><span class="fas fa-calendar"></span> Add New Schedule</h5>
             </div>
@@ -56,8 +56,13 @@ require_once "Template/header.php";
                 <form>
                     <div class="form-group">
                         <label for="courseTitle"><span class="fas fa-book"></span> Select Course</label>
+                        <select class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseVenue"><span class="fas fa-map"></span> Select Venue</label>
                         <select class="form-control">
-
+                            <option>Makati</option>
+                            <option>Manila</option>
                         </select>
                     </div>
                     <div class="form-inline" style="margin-left: 15px;">
@@ -72,14 +77,7 @@ require_once "Template/header.php";
                     </div>
                     <br>
                     <div class="form-group">
-                        <label for="courseVenue"><span class="fas fa-map"></span> Select Venue</label>
-                        <select class="form-control">
-                            <option>Makati</option>
-                            <option>Manila</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="courseVenue"><span class="fas fa-users"></span> No. of Students</label>
+                        <label for="noOfStudents"><span class="fas fa-users"></span> No. of Students</label>
                         <input type="text" name="noOfStudents" class="form-control">
                     </div>
                     <div class="form-group">
@@ -107,13 +105,17 @@ require_once "Template/header.php";
             <div class="modal-header" style="background-color: #A2C710;">
                 <h5 align="center"><span class="fas fa-calendar"></span> Edit Schedule</h5>
             </div>
-
             <div class="modal-body">
                 <form>
                     <div class="form-group">
                         <label for="courseTitle"><span class="fas fa-book"></span> Select Course</label>
+                        <select class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseVenue"><span class="fas fa-map"></span> Select Venue</label>
                         <select class="form-control">
-
+                            <option>Makati</option>
+                            <option>Manila</option>
                         </select>
                     </div>
                     <div class="form-inline" style="margin-left: 15px;">
@@ -127,13 +129,6 @@ require_once "Template/header.php";
                         </div>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                     </div>
                     <br>
-                    <div class="form-group">
-                        <label for="courseVenue"><span class="fas fa-map"></span> Select Venue</label>
-                        <select class="form-control">
-                            <option>Makati</option>
-                            <option>Manila</option>
-                        </select>
-                    </div>
                     <div class="form-group">
                         <label for="courseVenue"><span class="fas fa-users"></span> No. of Students</label>
                         <input type="text" name="noOfStudents" class="form-control">

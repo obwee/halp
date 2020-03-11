@@ -439,6 +439,91 @@ class Validations {
         return validationResult;
     }
 
+    // This method validates the inputs of the user before submission for course addition.
+    validateAddUpdateCourseInputs() {
+        // Declare an object with properties related to inputs that need to be validated.
+        let addCourseRules = [
+            {
+                name: 'Course code',
+                element: '.courseCode',
+                length: $.trim($('.courseCode').val()).length,
+                minLength: 2,
+                maxLength: 10,
+                pattern: /^[a-zA-Z0-9&\-\s\.]+$/g,
+            },
+            {
+                name: 'Course title',
+                element: '.courseTitle',
+                length: $.trim($('.courseTitle').val()).length,
+                minLength: 2,
+                maxLength: 50,
+                pattern: /^[a-zA-Z0-9&\-\s\.]+$/g,
+            },
+            {
+                name: 'Course details',
+                element: '.courseDetails',
+                length: $.trim($('.courseDetails').val()).length,
+                minLength: 0,
+                maxLength: 50,
+                pattern: /^[a-zA-Z0-9&\-\s\.]+$/g,
+            }
+        ];
+
+        // Declare initially the validation result to be returned by the function.
+        let validationResult = {
+            result: true
+        }
+
+        // Loop thru each emailInputRules and if there are rules violated, return false and the error message.
+        $.each(addCourseRules, function (key, inputRule) {
+            if (inputRule.length < inputRule.minLength) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
+                };
+                return false;
+            }
+            if (inputRule.length > inputRule.maxLength) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
+                };
+                return false;
+            }
+            if (inputRule.pattern.test($(inputRule.element).val()) === false) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' input is invalid.'
+                };
+                return false;
+            }
+        });
+
+        if (validationResult.result === true) {
+            if ($('.courseAmount').val() == '' || $('.courseAmount').val() <= 0) {
+                return {
+                    result: false,
+                    element: '.courseAmount',
+                    msg: 'Course amount cannot be empty/zero.'
+                };
+            }
+
+            if (/^[0-9]+$/g.test($('.courseAmount').val()) === false) {
+                return {
+                    result: false,
+                    element: '.courseAmount',
+                    msg: 'Invalid course amount.'
+                };
+            }
+        }
+
+        // Return the result of the validation.
+        return validationResult;
+    }
+
 };
 
 let oValidations = new Validations();

@@ -28,6 +28,83 @@ class Courses extends BaseController
         parent::__construct();
     }
 
+    public function addCourse()
+    {
+        $aResult = array();
+        $aValidationResult = Validations::validateAddUpdateCourseInputs($this->aParams);
+
+        if ($aValidationResult['bResult'] === true) {
+            Utils::sanitizeData($this->aParams);
+            Utils::prepareData($this->aParams, 'addUpdateCourse');
+
+            $aResult = $this->oCourseModel->addCourse($this->aParams);
+
+            if ($aResult === true) {
+                $aResult = array(
+                    'bResult' => true,
+                    'sMsg'    => 'Course added!'
+                );
+            } else {
+                $aResult = array(
+                    'bResult' => false,
+                    'sMsg'    => 'An error has occurred. Please try again.'
+                );
+            }
+        } else {
+            $aResult = $aValidationResult;
+        }
+        echo json_encode($aResult);
+    }
+
+    public function updateCourse()
+    {
+        $aResult = array();
+        $aValidationResult = Validations::validateAddUpdateCourseInputs($this->aParams);
+
+        if ($aValidationResult['bResult'] === true) {
+            Utils::sanitizeData($this->aParams);
+            Utils::prepareData($this->aParams, 'addUpdateCourse');
+
+            $aResult = $this->oCourseModel->updateCourse($this->aParams);
+
+            if ($aResult === true) {
+                $aResult = array(
+                    'bResult' => true,
+                    'sMsg'    => 'Course updated!'
+                );
+            } else {
+                $aResult = array(
+                    'bResult' => false,
+                    'sMsg'    => 'An error has occurred. Please try again.'
+                );
+            }
+        } else {
+            $aResult = $aValidationResult;
+        }
+        echo json_encode($aResult);
+    }
+
+    public function deleteCourse()
+    {
+        $aIds = array(
+            ':id' => $this->aParams['iCourseId']
+        );
+
+        $this->oCourseModel->deleteCourse($aIds);
+
+        echo json_encode(
+            array(
+                'result' => true,
+                'msg'    => 'Quotation deleted!'
+            )
+        );
+    }
+
+    public function fetchAllCourses()
+    {
+        echo json_encode($this->oCourseModel->fetchAllCourses());
+    }
+
     /**
      * fetchCoursesToEnroll
      */
@@ -39,10 +116,12 @@ class Courses extends BaseController
 
         $aCourses = $this->oCourseModel->fetchCourses();
         $aEnrolledCourses = $this->oCourseModel->fetchEnrolledCourses($aStudentId);
-        // Get the difference of the aCourses and aEnrolledCourses by serializing the arrays and performing an array_diff.
+
+        // Get the difference of the aCourses array and aEnrolledCourses array
+        // by serializing the arrays and performing an array_diff.
         // Afterwards, unserialize the difference.
         $aCoursesAvailable = array_map('unserialize', (array_diff(array_map('serialize', $aCourses), array_map('serialize', $aEnrolledCourses))));
-        
+
         $aCoursesToEnroll = array();
         $aSchedules = array();
 
@@ -58,8 +137,9 @@ class Courses extends BaseController
         foreach ($aCoursesToEnroll as $aCourse) {
             $aCoursesToEnroll[$aCourse['courseId']]['schedule'] = $aSchedules[$aCourse['courseId']];
         }
-        
-        print_r($aCoursesToEnroll); die;
+
+        print_r($aCoursesToEnroll);
+        die;
         // print_r($aEnrolledCourses);
         // print_r($aCoursesAvailable); die;
     }
