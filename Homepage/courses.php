@@ -1,11 +1,22 @@
 <?php
 
-inlcude_once "utils/dbconnection.php";
+$host = "localhost";
+$username = "root";
+$password = "";
+$database = "nexus";
 
+$con = new mysqli($host, $username, $password, $database);
+
+if($con->connect_error){
+	echo $con->connect_error;
+}
+
+$sql = "SELECT * FROM tbl_courses";
+$courses = $con->query($sql) or die ($con->error);
+$aCourses = $courses->fetch_assoc();
 
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +39,13 @@ inlcude_once "utils/dbconnection.php";
 
 	<div class="container"> 
 		<div>
-			<h2 style="font-family: sans-serif;">COURSE CALENDAR</h2>
+			<h3 style="font-family: 'Bebas Neue', cursive;font-size:50px;text-align:center;">NEXUS IT TRAINING CENTER</h3>
+			<h3 style="font-family: 'Bebas Neue', cursive;font-size:40px;text-align:center;">COURSES OFFERED</h3>
+			
+			<div class="col-sm-12" align="center">
+				<a href="https://www.tiny.cc/erihez" target="_blank" style="text-decoration:none;font-size:20px;">View Course Outline |</a>
+				<a href="calendar.php" target="_blank" style="text-decoration:none;font-size:20px;">View Course Calendar</a>
+			</div>
 		</div>
 		<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
 			<table id="tbl_courses" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
@@ -37,26 +54,23 @@ inlcude_once "utils/dbconnection.php";
 						<th style="white-space:nowrap;">Course Code</th>
                         <th style="white-space:nowrap;">Official Course Title</th>
                         <th style="white-space:nowrap;">Details</th>
-						<th style="white-space:nowrap;">Venue</th>
-						<th style="white-space:nowrap;">Schedule</th>
+						<th style="white-space:nowrap;">Price</th>
 					</tr>
 				</thead>	
 				<tbody>
-                    <tr>
-                        <td>CCNAv4</td>
-                        <td>Cisco Certified Network Associate v4</td>
-                        <td>Implementing and Administering Cisco Solutions</td>
-                        <td>
-                        	<select class="form-control">
-                        		<option>Makati</option>
-                        		<option>Manila</option>
-                        	</select>
-                        </td>
-                        <td></td>
-                    </tr>
-					
+					<?php do{ ?>
+					<tr>
+						<td><?php echo $aCourses['examCode'];?></td>
+						<td><?php echo $aCourses['courseName'];?></td>
+						<td><?php echo $aCourses['courseDescription'];?></td>
+						<td><?php echo $aCourses['coursePrice'];?></td>
+					</tr>
+				<?php }while($aCourses = $courses->fetch_assoc())?>
                 </tbody>
 			</table>
+
+			<p style="text-align:center;font-size:18px;">**All prices are subject to change without prior notice.</p>
+			<p style="text-align:center;font-size:18px;">**All prices are TAX inclusive.</p>
 		</div>
 
 <!--SCRIPTS--> 
@@ -66,8 +80,7 @@ inlcude_once "utils/dbconnection.php";
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!--Bootstrap-->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<!--Sweet Alert-->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 
 <script src="js/homepage.js"></script>
 
