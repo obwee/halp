@@ -3,98 +3,44 @@ require_once "Template/header.php";
 ?>
 
 <div class="container">
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <p class="h2">Schedules</p>
-
-    </div>
-
-    <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
-        <div align="right">
-            <button type="button" id="addNewCourse" data-toggle="modal" data-target="#addScheduleModal" class="btn btn-info btn-lg">Add New Schedule</button>
-            <br><br>
-        </div>
-        <table id="tbl_courses" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
-            <thead>
-                <tr>
-                    <th style="white-space:nowrap;">Official Course Title</th>
-                    <th style="white-space:nowrap;">Official Course Title</th>
-                    <th style="white-space:nowrap;">Start</th>
-                    <th style="white-space:nowrap;">End</th>
-                    <th style="white-space:nowrap;">Venue</th>
-                    <th style="white-space:nowrap;">No. of Students</th>
-                    <th style="white-space:nowrap;">Instructor</th>
-                    <th style="white-space:nowrap;">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>CCNAv4</td>
-                    <td>Cisco Certified Network Associate V4: Implementing and Administering Cisco Solutions</td>
-                    <td>Mar 5, 2020</td>
-                    <td>Mar 10, 2020</td>
-                    <td>Manila</td>
-                    <td>15</td>
-                    <td>Christopher Buenaventura</td>
-                    <td>
-                        <button type="button" id="editSchedule" data-toggle="modal" data-target="#editScheduleModal" class="btn btn-info btn-sm"><i class="fas fa-pen"></i></button>
-                        <button type="submit" id="deleteSchedule" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <div class="container" id='calendar'></div>
 </div>
 
-<div class="modal fade" id="addScheduleModal" role="dialog">
-    <div class="modal-dialog addScheduleModal">
+<div class="modal fade" id="addScheduleModal" tabindex="-1" role="dialog" aria-labelledby="addScheduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #A2C710;">
-                <h5 align="center"><span class="fas fa-calendar"></span> Add New Schedule</h5>
+                <h5 class="modal-title" id="addScheduleModalLabel">New Schedule</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-
-            <div class="modal-body">
-                <form>
+            <form id="addScheduleForm">
+                <div class="modal-body">
                     <div class="form-group">
-                        <label for="courseTitle"><span class="fas fa-book"></span> Select Course</label>
-                        <select class="form-control"></select>
+                        <label for="eventName" class="col-form-label">Course Name:</label>
+                        <input type="text" class="form-control" name="eventName" id="eventName">
                     </div>
-                    <div class="form-group">
-                        <label for="courseVenue"><span class="fas fa-map"></span> Select Venue</label>
-                        <select class="form-control">
-                            <option>Makati</option>
-                            <option>Manila</option>
-                        </select>
-                    </div>
-                    <div class="form-inline" style="margin-left: 15px;">
-                        <div class="col-xs-4">
-                            <label for="date1"><span class="fas fa-angle-double-left"></span>Start Date</label>
-                            <input type="date" class="form-control" id="date1" name="date1" placeholder="From" required style="margin-left:16px;width:185px;" max="2999-12-31">
-                        </div>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                        <div class="col-xs-4">
-                            <label for="date2"><span class="fas fa-angle-double-right"></span>End Date</label>
-                            <input type="date" class="form-control" id="date2" name="date2" placeholder="To" required style="margin-left:16px;width:185px;" max="2999-12-31">
-                        </div>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <label for="noOfStudents"><span class="fas fa-users"></span> No. of Students</label>
-                        <input type="text" name="noOfStudents" class="form-control">
+                    <div class="form-group row">
+                        <div class="col-6">
+                            <label for="fromDate" class="col-form-label">From:</label>
+                            <input type="text" class="form-control" name="fromDate" id="fromDate" readonly>
+                        </div>
+                        <div class="col-6">
+                            <label for="toDate" class="col-form-label">To:</label>
+                            <input type="text" class="form-control" name="toDate" id="toDate" readonly>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="courseInstructor"><span class="fas fa-chalkboard-teacher"></span> Instructor</label>
-                        <select class="form-control">
-                            <option>Christopher Buenaventura</option>
-                            <option>Richard Reblando</option>
-                            <option>Judith Salvidar</option>
-                            <option>Mark Sampayan</option>
-                        </select>
+                        <label for="message-text" class="col-form-label">Instructor:</label>
+                        <input type="text" class="form-control" name="instructorName" id="instructorName"></input>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Add</button>
-                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="addScheduleBtn">Add Schedule</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -121,11 +67,11 @@ require_once "Template/header.php";
                     <div class="form-inline" style="margin-left: 15px;">
                         <div class="col-xs-4">
                             <label for="date1"><span class="fas fa-angle-double-left"></span>Start Date</label>
-                            <input type="date" class="form-control" id="date1" name="date1" placeholder="From" required style="margin-left:16px;width:185px;" max="2999-12-31">
+                            <input type="text" class="form-control" id="fromDate" name="fromDate" placeholder="From" required style="margin-left:16px;width:185px;" readonly>
                         </div>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                         <div class="col-xs-4">
                             <label for="date2"><span class="fas fa-angle-double-right"></span>End Date</label>
-                            <input type="date" class="form-control" id="date2" name="date2" placeholder="To" required style="margin-left:16px;width:185px;" max="2999-12-31">
+                            <input type="text" class="form-control" id="toDate" name="toDate" placeholder="To" required style="margin-left:16px;width:185px;" readonly>
                         </div>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                     </div>
                     <br>
@@ -150,13 +96,19 @@ require_once "Template/header.php";
             </div>
         </div>
     </div>
+</div>
 
-    <?php
-    require_once "template/scripts.php";
-    ?>
+<?php
+require_once "template/calendarCssAndScripts.php";
+require_once "template/scripts.php";
+?>
 
-    <script src="/Nexus/dashboard/admin/js/dashboard.schedule.js"></script>
+<script src="/Nexus/utils/js/utils.Libraries.js"></script>
+<script src="/Nexus/utils/js/utils.Validations.js"></script>
+<script src="/Nexus/utils/js/utils.Forms.js"></script>
 
-    <?php
-    require_once "template/footer.php";
-    ?>
+<script src="/Nexus/dashboard/js/admin/dashboard.schedule.js"></script>
+
+<?php
+require_once "template/footer.php";
+?>
