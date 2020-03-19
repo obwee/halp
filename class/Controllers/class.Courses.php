@@ -114,7 +114,7 @@ class Courses extends BaseController
             ':studentId' => $this->getUserId()
         );
 
-        $aCourses = $this->oCourseModel->fetchCourses();
+        $aCourses = $this->oCourseModel->fetchAvailableCoursesAndSchedules();
         $aEnrolledCourses = $this->oCourseModel->fetchEnrolledCourses($aStudentId);
 
         // Get the difference of the aCourses array and aEnrolledCourses array

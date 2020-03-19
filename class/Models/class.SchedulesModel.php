@@ -24,6 +24,7 @@ class SchedulesModel
     /**
      * fetchSchedules
      * Queries the database in getting all the schedules.
+     * @return array
      */
     public function fetchSchedules()
     {
@@ -31,8 +32,8 @@ class SchedulesModel
         $statement = $this->oConnection->prepare("
             SELECT
                 ts.id, tc.courseCode AS title, ts.fromDate AS start, ts.toDate AS end,
-                ts.numSlots, ts.remainingSlots, tv.id AS venueId, tv.venue,
-                CONCAT(tu.firstName, ' ', tu.lastName) AS instructorName,
+                ts.numSlots, ts.remainingSlots, ts.instructorId, tv.id AS venueId, tv.venue,
+                CONCAT(tu.firstName, ' ', tu.lastName) AS instructor,
                 CASE
                     WHEN tv.venue = 'Manila' THEN 'purple'
                     WHEN tv.venue = 'Makati' THEN 'blue'
@@ -51,5 +52,29 @@ class SchedulesModel
 
         // Return the number of rows returned by the executed query.
         return $statement->fetchAll();
+    }
+
+    /**
+     * updateSchedule
+     * Updates the schedule table.
+     * @param array $aData
+     * @return int
+     */
+    public function updateSchedule($aData)
+    {
+        // Prepare an update query to the schedules table.
+        $statement = $this->oConnection->prepare("
+            UPDATE tbl_schedules
+            SET
+                fromDate     = :fromDate,
+                toDate       = :toDate,
+                venueId      = :venueId,
+                instructorId = :instructorId,
+                numSlots     = :numSlots
+            WHERE id = :id
+        ");
+
+        // Return the result of the execution of the above statement.
+        return $statement->execute($aData);
     }
 }
