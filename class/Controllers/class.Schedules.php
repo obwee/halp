@@ -43,6 +43,14 @@ class Schedules extends BaseController
                 'name' => $aSchedule['venue']
             );
 
+            $aSchedules[$iKey]['instructor'] = array(
+                'id'   => $aSchedule['instructorId'],
+                'name' => $aSchedule['instructor']
+            );
+
+            unset($aSchedules[$iKey]['venueId']);
+            unset($aSchedules[$iKey]['instructorId']);
+
             $aSchedules[$iKey]['extendedProps'] = array_splice($aSchedules[$iKey], 4, -1);
         }
 
@@ -55,6 +63,38 @@ class Schedules extends BaseController
      */
     public function updateSchedule()
     {
-        print_r($this->aParams);
+        // Declare an array with keys equivalent to that inside the database.
+        $aDatabaseColumns = array(
+            'iScheduleId'   => 'id',
+            'iInstructorId' => 'instructorId',
+            'iVenueId'      => 'venueId',
+            'sStart'        => 'fromDate',
+            'sEnd'          => 'toDate',
+            'iSlots'        => 'numSlots'
+        );
+
+        // Loop thru the POST data sent by AJAX for renaming.
+        foreach($this->aParams as $sKey => $mValue) {
+            $sNewKeys = $aDatabaseColumns[$sKey];
+            $this->aParams[$sNewKeys] = $mValue;
+            unset($this->aParams[$sKey]);
+        }
+
+        // Perform update.
+        $iQuery = $this->oScheduleModel->updateSchedule($this->aParams);
+
+        if ($iQuery > 0) {
+            $aResult = array(
+                'bResult' => true,
+                'sMsg'    => 'Schedule updated!'
+            );
+        } else {
+            $aResult = array(
+                'bResult' => false,
+                'sMsg'    => 'An error has occured.'
+            );
+        }
+
+        echo json_encode($aResult);
     }
 }
