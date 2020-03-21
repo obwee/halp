@@ -30,8 +30,10 @@ class Users extends BaseController
 
         // Filter the data before returning to front-end.
         foreach($this->oUsersModel->fetchInstructors() as $iKey => $aInstructor) {
-            $aInstructors[$iKey]['id'] = $aInstructor['userId'];
-            $aInstructors[$iKey]['fullName'] = $aInstructor['firstName'] . ' ' . $aInstructor['lastName'];
+            if ($aInstructor['status'] === 'Active') {
+                $aInstructors[$iKey]['id'] = $aInstructor['userId'];
+                $aInstructors[$iKey]['fullName'] = $aInstructor['firstName'] . ' ' . $aInstructor['lastName'];
+            }
         }
 
         echo json_encode($aInstructors);

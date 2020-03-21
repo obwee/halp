@@ -33,7 +33,7 @@ class SchedulesModel
             SELECT
                 ts.id, tc.courseCode AS title, ts.fromDate AS start, ts.toDate AS end,
                 ts.numSlots, ts.remainingSlots, ts.instructorId, tv.id AS venueId, tv.venue,
-                CONCAT(tu.firstName, ' ', tu.lastName) AS instructor,
+                CONCAT(tu.firstName, ' ', tu.lastName) AS instructor, tc.id AS courseId,
                 CASE
                     WHEN tv.venue = 'Manila' THEN 'purple'
                     WHEN tv.venue = 'Makati' THEN 'blue'
@@ -69,6 +69,7 @@ class SchedulesModel
                 fromDate     = :fromDate,
                 toDate       = :toDate,
                 venueId      = :venueId,
+                courseId     = :courseId,
                 instructorId = :instructorId,
                 numSlots     = :numSlots
             WHERE id = :id
@@ -76,5 +77,43 @@ class SchedulesModel
 
         // Return the result of the execution of the above statement.
         return $statement->execute($aData);
+    }
+
+    /**
+     * addSchedule
+     * Inserts a new record inside the schedule table.
+     * @param array $aData
+     * @return int
+     */
+    public function addSchedule($aData)
+    {
+        // Prepare an update query to the schedules table.
+        $statement = $this->oConnection->prepare("
+            INSERT INTO tbl_schedules
+                (fromDate, toDate, venueId, courseId, instructorId, numSlots)
+            VALUES
+                (:fromDate, :toDate, :venueId, :courseId, :instructorId, :numSlots)
+        ");
+
+        // Return the result of the execution of the above statement.
+        return $statement->execute($aData);
+    }
+
+    /**
+     * deleteSchedule
+     * Delete a schedule.
+     * @param array $aData
+     * @return int
+     */
+    public function deleteSchedule($aScheduleId)
+    {
+        // Prepare an update query to the schedules table.
+        $statement = $this->oConnection->prepare("
+            DELETE FROM tbl_schedules
+            WHERE id = :id
+        ");
+
+        // Return the result of the execution of the above statement.
+        return $statement->execute($aScheduleId);
     }
 }

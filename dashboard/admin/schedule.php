@@ -14,6 +14,8 @@ require_once "Template/header.php";
             </div>
             <form id="addScheduleForm" method="POST">
                 <div class="modal-body">
+                    <input type="text" class="courseId" name="courseId" readonly hidden>
+                    <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                     <div class="form-group">
                         <label for="courseTitle"><span class="fas fa-book"></span> Select Course</label>
                         <select class="form-control courseTitle" name="courseTitle"></select>
@@ -42,7 +44,7 @@ require_once "Template/header.php";
                         <select class="form-control courseInstructor" name="courseInstructor"></select>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="submit" class="btn btn-success">Add</button>
                         <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
                     </div>
             </form>
@@ -59,6 +61,8 @@ require_once "Template/header.php";
             </div>
             <form id="editScheduleForm" method="POST">
                 <div class="modal-body">
+                    <input type="text" class="scheduleId" name="scheduleId" readonly hidden>
+                    <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                     <div class="form-group">
                         <label for="courseTitle"><span class="fas fa-book"></span> Select Course</label>
                         <select class="form-control courseTitle" name="courseTitle"></select>
