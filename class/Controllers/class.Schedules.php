@@ -63,36 +63,120 @@ class Schedules extends BaseController
      */
     public function updateSchedule()
     {
-        // Declare an array with keys equivalent to that inside the database.
-        $aDatabaseColumns = array(
-            'iScheduleId'   => 'id',
-            'iInstructorId' => 'instructorId',
-            'iVenueId'      => 'venueId',
-            'sStart'        => 'fromDate',
-            'sEnd'          => 'toDate',
-            'iSlots'        => 'numSlots'
-        );
+        $aValidationResult = Validations::validateScheduleInputs($this->aParams);
+        if ($aValidationResult['result'] === true) {
+            // Declare an array with keys equivalent to that inside the database.
+            $aDatabaseColumns = array(
+                'iScheduleId'   => 'id',
+                'iInstructorId' => 'instructorId',
+                'iVenueId'      => 'venueId',
+                'iCourseId'     => 'courseId',
+                'sStart'        => 'fromDate',
+                'sEnd'          => 'toDate',
+                'iSlots'        => 'numSlots'
+            );
 
-        // Loop thru the POST data sent by AJAX for renaming.
-        foreach($this->aParams as $sKey => $mValue) {
-            $sNewKeys = $aDatabaseColumns[$sKey];
-            $this->aParams[$sNewKeys] = $mValue;
-            unset($this->aParams[$sKey]);
+            // Loop thru the POST data sent by AJAX for renaming.
+            foreach ($this->aParams as $sKey => $mValue) {
+                $sNewKeys = $aDatabaseColumns[$sKey];
+                $this->aParams[$sNewKeys] = $mValue;
+                unset($this->aParams[$sKey]);
+            }
+
+            Utils::sanitizeData($this->aParams);
+
+            // Perform update.
+            $iQuery = $this->oScheduleModel->updateSchedule($this->aParams);
+
+            if ($iQuery > 0) {
+                $aResult = array(
+                    'bResult' => true,
+                    'sMsg'    => 'Schedule updated!'
+                );
+            } else {
+                $aResult = array(
+                    'bResult' => false,
+                    'sMsg'    => 'An error has occured.'
+                );
+            }
+        } else {
+            $aResult = $aValidationResult;
         }
 
-        // Perform update.
-        $iQuery = $this->oScheduleModel->updateSchedule($this->aParams);
+        echo json_encode($aResult);
+    }
 
-        if ($iQuery > 0) {
-            $aResult = array(
-                'bResult' => true,
-                'sMsg'    => 'Schedule updated!'
+    public function addSchedule()
+    {
+        // Remove array elements with empty values.
+        $this->aParams = array_filter($this->aParams);
+
+        $aValidationResult = Validations::validateScheduleInputs($this->aParams, 'Insert');
+        if ($aValidationResult['result'] === true) {
+            // Declare an array with keys equivalent to that inside the database.
+            $aDatabaseColumns = array(
+                'iInstructorId' => 'instructorId',
+                'iVenueId'      => 'venueId',
+                'iCourseId'     => 'courseId',
+                'sStart'        => 'fromDate',
+                'sEnd'          => 'toDate',
+                'iSlots'        => 'numSlots'
             );
+
+            // Loop thru the POST data sent by AJAX for renaming.
+            foreach ($this->aParams as $sKey => $mValue) {
+                $sNewKeys = $aDatabaseColumns[$sKey];
+                $this->aParams[$sNewKeys] = $mValue;
+                unset($this->aParams[$sKey]);
+            }
+
+            Utils::sanitizeData($this->aParams);
+
+            // Perform insert.
+            $iQuery = $this->oScheduleModel->addSchedule($this->aParams);
+
+            if ($iQuery > 0) {
+                $aResult = array(
+                    'bResult' => true,
+                    'sMsg'    => 'Schedule added!'
+                );
+            } else {
+                $aResult = array(
+                    'bResult' => false,
+                    'sMsg'    => 'An error has occured.'
+                );
+            }
         } else {
+            $aResult = $aValidationResult;
+        }
+
+        echo json_encode($aResult);
+    }
+
+    public function deleteSchedule()
+    {
+
+        Utils::sanitizeData($this->aParams);
+        if (empty($this->aParams['iScheduleId']) === true || !preg_match('/^[0-9]+$/', $this->aParams['iScheduleId'])) {
             $aResult = array(
                 'bResult' => false,
-                'sMsg'    => 'An error has occured.'
+                'sMsg'    => 'Invalid schedule to be deleted.'
             );
+        } else {
+            $this->aParams['id'] = $this->aParams['iScheduleId'];
+            unset($this->aParams['iScheduleId']);
+            
+            if ($this->oScheduleModel->deleteSchedule($this->aParams) == 0) {
+                $aResult = array(
+                    'bResult' => false,
+                    'sMsg'    => 'An error has occurred.'
+                );
+            } else {
+                $aResult = array(
+                    'bResult' => true,
+                    'sMsg'    => 'Schedule deleted!'
+                );
+            }
         }
 
         echo json_encode($aResult);

@@ -8,7 +8,7 @@ class Validations
 {
     /**
      * @var array $aRegistrationRules
-     * Array of rules for validating inputs sent by AJAX.
+     * Array of rules for validating registration inputs sent by AJAX.
      */
     public static $aRegistrationRules = array(
         array(
@@ -110,7 +110,7 @@ class Validations
 
     /**
      * @var array $aQuotationRules
-     * Array of rules for validating inputs sent by AJAX.
+     * Array of rules for validating quotation inputs sent by AJAX.
      */
     public static $aQuotationRules = array(
         array(
@@ -157,7 +157,7 @@ class Validations
 
     /**
      * @var array $aQuoteToEditRules
-     * Array of rules for validating inputs sent by AJAX.
+     * Array of rules for validating quotation inputs sent by AJAX for alteration.
      */
     public static $aQuoteToEditRules = array(
         array(
@@ -170,6 +170,10 @@ class Validations
         )
     );
 
+    /**
+     * @var array $aAddUpdateCourseRules
+     * Array of rules for validating course inputs sent by AJAX.
+     */
     public static $aAddUpdateCourseRules = array(
         array(
             'sName'       => 'Course code',
@@ -197,10 +201,50 @@ class Validations
         ),
     );          
 
+    public static $aScheduleRules = array(
+        array(
+            'sName'       => 'Schedule',
+            'sElement'    => 'iScheduleId',
+            'sColumnName' => ':id',
+            'oPattern'    => '/^[0-9]+$/'
+        ),
+        array(
+            'sName'       => 'Course title',
+            'sElement'    => 'iCourseId',
+            'sColumnName' => ':courseId',
+            'oPattern'    => '/^[0-9]+$/'
+        ),
+        array(
+            'sName'       => 'Venue',
+            'sElement'    => 'iVenueId',
+            'sColumnName' => ':venueId',
+            'oPattern'    => '/^[0-9]+$/'
+        ),
+        array(
+            'sName'       => 'Start date',
+            'sElement'    => 'sStart',
+            'sColumnName' => ':fromDate',
+            'oPattern'    => '/^\d{4}-\d{2}-\d{2}/'
+        ),
+        array(
+            'sName'       => 'End date',
+            'sElement'    => 'sEnd',
+            'sColumnName' => ':toDate',
+            'oPattern'    => '/^\d{4}-\d{2}-\d{2}/'
+        ),
+        array(
+            'sName'       => 'Instructor name',
+            'sElement'    => 'iInstructorId',
+            'sColumnName' => ':instructorId',
+            'oPattern'    => '/^[0-9]+$/'
+        )
+    );    
+
     /**
      * validateRegistrationInputs
      * Method for validating registration inputs sent by AJAX.
-     * @return array
+     * @param array $aParams
+     * @return array $aValidationResult
      */
     public static function validateRegistrationInputs($aParams)
     {
@@ -281,7 +325,8 @@ class Validations
     /**
      * validateEmailInputs
      * Method for validating email-sending inputs sent by AJAX.
-     * @return array
+     * @param array $aParams
+     * @return array $aValidationResult
      */
     public static function validateEmailInputs($aParams)
     {
@@ -341,7 +386,8 @@ class Validations
     /**
      * validateQuotationInputs
      * Method for validating quotation inputs sent by AJAX.
-     * @return array
+     * @param array $aParams
+     * @return array $aValidationResult
      */
     public static function validateQuotationInputs($aParams)
     {
@@ -452,7 +498,8 @@ class Validations
     /**
      * validateQuotationInputsForEdit
      * Method for validating quotation inputs sent by AJAX.
-     * @return array
+     * @param array $aParams
+     * @return array $aValidationResult
      */
     public static function validateQuotationInputsForEdit($aParams)
     {
@@ -550,6 +597,8 @@ class Validations
     /**
      * validateAddUpdateCourseInputs
      * Method for validating add course inputs sent by AJAX.
+     * @param array $aParams
+     * @return array $aValidationResult
      */
     public static function validateAddUpdateCourseInputs($aParams)
     {
@@ -610,6 +659,53 @@ class Validations
             'sElement'    => 'courseAmount',
             'sColumnName' => ':coursePrice'
         ));
+
+        // Return the result of the validation.
+        return $aValidationResult;
+    }
+
+    /**
+     * validateScheduleInputs
+     * Method for validating schedule inputs sent by AJAX.
+     * @param string $sAction = 'Update'
+     * @param array $aParams
+     * @return array $aValidationResult
+     */
+    public static function validateScheduleInputs($aParams, $sAction = 'Update')
+    {
+        // Prepare the validation result.
+        $aValidationResult = array(
+            'result' => true
+        );
+
+        if ($sAction === 'Insert') {
+            // Remove the rule for iScheduleId.
+            unset(self::$aScheduleRules[0]);
+        }
+
+        // Loop thru each inputRules and if there are rules violated, return false and the error message.
+        foreach (self::$aScheduleRules as $aInputRule) {
+            $sInput = trim($aParams[$aInputRule['sElement']]);
+
+            if (!preg_match($aInputRule['oPattern'], $sInput)) {
+                $aValidationResult = array(
+                    'result'  => false,
+                    'element' => '.' . $aInputRule['sElement'],
+                    'msg'     => $aInputRule['sName'] . ' input is invalid.'
+                );
+                break;
+            }
+        }
+
+        $sNumSlotsRegex = '/^(?!-\d+|0)\d+$/';
+
+        if ($aParams['iSlots'] < 1 || $aParams['iSlots'] > 100 || !preg_match($sNumSlotsRegex, $aParams['iSlots'])) {
+            return array(
+                'result'  =>  false,
+                'element' =>  '.numSlots',
+                'msg'     => 'Invalid value for number of slots.'
+            );
+        }
 
         // Return the result of the validation.
         return $aValidationResult;

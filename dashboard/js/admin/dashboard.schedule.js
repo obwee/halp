@@ -105,26 +105,26 @@ let CALENDAR = (function () {
         });
 
         oCalendar.on('eventClick', function (oInfo) {
-            let sStartDate = moment(oInfo.event.start)
-                .format('YYYY-MM-DD');
-
-            let sEndDate = moment(oInfo.event.end)
-                .subtract(1, 'days')
-                .format('YYYY-MM-DD');
-
-            let iCourseId = aCourses.find(oCourse => oCourse.courseCode === oInfo.event.title).id;
-            let iVenueId = aVenues.find(oVenue => oVenue.venue === oInfo.event.extendedProps.venue.name).id;
-            let iInstructorId = aInstructors.find(oInstructor => oInstructor.fullName === oInfo.event.extendedProps.instructor.name).id;
-            console.log(iInstructorId)
-
-            $('#editScheduleModal').find('.courseTitle').val(iCourseId);
-            $('#editScheduleModal').find('.courseVenue').val(iVenueId);
-            $('#editScheduleModal').find('.fromDate').val(sStartDate);
-            $('#editScheduleModal').find('.toDate').val(sEndDate);
-            $('#editScheduleModal').find('.numSlots').val(oInfo.event.extendedProps.numSlots);
-            $('#editScheduleModal').find('.courseInstructor').val(iInstructorId);
-
-            $('#editScheduleModal').modal('show');
+            Swal.fire({
+                title: 'What do you want to do?',
+                text: "Select an action for the selected schedule.",
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Delete',
+                confirmButtonText: 'Update',
+                confirmButtonColor: '#0069d9',
+                cancelButtonColor: '#c82333',
+                footer: '<button class="btn btn-secondary" id="cancelEventClick">Cancel</button>',
+                reverseButtons: true
+            }).then((oResult) => {
+                if (oResult.value === true) {
+                    // If selected option is 'Update'.
+                    openEditScheduleModal(oInfo.event);
+                } else {
+                    // If selected option is 'Delete'.
+                    executeDelete(parseInt(oInfo.event.id, 10));
+                }
+            });
         });
 
         oCalendar.on('select', function (oInfo) {
@@ -148,7 +148,7 @@ let CALENDAR = (function () {
                 confirmButtonText: 'Yes',
             }).then((bIsConfirm) => {
                 if (bIsConfirm.value === true) {
-                    executeUpdate(oInfo.event);
+                    executeUpdate(prepareCalendarData(oInfo.event));
                 } else {
                     oInfo.revert();
                 }
@@ -164,7 +164,7 @@ let CALENDAR = (function () {
                 confirmButtonText: 'Yes',
             }).then((bIsConfirm) => {
                 if (bIsConfirm.value === true) {
-                    executeUpdate(oInfo.event);
+                    executeUpdate(prepareCalendarData(oInfo.event));
                 } else {
                     oInfo.revert();
                 }
@@ -179,18 +179,79 @@ let CALENDAR = (function () {
      */
     function setDomEvents() {
 
-        $('#addScheduleBtn').click(function () {
-            let oFormData = $('#addScheduleForm').serializeArray();
-            let oData = {};
-
-            $(oFormData).each(function (iKey, oVal) {
-                oData[oVal.name] = oVal.value;
-            });
-
-            initializeCalendar();
-            $('#addScheduleModal').modal('hide');
+        $('.modal').on('hidden.bs.modal', function () {
+            let sFormName = `#${$(this).find('form').attr('id')}`;
+            $(sFormName)[0].reset();
+            $('.error-msg').css('display', 'none').html('');
+        });
+        
+        $(document).on('click', '#cancelEventClick', () => {
+            // Hide the Swal modal by removing it.
+            $('.swal2-container').remove();
         });
 
+        $(document).on('submit', 'form', function (oEvent) {
+            oEvent.preventDefault();
+            const sFormName = `#${$(this).attr('id')}`;
+
+            // Disable the form.
+            oForms.disableFormState(sFormName, true);
+
+            // Invoke the resetInputBorders method inside oForms utils for that form.
+            oForms.resetInputBorders(sFormName);
+
+            // Create an object with key names of forms and its corresponding validation and request action as its value.
+            const oInputForms = {
+                '#addScheduleForm': {
+                    'validationMethod': oValidations.validateScheduleInputs(sFormName),
+                    'requestClass': 'Schedules',
+                    'requestAction': 'addSchedule',
+                    'alertTitle': 'Add schedule?',
+                    'alertText': 'This will insert a new schedule.'
+                },
+                '#editScheduleForm': {
+                    'validationMethod': oValidations.validateScheduleInputs(sFormName),
+                    'requestClass': 'Schedules',
+                    'requestAction': 'updateSchedule',
+                    'alertTitle': 'Update schedule?',
+                    'alertText': 'This will update the schedule details.'
+                }
+            }
+
+            Swal.fire({
+                title: oInputForms[sFormName].alertTitle,
+                text: oInputForms[sFormName].alertText,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+            }).then((bIsConfirm) => {
+                if (bIsConfirm.value !== true) {
+                    return false;
+                } else {
+
+                    // Validate the inputs of the submitted form and store the result inside validateInputs variable.
+                    let oValidateInputs = oInputForms[sFormName].validationMethod;
+
+                    // Get the request class of the form submitted.
+                    let sRequestClass = oInputForms[sFormName].requestClass;
+
+                    // Get the request action of the form submitted.
+                    let sRequestAction = oInputForms[sFormName].requestAction;
+
+                    // Check if input validation result is true.
+                    if (oValidateInputs.result === true) {
+                        const oFormData = $(sFormName).serializeArray();
+                        (sFormName === '#addScheduleForm')
+                            ? executeInsert(prepareScheduleData(oFormData), sRequestClass, sRequestAction)
+                            : executeUpdate(prepareScheduleData(oFormData));
+                    } else {
+                        oLibraries.displayErrorMessage(sFormName, oValidateInputs.msg, oValidateInputs.element);
+                    }
+                }
+            });
+            // Enable the form.
+            oForms.disableFormState(sFormName, false);
+        });
     }
 
     /**
@@ -246,7 +307,7 @@ let CALENDAR = (function () {
      */
     function populateCourseDropdown(aCourses) {
         let oCourseDropdown = $('select[name="courseTitle"]');
-        oCourseDropdown.empty().append($('<option value="" selected disabled hidden>Select Course</option>'));
+        oCourseDropdown.empty().append($('<option value="" disabled selected hidden>Select Course</option>'));
 
         $.each(aCourses, function (iKey, oCourse) {
             oCourseDropdown.append($('<option />').val(oCourse.id).text(`${oCourse.courseName} (${oCourse.courseCode})`));
@@ -258,7 +319,7 @@ let CALENDAR = (function () {
      */
     function populateVenueDropdown(aVenues) {
         let oVenueDropdown = $('select[name="courseVenue"]');
-        oVenueDropdown.empty().append($('<option value="" selected disabled hidden>Select Venue</option>'));
+        oVenueDropdown.empty().append($('<option value="" disabled selected hidden>Select Venue</option>'));
 
         $.each(aVenues, function (iKey, oVenue) {
             oVenueDropdown.append($('<option />').val(oVenue.id).text(`${oVenue.venue}`));
@@ -270,7 +331,7 @@ let CALENDAR = (function () {
      */
     function populateInstructorsDropdown(aInstructors) {
         let oInstructorDropdown = $('select[name="courseInstructor"]');
-        oInstructorDropdown.empty().append($('<option value="" selected disabled hidden>Select Instructor</option>'));
+        oInstructorDropdown.empty().append($('<option value="" disabled selected hidden>Select Instructor</option>'));
 
         $.each(aInstructors, function (iKey, oInstructor) {
             oInstructorDropdown.append($('<option />').val(oInstructor.id).text(`${oInstructor.fullName}`));
@@ -278,19 +339,78 @@ let CALENDAR = (function () {
     }
 
     /**
-     * executeUpdate
-     * @param {object} oCalendarData
+     * openEditScheduleModal
+     * @param {object} oData 
      */
-    function executeUpdate(oCalendarData) {
-        let oData = {
-            iScheduleId: parseInt(oCalendarData.id, 10),
-            iInstructorId: parseInt(oCalendarData.extendedProps.instructor.id, 10),
-            iVenueId: oCalendarData.extendedProps.venue.id,
-            sStart: moment(oCalendarData.start).format('YYYY-MM-DD'),
-            sEnd: moment(oCalendarData.end).subtract(1, 'days').format('YYYY-MM-DD'),
-            iSlots: oCalendarData.extendedProps.numSlots
-        };
+    function openEditScheduleModal(oData) {
+        let sStartDate = moment(oData.start)
+            .format('YYYY-MM-DD');
 
+        let sEndDate = moment(oData.end)
+            .subtract(1, 'days')
+            .format('YYYY-MM-DD');
+
+        let iCourseId = aCourses.find(oCourse => oCourse.courseCode === oData.title).id;
+        let iVenueId = aVenues.find(oVenue => oVenue.venue === oData.extendedProps.venue.name).id;
+        let iInstructorId = aInstructors.find(oInstructor => oInstructor.fullName === oData.extendedProps.instructor.name).id;
+
+        $('#editScheduleModal').find('.scheduleId').val(oData.id);
+        $('#editScheduleModal').find('.courseTitle').val(iCourseId);
+        $('#editScheduleModal').find('.courseVenue').val(iVenueId);
+        $('#editScheduleModal').find('.fromDate').val(sStartDate);
+        $('#editScheduleModal').find('.toDate').val(sEndDate);
+        $('#editScheduleModal').find('.numSlots').val(oData.extendedProps.numSlots);
+        $('#editScheduleModal').find('.courseInstructor').val(iInstructorId);
+
+        $('#editScheduleModal').modal('show');
+    }
+
+    /**
+     * prepareCalendarData
+     * @param {object} oData
+     */
+    function prepareCalendarData(oData) {
+        return {
+            iScheduleId: parseInt(oData.id, 10),
+            iInstructorId: parseInt(oData.extendedProps.instructor.id, 10),
+            iVenueId: oData.extendedProps.venue.id,
+            iCourseId: oData.extendedProps.courseId,
+            sStart: moment(oData.start).format('YYYY-MM-DD'),
+            sEnd: moment(oData.end).subtract(1, 'days').format('YYYY-MM-DD'),
+            iSlots: oData.extendedProps.numSlots
+        };
+    }
+
+    /**
+     * prepareScheduleData
+     * Renames the keys.
+     * @param {array} aData
+     * @param {return} aData
+     */
+    function prepareScheduleData(aData) {
+        const aParams = [
+            { scheduleId: 'iScheduleId' },
+            { courseTitle: 'iCourseId' },
+            { courseVenue: 'iVenueId' },
+            { fromDate: 'sStart' },
+            { toDate: 'sEnd' },
+            { numSlots: 'iSlots' },
+            { courseInstructor: 'iInstructorId' }
+        ];
+
+        $.each(aParams, function (mKey, oParam) {
+            let sNewKey = aParams[mKey][aData[mKey].name];
+            aData[mKey].name = sNewKey;
+        });
+
+        return aData;
+    }
+
+    /**
+     * executeUpdate
+     * @param {object} oData
+     */
+    function executeUpdate(oData) {
         // Execute AJAX for update.
         $.ajax({
             url: '/Nexus/utils/ajax.php?class=Schedules&action=updateSchedule',
@@ -301,12 +421,58 @@ let CALENDAR = (function () {
                 oLibraries.displayAlertMessage(
                     (oResponse.bResult === true) ? 'success' : 'error', oResponse.sMsg
                 );
-
-                fetchSchedules();
-                oCalendar.destroy();
-                initializeCalendar();
+                reinitializeDisplay();
             }
         });
+    }
+
+    /**
+     * executeInsert
+     * @param {object} oData
+     * @param {string} sRequestClass
+     * @param {string} sRequestAction
+     */
+    function executeInsert(oData, sRequestClass, sRequestAction) {
+        // Execute AJAX for insert.
+        $.ajax({
+            url: `/Nexus/utils/ajax.php?class=${sRequestClass}&action=${sRequestAction}`,
+            type: 'POST',
+            data: oData,
+            dataType: 'json',
+            success: function (oResponse) {
+                oLibraries.displayAlertMessage(
+                    (oResponse.bResult === true) ? 'success' : 'error', oResponse.sMsg
+                );
+                reinitializeDisplay();
+            }
+        });
+    }
+
+    /**
+     * executeDelete
+     * @param {int} iScheduleId
+     */
+    function executeDelete(iScheduleId) {
+        axios.post('/Nexus/utils/ajax.php?class=Schedules&action=deleteSchedule', {
+            iScheduleId
+        })
+            .then((oResponse) => {
+                oLibraries.displayAlertMessage(
+                    (oResponse.data.bResult === true) ? 'success' : 'error', oResponse.data.sMsg
+                );
+                reinitializeDisplay();
+            });
+    }
+
+    /**
+     * reinitializeDisplay
+     * Re-initializes the calendar data and closes any open modal.
+     */
+    function reinitializeDisplay() {
+        fetchSchedules();
+        oCalendar.destroy();
+        initializeCalendar();
+        $('.modal').modal('hide');
     }
 
     /**

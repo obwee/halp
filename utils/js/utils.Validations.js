@@ -524,6 +524,100 @@ class Validations {
         return validationResult;
     }
 
+    // This method validates the inputs of the user before submission for schedule addition/alteration.
+    validateScheduleInputs(sFormName) {
+        sFormName = sFormName.substr(1);
+        // Declare an object with properties related to inputs that need to be validated.
+        const aScheduleRules = [
+            {
+                name: 'Course title',
+                element: '.courseTitle',
+                length: $.trim($(`form[id="${sFormName}"]`).find('.courseTitle option:selected').text()).length,
+                minLength: 2,
+                maxLength: 100,
+                pattern: /^[\d]+$/g,
+            },
+            {
+                name: 'Venue',
+                element: '.courseVenue',
+                length: $.trim($(`form[id="${sFormName}"]`).find('.courseVenue option:selected').text()).length,
+                minLength: 2,
+                maxLength: 50,
+                pattern: /^[\d]+$/g,
+            },
+            {
+                name: 'Start date',
+                element: '.fromDate',
+                length: $.trim($(`form[id="${sFormName}"]`).find('.fromDate').val()).length,
+                minLength: 10,
+                maxLength: 10,
+                pattern: /^\d{4}-\d{2}-\d{2}/g,
+            },
+            {
+                name: 'End date',
+                element: '.toDate',
+                length: $.trim($(`form[id="${sFormName}"]`).find('.toDate').val()).length,
+                minLength: 10,
+                maxLength: 10,
+                pattern: /^\d{4}-\d{2}-\d{2}/g,
+            },
+            {
+                name: 'Instructor name',
+                element: '.courseInstructor',
+                length: $.trim($(`form[id="${sFormName}"]`).find('.courseInstructor option:selected').text()).length,
+                minLength: 2,
+                maxLength: 50,
+                pattern: /^[\d]+$/g,
+            }
+        ];
+
+        // Declare initially the validation result to be returned by the function.
+        let validationResult = {
+            result: true
+        }
+
+        // Loop thru each emailInputRules and if there are rules violated, return false and the error message.
+        $.each(aScheduleRules, function (key, inputRule) {
+            if (inputRule.length < inputRule.minLength) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
+                };
+                return false;
+            }
+            if (inputRule.length > inputRule.maxLength) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
+                };
+                return false;
+            }
+            if (inputRule.pattern.test($(`form[id="${sFormName}"]`).find(inputRule.element).val()) === false) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' input is invalid.'
+                };
+                return false;
+            }
+        });
+
+        let sNumSlotsRegex = /^(?!-\d+|0)\d+$/g;
+
+        if ($('.numSlots').val() < 1 || $('.numSlots').val() > 100 || sNumSlotsRegex.test($('.numSlots').val()) === false) {
+            return {
+                result: false,
+                element: '.numSlots',
+                msg: 'Invalid value for number of slots.'
+            }
+        }
+
+        // Return the result of the validation.
+        return validationResult;
+    }
+
 };
 
 let oValidations = new Validations();
