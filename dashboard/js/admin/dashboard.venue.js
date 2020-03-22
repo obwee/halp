@@ -33,10 +33,20 @@ var oVenue = (() => {
     }
 
     function setEvents() {
-        $(document).on('click', '#editVenue', function() {
+        oForms.prepareDomEvents();
+
+        $(document).on('click', '#editVenue', function () {
             let iVenueId = $(this).attr('data-id');
-            let oVenueDetails = aVenues.filter(oVenue => oVenue.id == iVenueId);
+            let oVenueDetails = aVenues.filter(oVenue => oVenue.id == iVenueId)[0];
+            proceedToEditVenue(oVenueDetails);
         });
+    }
+
+    function proceedToEditVenue(oDetails) {
+        $('#editVenueModal').find('.branch').val(oDetails.venue);
+        $('#editVenueModal').find('.branchAddress').val(oDetails.address);
+        $('#editVenueModal').find('.branchContact').val(oDetails.contactNum);
+        $('#editVenueModal').modal('show');
     }
 
     function fetchVenues() {

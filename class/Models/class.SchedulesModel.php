@@ -90,9 +90,9 @@ class SchedulesModel
         // Prepare an update query to the schedules table.
         $statement = $this->oConnection->prepare("
             INSERT INTO tbl_schedules
-                (fromDate, toDate, venueId, courseId, instructorId, numSlots)
+                (fromDate, toDate, venueId, courseId, instructorId, numSlots, remainingSlots)
             VALUES
-                (:fromDate, :toDate, :venueId, :courseId, :instructorId, :numSlots)
+                (:fromDate, :toDate, :venueId, :courseId, :instructorId, :numSlots, :remainingSlots)
         ");
 
         // Return the result of the execution of the above statement.
@@ -115,5 +115,15 @@ class SchedulesModel
 
         // Return the result of the execution of the above statement.
         return $statement->execute($aScheduleId);
+    }
+
+    /**
+     * getNumberOfEnrolles
+     * @param array $aData
+     * @return int
+     */
+    private function getNumberOfEnrolles()
+    {
+
     }
 }

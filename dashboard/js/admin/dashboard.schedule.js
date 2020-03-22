@@ -472,9 +472,10 @@ let CALENDAR = (function () {
 
     /**
      * reinitializeDisplay
-     * Re-initializes the calendar data and closes any open modal.
+     * Re-initializes the calendar data and closes any open tooltip/modal.
      */
     function reinitializeDisplay() {
+        $('.tooltip').remove();
         fetchSchedules();
         oCalendar.destroy();
         initializeCalendar();

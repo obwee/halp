@@ -41,6 +41,7 @@ var oForms = (() => {
         });
 
         prepareCourseEvents();
+        prepareVenueEvents();
     }
 
     /**
@@ -67,6 +68,17 @@ var oForms = (() => {
                 return this.value = this.value.replace(this.value, '');
             }
             return this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    }
+
+    /**
+     * prepareVenueEvents
+     * jQuery event handlers for courses.php
+     */
+    function prepareVenueEvents() {
+        // Trim excess spaces and dots on specific inputs via RegExp on focusout event.
+        $(document).on('focusout', '.branch, .branchAddress, .branchContact', function () {
+            $(this).val($(this).val().replace(/\s+/g, ' ').replace(/\.+/g, '.').trim());
         });
     }
 
