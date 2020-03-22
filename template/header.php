@@ -57,7 +57,7 @@
                     <span class="sr-only">Toggle navigation</span>
                 </a>
 
-                <span class="hidden-xs" style="color:white;">Hello, <?php echo Session::get('fullName'); ?>!</span>
+                <span class="hidden-xs" style="color:white;"><!--Hello, <?php echo Session::get('fullName'); ?>!--></span>
 
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">

@@ -26,35 +26,23 @@ require_once "Template/header.php";
                     <label for="date2">&nbsp&nbsp&nbsp&nbsp&nbsp<span class="fas fa-angle-double-right"></span> End Date</label>
                     <input type="date" class="form-control" id="date2" name="date2" placeholder="To" style="margin-left:16px;width:185px;" required max="2999-12-31">
                 </div>
-            </div> <br>
+            </div>
             <div class="form-group">
-                <label><b>Course</b></label>
+                <label><i class="fas fa-map"></i><b> Branch</b></label>
                 <select class="form-control">
-                    <option disabled selected hidden>Select Course</option>
-                </select>
-            </div>    
-            <div class="form-group">    
-                <label><b>Schedule</b></label>
-                <select class="form-control">
-                    <option disabled selected hidden>Select Schedule</option>
+                    <option disabled selected hidden>Select Branch</option>
                 </select>
             </div>
         </div>
         <div class="col-sm-6">
             <div class="form-group">
-             <h6><b>Payment Status</b></h6>
-             <div class="custom-control custom-checkbox mr-sm-2">
-                <input type="checkbox" class="custom-control-input" id="partial">
-                <label class="custom-control-label" for="partial">Partial</label>
-            </div>   
-            <div class="custom-control custom-checkbox mr-sm-2">
-                <input type="checkbox" class="custom-control-input" id="full">
-                <label class="custom-control-label" for="full">Full</label>
-            </div> <br>
-            <div>
-                <label><b>Branch</b></label>
+                <label><i class="fas fa-book"></i><b> Course</b></label>
                 <select class="form-control">
-                    <option disabled selected hidden>Select Branch</option>
+                    <option disabled selected hidden>Select Course</option>
+                </select>   
+                <label><i class="fas fa-calendar-alt"></i><b> Schedule</b></label>
+                <select class="form-control">
+                    <option disabled selected hidden>Select Schedule</option>
                 </select>
             </div>
         </div> 
@@ -111,7 +99,7 @@ require_once "Template/header.php";
 require_once "template/scripts.php";
 ?>
 
-<script src="/Nexus/dashboard/admin/js/dashboard.salesReport.js"></script>
+<script src="/Nexus/dashboard/js/admin/dashboard.salesReport.js"></script>
 
 <?php
 require_once "template/footer.php";

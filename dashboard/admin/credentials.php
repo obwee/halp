@@ -1,5 +1,29 @@
 <?php
 require_once "Template/header.php";
+
+
+$host = "localhost";
+$username = "root";
+$password = "";
+$database = "nexus";
+
+$con = new mysqli($host, $username, $password, $database);
+
+if($con->connect_error){
+    echo $con->connect_error;
+}
+
+$sql = "SELECT * FROM tbl_users WHERE position='Super Admin' || position='Admin'";
+$users = $con->query($sql) or die ($con->error);
+$aUsers = $users->fetch_assoc();
+
+if(isset($_POST['submit'])) {
+
+    echo $_POST['firstname'];
+
+    $edit = "INSERT INTO `tbl_users` (`username`, `password`, `firstName`, `middleName`, `lastName`, `position`, `contactNum`, `email`) VALUES ('','','','','','','','')"; 
+}
+
 ?>
 
 	<div class="container">
@@ -10,8 +34,8 @@ require_once "Template/header.php";
 
 		<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
 			<div align="right">
-                <button type="button" id="addNewBranch" data-toggle="modal" data-target="#editCredentialsModal" class="btn btn-info">Edit My Credentials</button>
-				<button type="button" id="addNewBranch" data-toggle="modal" data-target="#addNewAdminModal" class="btn btn-info">Add New Admin</button>
+                <button type="button" id="addNewBranch" data-toggle="modal" data-target="#editCredentialsModal" class="btn btn-primary">Edit My Credentials</button>
+				<button type="button" id="addNewBranch" data-toggle="modal" data-target="#addNewAdminModal" class="btn btn-dark">Add New Admin</button>
 				<br><br>
 			</div>
 			<table id="tbl_users" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
@@ -26,19 +50,20 @@ require_once "Template/header.php";
 					</tr>
                 </thead>
 				<tbody>
+                    <?php do{ ?>
                     <tr>
-                        <td>Angelika Aubrey Arbiol</td>
-                        <td>aarbiol</td>
-                        <td>Admin</td>
-                        <td>angelikaaubreyarbiol@gmail.com</td>
-                        <td>09261759759 </td>
+                        <td><?php echo $aUsers['firstName'] ." ". $aUsers['lastName'];?></td>
+                        <td><?php echo $aUsers['username'];?></td>
+                        <td><?php echo $aUsers['position'];?></td>
+                        <td><?php echo $aUsers['email'];?></td>
+                        <td><?php echo $aUsers['contactNum'];?></td>
                         <td>
                             <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editAdminCredentialsModal"><i class="fas fa-pen"></i></button>
                             <button type="button" class="btn btn-dark btn-sm" id="resetPassword"><i class="fas fa-undo"></i></button>
                             <button class="btn btn-danger btn-sm" id="disableAccount"><i class="fas fa-times"></i></button>
                         </td>
                     </tr>
-                
+                <?php }while($aUsers = $users->fetch_assoc())?>                
                 </tbody>
             </table>
         </div>
@@ -52,10 +77,10 @@ require_once "Template/header.php";
                 </div>
                 
                 <div class="modal-body">
-                    <form>
+                    <form action="" method="post">
                         <div class="form-group">
                             <label for="firstName"><span class="fas fa-id-card"></span> First Name</label>
-                            <input type="text" class="form-control" id="firstName" name="branch" placeholder="First Name" autofocus maxlength="20">
+                            <input type="text" class="form-control" id="firstName" name="firstname" placeholder="First Name" autofocus maxlength="20">
                         </div>
                         <div class="form-group">
                             <label for="middleName"><span class="fas fa-id-card"></span> Middle Name</label>
@@ -75,7 +100,7 @@ require_once "Template/header.php";
                         </div>
                         <div class="form-group">
                             <label for="adminUsername"><span class="fas fa-users"></span> Username</label>
-                            <input type="text" class="form-control" id="instructorUsername" name="instructorUsername" placeholder="Username" maxlength="50">
+                            <input type="text" class="form-control" id="instructorUsername" name="adminUsername" placeholder="Username" maxlength="50">
                         </div>
                         <div class="form-group">
                             <label for="adminPassword"><span class="fas fa-lock"></span> Password</label>
@@ -88,8 +113,10 @@ require_once "Template/header.php";
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Update</button>
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    <form action="" method="post">
+                        <button type="submit" name="submit" class="btn btn-success">Update</button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -103,7 +130,7 @@ require_once "Template/header.php";
                 </div>
                 
                 <div class="modal-body">
-                    <form>
+                    <form action="" method="post">
                         <div class="form-group">
                             <label for="firstName"><span class="fas fa-id-card"></span> First Name</label>
                             <input type="text" class="form-control" id="firstName" name="branch" placeholder="First Name" autofocus maxlength="20">
@@ -182,6 +209,7 @@ require_once "Template/header.php";
             </div>
         </div>
     </div>
+
 
    
 	

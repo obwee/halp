@@ -58,7 +58,8 @@ require_once "Template/header.php";
 
 	<div align="center">
 		<br>
-        <button type="submit" id="loadClassList" class="btn btn-primary"><i class="fas fa-eraser"></i> Clear Selection</button>
+		<button type="button" id="addWalkin" class="btn btn-primary" data-toggle="modal" data-target="#addWalkinModal"><i class="fas fa-walking"></i> &nbsp&nbspAdd Walk-in&nbsp&nbsp</button>
+        <button type="submit" id="clear" class="btn btn-danger"><i class="fas fa-eraser"></i> Clear Selection</button>
         <button type="submit" id="loadClassList" class="btn btn-success"><i class="fas fa-spinner"></i> Load Class List</button>
     </div>
 
@@ -108,7 +109,7 @@ require_once "Template/header.php";
             <div class="modal-header" style="background-color: #A2C710;">
                 <h5 align="center">Reschedule</h5>
             </div>
-            <div class="modal-body" align="center">
+            <div class="modal-body">
                 <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
                     <table id="tbl_requests" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
                         <thead>
@@ -129,7 +130,7 @@ require_once "Template/header.php";
                 </div>
                 <form>
                 	<div class="form-group">
-                		<label for="courseCode"><span class="fas fa-calendar"></span> New Schedule</label>
+                		<label for="schedule"><span class="fas fa-calendar"></span> New Schedule</label>
                 		<select class="form-control">
                 			<option value="" selected disabled>Select New Schedule</option>
                 		</select>
@@ -144,12 +145,45 @@ require_once "Template/header.php";
     </div>
 </div>
 
+<div class="modal fade" id="addWalkinModal" role="dialog">
+    <div class="modal-dialog addWalkinModal">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #A2C710;">
+                <h5 align="center">Add Walk-in</h5>
+            </div>
+            <div class="modal-body">
+                <form>
+                	<div class="form-group">
+                		<label for="sname"><span class="fas fa-user"></span> Student Name</label>
+                		<input type="text" name="sname" class="form-control">
+                	</div>
+                	<div class="form-group">
+                		<label for="courseCode"><span class="fas fa-book"></span> Course</label>
+                		<select class="form-control">
+                			<option value="" selected disabled hidden>Select Course</option>
+                		</select>
+                	</div>
+                	<div class="form-group">
+                		<label for="schedule"><span class="fas fa-calendar-alt"></span> Schedule</label>
+                		<select class="form-control">
+                			<option value="" selected disabled hidden>Select Schedule</option>
+                		</select>
+                	</div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Add</button>
+                <button type="submit" class="btn btn-info" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <?php
 require_once "template/scripts.php";
 ?>
 
-<script src="/Nexus/dashboard/admin/js/dashboard.reservations.js"></script>
+<script src="/Nexus/dashboard/js/admin/dashboard.reservations.js"></script>
 
 <?php
 require_once "template/footer.php";
