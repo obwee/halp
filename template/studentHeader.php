@@ -6,23 +6,22 @@
 <head>
 
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Nexus IT Training Center</title>
-  
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">  
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Nexus IT Training Center</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../CDNs/dashboard/font-awesome/css/all.css">
+    <link rel="stylesheet" href="/Nexus/CDNs/dashboard/font-awesome/css/all.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="../CDNs/dist/css/AdminLTE.css">
+    <link rel="stylesheet" href="/Nexus/CDNs/dist/css/AdminLTE.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
-    folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="../CDNs/dist/css/skins/skin-purple.min.css"> 
+   folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="/Nexus/CDNs/dist/css/skins/skin-purple.min.css">
     <!-- Google Font -->
-   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
     <!-- Datatables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
