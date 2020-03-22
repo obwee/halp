@@ -24,7 +24,7 @@ require_once "Template/header.php";
             <div class="modal-header" style="background-color: #A2C710;">
                 <h5 align="center">Add New Branch</h5>
             </div>
-            <form name="addVenueForm" method="POST">
+            <form id="addVenueForm" method="POST">
                 <div class="modal-body">
                     <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                     <div class="form-group">
@@ -55,9 +55,10 @@ require_once "Template/header.php";
             <div class="modal-header" style="background-color: #A2C710;">
                 <h5 align="center">Edit Venue</h5>
             </div>
-            <form name="editVenueForm" method="POST">
+            <form id="editVenueForm" method="POST">
                 <div class="modal-body">
                     <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+                    <input type="text" class="venueId" name="venueId" readonly hidden>
                     <div class="form-group">
                         <label for="branch"><span class="fas fa-map-pin"></span> Branch</label>
                         <input type="text" class="form-control branch" name="branch" placeholder="Branch" autofocus maxlength="20">
