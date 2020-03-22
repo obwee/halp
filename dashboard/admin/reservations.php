@@ -7,7 +7,7 @@ require_once "Template/header.php";
 		<p class="h2">Reservations</p>
 	</div>
 
-	<div class="row" style="border-radius:10px 10px;border-style:solid;border-color:#d5d5d5;padding:10px 10px;margin-left:10px;margin-right:10px;border-width:2px;">
+	<div class="row" style="border-radius:8px 8px;padding:10px 10px;margin-left:10px;margin-right:10px;border-width:2px;background-color:#fff;">
 		<div class="col-md-4">
 			<div class="row">
 				<div class="col-sm-6">
@@ -130,9 +130,15 @@ require_once "Template/header.php";
                 </div>
                 <form>
                 	<div class="form-group">
+                		<label for="course"><span class="fas fa-book"></span> New Course</label>
+                		<select class="form-control">
+                			<option value="" selected disabled hidden>Select New Course</option>
+                		</select>
+                	</div>
+                	<div class="form-group">
                 		<label for="schedule"><span class="fas fa-calendar"></span> New Schedule</label>
                 		<select class="form-control">
-                			<option value="" selected disabled>Select New Schedule</option>
+                			<option value="" selected disabled hidden>Select New Schedule</option>
                 		</select>
                 	</div>
                 </form>

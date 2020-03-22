@@ -16,33 +16,22 @@ require_once "Template/header.php";
 			<table id="tbl_instructors" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
 				<thead>
 					<tr>
-						<th style="white-space:nowrap;">Instructor ID</th>
-                        <th style="white-space:nowrap;">Full Name</th>
-                        <th style="white-space:nowrap;">Contact No</th>
-                        <th style="white-space:nowrap;">E-mail Address</th>
-                        <th style="white-space:nowrap;">Vendor Certification</th>
-						<th style="white-space:nowrap;">Actions</th>
+						<th style="white-space:nowrap;text-align:center;">Instructor ID</th>
+                        <th style="white-space:nowrap;text-align:center;">Full Name</th>
+                        <th style="white-space:nowrap;text-align:center;">Contact No</th>
+                        <th style="white-space:nowrap;text-align:center;">E-mail Address</th>
+                        <th style="white-space:nowrap;text-align:center;">Certification Title</th>
+						<th style="white-space:nowrap;text-align:center;">Actions</th>
 					</tr>
                 </thead>
 				<tbody>
                     <tr>
-                        <td>2020-01</td>
-                        <td>Christopher I. Buenaventura</td>
-                        <td>09955739974</td>
-                        <td>cboz@live.com</td>
-                        <td>MCSA2016, MCSA2012, CCNA, CVP, CCA-V</td>
-                        <td>
-                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#messageInstructorModal"><i class="fas fa-comment-dots"></i></button>
-                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2020-02</td>
-                        <td>Richard P. Reblando</td>
-                        <td>09976548899</td>
-                        <td>richardreblando@live.com</td>
-                        <td></td>
-                        <td>
+                        <td style="text-align:center;">2020-01</td>
+                        <td style="text-align:center;">Christopher I. Buenaventura</td>
+                        <td style="text-align:center;">09955739974</td>
+                        <td style="text-align:center;">cboz@live.com</td>
+                        <td style="text-align:center;">MCSA2016, MCSA2012, CCNA, CVP, CCA-V</td>
+                        <td style="text-align:center;">
                             <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#messageInstructorModal"><i class="fas fa-comment-dots"></i></button>
                             <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                         </td>
@@ -82,16 +71,8 @@ require_once "Template/header.php";
                             <input type="text" class="form-control" id="instructorContact" name="instructorContact" placeholder="Contact Number" maxlength="11">
                         </div>
                         <div class="form-group">
-                            <label for="instructorCertification"><span class="fas fa-certificate"></span> Vendor Certification</label>
+                            <label for="instructorCertification"><span class="fas fa-certificate"></span> Certification Title</label>
                             <input type="text" class="form-control" id="instructorCertification" name="instructorCertification" placeholder="Vendor Certification" maxlength="50">
-                        </div>
-                        <div class="form-group">
-                            <label for="instructorUsername"><span class="fas fa-users"></span> Username</label>
-                            <input type="text" class="form-control" id="instructorUsername" name="instructorUsername" placeholder="Username" maxlength="50">
-                        </div>
-                        <div class="form-group">
-                            <label for="instructorPassword"><span class="fas fa-lock"></span> Password</label>
-                            <input type="password" class="form-control" id="instructorPassword" name="instructorPassword" placeholder="Password"  maxlength="50">
                         </div>
                     </form>
                 </div>
@@ -137,7 +118,7 @@ require_once "Template/header.php";
 require_once "template/scripts.php";
 ?>
 
-<script src="/Nexus/dashboard/admin/js/dashboard.instructors.js"></script>
+<script src="/Nexus/dashboard/js/admin/dashboard.instructors.js"></script>
 
 <?php
 require_once "template/footer.php";

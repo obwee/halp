@@ -7,7 +7,7 @@ require_once "Template/header.php";
         <p class="h2">Master List</p>
     </div>
 
-    <div class="row" style="border-radius:10px 10px;border-style:solid;border-color:#d5d5d5;padding:10px 10px;margin-left:10px;margin-right:10px;border-width:2px;">
+    <div class="row" style="border-radius:8px 8px;background-color:white;padding:10px 10px;margin-left:10px;margin-right:10px;border-width:2px;">
         <div class="col-sm-4">
             <div class="venue" >
                 <label><i class="fas fa-map-pin"></i><b> Venue</b></label><br>

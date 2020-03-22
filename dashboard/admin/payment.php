@@ -8,7 +8,7 @@ require_once "Template/header.php";
 		</div>
 
 		<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
-			<table id="tbl_students" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
+			<table id="tbl_payment" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
 				<thead>
 					<tr>
 						<th style="white-space:nowrap;">Transaction ID</th>
@@ -150,7 +150,7 @@ require_once "Template/header.php";
 require_once "template/scripts.php";
 ?>
 
-<script src="/Nexus/dashboard/admin/js/dashboard.payment.js"></script>
+<script src="/Nexus/dashboard/js/admin/dashboard.payment.js"></script>
 
 <?php
 require_once "template/footer.php";

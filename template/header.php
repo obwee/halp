@@ -118,8 +118,8 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="/Nexus/dashboard/admin/payment"><i class="fas fa-cash-register"></i>&emsp;Payment</a></li>
                             <li><a href="/Nexus/dashboard/admin/reservations"><i class="fas fa-check"></i>&emsp;Reservations</a></li>
+                            <li><a href="/Nexus/dashboard/admin/payment"><i class="fas fa-cash-register"></i>&emsp;Payment</a></li>
                             <li><a href="/Nexus/dashboard/admin/unpaidStudents"><i class="fas fa-user-times"></i>&emsp;Unpaid Students</a></li>
                             <li><a href="/Nexus/dashboard/admin/cancelledReservations"><i class="fas fa-times"></i>&emsp; Cancelled Reservations</a></li>
                         </ul>
