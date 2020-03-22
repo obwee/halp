@@ -41,4 +41,63 @@ class VenueModel
         return $statement->fetchAll();
     }
 
+    /**
+     * addVenue
+     * Inserts a new record inside the venue table.
+     * @param array $aData
+     * @return int
+     */
+    public function addVenue($aData)
+    {
+        // Prepare an update query to the schedules table.
+        $statement = $this->oConnection->prepare("
+            INSERT INTO tbl_venue
+                (venue, address, contactNum)
+            VALUES
+                (:venue, :address, :contactNum)
+        ");
+
+        // Return the result of the execution of the above statement.
+        return $statement->execute($aData);
+    }
+
+    /**
+     * updateVenue
+     * Queries the venue table in updating a venue.
+     * @param array $aData
+     * @return int
+     */
+    public function updateVenue($aData)
+    {
+        // Prepare an update query to the schedules table.
+        $statement = $this->oConnection->prepare("
+            UPDATE tbl_venue
+            SET
+                venue      = :venue,
+                address    = :address,
+                contactNum = :contactNum
+            WHERE id = :id
+        ");
+
+        // Return the result of the execution of the above statement.
+        return $statement->execute($aData);
+    }
+
+    /**
+     * deleteVenue
+     * Queries the venue table in deleting a venue.
+     * @param array $aVenueId
+     * @return int
+     */
+    public function deleteVenue($aVenueId)
+    {
+        // Prepare a delete query for the tbl_venue table.
+        $statement = $this->oConnection->prepare("
+            DELETE FROM tbl_venue
+            WHERE id = :id
+        ");
+
+        // Execute the above statement along with the needed where clauses then return.
+        return $statement->execute($aVenueId);
+    }
 }
