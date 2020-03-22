@@ -27,7 +27,7 @@ class Forms extends BaseController
      */
     public function fetchHomepageData()
     {
-        $aResult = $this->oCourseModel->fetchCourses();
+        $aResult = $this->oCourseModel->fetchAvailableCoursesAndSchedules();
         $aCourses = array();
         $aSchedules = array();
 

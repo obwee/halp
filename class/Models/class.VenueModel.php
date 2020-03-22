@@ -1,7 +1,11 @@
 <?php
 require_once('utils/dbConnection.php');
 
-class CourseCalendarModel
+/**
+ * VenueModel
+ * Class for venue-related database functionalities.
+ */
+class VenueModel
 {
     /**
      * @var dbConnection $oConnection
@@ -9,17 +13,26 @@ class CourseCalendarModel
      */
     private $oConnection;
 
+    /**
+     * VenueModel constructor.
+     */
     public function __construct()
     {
         $this->oConnection = new dbConnection();
     }
 
-    public function fetchCourses()
+    /**
+     * fetchVenues
+     * Queries the venue table in getting all the venues.
+     * @return array
+     */
+    public function fetchVenues()
     {
-        // Query the tbl_courses.
-
+        // Prepare a select query.
         $statement = $this->oConnection->prepare("
-            SELECT * FROM tbl_courses");
+            SELECT *
+            FROM tbl_venue tv
+        ");
 
         // Execute the above statement.
         $statement->execute();
@@ -27,3 +40,5 @@ class CourseCalendarModel
         // Return the number of rows returned by the executed query.
         return $statement->fetchAll();
     }
+
+}

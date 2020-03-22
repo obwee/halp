@@ -30,7 +30,7 @@ class CourseModel
 
     public function updateCourse($aCourseDetails)
     {
-        // Prepare an insert query.
+        // Prepare an update query.
         $statement = $this->oConnection->prepare("
             UPDATE tbl_courses
             SET
@@ -73,7 +73,7 @@ class CourseModel
         return $statement->fetchAll();
     }
 
-    public function fetchCourses()
+    public function fetchAvailableCoursesAndSchedules()
     {
         // Query the tbl_courses.
         $statement = $this->oConnection->prepare("
