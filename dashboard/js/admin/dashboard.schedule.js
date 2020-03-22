@@ -62,6 +62,12 @@ let CALENDAR = (function () {
             themeSystem: 'bootstrap',
             height: 550,
             events: aEvents,
+            validRange: function () {
+                return {
+                    start: moment().add(1, 'days').toDate(),
+                    end: '2017-06-01'
+                }
+            },
             header: {
                 left: 'title',
                 right: 'prev, today, next',
@@ -184,7 +190,7 @@ let CALENDAR = (function () {
             $(sFormName)[0].reset();
             $('.error-msg').css('display', 'none').html('');
         });
-        
+
         $(document).on('click', '#cancelEventClick', () => {
             // Hide the Swal modal by removing it.
             $('.swal2-container').remove();
