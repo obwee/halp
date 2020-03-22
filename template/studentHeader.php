@@ -22,7 +22,7 @@
     folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../CDNs/dist/css/skins/skin-purple.min.css"> 
     <!-- Google Font -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
     <!-- Datatables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
@@ -41,43 +41,45 @@
 <body class="hold-transition skin-purple sidebar-mini">
 
 
-    <div class="wrapper">
-        <header class="main-header">
-        <!-- Logo -->
-        <a class="logo">
-            <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>NXS</b></span>
-            <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg">Nexus - Student</span>
+  <div class="wrapper">
+    <header class="main-header">
+      <!-- Logo -->
+      <a class="logo">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><b>NXS</b></span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg">Nexus - Student</span>
+      </a>
+      <!-- Header Navbar: style can be found in header.less -->
+      <nav class="navbar navbar-static-top"> <!-- OR navbar fixed-top -->
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+          <span class="sr-only">Toggle navigation</span>
         </a>
-        <!-- Header Navbar: style can be found in header.less -->
-            <nav class="navbar navbar-static-top"> <!-- OR navbar fixed-top -->
-                <!-- Sidebar toggle button-->
-                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-                  <span class="sr-only">Toggle navigation</span>
-                </a>
 
-            <span class="hidden-xs" style="color:white;">Hello,!</span>
+        <span class="hidden-xs" style="color:white;">Hello,!</span>
 
-            <div class="navbar-custom-menu">
-                <ul class="nav navbar-nav">
-                <li class="dropdown notifications-menu">
-                  <a href="#" class="dropdown-toggle notifsToggle" data-toggle="dropdown">
-                    <i class="fas fa-bell"></i>
-                    <span class="label label-warning count"></span>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <ul class="notifsMenu"></ul>
-                  </ul>
-                </li>
+        <div class="navbar-custom-menu">
+          <ul class="nav navbar-nav">
 
-                <!-- User Account: style can be found in dropdown.less -->
-
-                <!-- Control Sidebar Toggle Button -->
+            <li class="dropdown notifications-menu">
+              <a href="#" class="dropdown-toggle notifsToggle" data-toggle="dropdown">
+                <i class="fas fa-bell"></i>
+                <span class="label label-warning count"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <ul class="notifsMenu">
                 </ul>
-            </div>
-            </nav>
-        </header>
+              </ul>
+            </li>
+
+            <!-- User Account: style can be found in dropdown.less -->
+
+            <!-- Control Sidebar Toggle Button -->
+          </ul>
+        </div>
+      </nav>
+    </header>
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -129,126 +131,6 @@
   </aside>
   
 
-    <div class="wrapper">
-        <header class="main-header">
-            <!-- Logo -->
-            <a class="logo">
-                <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini"><b>NXS</b></span>
-                <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg">Nexus - Student</span>
-            </a>
-            <!-- Header Navbar: style can be found in header.less -->
-            <nav class="navbar navbar-static-top">
-                <!-- OR navbar fixed-top -->
-                <!-- Sidebar toggle button-->
-                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-                    <span class="sr-only">Toggle navigation</span>
-                </a>
-
-                <span class="hidden-xs" style="color:white;">Hello, <?php echo Session::get('fullName'); ?>!</span>
-
-                <div class="navbar-custom-menu">
-                    <ul class="nav navbar-nav">
-
-                        <li class="dropdown notifications-menu">
-                            <a href="#" class="dropdown-toggle notifsToggle" data-toggle="dropdown">
-                                <i class="fas fa-bell"></i>
-                                <span class="label label-warning count"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <ul class="notifsMenu">
-                                </ul>
-                            </ul>
-                        </li>
-
-                        <!-- User Account: style can be found in dropdown.less -->
-
-                        <!-- Control Sidebar Toggle Button -->
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <!-- Left side column. contains the logo and sidebar -->
-        <aside class="main-sidebar">
-            <!-- sidebar: style can be found in sidebar.less -->
-            <section class="sidebar">
-                <!-- Sidebar user panel -->
-                <!-- sidebar menu: : style can be found in sidebar.less -->
-                <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">
-                        <i class="fas fa-compass"></i>
-                        <span>&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;NAVIGATION</span>
-                    </li>
-                    <li class="">
-                        <a href="/Nexus/dashboard/student/">
-                            <i class="fas fa-tachometer-alt"></i>
-                            <span>&emsp;Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fas fa-file-invoice"></i>
-                            <span>&emsp; Quotations</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="/Nexus/dashboard/student/quotationRequest"><i class="fas fa-mail-bulk"></i>&emsp;Quotation Requests</a></li>
-                        </ul>
-                    </li>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-users-cog"></i>
-                            <span>&emsp;Registration</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="/Nexus/dashboard/student/enrollment"><i class="fas fa-users"></i>&emsp;Enrollment</a></li>
-                            <li><a href="/Nexus/dashboard/student/payment"><i class="fas fa-money"></i>&emsp;Payment</a></li>
-                        </ul>
-                    </li>
-                    <li class="treeview">
-                        <a href="#.php">
-                            <i class="fas fa-info-circle"></i>
-                            <span>&emsp;Help</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="/Nexus/dashboard/student/help"><i class="fas fa-question-circle"></i>&emsp;FAQs</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                    <li class="treeview">
-                        <a href="">
-                            <i class="fa fa-cog"></i>
-                            <span>&emsp;Settings</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="/Nexus/dashboard/student/profile"><i class="fas fa-user-edit"></i>&emsp;Profile </a></li>
-                    </li>
-                </ul>
-                <li>
-                    <a href="/Nexus/dashboard/student/help"><i class="fas fa-question-circle"></i>&emsp;Help</a>
-                </li>
-                <li>
-                    <a href="" class="logout">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>&emsp; Logout</span>
-                    </a>
-                </li>
-                </ul>
-            </section>
-            <!-- /.sidebar -->
-        </aside>
 
         <!-- START OF PAGE CONTENTS (MAIN) -->
 

@@ -3,10 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
-
--- Generation Time: Mar 09, 2020 at 03:32 PM
+-- Generation Time: Mar 22, 2020 at 09:03 AM
 -- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.2
+-- PHP Version: 7.4.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -22,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `nexus`
 --
+CREATE DATABASE IF NOT EXISTS `nexus` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `nexus`;
 
 -- --------------------------------------------------------
 
@@ -49,12 +50,11 @@ INSERT INTO `tbl_courses` (`id`, `courseName`, `coursePrice`, `courseDescription
 (5, 'MCSA in Windows Server 2016', '22500', 'Microsoft Certified Solutions Associate in Windows Server 2016', 'MCSA2016'),
 (6, 'MCSA in Windows Server 2012', '18000', 'Microsoft Certified Solutions Associate in Windows Server 2012', 'MCSA2012'),
 (7, 'Microsoft Azure Administrator', '30000', '', 'AZ-1003T00-A'),
-(8, 'AWS - Solutions Architecht', '18000', 'Amazon Web Services Solutions Architect', 'AWS'),
+(8, 'AWS - Solutions Architect', '18000', 'Amazon Web Services Solutions Architect', 'AWS'),
 (9, 'VMware 6.7 ICM', '25000', 'Vmware vSphere 6.7: Install, Configure and Manage', 'VMware'),
 (10, 'Vmware Hyper-Converged Infrastructure', '55000', '', 'HCI'),
 (11, 'Ethical Hacking & Penetration Testing', '3000', '', 'EH'),
 (12, 'Certified Digital Forensics Examiner', '45000', '', 'CDFE');
- Forensics Examiner', '0', '', 'CDFE');
 
 -- --------------------------------------------------------
 
@@ -206,6 +206,7 @@ INSERT INTO `tbl_quotation_senders` (`quoteSenderId`, `firstName`, `middleName`,
 CREATE TABLE `tbl_schedules` (
   `id` int(11) NOT NULL,
   `courseId` int(11) NOT NULL,
+  `instructorId` int(11) NOT NULL,
   `venueId` int(11) NOT NULL,
   `numSlots` int(11) NOT NULL,
   `remainingSlots` int(11) NOT NULL,
@@ -217,12 +218,13 @@ CREATE TABLE `tbl_schedules` (
 -- Dumping data for table `tbl_schedules`
 --
 
-INSERT INTO `tbl_schedules` (`id`, `courseId`, `venueId`, `numSlots`, `remainingSlots`, `fromDate`, `toDate`) VALUES
-(2, 1, 2, 50, 50, '2020-03-23', '2020-03-27'),
-(3, 2, 1, 50, 50, '2020-03-23', '2020-03-27'),
-(4, 3, 2, 50, 50, '2020-03-28', '2020-03-29'),
-(5, 4, 1, 50, 50, '2020-03-29', '2020-03-29'),
-(6, 1, 1, 50, 50, '2020-03-16', '2020-03-20');
+INSERT INTO `tbl_schedules` (`id`, `courseId`, `instructorId`, `venueId`, `numSlots`, `remainingSlots`, `fromDate`, `toDate`) VALUES
+(2, 1, 111, 2, 50, 50, '2020-04-23', '2020-04-27'),
+(3, 2, 111, 1, 50, 50, '2020-04-23', '2020-04-27'),
+(4, 1, 109, 2, 50, 50, '2020-04-28', '2020-04-29'),
+(5, 4, 110, 1, 50, 50, '2020-04-29', '2020-04-29'),
+(6, 8, 109, 1, 50, 50, '2020-04-16', '2020-04-20'),
+(9, 9, 111, 2, 10, 0, '2020-04-09', '2020-04-11');
 
 -- --------------------------------------------------------
 
@@ -246,7 +248,6 @@ CREATE TABLE `tbl_training` (
   `id` int(11) NOT NULL,
   `studentId` int(11) NOT NULL,
   `courseId` int(11) NOT NULL,
-  `instructorId` int(11) NOT NULL,
   `scheduleId` int(11) NOT NULL,
   `isDone` tinyint(1) NOT NULL DEFAULT 0,
   `paymentId` int(11) NOT NULL,
@@ -257,9 +258,9 @@ CREATE TABLE `tbl_training` (
 -- Dumping data for table `tbl_training`
 --
 
-INSERT INTO `tbl_training` (`id`, `studentId`, `courseId`, `instructorId`, `scheduleId`, `isDone`, `paymentId`, `certificateIssued`) VALUES
-(1, 98, 3, 2, 1, 0, 1, 0),
-(2, 98, 2, 2, 1, 0, 2, 0);
+INSERT INTO `tbl_training` (`id`, `studentId`, `courseId`, `scheduleId`, `isDone`, `paymentId`, `certificateIssued`) VALUES
+(1, 98, 3, 1, 0, 1, 0),
+(2, 98, 2, 1, 0, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -297,7 +298,10 @@ INSERT INTO `tbl_users` (`userId`, `username`, `password`, `firstName`, `middleN
 (97, 'student12', 'student', 'Fay Gorczany', 'Bergnaum', 'Hilpert', 'Student', 'Botsford and Sons', '89606', 'coreilly@example.net', 'Inactive'),
 (98, 'aries', 'student', 'Aries', 'Valenzuela', 'Macandili', 'Student', 'Cafe24 PH', '09161225985', 'macandili.aries@gmail.com', 'Active'),
 (103, 'student13', 'student', 'Milton Dibbert', 'Quitzon', 'Hyatt', 'Student', 'Bradtke-West', '28141', 'gregg33@example.net', 'Inactive'),
-(108, 'angelyn', 'angelyn', 'Angelyn', '', 'Dequito', 'Student', 'Google', '09123456789', 'gelyn@gmail.com', 'Active');
+(108, 'angelyn', 'angelyn', 'Angelyn', '', 'Dequito', 'Student', 'Google', '09123456789', 'gelyn@gmail.com', 'Active'),
+(109, 'mark', 'mark123', 'Mark', '', 'Sampayan', 'Instructor', 'Ingram Micro', '1234567890', 'marksampayan@gmail.com', 'Active'),
+(110, 'richard', 'richard123', 'Richard', '', 'Reblando', 'Instructor', 'Nexus ITTC', '1234567890', 'richardreblando@gmail.com', 'Active'),
+(111, 'judith', 'judith123', 'Judith', '', 'Correa', 'Instructor', 'Nexus ITTC', '1234567890', 'judithcorrea@gmail.com', 'Active');
 
 -- --------------------------------------------------------
 
@@ -308,16 +312,17 @@ INSERT INTO `tbl_users` (`userId`, `username`, `password`, `firstName`, `middleN
 CREATE TABLE `tbl_venue` (
   `id` int(11) NOT NULL,
   `venue` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL
+  `address` varchar(255) NOT NULL,
+  `contactNum` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tbl_venue`
 --
 
-INSERT INTO `tbl_venue` (`id`, `venue`, `address`) VALUES
-(1, 'Manila', 'Room 401 Dona Amparo Bldg., Espana Blvd., Manila'),
-(2, 'Makati', 'Unit 2417, 24th Floor Cityland 10 Tower 2, 154 H.V. Dela Costa St., Ayala North, Makati City\r\n');
+INSERT INTO `tbl_venue` (`id`, `venue`, `address`, `contactNum`) VALUES
+(1, 'Manila', 'Room 401 Dona Amparo Bldg., Espana Blvd., Manila', '+63 2 8355-7759'),
+(2, 'Makati', 'Unit 2417, 24th Floor Cityland 10 Tower 2, 154 H.V. Dela Costa St., Ayala North, Makati City\r\n', '+63 2 8362-3755');
 
 --
 -- Indexes for dumped tables
@@ -403,7 +408,7 @@ ALTER TABLE `tbl_venue`
 -- AUTO_INCREMENT for table `tbl_courses`
 --
 ALTER TABLE `tbl_courses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tbl_emails`
@@ -445,7 +450,7 @@ ALTER TABLE `tbl_quotation_senders`
 -- AUTO_INCREMENT for table `tbl_schedules`
 --
 ALTER TABLE `tbl_schedules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tbl_sent_quotations`
@@ -463,7 +468,7 @@ ALTER TABLE `tbl_training`
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT for table `tbl_venue`
