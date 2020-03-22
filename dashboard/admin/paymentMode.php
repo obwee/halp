@@ -24,19 +24,19 @@ require_once "Template/header.php";
                     <tr>
                         <td>Cash</td>
                         <td>
-                            <button class="btn btn-danger"><i class="fas fa-trash-alt"></i> Remove</button>
+                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove</button>
                         </td>
                     </tr>
                     <tr>
                         <td>BDO</td>
                         <td>
-                            <button class="btn btn-danger"><i class="fas fa-trash-alt"></i> Remove</button>
+                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove</button>
                         </td>
                     </tr>
                     <tr>
                         <td>Cheque</td>
                         <td>
-                            <button class="btn btn-danger"><i class="fas fa-trash-alt"></i> Remove</button>
+                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove</button>
                         </td>
                     </tr>
                 </tbody>

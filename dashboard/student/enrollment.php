@@ -7,6 +7,9 @@ require_once "template/studentHeader.php";
         <p class="h3">Enrollment</p>
     </div>
 
+    <div align="left">
+    <button type="button" id="enroll" data-toggle="modal" data-target="#enrollModal" class="btn btn-primary btn-block">Enroll</button>    
+
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group row">
@@ -68,30 +71,21 @@ require_once "template/studentHeader.php";
             <button type="button" class="btn btn-dark"><span class="fas fa-eraser"></span>&nbsp Clear&nbsp&nbsp&nbsp</button>
         </div>
     </div>
-    <br>
 
+<br>
+<div class="container">
     <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
         <table id="tbl_enrollment" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
             <thead>
                 <tr>
                     <th style="white-space:nowrap;text-align:center;">Course Code</th>
-                    <br>
-                    <div class="container">
-                        <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
-                            <p class="h3 border-bottom">Enrolled Courses</p>
-                            <table id="tbl_enrollment" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
-                                <thead>
-                                    <tr>
-                                        <th style="white-space:nowrap;text-align:center;">Course Code</th>
-                                        <th style="white-space:nowrap;text-align:center;">Start Date</th>
-                                        <th style="white-space:nowrap;text-align:center;">End Date</th>
-                                        <th style="white-space:nowrap;text-align:center;">Venue</th>
-                                        <th style="white-space:nowrap;text-align:center;">Instructor</th>
-                                        <th style="white-space:nowrap;text-align:center;">Payment Status</th>
-                                        <th style="white-space:nowrap;text-align:center;">Actions</th>
-                                    </tr>
-                                    <th style="white-space:nowrap;text-align:center;">Actions</th>
-                </tr>
+                    <th style="white-space:nowrap;text-align:center;">Start Date</th>
+                    <th style="white-space:nowrap;text-align:center;">End Date</th>
+                    <th style="white-space:nowrap;text-align:center;">Venue</th>
+                    <th style="white-space:nowrap;text-align:center;">Instructor</th>
+                    <th style="white-space:nowrap;text-align:center;">Payment Status</th>
+					<th style="white-space:nowrap;text-align:center;">Actions</th>
+				</tr>
             </thead>
             <tbody>
                 <tr>

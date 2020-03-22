@@ -363,6 +363,15 @@ footer h3 {
     font-size: 18px;
 }
 
+#terms h3 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 50px;
+}
+
+#terms .terms-content {
+    font-family: 'Montserrat', sans-serif;
+}
+
 /*============================================*/
 
 html {
