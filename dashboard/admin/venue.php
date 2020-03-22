@@ -29,15 +29,15 @@ require_once "Template/header.php";
                     <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                     <div class="form-group">
                         <label for="branch"><span class="fas fa-map-pin"></span> Branch</label>
-                        <input type="text" class="form-control" id="branch" name="branch" placeholder="Branch" autofocus maxlength="20">
+                        <input type="text" class="form-control branch" name="branch" placeholder="Branch" autofocus maxlength="20">
                     </div>
                     <div class="form-group">
                         <label for="branchAddress"><span class="fas fa-map-signs"></span> Address</label>
-                        <input type="text" class="form-control" id="branchAddress" name="branchAddress" placeholder="Address" autofocus maxlength="50">
+                        <input type="text" class="form-control branchAddress" name="branchAddress" placeholder="Address" autofocus maxlength="500">
                     </div>
                     <div class="form-group">
                         <label for="branchContact"><span class="fas fa-phone"></span> Contact Number</label>
-                        <input type="text" class="form-control" id="branchContact" name="branchContact" placeholder="Contact Number" autofocus maxlength="50">
+                        <input type="text" class="form-control branchContact" name="branchContact" placeholder="Contact Number" autofocus maxlength="50">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -60,15 +60,15 @@ require_once "Template/header.php";
                     <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                     <div class="form-group">
                         <label for="branch"><span class="fas fa-map-pin"></span> Branch</label>
-                        <input type="text" class="form-control" id="branch" name="branch" placeholder="Branch" readonly maxlength="20">
+                        <input type="text" class="form-control branch" name="branch" placeholder="Branch" autofocus maxlength="20">
                     </div>
                     <div class="form-group">
                         <label for="branchAddress"><span class="fas fa-map-signs"></span> Address</label>
-                        <input type="text" class="form-control" id="branchAddress" name="branchAddress" placeholder="Address" autofocus maxlength="50">
+                        <input type="text" class="form-control branchAddress" name="branchAddress" placeholder="Address" autofocus maxlength="500">
                     </div>
                     <div class="form-group">
                         <label for="branchContact"><span class="fas fa-phone"></span> Contact Number</label>
-                        <input type="text" class="form-control" id="branchContact" name="branchContact" placeholder="Contact Number" autofocus maxlength="50">
+                        <input type="text" class="form-control branchContact" name="branchContact" placeholder="Contact Number" autofocus maxlength="50">
                     </div>
                 </div>
                 <div class="modal-footer">

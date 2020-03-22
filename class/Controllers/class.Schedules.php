@@ -132,6 +132,8 @@ class Schedules extends BaseController
 
             Utils::sanitizeData($this->aParams);
 
+            $this->aParams['remainingSlots'] = $this->aParams['numSlots'];
+
             // Perform insert.
             $iQuery = $this->oScheduleModel->addSchedule($this->aParams);
 
