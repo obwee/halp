@@ -40,12 +40,18 @@ let CALENDAR = (function () {
     let aInstructors = [];
 
     /**
+     * @var {string} sDefaultDate
+     * The current month view of the calendar.
+     */
+    let sDefaultDate = moment().format('YYYY-MM-DD');
+
+    /**
      * init
      * Constructor-like method that will be invoked on document ready.
      */
     function init() {
         fetchSchedules();
-        initializeCalendar();
+        initializeCalendar(sDefaultDate);
         fetchCourses();
         fetchVenues();
         fetchInstructors();
@@ -55,19 +61,15 @@ let CALENDAR = (function () {
     /**
      * initializeCalendar
      * Initializes the calendar to display it on the front-end.
+     * @param {string} sDefaultDate
      */
-    function initializeCalendar() {
+    function initializeCalendar(sDefaultDate) {
         oCalendar = new FullCalendar.Calendar(oCalendarEl, {
             plugins: ['interaction', 'dayGrid'],
             themeSystem: 'bootstrap',
             height: 550,
             events: aEvents,
-            validRange: function () {
-                return {
-                    start: moment().add(1, 'days').toDate(),
-                    end: '2017-06-01'
-                }
-            },
+            defaultDate: sDefaultDate,
             header: {
                 left: 'title',
                 right: 'prev, today, next',
@@ -97,8 +99,11 @@ let CALENDAR = (function () {
      * Prepares the calendar-related events.
      */
     function prepareCalendarEvents() {
-        oCalendar.on('datesRender', function () {
+        oCalendar.on('datesRender', function (oInfo) {
             changeCalendarTitle();
+            let [sMonthName, iYear] = oInfo.view.title.split(' ');
+            iMonth = moment().month(sMonthName).format("MM");
+            sDefaultDate = [iYear, iMonth, '01'].join('-');
         });
 
         oCalendar.on('eventRender', function (oInfo) {
@@ -478,7 +483,7 @@ let CALENDAR = (function () {
         $('.tooltip').remove();
         fetchSchedules();
         oCalendar.destroy();
-        initializeCalendar();
+        initializeCalendar(sDefaultDate);
         $('.modal').modal('hide');
     }
 

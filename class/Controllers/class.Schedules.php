@@ -85,6 +85,17 @@ class Schedules extends BaseController
 
             Utils::sanitizeData($this->aParams);
 
+            $this->aParams['remainingSlots'] = $this->getRemainingSlots($this->aParams);
+
+            if ($this->aParams['remainingSlots'] < 0) {
+                $aResult = array(
+                    'bResult' => false,
+                    'sMsg'    => 'Remaining slots cannot be less than 0.'
+                );
+                echo json_encode($aResult);
+                exit();
+            }
+
             // Perform update.
             $iQuery = $this->oScheduleModel->updateSchedule($this->aParams);
 
@@ -182,5 +193,21 @@ class Schedules extends BaseController
         }
 
         echo json_encode($aResult);
+    }
+
+    /**
+     * getRemainingSlots
+     * @param array $aData
+     * @return int
+     */
+    private function getRemainingSlots($aData)
+    {
+        $oTrainingModel = new TrainingModel();
+        $aIds = array(
+            'courseId'   => $aData['courseId'],
+            'scheduleId' => $aData['id']
+        );
+        $iNumberOfEmployees = $oTrainingModel->fetchNumberOfEnrollees($aIds);
+        return $aData['numSlots'] - $iNumberOfEmployees;
     }
 }

@@ -66,12 +66,13 @@ class SchedulesModel
         $statement = $this->oConnection->prepare("
             UPDATE tbl_schedules
             SET
-                fromDate     = :fromDate,
-                toDate       = :toDate,
-                venueId      = :venueId,
-                courseId     = :courseId,
-                instructorId = :instructorId,
-                numSlots     = :numSlots
+                fromDate       = :fromDate,
+                toDate         = :toDate,
+                venueId        = :venueId,
+                courseId       = :courseId,
+                instructorId   = :instructorId,
+                numSlots       = :numSlots,
+                remainingSlots = :remainingSlots
             WHERE id = :id
         ");
 
@@ -115,15 +116,5 @@ class SchedulesModel
 
         // Return the result of the execution of the above statement.
         return $statement->execute($aScheduleId);
-    }
-
-    /**
-     * getNumberOfEnrolles
-     * @param array $aData
-     * @return int
-     */
-    private function getNumberOfEnrolles()
-    {
-
     }
 }
