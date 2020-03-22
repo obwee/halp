@@ -22,18 +22,15 @@ class Users extends BaseController
 
     /**
      * fetchInstructors
-     * Fetch venues from the database.
+     * Fetch instructors from the database.
      */
     public function fetchInstructors()
     {
-        $aInstructors = array();
+        $aInstructors = $this->oUsersModel->fetchInstructors();
 
         // Filter the data before returning to front-end.
-        foreach($this->oUsersModel->fetchInstructors() as $iKey => $aInstructor) {
-            if ($aInstructor['status'] === 'Active') {
-                $aInstructors[$iKey]['id'] = $aInstructor['userId'];
-                $aInstructors[$iKey]['fullName'] = $aInstructor['firstName'] . ' ' . $aInstructor['lastName'];
-            }
+        foreach($aInstructors as $iKey => $aInstructor) {
+            $aInstructors[$iKey]['fullName'] = $aInstructor['firstName'] . ' ' . $aInstructor['lastName'];
         }
 
         echo json_encode($aInstructors);

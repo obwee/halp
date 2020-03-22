@@ -42,6 +42,7 @@ var oForms = (() => {
 
         prepareCourseEvents();
         prepareVenueEvents();
+        prepareInstructorEvents();
     }
 
     /**
@@ -102,6 +103,39 @@ var oForms = (() => {
             let oCourseScheduleDivNew = $('.courseAndScheduleDiv-new:last').clone();
             oCourseScheduleDivNew.insertAfter('.courseAndScheduleDiv-new:last').css('display', 'none');
         }
+    }
+
+    /**
+     * prepareInstructorEvents
+     * jQuery event handlers for instructors.php
+     */
+    function prepareInstructorEvents() {
+        // Allow only alphabetical characters and a period on first, middle, and last name via RegExp.
+        $(document).on('keyup keydown', '.firstName, .middleName, .lastName', function () {
+            // Input must not start by a period.
+            if (this.value.length === 1 && this.value.match(/[^a-zA-Z]/)) {
+                return this.value = this.value.replace(this.value, '');
+            }
+            return this.value = this.value.replace(/[^a-zA-Z\s\.]/g, '');
+        });
+
+        $(document).on('keyup keydown', '.contactNum', function () {
+            return this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        // Trim excess spaces and dots on specific inputs via RegExp on focusout event.
+        $(document).on('focusout', '.firstName, .middleName, .lastName, .email', function () {
+            $(this).val($(this).val().replace(/\s+/g, ' ').replace(/\.+/g, '.').trim());
+        });
+
+        // Trim excess spaces and dots on certification title input via RegExp on focusout event.
+        $(document).on('focusout', '.certificationTitle', function () {
+            // Input must not start by a period.
+            if (this.value.length === 1 && this.value.match(/[^,]/)) {
+                return this.value = this.value.replace(this.value, '');
+            }
+            $(this).val($(this).val().replace(/\s+/g, ' ').replace(/\,+/g, ',').replace(/\,$/g, '').trim());
+        });
     }
 
     // Return public pointers.

@@ -30,9 +30,11 @@ class UsersModel
     {
         // Prepare a select query.
         $statement = $this->oConnection->prepare("
-            SELECT *
+            SELECT
+                tu.userId AS id, tu.firstName, tu.middleName, tu.lastName,
+                tu.contactNum, tu.email, tu.certificationTitle, tu.status
             FROM tbl_users tu
-            WHERE position = 'Instructor'
+            WHERE tu.position = 'Instructor'
         ");
 
         // Execute the above statement.
