@@ -15,7 +15,7 @@ require_once "Template/header.php";
         <p class="h2">Sales Report</p>
     </div>
 
-    <div class="row">
+    <div class="row" style="background-color:white;padding:5px;margin:5px;border-radius:8px 8px;margin-bottom:10px;">
         <div class="col-sm-6">
             <div class="row">
                 <div class="col-xs-4">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -77,17 +77,17 @@ require_once "Template/header.php";
             </thead>
             <tbody>
                 <tr>
-                    <td>2020-03-01</td>
-                    <td>Aries Valenzuela Macandili</td>
-                    <td>Simplex Internet Philippines</td>
-                    <td>Ethical Hacking with Penetration Testing</td>
-                    <td>2020-03-21</td>
-                    <td>2020-03-22</td>
-                    <td>Cheque</td>
-                    <td>P 3,000</td>
-                    <td>P 3,000</td>
-                    <td>Full</td>
-                    <td>Aubrey Arbiol</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>

@@ -35,7 +35,7 @@ if(isset($_POST['submit'])) {
 		<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
 			<div align="right">
                 <button type="button" id="addNewBranch" data-toggle="modal" data-target="#editCredentialsModal" class="btn btn-primary">Edit My Credentials</button>
-				<button type="button" id="addNewBranch" data-toggle="modal" data-target="#addNewAdminModal" class="btn btn-dark">Add New Admin</button>
+				<button type="button" id="addNewBranch" data-toggle="modal" data-target="#addNewAdminModal" class="btn btn-secondary">Add New Admin</button>
 				<br><br>
 			</div>
 			<table id="tbl_users" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
@@ -217,7 +217,7 @@ if(isset($_POST['submit'])) {
 require_once "template/scripts.php";
 ?>
 
-<script src="/Nexus/dashboard/admin/js/dashboard.credentials.js"></script>
+<script src="/Nexus/dashboard/js/admin/dashboard.credentials.js"></script>
 
 
 <?php

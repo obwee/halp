@@ -130,9 +130,15 @@ require_once "Template/header.php";
                 </div>
                 <form>
                 	<div class="form-group">
+                		<label for="course"><span class="fas fa-book"></span> New Course</label>
+                		<select class="form-control">
+                			<option value="" selected disabled hidden>Select New Course</option>
+                		</select>
+                	</div>
+                	<div class="form-group">
                 		<label for="schedule"><span class="fas fa-calendar"></span> New Schedule</label>
                 		<select class="form-control">
-                			<option value="" selected disabled>Select New Schedule</option>
+                			<option value="" selected disabled hidden>Select New Schedule</option>
                 		</select>
                 	</div>
                 </form>

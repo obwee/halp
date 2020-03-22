@@ -21,7 +21,7 @@ require_once "Template/header.php";
 			<h2>Unpaid Reservations</h2>
 		</div>
 
-		<div class="row" style="border-radius:10px 10px;border-style:solid;border-color:#d5d5d5;padding:10px 10px;margin-left:10px;margin-right:10px;border-width:2px;">
+		<div class="row" style="border-radius:5px 5px;background-color:#fff;padding:10px 10px;margin-left:10px;margin-right:10px;border-width:2px;">
 			<div class="col-md-4">
 				<div class="row">
 					<div class="venue" style="padding-left:80px;">
@@ -100,7 +100,7 @@ require_once "Template/header.php";
 require_once "template/scripts.php";
 ?>
 
-<script src="/Nexus/dashboard/admin/js/dashboard.unpaidStudents.js"></script>
+<script src="/Nexus/dashboard/js/admin/dashboard.unpaidStudents.js"></script>
 
 <?php
 require_once "template/footer.php";

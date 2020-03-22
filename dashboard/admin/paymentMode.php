@@ -4,7 +4,7 @@ require_once "Template/header.php";
 
 	<div class="container">
 		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-			<p class="h2">Edit Payment Mode</p>
+			<p class="h2">Payment Mode</p>
 
 		</div>
 

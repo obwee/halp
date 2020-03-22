@@ -19,7 +19,7 @@ class Session
      */
     public static function get($sKey)
     {
-        return $_SESSION[$sKey];
+    //    return $_SESSION[$sKey];
     }
 
     /**
