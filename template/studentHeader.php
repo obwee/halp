@@ -12,36 +12,15 @@
   <title>Nexus IT Training Center</title>
   
 
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">  
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="../CDNs/dashboard/font-awesome/css/all.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../CDNs/dist/css/AdminLTE.css">
-  <!-- AdminLTE Skins. Choose a skin from the css/skins
-   folder instead of downloading all of them to reduce the load. -->
-   <link rel="stylesheet" href="../CDNs/dist/css/skins/skin-purple.min.css"> 
-   <!-- Google Font -->
-   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Nexus IT Training Center</title>
-
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">  
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/Nexus/CDNs/dashboard/font-awesome/css/all.css">
+    <link rel="stylesheet" href="../CDNs/dashboard/font-awesome/css/all.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="/Nexus/CDNs/dist/css/AdminLTE.css">
+    <link rel="stylesheet" href="../CDNs/dist/css/AdminLTE.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
-   folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="/Nexus/CDNs/dist/css/skins/skin-purple.min.css">
+    folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../CDNs/dist/css/skins/skin-purple.min.css"> 
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
@@ -62,45 +41,43 @@
 <body class="hold-transition skin-purple sidebar-mini">
 
 
-  <div class="wrapper">
-    <header class="main-header">
-      <!-- Logo -->
-      <a class="logo">
-        <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>NXS</b></span>
-        <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg">Nexus - Student</span>
-      </a>
-      <!-- Header Navbar: style can be found in header.less -->
-      <nav class="navbar navbar-static-top"> <!-- OR navbar fixed-top -->
-        <!-- Sidebar toggle button-->
-        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-          <span class="sr-only">Toggle navigation</span>
+    <div class="wrapper">
+        <header class="main-header">
+        <!-- Logo -->
+        <a class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>NXS</b></span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg">Nexus - Student</span>
         </a>
+        <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top"> <!-- OR navbar fixed-top -->
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                  <span class="sr-only">Toggle navigation</span>
+                </a>
 
-        <span class="hidden-xs" style="color:white;">Hello,!</span>
+            <span class="hidden-xs" style="color:white;">Hello,!</span>
 
-        <div class="navbar-custom-menu">
-          <ul class="nav navbar-nav">
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                <li class="dropdown notifications-menu">
+                  <a href="#" class="dropdown-toggle notifsToggle" data-toggle="dropdown">
+                    <i class="fas fa-bell"></i>
+                    <span class="label label-warning count"></span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <ul class="notifsMenu"></ul>
+                  </ul>
+                </li>
 
-            <li class="dropdown notifications-menu">
-              <a href="#" class="dropdown-toggle notifsToggle" data-toggle="dropdown">
-                <i class="fas fa-bell"></i>
-                <span class="label label-warning count"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <ul class="notifsMenu">
+                <!-- User Account: style can be found in dropdown.less -->
+
+                <!-- Control Sidebar Toggle Button -->
                 </ul>
-              </ul>
-            </li>
-
-            <!-- User Account: style can be found in dropdown.less -->
-
-            <!-- Control Sidebar Toggle Button -->
-          </ul>
-        </div>
-      </nav>
-    </header>
+            </div>
+            </nav>
+        </header>
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
