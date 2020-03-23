@@ -44,4 +44,68 @@ class UsersModel
         return $statement->fetchAll();
     }
 
+    /**
+     * addInstructor
+     * Inserts a new record inside the users table.
+     * @param array $aData
+     * @return int
+     */
+    public function addInstructor($aData)
+    {
+        // Prepare an update query to the schedules table.
+        $statement = $this->oConnection->prepare("
+            INSERT INTO tbl_users
+                (firstName, middleName, lastName, email, contactNum, certificationTitle, position)
+            VALUES
+                (:firstName, :middleName, :lastName, :email, :contactNum, :certificationTitle, 'Instructor')
+        ");
+
+        // Return the result of the execution of the above statement.
+        return $statement->execute($aData);
+    }
+
+    /**
+     * updateInstructor
+     * Updates the instructor details inside the users table.
+     * @param array $aData
+     * @return int
+     */
+    public function updateInstructor($aData)
+    {
+        // Prepare an update query to the schedules table.
+        $statement = $this->oConnection->prepare("
+            UPDATE tbl_users
+            SET
+                firstName          = :firstName,
+                middleName         = :middleName,
+                lastName           = :lastName,
+                email              = :email,
+                contactNum         = :contactNum,
+                certificationTitle = :certificationTitle
+            WHERE userId = :userId
+        ");
+
+        // Return the result of the execution of the above statement.
+        return $statement->execute($aData);
+    }
+
+    /**
+     * enableDisableInstructor
+     * Updates the instructor status inside the users table.
+     * @param array $aData
+     * @return int
+     */
+    public function enableDisableInstructor($aData)
+    {
+        // Prepare an update query to the schedules table.
+        $statement = $this->oConnection->prepare("
+            UPDATE tbl_users
+            SET
+                status = :status
+            WHERE userId = :userId
+        ");
+
+        // Return the result of the execution of the above statement.
+        return $statement->execute($aData);
+    }
 }

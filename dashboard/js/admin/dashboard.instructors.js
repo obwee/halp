@@ -66,16 +66,63 @@ var oInstructor = (() => {
     function setEvents() {
         oForms.prepareDomEvents();
 
+        $('.modal').on('hidden.bs.modal', function () {
+            let sFormName = `#${$(this).find('form').attr('id')}`;
+            $(sFormName)[0].reset();
+            $('.error-msg').css('display', 'none').html('');
+        });
+
         $(document).on('click', '#editInstructor', function () {
             let iInstructorId = $(this).attr('data-id');
             let oInstructorDetails = aInstructors.filter(oInstructor => oInstructor.id == iInstructorId)[0];
             proceedToEditInstructor(oInstructorDetails);
         });
 
-        $('.modal').on('hidden.bs.modal', function () {
-            let sFormName = `#${$(this).find('form').attr('id')}`;
-            $(sFormName)[0].reset();
-            $('.error-msg').css('display', 'none').html('');
+        $(document).on('click', '#disableInstructor', function () {
+            Swal.fire({
+                title: 'Disable the instructor?',
+                text: `This will mark the status of the instructor as 'Inactive'.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((bResult) => {
+                if (bResult.value === true) {
+                    const oDetails = {
+                        'instructorId': parseInt($(this).attr('data-id'), 10),
+                        'instructorAction': 'disable'
+                    }
+                    toggleEnableDisableInstructor(oDetails);
+                }
+            });
+        });
+
+        $(document).on('click', '#enableInstructor', function () {
+            Swal.fire({
+                title: 'Enable the instructor?',
+                text: `This will mark the status of the instructor as 'Active'.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((bResult) => {
+                if (bResult.value === true) {
+                    const oDetails = {
+                        'instructorId': parseInt($(this).attr('data-id'), 10),
+                        'instructorAction': 'enable'
+                    }
+                    toggleEnableDisableInstructor(oDetails);
+                }
+            });
+        });
+
+        $(document).on('click', '#messageInstructor', function () {
+            // let iInstructorId = $(this).attr('data-id');
+            // let oInstructorDetails = aInstructors.filter(oInstructor => oInstructor.id == iInstructorId)[0];
+            // proceedToEditInstructor(oInstructorDetails);
+            $('#messageInstructorModal').modal('show');
         });
 
         $(document).on('submit', 'form', function (oEvent) {
@@ -198,20 +245,21 @@ var oInstructor = (() => {
     }
 
     /**
-     * executeDelete
-     * @param {object} oVenueId
+     * toggleEnableDisableInstructor
+     * @param {object} oInstructorData
      */
-    function executeDelete(oVenueId) {
+    function toggleEnableDisableInstructor(oInstructorData) {
+        console.log(oInstructorData);
         $.ajax({
-            url: '/Nexus/utils/ajax.php?class=Venue&action=deleteVenue',
+            url: '/Nexus/utils/ajax.php?class=Users&action=enableDisableInstructor',
             type: 'POST',
-            data: oVenueId,
+            data: oInstructorData,
             dataType: 'json',
             success: function (oResponse) {
                 oLibraries.displayAlertMessage(
                     (oResponse.bResult === true) ? 'success' : 'error', oResponse.sMsg
                 );
-                fetchVenues();
+                fetchInstructors();
             }
         });
     }

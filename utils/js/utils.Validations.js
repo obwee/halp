@@ -677,7 +677,7 @@ class Validations {
             );
         }
 
-        // Check if ceertification title has a value.
+        // Check if certification title has a value.
         if ($.trim($('.certificationTitle').val()).length !== 0) {
             instructorInputRules.splice(1, 0,
                 {

@@ -25,7 +25,7 @@ require_once "Template/header.php";
             <div class="modal-header" style="background-color: #A2C710;">
                 <h5 align="center">Add New Instructor</h5>
             </div>
-            <form method="POST" id="addInstructorModal">
+            <form method="POST" id="addInstructorForm">
                 <div class="modal-body">
                     <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                     <div class="form-group">
@@ -115,16 +115,16 @@ require_once "Template/header.php";
             <form action="POST" id="messageInstructorForm">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="subjectQuote"><span class="fas fa-envelope"></span> Subject</label>
-                        <input type="text" class="form-control" id="subjectQuote" name="subjectQuote" placeholder="Subject" autofocus maxlength="30">
+                        <label for="title"><span class="fas fa-envelope"></span> Subject</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Subject" autofocus maxlength="30">
                     </div>
                     <div class="form-group">
-                        <label for=quoteMessage><span class="fas fa-envelope-open-text"></span> Message</label>
-                        <textarea class="form-control" id="emailMsg" name="emailMsg" rows="10" placeholder="Type your message here."></textarea>
+                        <label for='msg'><span class="fas fa-envelope-open-text"></span> Message</label>
+                        <textarea class="form-control" id="msg" name="msg" rows="10" placeholder="Type your message here."></textarea>
                     </div>
                     <div class="custom-file">
-                        <label class="custom-file-label" for="customFile">Upload File</label>
-                        <input type="file" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="file">Upload File</label>
+                        <input type="file" class="file" id="file">
                     </div>
                 </div>
                 <div class="modal-footer">
