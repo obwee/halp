@@ -618,6 +618,111 @@ class Validations {
         return validationResult;
     }
 
+    // This method validates the inputs of the user before submission for instructor addition/alteration.
+    validateInstructorInputs(sFormName) {
+        sFormName = sFormName.substr(1);
+
+        // Declare an object with properties related to inputs that need to be validated.
+        let instructorInputRules = [
+            {
+                name: 'First name',
+                element: '.firstName',
+                length: $.trim($(`form[id="${sFormName}"]`).find('.firstName').val()).length,
+                minLength: 2,
+                maxLength: 30,
+                pattern: /^[a-zA-Z\s\.]+$/g
+            },
+            {
+                name: 'Last name',
+                element: '.lastName',
+                length: $.trim($(`form[id="${sFormName}"]`).find('.lastName').val()).length,
+                minLength: 2,
+                maxLength: 30,
+                pattern: /^[a-zA-Z\s\.]+$/g
+            },
+            {
+                name: 'Contact number',
+                element: '.contactNum',
+                length: $.trim($(`form[id="${sFormName}"]`).find('.contactNum').val()).length,
+                minLength: 7,
+                maxLength: 12,
+                pattern: /^[0-9]+$/g
+            },
+            {
+                name: 'Email address',
+                element: '.email',
+                length: $.trim($(`form[id="${sFormName}"]`).find('.email').val()).length,
+                minLength: 4,
+                maxLength: 50,
+                pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
+            }
+        ];
+
+        // Declare initially the validation result to be returned by the function.
+        let validationResult = {
+            result: true
+        }
+
+        // Check if middle name has a value.
+        if ($.trim($('.middleName').val()).length !== 0) {
+            instructorInputRules.splice(1, 0,
+                {
+                    name: 'Middle name',
+                    element: '.middleName',
+                    length: $.trim($(`form[id="${sFormName}"]`).find('.middleName').val()).length,
+                    minLength: 2,
+                    maxLength: 30,
+                    pattern: /^[a-zA-Z\s\.]+$/g
+                },
+            );
+        }
+
+        // Check if certification title has a value.
+        if ($.trim($('.certificationTitle').val()).length !== 0) {
+            instructorInputRules.splice(1, 0,
+                {
+                    name: 'Certification title',
+                    element: '.certificationTitle',
+                    length: $.trim($(`form[id="${sFormName}"]`).find('.certificationTitle').val()).length,
+                    minLength: 2,
+                    maxLength: 30,
+                    pattern: /^[a-zA-Z0-9,-\s]+$/g
+                },
+            );
+        }
+
+        // Loop thru each instructorInputRules and if there are rules violated, return false and the error message.
+        $.each(instructorInputRules, function (key, inputRule) {
+            if (inputRule.length < inputRule.minLength) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
+                };
+                return false;
+            }
+            if (inputRule.length > inputRule.maxLength) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
+                };
+                return false;
+            }
+            if (inputRule.pattern.test($(`form[id="${sFormName}"]`).find(inputRule.element).val()) === false) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' input is invalid.'
+                };
+                return false;
+            }
+        });
+
+        // Return the result of the validation.
+        return validationResult;
+    }
+
 };
 
 let oValidations = new Validations();

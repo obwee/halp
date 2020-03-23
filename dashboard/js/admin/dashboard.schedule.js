@@ -309,7 +309,8 @@ let CALENDAR = (function () {
         await axios.get('/Nexus/utils/ajax.php?class=Users&action=fetchInstructors')
             .then((oResponse) => {
                 aInstructors = oResponse.data;
-                populateInstructorsDropdown(oResponse.data);
+                aInstructors = aInstructors.filter(oInstructor => oInstructor.status === 'Active');
+                populateInstructorsDropdown(aInstructors);
             });
     }
 
