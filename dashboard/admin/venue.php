@@ -4,11 +4,11 @@ require_once "Template/header.php";
 
 <div class="container">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <p class="h2">Venues</p>
+        <p class="h2"><i class="fas fa-map-marked-alt"></i> Venues</p>
     </div>
     <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
         <div align="right">
-            <button type="button" id="addNewBranch" data-toggle="modal" data-target="#addNewBranchModal" class="btn btn-info btn-lg">Add New Branch</button>
+            <button type="button" id="addNewBranch" data-toggle="modal" data-target="#addNewBranchModal" class="btn btn-info btn-lg"><i class="fas fa-plus"></i> Add New Branch</button>
             <br><br>
         </div>
         <table id="tbl_venue" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
@@ -21,8 +21,8 @@ require_once "Template/header.php";
 <div class="modal fade" id="addNewBranchModal" role="dialog">
     <div class="modal-dialog modal-lg addNewBranchModal">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: #A2C710;">
-                <h5 align="center">Add New Branch</h5>
+            <div class="modal-header" style="background-color: #3c8dbc;">
+                <h5 align="center" style="color:white;"><i class="fas fa-plus"></i> Add New Branch</h5>
             </div>
             <form id="addVenueForm" method="POST">
                 <div class="modal-body">
@@ -52,8 +52,8 @@ require_once "Template/header.php";
 <div class="modal fade" id="editVenueModal" role="dialog">
     <div class="modal-dialog modal-lg editVenueModal">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: #A2C710;">
-                <h5 align="center">Edit Venue</h5>
+            <div class="modal-header" style="background-color: #3c8dbc;">
+                <h5 align="center" style="color:white;"><i class="fas fa-edit"></i> Edit Venue</h5>
             </div>
             <form id="editVenueForm" method="POST">
                 <div class="modal-body">

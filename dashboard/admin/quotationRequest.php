@@ -14,8 +14,7 @@ require_once "template/header.php";
 
 <div class="container">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <p class="h2">Quotation Requests</p>
-
+        <h2><span class="fas fa-file-invoice"></span> Quotation Requests</h2>
     </div>
 
     <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
@@ -33,8 +32,8 @@ require_once "template/header.php";
 <div class="modal fade" id="getQuoteModal" role="dialog">
     <div class="modal-dialog getQuoteModal">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: #A2C710;">
-                <h5 align="center"><span class="glyphicon glyphicon-plane"></span>Add New Quotation Request</h5>
+            <div class="modal-header" style="background-color: #3c8dbc">
+                <h5 align="center" style="color:white;"><i class="fas fa-file-invoice"></i> Add New Quotation Request</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -163,8 +162,8 @@ require_once "template/header.php";
 <div class="modal fade" id="insertNewRequestModal" role="dialog">
     <div class="modal-dialog insertNewRequestModal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 align="center">Insert New Request</h5>
+            <div class="modal-header" style="background-color: #3c8dbc">
+                <h5 align="center" style="color:white;">Insert New Request</h5>
             </div>
             <form action="post" id="insertNewRequestForm">
                 <div class="modal-body">

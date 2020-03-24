@@ -52,7 +52,7 @@ class Users extends BaseController
             if ($iQuery > 0) {
                 $aResult = array(
                     'bResult' => true,
-                    'sMsg'    => 'Venue added!'
+                    'sMsg'    => 'Instructor added!'
                 );
             } else {
                 $aResult = array(

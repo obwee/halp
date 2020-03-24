@@ -7,8 +7,8 @@ require_once "template/studentHeader.php";
         <p class="h3">Enrollment</p>
     </div>
 
-    <div align="left">
-        <button type="button" id="enroll" data-toggle="modal" data-target="#enrollModal" class="btn btn-primary btn-block">Enroll</button>    
+    <div align="right">
+        <button type="button" id="enroll" data-toggle="modal" data-target="#enrollModal" class="btn btn-primary btn-lg">Enroll</button>    
     </div>
 
     <br>
@@ -105,15 +105,15 @@ require_once "template/studentHeader.php";
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-map"></i> Venue</label>
-                    <input type="text" name="venue" class="form-control">
+                    <input type="text" name="venue" class="form-control" readonly>
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-users"></i> Available Slots</label>
-                    <input type="text" name="slots" class="form-control">
+                    <input type="text" name="slots" class="form-control" readonly>
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-chalkboard"></i> Instructor</label>
-                    <input type="text" name="instructor" class="form-control">
+                    <input type="text" name="instructor" class="form-control" readonly>
                 </div>
             </div>
             <div class="modal-footer">

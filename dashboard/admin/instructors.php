@@ -4,12 +4,12 @@ require_once "Template/header.php";
 
 <div class="container">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <p class="h2">Instructors</p>
+        <p class="h2"><i class="fas fa-chalkboard-teacher"></i> Instructors</p>
     </div>
 
     <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
         <div align="right">
-            <button type="button" id="addNewBranch" data-toggle="modal" data-target="#addNewInstructorModal" class="btn btn-info btn-lg">Add New Instructor</button>
+            <button type="button" id="addNewBranch" data-toggle="modal" data-target="#addNewInstructorModal" class="btn btn-info btn-lg"><i class="fas fa-plus"></i> Add Instructor</button>
             <br><br>
         </div>
         <table id="tbl_instructors" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
@@ -22,8 +22,8 @@ require_once "Template/header.php";
 <div class="modal fade" id="addNewInstructorModal" role="dialog">
     <div class="modal-dialog addNewInstructorModal">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: #A2C710;">
-                <h5 align="center">Add New Instructor</h5>
+            <div class="modal-header" style="background-color: #3c8dbc;">
+                <h5 align="center" style="color:white;"><i class="fas fa-plus"></i> Add Instructor</h5>
             </div>
             <form method="POST" id="addInstructorForm">
                 <div class="modal-body">
@@ -65,8 +65,8 @@ require_once "Template/header.php";
 <div class="modal fade" id="editInstructorModal" role="dialog">
     <div class="modal-dialog editInstructorModal">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: #A2C710;">
-                <h5 align="center">Edit Instructor</h5>
+            <div class="modal-header" style="background-color: #3c8dbc;">
+                <h5 align="center" style="color:white;"><i class="fas fa-edit"></i> Edit Instructor</h5>
             </div>
             <form method="POST" id="editInstructorForm">
                 <div class="modal-body">
@@ -106,11 +106,11 @@ require_once "Template/header.php";
     </div>
 </div>
 
-<div class="modal fade" id="messageInstructorModal" role="dialog">
+<div class="modal fade" id="" role="dialog">
     <div class="modal-dialog modal-lg messageInstructorModal">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: #A2C710;">
-                <h5 align="center">Send a Message</h5>
+            <div class="modal-header" style="background-color: #3c8dbc;">
+                <h5 align="center" style="color:white;"><i class="fas fa-comments"></i> Send a Message</h5>
             </div>
             <form action="POST" id="messageInstructorForm">
                 <div class="modal-body">
@@ -129,6 +129,75 @@ require_once "Template/header.php";
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success">Send</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="messageInstructorModal" role="dialog">
+    <div class="modal-dialog modal-lg updateInstructor">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #3c8dbc;">
+                <h5 align="center" style="color:white;"><i class="fas fa-edit"></i> Update Instructor</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label for="insturctorName" class="col-sm-2 col-form-label"><i class="fas fa-chalkboard-teacher"></i> Instructor</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="instructorName" readonly>
+                  </div>
+              </div>
+                <div class="box" style="border:5px solid #3c8dbc;margin:5px 5px;padding:7px 7px ;overflow-y: scroll;height:250px;overflow-x: hidden;">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p style="padding-left: 10px;"><i class="fas fa-book"></i> Course 1</p>
+                            <p style="padding-left: 10px;"><i class="fas fa-calendar-day"></i> Schedule 1</p>                        
+                        </div>
+                        <div class="col-sm-6">
+                            <select class="form-control">
+                                <option selected hidden disabled>Select New Instructor</option>
+                            </select>                        
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p style="padding-left: 10px;"><i class="fas fa-book"></i> Course 2</p>
+                            <p style="padding-left: 10px;"><i class="fas fa-calendar-day"></i> Schedule 2</p>                        
+                        </div>
+                        <div class="col-sm-6">
+                            <select class="form-control">
+                                <option selected hidden disabled>Select New Instructor</option>
+                            </select>                        
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p style="padding-left: 10px;"><i class="fas fa-book"></i> Course 3</p>
+                            <p style="padding-left: 10px;"><i class="fas fa-calendar-day"></i> Schedule 3</p>                       
+                        </div>
+                        <div class="col-sm-6">
+                            <select class="form-control">
+                                <option selected hidden disabled>Select New Instructor</option>
+                            </select>                        
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p style="padding-left: 10px;"><i class="fas fa-book"></i> Course 4</p>
+                            <p style="padding-left: 10px;"><i class="fas fa-calendar-day"></i> Schedule 4</p>                       
+                        </div>
+                        <div class="col-sm-6">
+                            <select class="form-control">
+                                <option selected hidden disabled>Select New Instructor</option>
+                            </select>                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success">Update</button>
                     <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
                 </div>
             </form>

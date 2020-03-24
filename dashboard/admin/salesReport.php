@@ -12,10 +12,10 @@ require_once "Template/header.php";
 
 <div class="container">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <p class="h2">Sales Report</p>
+        <h2><span class="fas fa-money-check"></span> Sales Report</h2>
     </div>
 
-    <div class="row" style="background-color:white;padding:5px;margin:5px;border-radius:8px 8px;margin-bottom:10px;">
+    <div class="row" style="background-color:white;padding:5px;margin:5px;border-radius:8px 8px;margin-bottom:10px;box-shadow:8px 8px #3c8dbc">
         <div class="col-sm-6">
             <div class="row">
                 <div class="col-xs-4">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -50,7 +50,7 @@ require_once "Template/header.php";
     </div>    
 </div>        
 
-    <div align="center">
+    <div align="center"  style="padding-top:5px;padding-bottom:5px;">
         <button type="submit" id="loadClassList" class="btn btn-primary"><i class="fas fa-eraser"></i> Clear Selection</button>
         <button type="submit" id="loadClassList" class="btn btn-success"><i class="fas fa-spinner"></i> Load Class List</button>
         <button type="submit" id="export" class="btn btn-dark"><i class="fas fa-print"></i> Export/Print</button>

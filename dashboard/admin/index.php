@@ -24,7 +24,7 @@ require_once "template/header.php";
                 <a href="#">
                     <div class="info-box">
                         <span class="info-box-icon bg-aqua"><i class="fas fa-mail-bulk"></i></span>
-                        <div class="info-box-content" style="text-align:center;">
+                        <div class="info-box-content" style="text-align:center;width:140px;">
                             <span class="info-box-text">No. of Quotation<br>Requests</span>
                             <span class="info-box-number emailed">
                                 <!-- <small>%</small> --></span>
@@ -38,7 +38,7 @@ require_once "template/header.php";
                 <a href="#">
                     <div class="info-box">
                         <span class="info-box-icon bg-yellow"><i class="fas fa-check"></i></span>
-                        <div class="info-box-content" style="text-align:center;">
+                        <div class="info-box-content" style="text-align:center;width:140px;">
                             <span class="info-box-text">No. of Partially<br>Paid Students</span>
                             <span class="info-box-number approved">
                                 <!-- <small>%</small> --></span>
@@ -52,7 +52,7 @@ require_once "template/header.php";
                 <a href="#">
                     <div class="info-box">
                         <span class="info-box-icon bg-green"><i class="fas fa-check-double"></i></span>
-                        <div class="info-box-content" style="text-align:center;">
+                        <div class="info-box-content" style="text-align:center;width:140px;">
                             <span class="info-box-text">No. of Fully Paid<br>Students</span>
                             <span class="info-box-number finished">
                                 <!-- <small>%</small> --></span>
@@ -62,11 +62,13 @@ require_once "template/header.php";
                 </a>
             </div>
 
+
+
             <div class="row">
                 <a href="#">
                     <div class="info-box">
-                        <span class="info-box-icon bg-red"><i class="fas fa-times"></i></span>
-                        <div class="info-box-content" style="text-align:center;">
+                        <span class="info-box-icon bg-maroon"><i class="fas fa-times"></i></span>
+                        <div class="info-box-content" style="text-align:center;width:140px;">
                             <span class="info-box-text">No. of Unpaid<br>Students</span>
                             <span class="info-box-number cancelled">
                                 <!-- <small>%</small> --></span>
@@ -84,11 +86,7 @@ require_once "template/header.php";
                 <div id="chartData"></div>
             </div>
         </div>
-
-    </div>
-
-
-    <br><br>
+        <br><br>
     <div class="container">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 mb-3 border-bottom">
             <p class="h4">Upcoming Trainings (Reminder)</p>
@@ -148,7 +146,11 @@ require_once "template/header.php";
             </table>
         </div>
     </div>
-</div> 
+</div>
+    </div>
+
+
+     
 
 <?php
 require_once "template/scripts.php";
