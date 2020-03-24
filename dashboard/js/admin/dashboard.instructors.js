@@ -139,9 +139,6 @@ var oInstructor = (() => {
 
             const sFormName = `#${$(this).attr('id')}`;
 
-            console.log($('.courseInstructors').val());
-            return;
-
             // Disable the form.
             oForms.disableFormState(sFormName, true);
 
@@ -177,6 +174,7 @@ var oInstructor = (() => {
             let oValidateInputs = oInputForms[sFormName].validationMethod;
 
             if (oValidateInputs.result === true) {
+                return;
                 Swal.fire({
                     title: oInputForms[sFormName].alertTitle,
                     text: oInputForms[sFormName].alertText,
