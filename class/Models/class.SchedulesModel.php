@@ -117,4 +117,34 @@ class SchedulesModel
         // Return the result of the execution of the above statement.
         return $statement->execute($aScheduleId);
     }
+
+    /**
+     * fetchSchedules
+     * Queries the database in getting all the schedules.
+     * @param array aId
+     * @return array
+     */
+    public function fetchSchedulesForSpecificInstructor($aId)
+    {
+        // Prepare a select query.
+        $statement = $this->oConnection->prepare("
+            SELECT
+                tc.courseCode, ts.fromDate, ts.toDate, tv.venue
+            FROM tbl_schedules     ts
+            INNER JOIN tbl_courses tc
+            ON ts.courseId     = tc.id
+            INNER JOIN tbl_venue   tv
+            ON ts.venueId      = tv.id
+            WHERE 1 = 1
+                AND ts.instructorId = :userId
+                AND ts.fromDate     > CURDATE()
+                AND ts.toDate       > CURDATE()
+        ");
+
+        // Execute the above statement.
+        $statement->execute($aId);
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetchAll();
+    }
 }
