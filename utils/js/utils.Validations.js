@@ -723,6 +723,11 @@ class Validations {
         return validationResult;
     }
 
+    // This method validates the inputs of the user before submission for changing instructors.
+    validateChangeInstructorInputs(sFormName) {
+
+    }
+
 };
 
 let oValidations = new Validations();
