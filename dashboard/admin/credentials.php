@@ -34,8 +34,8 @@ if(isset($_POST['submit'])) {
 
 		<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
 			<div align="right">
-                <button type="button" id="addNewBranch" data-toggle="modal" data-target="#editCredentialsModal" class="btn btn-primary">Edit My Credentials</button>
-				<button type="button" id="addNewBranch" data-toggle="modal" data-target="#addNewAdminModal" class="btn btn-secondary">Add New Admin</button>
+                <button type="button" id="addNewBranch" data-toggle="modal" data-target="#editCredentialsModal" class="btn btn-primary"><i class="fas fa-edit"></i> Edit My Credentials</button>
+				<button type="button" id="addNewBranch" data-toggle="modal" data-target="#addNewAdminModal" class="btn btn-secondary"><i class="fas fa-plus"></i> Add New Admin</button>
 				<br><br>
 			</div>
 			<table id="tbl_users" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
@@ -72,8 +72,8 @@ if(isset($_POST['submit'])) {
     <div class="modal fade" id="editCredentialsModal" role="dialog">
         <div class="modal-dialog editCredentials">
             <div class="modal-content">
-                <div class="modal-header" style="background-color: #A2C710;">
-                    <h5 align="center">Edit Super Admin Credentials</h5>
+                <div class="modal-header" style="background-color: #3c8dbc;">
+                    <h5 align="center" style="color:white;"><i class="fas fa-edit"></i> Edit Super Admin Credentials</h5>
                 </div>
                 
                 <div class="modal-body">
@@ -125,8 +125,8 @@ if(isset($_POST['submit'])) {
     <div class="modal fade" id="editAdminCredentialsModal" role="dialog">
         <div class="modal-dialog editAdminCredentials">
             <div class="modal-content">
-                <div class="modal-header" style="background-color: #A2C710;">
-                    <h5 align="center">Edit Admin Credentials</h5>
+                <div class="modal-header" style="background-color:#3c8dbc;">
+                    <h5 align="center" style="color:white;"><i class="fas fa-edit"></i>Edit Admin Credentials</h5>
                 </div>
                 
                 <div class="modal-body">
@@ -170,8 +170,8 @@ if(isset($_POST['submit'])) {
     <div class="modal fade" id="addNewAdminModal" role="dialog">
         <div class="modal-dialog addNewAdminModal">
             <div class="modal-content">
-                <div class="modal-header" style="background-color: #A2C710;">
-                    <h5 align="center">Add New Admin</h5>
+                <div class="modal-header" style="background-color: #3c8dbc;">
+                    <h5 align="center" style="color:white;"><i class="fas fa-plus"></i> Add New Admin</h5>
                 </div>
                 
                 <div class="modal-body">

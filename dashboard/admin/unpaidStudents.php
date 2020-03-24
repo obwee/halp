@@ -18,10 +18,10 @@ require_once "Template/header.php";
 <body>
 	<div class="container">
 		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-			<h2>Unpaid Reservations</h2>
+			<h2><i class="fas fa-user-times"></i> Unpaid Reservations</h2>
 		</div>
 
-		<div class="row" style="border-radius:5px 5px;background-color:#fff;padding:10px 10px;margin-left:10px;margin-right:10px;border-width:2px;">
+		<div class="row" style="border-radius:5px 5px;background-color:#fff;padding:10px 10px;margin-left:10px;margin-right:10px;border-width:2px;box-shadow:8px 10px #3c8dbc">
 			<div class="col-md-4">
 				<div class="row">
 					<div class="venue" style="padding-left:80px;">

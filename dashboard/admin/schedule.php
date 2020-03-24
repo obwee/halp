@@ -9,8 +9,8 @@ require_once "Template/header.php";
 <div class="modal fade" id="addScheduleModal" role="dialog">
     <div class="modal-dialog addScheduleModal">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: #A2C710;">
-                <h5 align="center"><span class="fas fa-calendar-alt"></span> Add Schedule</h5>
+            <div class="modal-header" style="background-color: #3c8dbc;">
+                <h5 align="center" style="color:white;"><span class="fas fa-calendar-alt"></span> Add Schedule</h5>
             </div>
             <form id="addScheduleForm" method="POST">
                 <div class="modal-body">
@@ -56,7 +56,7 @@ require_once "Template/header.php";
 <div class="modal fade" id="editScheduleModal" role="dialog">
     <div class="modal-dialog editScheduleModal">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: #A2C710;">
+            <div class="modal-header" style="background-color: #3c8dbc;">
                 <h5 align="center"><span class="fas fa-calendar-alt"></span> Edit Schedule</h5>
             </div>
             <form id="editScheduleForm" method="POST">

@@ -4,10 +4,10 @@ require_once "Template/header.php";
 
 <div class="container">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <p class="h2">Master List</p>
+        <h2><span class="fas fa-user-graduate"></span> Master List</h2>
     </div>
 
-    <div class="row" style="border-radius:8px 8px;background-color:white;padding:10px 10px;margin-left:10px;margin-right:10px;border-width:2px;">
+    <div class="row" style="border-radius:8px 8px;background-color:white;padding:10px 10px;margin-left:10px;margin-right:10px;border-width:2px;box-shadow:8px 10px #3c8dbc">
         <div class="col-sm-4">
             <div class="venue" >
                 <label><i class="fas fa-map-pin"></i><b> Venue</b></label><br>
@@ -39,7 +39,7 @@ require_once "Template/header.php";
 </div> <br>
                      
 
-<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl" style="padding:8px 8px;">
     <table id="tbl_students" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
         <div align="center">
             <button type="submit" id="loadClassList" class="btn btn-primary"><i class="fas fa-eraser"></i> Clear Selection</button>

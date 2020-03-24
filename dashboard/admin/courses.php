@@ -4,9 +4,9 @@ require_once "template/header.php";
 
 <div class="container">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <p class="h2">Courses</p>
-
+        <h2><span class="fas fa-book"></span> Courses</h2>
     </div>
+
     <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
         <div align="right">
             <button type="button" id="addNewCourse" data-toggle="modal" data-target="#addCourseModal" class="btn btn-info btn-lg">Add New Course</button>
@@ -22,8 +22,8 @@ require_once "template/header.php";
 <div class="modal fade" id="addCourseModal" role="dialog">
     <div class="modal-dialog vertical-align-center addCourseModal">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: #A2C710;">
-                <h5 align="center"><span class="glyphicon glyphicon-plane"></span>Add Course</h5>
+            <div class="modal-header" style="background-color: #3c8dbc;">
+                <h5 align="center" style="color:white;"><i class="fas fa-book-open"></i> Add Course</h5>
             </div>
             <form id="addCourseForm">
                 <div class="modal-body">
@@ -62,8 +62,8 @@ require_once "template/header.php";
 <div class="modal fade" id="editCourseModal" role="dialog">
     <div class="modal-dialog vertical-align-center editCourseModal">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: #A2C710;">
-                <h5 align="center"><span class="glyphicon glyphicon-plane"></span>Edit Course</h5>
+            <div class="modal-header" style="background-color: #3c8dbc;">
+                <h5 align="center" style="color:white;"><span class="fas fa-edit"></span> Edit Course</h5>
             </div>
             <form id="editCourseForm">
                 <div class="modal-body">

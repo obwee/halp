@@ -61,7 +61,7 @@ require_once "Template/studentHeader.php";
         <div class="col-md-3 col-sm-6 col-xs-12">
             <a href="paymentPending.php">
                 <div class="info-box">
-                    <span class="info-box-icon bg-red"><i class="fas fa-times"></i></span>
+                    <span class="info-box-icon bg-maroon"><i class="fas fa-times"></i></span>
                     <div class="info-box-content" style="text-align:center;">
                         <span class="info-box-text">Pending<br>Payment</span>
                         <span class="info-box-number cancelled">

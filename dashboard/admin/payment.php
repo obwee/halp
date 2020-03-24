@@ -11,26 +11,25 @@ require_once "Template/header.php";
 			<table id="tbl_payment" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
 				<thead>
 					<tr>
-						<th style="white-space:nowrap;">Transaction ID</th>
-						<th style="white-space:nowrap;">Student Name</th>
-						<th style="white-space:nowrap;">Course Code</th>
-						<th style="white-space:nowrap;">Venue</th>
-						<th style="white-space:nowrap;">Start Date</th>
-						<th style="white-space:nowrap;">End Date</th>
-						<th style="white-space:nowrap;">Actions</th>
+						<th style="white-space:nowrap;text-align:center;">Transaction ID</th>
+						<th style="white-space:nowrap;text-align:center;">Student Name</th>
+						<th style="white-space:nowrap;text-align:center;">Course Code</th>
+						<th style="white-space:nowrap;text-align:center;">Venue</th>
+						<th style="white-space:nowrap;text-align:center;">Start Date</th>
+						<th style="white-space:nowrap;text-align:center;">End Date</th>
+						<th style="white-space:nowrap;text-align:center;">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td>1</td>
-						<td>Mark Sale</td>
-						<td>20410D</td>
-						<td>Makati</td>
-						<td>Feb 28, 2020</td>
-						<td>Feb 29, 2020</td>
-						<td>
-							<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewPayment"><i class="fa fa-eye"></i></button>
-							<button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#messageStudent"><i class="fa fa-comments"></i></button>
+						<td style="text-align:center;">1</td>
+						<td style="text-align:center;">Mark Sale</td>
+						<td style="text-align:center;">20410D</td>
+						<td style="text-align:center;">Makati</td>
+						<td style="text-align:center;">Feb 28, 2020</td>
+						<td style="text-align:center;">Feb 29, 2020</td>
+						<td style="text-align:center;">
+							<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#viewPayment"><i class="fa fa-eye"></i></button>
 						</td>
 					</tr>
 				</tbody>    
@@ -41,8 +40,8 @@ require_once "Template/header.php";
 	<div class="modal fade" id="viewPayment" role="dialog">
 		<div class="modal-dialog modal-xl viewPayment">
 			<div class="modal-content">
-				<div class="modal-header" style="background-color: #A2C710;">
-					<h5 align="center">View Payment</h5>
+				<div class="modal-header" style="background-color: #3c8dbc;">
+					<h5 align="center" style="color:white;"><i class="fas fa-eye"></i> View Payment</h5>
 				</div>
 
 				<div class="modal-body">
@@ -87,7 +86,7 @@ require_once "Template/header.php";
 									<input type="date" name="" class="form-control">
 								</div>
 								<div class="form-group">
-									<label><i class="fas fa-calendar"></i><b> Amount Paid</b></label>
+									<label><i class="fas fa-money"></i><b> Amount Paid</b></label>
 									<div class="input-group mb-3">
 										<div class="input-group-prepend">
 											<span class="input-group-text">₱</span>
@@ -96,7 +95,7 @@ require_once "Template/header.php";
 									</div>
 								</div>
 								<div class="form-group">
-									<label><i class="fas fa-calendar"></i><b> Remaining Balance</b></label>
+									<label><i class="fas fa-money"></i><b> Remaining Balance</b></label>
 									<div class="input-group mb-3">
 										<div class="input-group-prepend">
 											<span class="input-group-text">₱</span>
