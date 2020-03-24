@@ -9,6 +9,12 @@ class Users extends BaseController
     private $oUsersModel;
 
     /**
+     * @var SchedulesModel $oModel
+     * Class instance for Venue model.
+     */
+    private $oSchedulesModel;
+
+    /**
      * Users constructor.
      * @param array $aPostVariables
      */
@@ -18,6 +24,9 @@ class Users extends BaseController
         $this->aParams = $aPostVariables;
         // Instantiate the UsersModel class and store it inside $this->oVenueModel.
         $this->oUsersModel = new UsersModel();
+
+        // Instantiate the SchedulesModel class and store it inside $this->oSchedulesModel.
+        $this->oSchedulesModel = new SchedulesModel();
     }
 
     /**
@@ -106,7 +115,6 @@ class Users extends BaseController
 
         echo json_encode($aResult);
     }
-
     
     /**
      * enableDisableInstructor
@@ -118,6 +126,18 @@ class Users extends BaseController
             'userId' => $this->aParams['instructorId'],
             'status' => ($this->aParams['instructorAction'] === 'enable') ? 'Active' : 'Inactive'
         );
+
+        // Check if instructor still has upcoming trainings before disabling.
+        if ($oData['status'] === 'Inactive') {
+            $aSchedules = $this->oSchedulesModel->fetchSchedulesForSpecificInstructor(array_slice($oData, 0, 1));
+            if (count($aSchedules) > 0) {
+                echo json_encode(array(
+                    'bResult'    => false,
+                    'aSchedules' => $aSchedules
+                ));
+                exit;
+            }
+        }
 
         // Perform delete.
         $iQuery = $this->oUsersModel->enableDisableInstructor($oData);
@@ -135,5 +155,14 @@ class Users extends BaseController
         }
 
         echo json_encode($aResult);
+    }
+
+    /**
+     * changeInstructors
+     * Change the instructors in behalf of the instructor to be disabled.
+     */
+    public function changeInstructors()
+    {
+        print_r($this->aParams); die;
     }
 }

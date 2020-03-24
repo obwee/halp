@@ -106,7 +106,7 @@ require_once "Template/header.php";
     </div>
 </div>
 
-<div class="modal fade" id="" role="dialog">
+<div class="modal fade" id="messageInstructorModal" role="dialog">
     <div class="modal-dialog modal-lg messageInstructorModal">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #3c8dbc;">
@@ -136,68 +136,42 @@ require_once "Template/header.php";
     </div>
 </div>
 
-<div class="modal fade" id="messageInstructorModal" role="dialog">
-    <div class="modal-dialog modal-lg updateInstructor">
+<div class="modal fade" id="changeInstructorModal" role="dialog">
+    <div class="modal-dialog modal-lg changeInstructorModal">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #3c8dbc;">
                 <h5 align="center" style="color:white;"><i class="fas fa-edit"></i> Update Instructor</h5>
             </div>
-            <div class="modal-body">
-                <div class="form-group row">
-                    <label for="insturctorName" class="col-sm-2 col-form-label"><i class="fas fa-chalkboard-teacher"></i> Instructor</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="instructorName" readonly>
-                  </div>
-              </div>
-                <div class="box" style="border:5px solid #3c8dbc;margin:5px 5px;padding:7px 7px ;overflow-y: scroll;height:250px;overflow-x: hidden;">
+            <form id="changeInstructorForm" method="post">
+                <div class="modal-body">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <p style="padding-left: 10px;"><i class="fas fa-book"></i> Course 1</p>
-                            <p style="padding-left: 10px;"><i class="fas fa-calendar-day"></i> Schedule 1</p>                        
+                        <div class="col-sm-2">
+                            <label for="instructorName" class="col-form-label"><i class="fas fa-chalkboard-teacher"></i> Instructor</label>
                         </div>
-                        <div class="col-sm-6">
-                            <select class="form-control">
-                                <option selected hidden disabled>Select New Instructor</option>
-                            </select>                        
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control instructorName" readonly>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <p style="padding-left: 10px;"><i class="fas fa-book"></i> Course 2</p>
-                            <p style="padding-left: 10px;"><i class="fas fa-calendar-day"></i> Schedule 2</p>                        
-                        </div>
-                        <div class="col-sm-6">
-                            <select class="form-control">
-                                <option selected hidden disabled>Select New Instructor</option>
-                            </select>                        
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <p style="padding-left: 10px;"><i class="fas fa-book"></i> Course 3</p>
-                            <p style="padding-left: 10px;"><i class="fas fa-calendar-day"></i> Schedule 3</p>                       
-                        </div>
-                        <div class="col-sm-6">
-                            <select class="form-control">
-                                <option selected hidden disabled>Select New Instructor</option>
-                            </select>                        
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <p style="padding-left: 10px;"><i class="fas fa-book"></i> Course 4</p>
-                            <p style="padding-left: 10px;"><i class="fas fa-calendar-day"></i> Schedule 4</p>                       
-                        </div>
-                        <div class="col-sm-6">
-                            <select class="form-control">
-                                <option selected hidden disabled>Select New Instructor</option>
-                            </select>                        
+                    <div class="box mt-4" style="border:5px solid #3c8dbc;margin:5px 5px;padding:7px 7px ;overflow-y: scroll;height:250px;overflow-x: hidden;">
+                        <div class="template" hidden>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p class="courseCode" style="padding-left: 10px;"><i class="fas fa-book"></i> Course: <span></span></p>
+                                    <p class="courseSchedule" style="padding-left: 10px;"><i class="fas fa-calendar-day"></i> Schedule: <span></span></p>
+                                    <p class="courseVenue" style="padding-left: 10px;"><i class="fas fa-map-marked-alt"></i> Venue: <span></span></p>
+                                </div>
+                                <div class="col-sm-6 d-flex align-items-center">
+                                    <select class="form-control courseInstructors" name="courseInstructors[]">
+                                        <option selected hidden disabled>Select New Instructor</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr class="mt-0">
                         </div>
                     </div>
                 </div>
-            </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success">Update</button>
+                    <button type="submit" class="btn btn-success">Update</button>
                     <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
                 </div>
             </form>

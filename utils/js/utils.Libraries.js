@@ -13,6 +13,12 @@ var oLibraries = (() => {
                 text: sMsg,
                 icon: 'success',
                 confirmButtonText: 'OK'
+            },
+            'warning': {
+                title: 'Warning.',
+                text: sMsg,
+                icon: 'warning',
+                confirmButtonText: 'OK'
             }
         };
 

@@ -11,6 +11,18 @@ var oInstructor = (() => {
     let oTblInstructor = $('#tbl_instructors');
 
     /**
+     * @var {object} oChangeInstructorModal
+     * The modal for changing instructors.
+     */
+    let oChangeInstructorModal = $('#changeInstructorModal');
+
+    /**
+     * @var {object} oTemplate
+     * Template holder for cloning elements.
+     */
+    let oTemplate = {};
+
+    /**
      * @var {array} aInstructors
      * Holder of fetched intructors from the database.
      */
@@ -78,6 +90,10 @@ var oInstructor = (() => {
             proceedToEditInstructor(oInstructorDetails);
         });
 
+        $(document).on('click', '#messageInstructor', function () {
+            $('#messageInstructorModal').modal('show');
+        });
+
         $(document).on('click', '#disableInstructor', function () {
             Swal.fire({
                 title: 'Disable the instructor?',
@@ -118,17 +134,13 @@ var oInstructor = (() => {
             });
         });
 
-        $(document).on('click', '#messageInstructor', function () {
-            // let iInstructorId = $(this).attr('data-id');
-            // let oInstructorDetails = aInstructors.filter(oInstructor => oInstructor.id == iInstructorId)[0];
-            // proceedToEditInstructor(oInstructorDetails);
-            $('#messageInstructorModal').modal('show');
-        });
-
         $(document).on('submit', 'form', function (oEvent) {
             oEvent.preventDefault();
 
             const sFormName = `#${$(this).attr('id')}`;
+
+            console.log($('.courseInstructors').val());
+            return;
 
             // Disable the form.
             oForms.disableFormState(sFormName, true);
@@ -151,6 +163,13 @@ var oInstructor = (() => {
                     'requestAction': 'updateInstructor',
                     'alertTitle': 'Update instructor?',
                     'alertText': 'This will update the instructor details.'
+                },
+                '#changeInstructorForm': {
+                    'validationMethod': oValidations.validateChangeInstructorInputs(sFormName),
+                    'requestClass': 'Users',
+                    'requestAction': 'changeInstructors',
+                    'alertTitle': 'Change instructors?',
+                    'alertText': 'This will change the instructors of the schedules above.'
                 }
             }
 
@@ -222,6 +241,78 @@ var oInstructor = (() => {
     }
 
     /**
+     * proceedToChangeInstructor
+     * @param {object} oDetails
+     * @param {int} iInstructorId
+     */
+    function proceedToChangeInstructor(oDetails, iInstructorId) {
+        oLibraries.displayAlertMessage('warning', 'Please update the instructors for the following schedules.');
+        
+        loadTemplate();
+
+        $('.box')
+            .empty()
+            .find('div[class!="template"]')
+            .remove();
+
+        $.each(oDetails, (iKey, oVal) => {
+            let oRow = oTemplate.clone().attr({
+                'hidden': false,
+                'class': 'clonedTpl',
+            });
+
+            oRow.find('.courseCode span').text(oVal.courseCode);
+            oRow.find('.courseSchedule span').text(oVal.fromDate + ' - ' + oVal.toDate);
+            oRow.find('.courseVenue span').text(oVal.venue);
+
+            cloneInstructorDropdown(oRow.find('.courseInstructors'), iInstructorId);
+            insertInstructorToBeDisabled($('.instructorName'), iInstructorId);
+
+            $('.box').append(oRow);
+        });
+
+        $('.clonedTpl hr').last().remove();
+        oChangeInstructorModal.modal('show');
+    }
+
+    /**
+     * loadTemplate
+     * Loads the template.
+     */
+    function loadTemplate() {
+        if ($.isEmptyObject(oTemplate) === true) {
+            oTemplate = $('.template').clone();
+        }
+    }
+
+    /**
+     * cloneInstructorDropdown
+     * Clonses the instructor dropdown inside the template.
+     */
+    function cloneInstructorDropdown(oElement, iInstructorId) {
+        let aFilteredInstructors = aInstructors.filter((oInstructor) => {
+            return oInstructor.id !== iInstructorId;
+        });
+
+        oElement.empty().append($('<option selected disabled hidden>Select Instructor</option>'));
+        $.each(aFilteredInstructors, (iKey, oVal) => {
+            oElement.append($('<option />').val(oVal.id).text(`${oVal.fullName}`));
+        });
+    }
+
+    /**
+     * insertInstructorToBeDisabled
+     * Inserts the name of the instructor to be disabled.
+     */
+    function insertInstructorToBeDisabled(oElement, iInstructorId) {
+        let aInstructor = aInstructors.filter((oInstructor) => {
+            return oInstructor.id !== iInstructorId;
+        })[0];
+
+        oElement.val(aInstructor.firstName + ' ' + aInstructor.lastName);
+    }
+
+    /**
      * executeSubmit
      * @param {object} oData
      * @param {string} sRequestClass
@@ -249,17 +340,22 @@ var oInstructor = (() => {
      * @param {object} oInstructorData
      */
     function toggleEnableDisableInstructor(oInstructorData) {
-        console.log(oInstructorData);
         $.ajax({
             url: '/Nexus/utils/ajax.php?class=Users&action=enableDisableInstructor',
             type: 'POST',
             data: oInstructorData,
             dataType: 'json',
             success: function (oResponse) {
-                oLibraries.displayAlertMessage(
-                    (oResponse.bResult === true) ? 'success' : 'error', oResponse.sMsg
-                );
-                fetchInstructors();
+                if (oResponse.bResult === true) {
+                    oLibraries.displayAlertMessage('success', oResponse.sMsg);
+                    fetchInstructors();
+                } else {
+                    if (typeof(oResponse.aSchedules) !== 'undefined') {
+                        proceedToChangeInstructor(oResponse.aSchedules, oInstructorData.instructorId);
+                        return;
+                    }
+                    oLibraries.displayAlertMessage('error', oResponse.sMsg);
+                }
             }
         });
     }
