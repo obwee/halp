@@ -151,6 +151,7 @@ require_once "Template/header.php";
                         <div class="col-sm-10">
                             <input type="text" class="form-control instructorName" readonly>
                         </div>
+                        <div class="col-12 alert alert-danger error-msg" role="alert" style="display: none;"></div>
                     </div>
                     <div class="box mt-4" style="border:5px solid #3c8dbc;margin:5px 5px;padding:7px 7px ;overflow-y: scroll;height:250px;overflow-x: hidden;">
                         <div class="template" hidden>
@@ -161,7 +162,7 @@ require_once "Template/header.php";
                                     <p class="courseVenue" style="padding-left: 10px;"><i class="fas fa-map-marked-alt"></i> Venue: <span></span></p>
                                 </div>
                                 <div class="col-sm-6 d-flex align-items-center">
-                                    <select class="form-control courseInstructors" name="courseInstructors[]">
+                                    <select class="form-control courseInstructors" name="">
                                         <option selected hidden disabled>Select New Instructor</option>
                                     </select>
                                 </div>

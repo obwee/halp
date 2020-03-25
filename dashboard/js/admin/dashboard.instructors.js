@@ -29,6 +29,12 @@ var oInstructor = (() => {
     let aInstructors = [];
 
     /**
+     * @var {object} oInstructorDataToDisable
+     * Holder of instructor details to be disabled.
+     */
+    let oInstructorDataToDisable = {};
+
+    /**
      * @var {object} oColumns
      * Holder of columns to be displayed by the datatable.
      */
@@ -140,10 +146,13 @@ var oInstructor = (() => {
             const sFormName = `#${$(this).attr('id')}`;
 
             // Disable the form.
-            oForms.disableFormState(sFormName, true);
+            // oForms.disableFormState(sFormName, true);
 
             // Invoke the resetInputBorders method inside oForms utils for that form.
             oForms.resetInputBorders(sFormName);
+
+            // Get form data.
+            const oFormData = $(sFormName).serializeArray();
 
             // Create an object with key names of forms and its corresponding validation and request action as its value.
             const oInputForms = {
@@ -162,7 +171,7 @@ var oInstructor = (() => {
                     'alertText': 'This will update the instructor details.'
                 },
                 '#changeInstructorForm': {
-                    'validationMethod': oValidations.validateChangeInstructorInputs(sFormName),
+                    'validationMethod': oValidations.validateChangeInstructorInputs(sFormName, oFormData),
                     'requestClass': 'Users',
                     'requestAction': 'changeInstructors',
                     'alertTitle': 'Change instructors?',
@@ -172,9 +181,8 @@ var oInstructor = (() => {
 
             // Validate the inputs of the submitted form and store the result inside oValidateInputs variable.
             let oValidateInputs = oInputForms[sFormName].validationMethod;
-
+            
             if (oValidateInputs.result === true) {
-                return;
                 Swal.fire({
                     title: oInputForms[sFormName].alertTitle,
                     text: oInputForms[sFormName].alertText,
@@ -245,7 +253,7 @@ var oInstructor = (() => {
      */
     function proceedToChangeInstructor(oDetails, iInstructorId) {
         oLibraries.displayAlertMessage('warning', 'Please update the instructors for the following schedules.');
-        
+
         loadTemplate();
 
         $('.box')
@@ -263,7 +271,7 @@ var oInstructor = (() => {
             oRow.find('.courseSchedule span').text(oVal.fromDate + ' - ' + oVal.toDate);
             oRow.find('.courseVenue span').text(oVal.venue);
 
-            cloneInstructorDropdown(oRow.find('.courseInstructors'), iInstructorId);
+            cloneInstructorDropdown(oRow.find('.courseInstructors'), oVal.scheduleId, iInstructorId);
             insertInstructorToBeDisabled($('.instructorName'), iInstructorId);
 
             $('.box').append(oRow);
@@ -287,12 +295,13 @@ var oInstructor = (() => {
      * cloneInstructorDropdown
      * Clonses the instructor dropdown inside the template.
      */
-    function cloneInstructorDropdown(oElement, iInstructorId) {
+    function cloneInstructorDropdown(oElement, iScheduleId, iInstructorId) {
         let aFilteredInstructors = aInstructors.filter((oInstructor) => {
             return oInstructor.id !== iInstructorId;
+            // return oInstructor.id !== iInstructorId && oInstructor.status === 'Active';
         });
 
-        oElement.empty().append($('<option selected disabled hidden>Select Instructor</option>'));
+        oElement.empty().attr('name', `courseInstructors[${iScheduleId}]`).append($('<option selected disabled hidden>Select Instructor</option>'));
         $.each(aFilteredInstructors, (iKey, oVal) => {
             oElement.append($('<option />').val(oVal.id).text(`${oVal.fullName}`));
         });
@@ -304,7 +313,7 @@ var oInstructor = (() => {
      */
     function insertInstructorToBeDisabled(oElement, iInstructorId) {
         let aInstructor = aInstructors.filter((oInstructor) => {
-            return oInstructor.id !== iInstructorId;
+            return oInstructor.id === iInstructorId;
         })[0];
 
         oElement.val(aInstructor.firstName + ' ' + aInstructor.lastName);
@@ -317,6 +326,13 @@ var oInstructor = (() => {
      * @param {string} sRequestAction
      */
     function executeSubmit(oData, sRequestClass, sRequestAction) {
+        for ([sName, mValue] of Object.entries(oInstructorDataToDisable)) {
+            oData.push({
+                'name': sName,
+                'value': mValue
+            });
+        }
+
         // Execute AJAX.
         $.ajax({
             url: `/Nexus/utils/ajax.php?class=${sRequestClass}&action=${sRequestAction}`,
@@ -348,7 +364,8 @@ var oInstructor = (() => {
                     oLibraries.displayAlertMessage('success', oResponse.sMsg);
                     fetchInstructors();
                 } else {
-                    if (typeof(oResponse.aSchedules) !== 'undefined') {
+                    if (typeof (oResponse.aSchedules) !== 'undefined') {
+                        oInstructorDataToDisable = oInstructorData;
                         proceedToChangeInstructor(oResponse.aSchedules, oInstructorData.instructorId);
                         return;
                     }

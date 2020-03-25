@@ -129,7 +129,8 @@ class SchedulesModel
         // Prepare a select query.
         $statement = $this->oConnection->prepare("
             SELECT
-                tc.courseCode, ts.fromDate, ts.toDate, tv.venue
+                tc.courseCode, ts.id AS scheduleId,
+                ts.fromDate, ts.toDate, tv.venue
             FROM tbl_schedules     ts
             INNER JOIN tbl_courses tc
             ON ts.courseId     = tc.id
@@ -146,5 +147,35 @@ class SchedulesModel
 
         // Return the number of rows returned by the executed query.
         return $statement->fetchAll();
+    }
+
+    /**
+     * enableDisableInstructor
+     * Updates the instructor status inside the users table.
+     * @param array $aData
+     * @return int
+     */
+    public function changeInstructors($aData)
+    {
+            $this->oConnection->beginTransaction();
+
+            // Prepare an update query to the schedules table.
+            $oStatement = $this->oConnection->prepare("
+                UPDATE tbl_schedules
+                SET
+                    instructorId = ?
+                WHERE 1 = 1
+                    AND id = ?
+            ");
+
+            foreach ($aData as $iScheduleId => $iInstructorId) {
+                // Execute update.
+                $oStatement->execute([
+                    $iScheduleId,
+                    $iInstructorId
+                ]);
+
+            return $this->oConnection->commit();
+        }
     }
 }

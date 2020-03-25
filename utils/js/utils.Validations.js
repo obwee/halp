@@ -724,8 +724,40 @@ class Validations {
     }
 
     // This method validates the inputs of the user before submission for changing instructors.
-    validateChangeInstructorInputs(sFormName) {
+    validateChangeInstructorInputs(sFormName, oFormData) {
+        // Declare initially the validation result to be returned by the function.
+        let oValidationResult = {
+            result: true
+        }
 
+        const oElementWithNoValue = $('.courseInstructors').filter(function () {
+            return $(this).val() === null
+        })[0];
+
+        if (oElementWithNoValue === undefined) {
+            const oElementWithInvalidValue = $('.courseInstructors').filter(function () {
+                return /^[^\d]+$/.test($(this).val()) === true;
+            })[0];
+
+            $.each(oFormData, (iKey, oData) => {
+                if (/^[0-9]+$/.test(oData.value) === false) {
+                    oValidationResult = {
+                        result: false,
+                        element: oElementWithInvalidValue,
+                        msg: 'Invalid instructor.'
+                    };
+                    return false;
+                }
+            });
+        } else {
+            oValidationResult = {
+                result: false,
+                element: oElementWithNoValue,
+                msg: 'Please fill-up all the instructor fields.'
+            };
+        }
+
+        return oValidationResult;
     }
 
 };

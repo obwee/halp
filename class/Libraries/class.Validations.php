@@ -817,4 +817,35 @@ class Validations
         // Return the result of the validation.
         return $aValidationResult;
     }
+
+    /**
+     * validateChangeInstructorInputs
+     * Method for validating instruction inputs to be changed sent by AJAX.
+     * @param array $aParams
+     * @return array $aValidationResult
+     */
+    public static function validateChangeInstructorInputs($aParams)
+    {
+        foreach ($aParams['courseInstructors'] as $iScheduleId => $iInstructorId) {
+            // Check if the values are not a digit.
+            if (!preg_match('/^[\d]/', $iScheduleId)) {
+                return array(
+                    'result'  => false,
+                    'element' => '.courseInstructors',
+                    'msg'     => 'Invalid instructor.'
+                );
+            }
+            if (!preg_match('/^[\d]/', $iInstructorId)) {
+                return array(
+                    'result'  => false,
+                    'element' => '.courseInstructors',
+                    'msg'     => 'Invalid instructor.'
+                );
+            }
+        }
+
+        return array(
+            'result' => true
+        );
+    }
 }
