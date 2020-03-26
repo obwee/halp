@@ -87,6 +87,7 @@ var oInstructor = (() => {
         $('.modal').on('hidden.bs.modal', function () {
             let sFormName = `#${$(this).find('form').attr('id')}`;
             $(sFormName)[0].reset();
+            $(sFormName).find('.custom-file-label').text('Select File');
             $('.error-msg').css('display', 'none').html('');
         });
 

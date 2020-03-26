@@ -124,7 +124,7 @@ require_once "Template/header.php";
                         <textarea class="form-control msg" name="msg" rows="10" placeholder="Type your message here."></textarea>
                     </div>
                     <div class="custom-file">
-                        <label class="custom-file-label" for="file">Upload File</label>
+                        <label class="custom-file-label" for="file">Select File</label>
                         <input type="file" name="file" class="file" id="file">
                     </div>
                 </div>
