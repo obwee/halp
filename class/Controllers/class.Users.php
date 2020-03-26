@@ -57,7 +57,7 @@ class Users extends BaseController
 
             // Perform insert.
             $iQuery = $this->oUsersModel->addInstructor($this->aParams);
-    
+
             if ($iQuery > 0) {
                 $aResult = array(
                     'bResult' => true,
@@ -115,7 +115,7 @@ class Users extends BaseController
 
         echo json_encode($aResult);
     }
-    
+
     /**
      * enableDisableInstructor
      * Mark an instructor as active/inactive from the database.
@@ -139,13 +139,13 @@ class Users extends BaseController
             }
         }
 
-        // Perform delete.
+        // Perform enabling/disabling.
         $iQuery = $this->oUsersModel->enableDisableInstructor($oData);
 
         if ($iQuery > 0) {
             $aResult = array(
                 'bResult' => true,
-                'sMsg'    => 'Instructor '. $this->aParams['instructorAction'] .'d!'
+                'sMsg'    => 'Instructor ' . $this->aParams['instructorAction'] . 'd!'
             );
         } else {
             $aResult = array(
@@ -163,6 +163,78 @@ class Users extends BaseController
      */
     public function changeInstructors()
     {
-        print_r($this->aParams); die;
+        $aValidationResult = Validations::validateChangeInstructorInputs($this->aParams);
+
+        if ($aValidationResult['result'] === true) {
+            Utils::sanitizeData($this->aParams);
+
+            // Perform update on schedules.
+            $iQuery = $this->oSchedulesModel->changeInstructors($this->aParams['courseInstructors']);
+
+            if ($iQuery > 0) {
+                $aData = array(
+                    'status' => ($this->aParams['instructorAction'] === 'disable') ? 'Inactive' : 'Active',
+                    'userId' => $this->aParams['instructorId']
+                );
+                // Disable instructor.
+                $iQuery = $this->oUsersModel->enableDisableInstructor($aData);
+
+                $aResult = array(
+                    'bResult' => true,
+                    'sMsg'    => 'Instructor ' . $this->aParams['instructorAction'] . 'd!'
+                );
+            } else {
+                $aResult = array(
+                    'bResult' => false,
+                    'sMsg'    => 'An error has occured.'
+                );
+            }
+        } else {
+            $aResult = $aValidationResult;
+        }
+
+        echo json_encode($aResult);
+    }
+
+    /**
+     * messageInstructor
+     * Change the instructors in behalf of the instructor to be disabled.
+     */
+    public function messageInstructor()
+    {
+        print_r($this->aParams);
+        die;
+        $aValidationResult = Validations::validateMessageInstructorInputs($this->aParams);
+        print_r($aValidationResult);
+        die;
+        if ($aValidationResult['result'] === true) {
+            Utils::sanitizeData($this->aParams);
+
+            // Perform update on schedules.
+            $iQuery = $this->oSchedulesModel->changeInstructors($this->aParams['courseInstructors']);
+
+            if ($iQuery > 0) {
+                $aData = array(
+                    'status' => ($this->aParams['instructorAction'] === 'disable') ? 'Inactive' : 'Active',
+                    'userId' => $this->aParams['instructorId']
+                );
+                // Disable instructor.
+                $iQuery = $this->oUsersModel->enableDisableInstructor($aData);
+
+                $aResult = array(
+                    'bResult' => true,
+                    'sMsg'    => 'Instructor ' . $this->aParams['instructorAction'] . 'd!'
+                );
+            } else {
+                $aResult = array(
+                    'bResult' => false,
+                    'sMsg'    => 'An error has occured.'
+                );
+            }
+        } else {
+            $aResult = $aValidationResult;
+        }
+
+        echo json_encode($aResult);
     }
 }

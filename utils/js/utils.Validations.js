@@ -1,5 +1,10 @@
 class Validations {
-    // This method validates the inputs of the user before submission for registration.
+
+    /**
+     * validateRegisterInputs
+     * Validates the inputs of the user before submission for registration.
+     * @return {object} oValidationResult (Result of the validation.)
+     */
     validateRegisterInputs() {
 
         // Declare an object with properties related to inputs that need to be validated.
@@ -133,7 +138,11 @@ class Validations {
         return validationResult;
     }
 
-    // This method validates the inputs of the user before submission for quotation.
+    /**
+     * validateQuoteInputs
+     * Validates the inputs of the user before submission for quotation.
+     * @return {object} oValidationResult (Result of the validation.)
+     */
     validateQuoteInputs() {
 
         // Declare an object with properties related to inputs that need to be validated.
@@ -266,7 +275,12 @@ class Validations {
         return validationResult;
     }
 
-    // This method validates the inputs of the user before submission for quotation.
+    /**
+     * validateQuoteRequestInputs
+     * Validates the inputs of the user before submission for quotation.
+     * @param {string} sFormId (The name of the form.)
+     * @return {object} oValidationResult (Result of the validation.)
+     */
     validateQuoteRequestInputs(sFormId) {
 
         let validationResult = {
@@ -351,7 +365,11 @@ class Validations {
         return validationResult;
     }
 
-    // This method validates the inputs of the user before submission for emailing.
+    /**
+     * validateEmailUsInputs
+     * Validates the inputs of the user before submission for emailing.
+     * @return {object} oValidationResult (Result of the validation.)
+     */
     validateEmailUsInputs() {
         // Declare an object with properties related to inputs that need to be validated.
         let emailInputRules = [
@@ -387,6 +405,13 @@ class Validations {
                 maxLength: 30,
                 pattern: /.+/g
             },
+            {
+                name: 'Email message',
+                element: '#emailMsg',
+                length: $.trim($('#emailMsg').val()).length,
+                minLength: 4,
+                maxLength: 255
+            }
         ];
 
         // Declare initially the validation result to be returned by the function.
@@ -439,7 +464,11 @@ class Validations {
         return validationResult;
     }
 
-    // This method validates the inputs of the user before submission for course addition.
+    /**
+     * validateAddUpdateCourseInputs
+     * Validates the inputs of the user before submission for course addition.
+     * @return {object} oValidationResult (Result of the validation.)
+     */
     validateAddUpdateCourseInputs() {
         // Declare an object with properties related to inputs that need to be validated.
         let addCourseRules = [
@@ -524,7 +553,12 @@ class Validations {
         return validationResult;
     }
 
-    // This method validates the inputs of the user before submission for schedule addition/alteration.
+    /**
+     * validateScheduleInputs
+     * Validates the inputs of the user before submission for schedule addition/alteration.
+     * @param {string} sFormName (The name of the form.)
+     * @return {object} oValidationResult (Result of the validation.)
+     */
     validateScheduleInputs(sFormName) {
         sFormName = sFormName.substr(1);
         // Declare an object with properties related to inputs that need to be validated.
@@ -618,7 +652,12 @@ class Validations {
         return validationResult;
     }
 
-    // This method validates the inputs of the user before submission for instructor addition/alteration.
+    /**
+     * validateInstructorInputs
+     * Validates the inputs before inserting instructor.
+     * @param {string} sFormName (The name of the form.)
+     * @return {object} oValidationResult (Result of the validation.)
+     */
     validateInstructorInputs(sFormName) {
         sFormName = sFormName.substr(1);
 
@@ -723,9 +762,162 @@ class Validations {
         return validationResult;
     }
 
-    // This method validates the inputs of the user before submission for changing instructors.
-    validateChangeInstructorInputs(sFormName) {
+    /**
+     * validateChangeInstructorInputs
+     * Validates the inputs before changing instructors.
+     * @param {string} sFormName (The name of the form.)
+     * @param {string} oFormData (The data.)
+     * @return {object} oValidationResult (Result of the validation.)
+     */
+    validateChangeInstructorInputs(sFormName, oFormData) {
+        // Declare initially the validation result to be returned by the function.
+        let oValidationResult = {
+            result: true
+        }
 
+        // Get instructor dropdowns without values.
+        const oElementWithNoValue = $('.courseInstructors').filter(function () {
+            return $(this).val() === null
+        })[0];
+
+        if (oElementWithNoValue === undefined) {
+            // Get instructor dropdowns with invalid values.
+            const oElementWithInvalidValue = $('.courseInstructors').filter(function () {
+                return /^[^\d]+$/.test($(this).val()) === true;
+            })[0];
+
+            $.each(oFormData, (iKey, oData) => {
+                if (/^[0-9]+$/.test(oData.value) === false) {
+                    oValidationResult = {
+                        result: false,
+                        element: oElementWithInvalidValue,
+                        msg: 'Invalid instructor.'
+                    };
+                    return false;
+                }
+            });
+        } else {
+            oValidationResult = {
+                result: false,
+                element: oElementWithNoValue,
+                msg: 'Please fill-up all the instructor fields.'
+            };
+        }
+
+        return oValidationResult;
+    }
+
+    /**
+     * validateMessageInstructorInputs
+     * Validates the inputs before messaging the instructor.
+     * @return {object} oValidationResult (Result of the validation.)
+     */
+    validateMessageInstructorInputs() {
+        // Declare an object with properties related to inputs that need to be validated.
+        let emailInputRules = [
+            {
+                name: 'Email title',
+                element: '.title',
+                length: $.trim($('.title').val()).length,
+                minLength: 4,
+                maxLength: 30,
+                pattern: /.+/g
+            },
+            {
+                name: 'Email message',
+                element: '.msg',
+                length: $.trim($('.msg').val()).length,
+                minLength: 4,
+                maxLength: 255,
+                pattern: /.+/g
+            }
+        ];
+
+        // Declare initially the validation result to be returned by the function.
+        let validationResult = {
+            result: true
+        }
+
+        // Loop thru each emailInputRules and if there are rules violated, return false and the error message.
+        $.each(emailInputRules, function (key, inputRule) {
+            if (inputRule.length < inputRule.minLength) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
+                };
+                return false;
+            }
+            if (inputRule.length > inputRule.maxLength) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
+                };
+                return false;
+            }
+            if (inputRule.pattern.test($(inputRule.element).val()) === false) {
+                validationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' input is invalid.'
+                };
+                return false;
+            }
+        });
+
+        let oFile = $('.file').prop('files')[0];
+        if (validationResult.result === true && oFile !== undefined) {
+            validationResult = this.validateFileForMessagingInstructor(oFile);
+        }
+
+        // Return the result of the validation.
+        return validationResult;
+    }
+
+    /**
+     * validateFileForMessagingInstructor
+     * Validates the file uploaded for messaging instructor.
+     * @param {object} oFile (The file object.)
+     * @return {object} oFileValidation (Result of the validation.)
+     */
+    validateFileForMessagingInstructor(oFile) {
+        let oFileValidation = {
+            result: true
+        };
+
+        let fileInputRules = [
+            {
+                name: 'File',
+                element: '.file',
+                maxSize: 10485760,
+                pattern: /(\.pdf)$/i
+            },
+        ];
+
+        $.each(fileInputRules, function (iKey, oInputRule) {
+            // Test if file is a PDF file.
+            if (!oInputRule.pattern.exec(oFile.name)) {
+                oFileValidation = {
+                    result: false,
+                    element: oInputRule.element,
+                    msg: 'File must be PDF.'
+                };
+                return false;
+            }
+
+            // Test if file size exceeds 10 MB.
+            if (oFile.size > oInputRule.maxSize) {
+                oFileValidation = {
+                    result: false,
+                    element: '.file',
+                    msg: 'File must not exceed 10 MB.'
+                };
+            }
+            return false;
+        });
+
+        return oFileValidation;
     }
 
 };

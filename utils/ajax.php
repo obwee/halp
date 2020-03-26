@@ -21,6 +21,10 @@ if (isset($_REQUEST['class']) === false || file_exists($sFile) === false) {
 
 $_POST = (empty($_POST) === false) ? $_POST : json_decode(file_get_contents("php://input"), TRUE);
 
+if (empty($_FILES) === false) {
+    $_POST = array_merge($_POST, $_FILES);
+}
+
 // Invoke the class.
 $oClass = new $sClassName($_POST);
 

@@ -29,6 +29,12 @@ var oInstructor = (() => {
     let aInstructors = [];
 
     /**
+     * @var {object} oInstructorDetails
+     * Holder of selected instructor details.
+     */
+    let oInstructorDetails = {};
+
+    /**
      * @var {object} oColumns
      * Holder of columns to be displayed by the datatable.
      */
@@ -81,16 +87,22 @@ var oInstructor = (() => {
         $('.modal').on('hidden.bs.modal', function () {
             let sFormName = `#${$(this).find('form').attr('id')}`;
             $(sFormName)[0].reset();
+            $(sFormName).find('.custom-file-label').text('Select File');
             $('.error-msg').css('display', 'none').html('');
         });
 
         $(document).on('click', '#editInstructor', function () {
             let iInstructorId = $(this).attr('data-id');
-            let oInstructorDetails = aInstructors.filter(oInstructor => oInstructor.id == iInstructorId)[0];
-            proceedToEditInstructor(oInstructorDetails);
+            let oInstructorData = aInstructors.filter(oInstructor => oInstructor.id == iInstructorId)[0];
+            proceedToEditInstructor(oInstructorData);
         });
 
         $(document).on('click', '#messageInstructor', function () {
+            oInstructorDetails = aInstructors.filter(oInstructor => oInstructor.id == $(this).attr('data-id'))[0];
+            oInstructorDetails = {
+                'fullName': oInstructorDetails.fullName,
+                'email': oInstructorDetails.email
+            }
             $('#messageInstructorModal').modal('show');
         });
 
@@ -140,10 +152,13 @@ var oInstructor = (() => {
             const sFormName = `#${$(this).attr('id')}`;
 
             // Disable the form.
-            oForms.disableFormState(sFormName, true);
+            // oForms.disableFormState(sFormName, true);
 
             // Invoke the resetInputBorders method inside oForms utils for that form.
             oForms.resetInputBorders(sFormName);
+
+            // Get form data.
+            const oFormData = $(sFormName).serializeArray();
 
             // Create an object with key names of forms and its corresponding validation and request action as its value.
             const oInputForms = {
@@ -162,11 +177,18 @@ var oInstructor = (() => {
                     'alertText': 'This will update the instructor details.'
                 },
                 '#changeInstructorForm': {
-                    'validationMethod': oValidations.validateChangeInstructorInputs(sFormName),
+                    'validationMethod': oValidations.validateChangeInstructorInputs(sFormName, oFormData),
                     'requestClass': 'Users',
                     'requestAction': 'changeInstructors',
                     'alertTitle': 'Change instructors?',
                     'alertText': 'This will change the instructors of the schedules above.'
+                },
+                '#messageInstructorForm': {
+                    'validationMethod': oValidations.validateMessageInstructorInputs(sFormName),
+                    'requestClass': 'Users',
+                    'requestAction': 'messageInstructor',
+                    'alertTitle': 'Message instructor?',
+                    'alertText': 'This will send a message to the selected instructor.'
                 }
             }
 
@@ -174,7 +196,6 @@ var oInstructor = (() => {
             let oValidateInputs = oInputForms[sFormName].validationMethod;
 
             if (oValidateInputs.result === true) {
-                return;
                 Swal.fire({
                     title: oInputForms[sFormName].alertTitle,
                     text: oInputForms[sFormName].alertText,
@@ -192,7 +213,9 @@ var oInstructor = (() => {
                         let sRequestAction = oInputForms[sFormName].requestAction;
 
                         // Check if input validation result is true.
-                        const oFormData = $(sFormName).serializeArray();
+                        // const oFormData = $(sFormName).serializeArray();
+                        const oFormData = new FormData($(sFormName)[0]);
+                        // console.log(oFormData); return;
                         executeSubmit(oFormData, sRequestClass, sRequestAction);
                     }
                 });
@@ -245,7 +268,7 @@ var oInstructor = (() => {
      */
     function proceedToChangeInstructor(oDetails, iInstructorId) {
         oLibraries.displayAlertMessage('warning', 'Please update the instructors for the following schedules.');
-        
+
         loadTemplate();
 
         $('.box')
@@ -263,7 +286,7 @@ var oInstructor = (() => {
             oRow.find('.courseSchedule span').text(oVal.fromDate + ' - ' + oVal.toDate);
             oRow.find('.courseVenue span').text(oVal.venue);
 
-            cloneInstructorDropdown(oRow.find('.courseInstructors'), iInstructorId);
+            cloneInstructorDropdown(oRow.find('.courseInstructors'), oVal.scheduleId, iInstructorId);
             insertInstructorToBeDisabled($('.instructorName'), iInstructorId);
 
             $('.box').append(oRow);
@@ -287,12 +310,12 @@ var oInstructor = (() => {
      * cloneInstructorDropdown
      * Clonses the instructor dropdown inside the template.
      */
-    function cloneInstructorDropdown(oElement, iInstructorId) {
+    function cloneInstructorDropdown(oElement, iScheduleId, iInstructorId) {
         let aFilteredInstructors = aInstructors.filter((oInstructor) => {
-            return oInstructor.id !== iInstructorId;
+            return oInstructor.id !== iInstructorId && oInstructor.status === 'Active';
         });
 
-        oElement.empty().append($('<option selected disabled hidden>Select Instructor</option>'));
+        oElement.empty().attr('name', `courseInstructors[${iScheduleId}]`).append($('<option selected disabled hidden>Select Instructor</option>'));
         $.each(aFilteredInstructors, (iKey, oVal) => {
             oElement.append($('<option />').val(oVal.id).text(`${oVal.fullName}`));
         });
@@ -304,7 +327,7 @@ var oInstructor = (() => {
      */
     function insertInstructorToBeDisabled(oElement, iInstructorId) {
         let aInstructor = aInstructors.filter((oInstructor) => {
-            return oInstructor.id !== iInstructorId;
+            return oInstructor.id === iInstructorId;
         })[0];
 
         oElement.val(aInstructor.firstName + ' ' + aInstructor.lastName);
@@ -312,23 +335,29 @@ var oInstructor = (() => {
 
     /**
      * executeSubmit
-     * @param {object} oData
+     * @param {object} oFormData
      * @param {string} sRequestClass
      * @param {string} sRequestAction
      */
-    function executeSubmit(oData, sRequestClass, sRequestAction) {
+    function executeSubmit(oFormData, sRequestClass, sRequestAction) {
+        for ([sName, mValue] of Object.entries(oInstructorDetails)) {
+            oFormData.append(sName, mValue);
+        }
+
         // Execute AJAX.
         $.ajax({
             url: `/Nexus/utils/ajax.php?class=${sRequestClass}&action=${sRequestAction}`,
             type: 'POST',
-            data: oData,
+            data: oFormData,
             dataType: 'json',
+            contentType: false,
+            processData: false,
             success: function (oResponse) {
-                oLibraries.displayAlertMessage(
-                    (oResponse.bResult === true) ? 'success' : 'error', oResponse.sMsg
-                );
-                fetchInstructors();
-                $('.modal').modal('hide');
+                // oLibraries.displayAlertMessage(
+                //     (oResponse.bResult === true) ? 'success' : 'error', oResponse.sMsg
+                // );
+                // fetchInstructors();
+                // $('.modal').modal('hide');
             }
         });
     }
@@ -348,7 +377,8 @@ var oInstructor = (() => {
                     oLibraries.displayAlertMessage('success', oResponse.sMsg);
                     fetchInstructors();
                 } else {
-                    if (typeof(oResponse.aSchedules) !== 'undefined') {
+                    if (typeof (oResponse.aSchedules) !== 'undefined') {
+                        oInstructorDetails = oInstructorData;
                         proceedToChangeInstructor(oResponse.aSchedules, oInstructorData.instructorId);
                         return;
                     }
@@ -417,11 +447,4 @@ var oInstructor = (() => {
 
 $(() => {
     oInstructor.initialize();
-});
-
-
-// Add the following code if you want the name of the file appear on select
-$(".custom-file-input").on("change", function () {
-    var fileName = $(this).val().split("\\").pop();
-    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });

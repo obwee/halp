@@ -29,7 +29,7 @@ class UsersModel
     public function fetchInstructors()
     {
         // Prepare a select query.
-        $statement = $this->oConnection->prepare("
+        $oStatement = $this->oConnection->prepare("
             SELECT
                 tu.userId AS id, tu.firstName, tu.middleName, tu.lastName,
                 tu.contactNum, tu.email, tu.certificationTitle, tu.status
@@ -38,10 +38,10 @@ class UsersModel
         ");
 
         // Execute the above statement.
-        $statement->execute();
+        $oStatement->execute();
 
         // Return the number of rows returned by the executed query.
-        return $statement->fetchAll();
+        return $oStatement->fetchAll();
     }
 
     /**
@@ -53,7 +53,7 @@ class UsersModel
     public function addInstructor($aData)
     {
         // Prepare an update query to the schedules table.
-        $statement = $this->oConnection->prepare("
+        $oStatement = $this->oConnection->prepare("
             INSERT INTO tbl_users
                 (firstName, middleName, lastName, email, contactNum, certificationTitle, position)
             VALUES
@@ -61,7 +61,7 @@ class UsersModel
         ");
 
         // Return the result of the execution of the above statement.
-        return $statement->execute($aData);
+        return $oStatement->execute($aData);
     }
 
     /**
@@ -73,7 +73,7 @@ class UsersModel
     public function updateInstructor($aData)
     {
         // Prepare an update query to the schedules table.
-        $statement = $this->oConnection->prepare("
+        $oStatement = $this->oConnection->prepare("
             UPDATE tbl_users
             SET
                 firstName          = :firstName,
@@ -86,7 +86,7 @@ class UsersModel
         ");
 
         // Return the result of the execution of the above statement.
-        return $statement->execute($aData);
+        return $oStatement->execute($aData);
     }
 
     /**
@@ -98,7 +98,7 @@ class UsersModel
     public function enableDisableInstructor($aData)
     {
         // Prepare an update query to the schedules table.
-        $statement = $this->oConnection->prepare("
+        $oStatement = $this->oConnection->prepare("
             UPDATE tbl_users
             SET
                 status = :status
@@ -106,6 +106,6 @@ class UsersModel
         ");
 
         // Return the result of the execution of the above statement.
-        return $statement->execute($aData);
+        return $oStatement->execute($aData);
     }
 }
