@@ -114,21 +114,22 @@ require_once "Template/header.php";
             </div>
             <form action="POST" id="messageInstructorForm">
                 <div class="modal-body">
+                    <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                     <div class="form-group">
                         <label for="title"><span class="fas fa-envelope"></span> Subject</label>
-                        <input type="text" class="form-control" id="title" name="title" placeholder="Subject" autofocus maxlength="30">
+                        <input type="text" class="form-control title" name="title" placeholder="Subject" autofocus maxlength="30">
                     </div>
                     <div class="form-group">
                         <label for='msg'><span class="fas fa-envelope-open-text"></span> Message</label>
-                        <textarea class="form-control" id="msg" name="msg" rows="10" placeholder="Type your message here."></textarea>
+                        <textarea class="form-control msg" name="msg" rows="10" placeholder="Type your message here."></textarea>
                     </div>
                     <div class="custom-file">
                         <label class="custom-file-label" for="file">Upload File</label>
-                        <input type="file" class="file" id="file">
+                        <input type="file" name="file" class="file" id="file">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success">Send</button>
+                    <button type="submit" class="btn btn-success">Send</button>
                     <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
                 </div>
             </form>

@@ -157,25 +157,26 @@ class SchedulesModel
      */
     public function changeInstructors($aData)
     {
-            $this->oConnection->beginTransaction();
+        $this->oConnection->beginTransaction();
 
-            // Prepare an update query to the schedules table.
-            $oStatement = $this->oConnection->prepare("
-                UPDATE tbl_schedules
-                SET
-                    instructorId = ?
-                WHERE 1 = 1
-                    AND id = ?
-            ");
+        // Prepare an update query to the schedules table.
+        $oStatement = $this->oConnection->prepare("
+            UPDATE tbl_schedules
+            SET
+                instructorId = ?
+            WHERE 1 = 1
+                AND id = ?
+                AND fromDate > CURDATE()
+                AND toDate   > CURDATE()
+        ");
 
-            foreach ($aData as $iScheduleId => $iInstructorId) {
-                // Execute update.
-                $oStatement->execute([
-                    $iScheduleId,
-                    $iInstructorId
-                ]);
-
-            return $this->oConnection->commit();
+        foreach ($aData as $iScheduleId => $iInstructorId) {
+            // Execute update.
+            $oStatement->execute([
+                $iInstructorId,
+                $iScheduleId
+            ]);
         }
+        return $this->oConnection->commit();
     }
 }

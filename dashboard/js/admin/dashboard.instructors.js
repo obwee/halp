@@ -29,10 +29,10 @@ var oInstructor = (() => {
     let aInstructors = [];
 
     /**
-     * @var {object} oInstructorDataToDisable
-     * Holder of instructor details to be disabled.
+     * @var {object} oInstructorDetails
+     * Holder of selected instructor details.
      */
-    let oInstructorDataToDisable = {};
+    let oInstructorDetails = {};
 
     /**
      * @var {object} oColumns
@@ -92,11 +92,16 @@ var oInstructor = (() => {
 
         $(document).on('click', '#editInstructor', function () {
             let iInstructorId = $(this).attr('data-id');
-            let oInstructorDetails = aInstructors.filter(oInstructor => oInstructor.id == iInstructorId)[0];
-            proceedToEditInstructor(oInstructorDetails);
+            let oInstructorData = aInstructors.filter(oInstructor => oInstructor.id == iInstructorId)[0];
+            proceedToEditInstructor(oInstructorData);
         });
 
         $(document).on('click', '#messageInstructor', function () {
+            oInstructorDetails = aInstructors.filter(oInstructor => oInstructor.id == $(this).attr('data-id'))[0];
+            oInstructorDetails = {
+                'fullName': oInstructorDetails.fullName,
+                'email': oInstructorDetails.email
+            }
             $('#messageInstructorModal').modal('show');
         });
 
@@ -176,12 +181,19 @@ var oInstructor = (() => {
                     'requestAction': 'changeInstructors',
                     'alertTitle': 'Change instructors?',
                     'alertText': 'This will change the instructors of the schedules above.'
+                },
+                '#messageInstructorForm': {
+                    'validationMethod': oValidations.validateMessageInstructorInputs(sFormName),
+                    'requestClass': 'Users',
+                    'requestAction': 'messageInstructor',
+                    'alertTitle': 'Message instructor?',
+                    'alertText': 'This will send a message to the selected instructor.'
                 }
             }
 
             // Validate the inputs of the submitted form and store the result inside oValidateInputs variable.
             let oValidateInputs = oInputForms[sFormName].validationMethod;
-            
+
             if (oValidateInputs.result === true) {
                 Swal.fire({
                     title: oInputForms[sFormName].alertTitle,
@@ -200,7 +212,9 @@ var oInstructor = (() => {
                         let sRequestAction = oInputForms[sFormName].requestAction;
 
                         // Check if input validation result is true.
-                        const oFormData = $(sFormName).serializeArray();
+                        // const oFormData = $(sFormName).serializeArray();
+                        const oFormData = new FormData($(sFormName)[0]);
+                        // console.log(oFormData); return;
                         executeSubmit(oFormData, sRequestClass, sRequestAction);
                     }
                 });
@@ -297,8 +311,7 @@ var oInstructor = (() => {
      */
     function cloneInstructorDropdown(oElement, iScheduleId, iInstructorId) {
         let aFilteredInstructors = aInstructors.filter((oInstructor) => {
-            return oInstructor.id !== iInstructorId;
-            // return oInstructor.id !== iInstructorId && oInstructor.status === 'Active';
+            return oInstructor.id !== iInstructorId && oInstructor.status === 'Active';
         });
 
         oElement.empty().attr('name', `courseInstructors[${iScheduleId}]`).append($('<option selected disabled hidden>Select Instructor</option>'));
@@ -321,30 +334,29 @@ var oInstructor = (() => {
 
     /**
      * executeSubmit
-     * @param {object} oData
+     * @param {object} oFormData
      * @param {string} sRequestClass
      * @param {string} sRequestAction
      */
-    function executeSubmit(oData, sRequestClass, sRequestAction) {
-        for ([sName, mValue] of Object.entries(oInstructorDataToDisable)) {
-            oData.push({
-                'name': sName,
-                'value': mValue
-            });
+    function executeSubmit(oFormData, sRequestClass, sRequestAction) {
+        for ([sName, mValue] of Object.entries(oInstructorDetails)) {
+            oFormData.append(sName, mValue);
         }
 
         // Execute AJAX.
         $.ajax({
             url: `/Nexus/utils/ajax.php?class=${sRequestClass}&action=${sRequestAction}`,
             type: 'POST',
-            data: oData,
+            data: oFormData,
             dataType: 'json',
+            contentType: false,
+            processData: false,
             success: function (oResponse) {
-                oLibraries.displayAlertMessage(
-                    (oResponse.bResult === true) ? 'success' : 'error', oResponse.sMsg
-                );
-                fetchInstructors();
-                $('.modal').modal('hide');
+                // oLibraries.displayAlertMessage(
+                //     (oResponse.bResult === true) ? 'success' : 'error', oResponse.sMsg
+                // );
+                // fetchInstructors();
+                // $('.modal').modal('hide');
             }
         });
     }
@@ -365,7 +377,7 @@ var oInstructor = (() => {
                     fetchInstructors();
                 } else {
                     if (typeof (oResponse.aSchedules) !== 'undefined') {
-                        oInstructorDataToDisable = oInstructorData;
+                        oInstructorDetails = oInstructorData;
                         proceedToChangeInstructor(oResponse.aSchedules, oInstructorData.instructorId);
                         return;
                     }
@@ -434,11 +446,4 @@ var oInstructor = (() => {
 
 $(() => {
     oInstructor.initialize();
-});
-
-
-// Add the following code if you want the name of the file appear on select
-$(".custom-file-input").on("change", function () {
-    var fileName = $(this).val().split("\\").pop();
-    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });

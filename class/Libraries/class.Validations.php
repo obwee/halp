@@ -265,6 +265,23 @@ class Validations
         )
     );
 
+    public static $aMessageInstructorRules = array(
+        array(
+            'sName'       => 'Email title',
+            'sElement'    => 'title',
+            'iMinLength'  => 2,
+            'iMaxLength'  => 30,
+            'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+        ),
+        array(
+            'sName'       => 'Email message',
+            'sElement'    => 'msg',
+            'iMinLength'  => 4,
+            'iMaxLength'  => 255,
+            'oPattern'    => '/.+/'
+        )
+    );
+
     /**
      * validateRegistrationInputs
      * Method for validating registration inputs sent by AJAX.
@@ -847,5 +864,67 @@ class Validations
         return array(
             'result' => true
         );
+    }
+
+    /**
+     * validateMessageInstructorInputs
+     * Method for validating instruction inputs to be changed sent by AJAX.
+     * @param array $aParams
+     * @return array $aValidationResult
+     */
+    public static function validateMessageInstructorInputs($aParams)
+    {
+        // Prepare the validation result.
+        $aValidationResult = array(
+            'result' => true
+        );
+
+        // Loop thru each inputRules and if there are rules violated, return false and the error message.
+        foreach (self::$aMessageInstructorRules as $aInputRule) {
+            $sInput = trim($aParams[$aInputRule['sElement']]);
+
+            if (strlen($sInput) < $aInputRule['iMinLength']) {
+                $aValidationResult = array(
+                    'result'  => false,
+                    'element' => '.' . $aInputRule['sElement'],
+                    'msg'     => $aInputRule['sName'] . ' must be minimum of ' . $aInputRule['iMinLength'] . ' characters.'
+                );
+                break;
+            }
+            if (strlen($sInput) > $aInputRule['iMaxLength']) {
+                $aValidationResult = array(
+                    'result'  => false,
+                    'element' => '.' . $aInputRule['sElement'],
+                    'msg'     => $aInputRule['sName'] . ' must be maximum of ' . $aInputRule['iMaxLength'] . ' characters.'
+                );
+                break;
+            }
+            if (!preg_match($aInputRule['oPattern'], $sInput)) {
+                $aValidationResult = array(
+                    'result'  => false,
+                    'element' => '.' . $aInputRule['sElement'],
+                    'msg'     => $aInputRule['sName'] . ' input is invalid.'
+                );
+                break;
+            }
+        }
+
+        if ($aValidationResult['result'] === true && isset($aParams['file']) === true) {
+            $aValidationResult = self::validateFileForMessagingInstructor($aParams['file']);
+        }
+
+        // Return the result of the validation.
+        return $aValidationResult;
+    }
+
+    /**
+     * validateFileForMessagingInstructor
+     * Validates the file uploaded for messaging instructor.
+     * @param array $aFile (The file object.)
+     * @return array $aFileValidation (Result of the validation.)
+     */
+    private static function validateFileForMessagingInstructor($aFile)
+    {
+        print_r($aFile); die;
     }
 }

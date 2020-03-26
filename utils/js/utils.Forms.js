@@ -36,7 +36,7 @@ var oForms = (() => {
         });
 
         // Remove red border on focus event on any input.
-        $(document).on('focus', 'input, select', function () {
+        $(document).on('focus', 'input, select, textarea', function () {
             $(this).css('border', '1px solid #ccc');
         });
 
@@ -91,7 +91,7 @@ var oForms = (() => {
 
     // Remove existing red borders on inputs.
     function resetInputBorders(formName) {
-        $(formName).find('input, select').css('border', '1px solid #ccc');
+        $(formName).find('input, select, textarea').css('border', '1px solid #ccc');
     }
 
     // Clone courseAndScheduleDiv based on the count fetched from DB.
@@ -135,6 +135,11 @@ var oForms = (() => {
                 return this.value = this.value.replace(this.value, '');
             }
             $(this).val($(this).val().replace(/\s+/g, ' ').replace(/\,+/g, ',').replace(/\,$/g, '').trim());
+        });
+
+        $(document).on('change', '.file', function () {
+            let sFileName = $(this).val().split('\\').pop();
+            $(this).siblings('.custom-file-label').addClass('selected').html(sFileName);
         });
     }
 
