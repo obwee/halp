@@ -152,7 +152,7 @@ var oInstructor = (() => {
             const sFormName = `#${$(this).attr('id')}`;
 
             // Disable the form.
-            // oForms.disableFormState(sFormName, true);
+            oForms.disableFormState(sFormName, true);
 
             // Invoke the resetInputBorders method inside oForms utils for that form.
             oForms.resetInputBorders(sFormName);
@@ -340,8 +340,10 @@ var oInstructor = (() => {
      * @param {string} sRequestAction
      */
     function executeSubmit(oFormData, sRequestClass, sRequestAction) {
-        for ([sName, mValue] of Object.entries(oInstructorDetails)) {
-            oFormData.append(sName, mValue);
+        if (sRequestAction === 'messageInstructor') {
+            for ([sName, mValue] of Object.entries(oInstructorDetails)) {
+                oFormData.append(sName, mValue);
+            }
         }
 
         // Execute AJAX.
@@ -352,12 +354,18 @@ var oInstructor = (() => {
             dataType: 'json',
             contentType: false,
             processData: false,
-            success: function (oResponse) {
-                // oLibraries.displayAlertMessage(
-                //     (oResponse.bResult === true) ? 'success' : 'error', oResponse.sMsg
-                // );
-                // fetchInstructors();
-                // $('.modal').modal('hide');
+            beforeSend: () => {
+                $('.spinner').css('display', 'block');
+            },
+            success: (oResponse) => {
+                oLibraries.displayAlertMessage(
+                    (oResponse.bResult === true) ? 'success' : 'error', oResponse.sMsg
+                );
+                fetchInstructors();
+                $('.modal').modal('hide');
+            },
+            complete: () => {
+                $('.spinner').css('display', 'none');
             }
         });
     }

@@ -138,17 +138,28 @@ class Email
     }
 
     /**
-     * addAttachment
+     * addFpdfAttachment
      * Method for adding an attachment for the email to be sent.
      * @param string $sOutput
      */
-    public function addAttachment($sOutput)
+    public function addFpdfAttachment($sOutput)
     {
         $oAttachment = new Swift_Attachment($sOutput, 'Quotation.pdf', 'application/pdf');
         $this->oMessage->attach($oAttachment);
         // $oAttachment = Swift_Attachment::fromPath($sFilePath);
         // $oAttachment->setFilename($sFileName);
         // $this->oMessage->attach($oAttachment);
+    }
+
+    /**
+     * addFileUploadAttachment
+     * Method for adding an attachment for the email to be sent.
+     * @param array $aFile
+     */
+    public function addFileUploadAttachment($aFile)
+    {
+        $oAttachment = Swift_Attachment::fromPath($aFile['tmp_name'])->setFilename($aFile['name']);
+        $this->oMessage->attach($oAttachment);
     }
 
     /**

@@ -909,7 +909,7 @@ class Validations
             }
         }
 
-        if ($aValidationResult['result'] === true && isset($aParams['file']) === true) {
+        if ($aValidationResult['result'] === true && $aParams['file']['size'] !== 0) {
             $aValidationResult = self::validateFileForMessagingInstructor($aParams['file']);
         }
 
@@ -925,6 +925,25 @@ class Validations
      */
     private static function validateFileForMessagingInstructor($aFile)
     {
-        print_r($aFile); die;
+        $aFileValidation = array(
+            'result' => true
+        );
+
+        if ($aFile['type'] !== 'application/pdf') {
+            $aFileValidation = array(
+                'result'  => false,
+                'element' => '.file',
+                'msg'     => 'File must be PDF.'
+            );
+        }
+        if ($aFile['size'] > 10485760) {
+            $aFileValidation = array(
+                'result'  => false,
+                'element' => '.file',
+                'msg'     => 'File must not exceed 10 MB.'
+            );
+        }
+
+        return $aFileValidation;
     }
 }

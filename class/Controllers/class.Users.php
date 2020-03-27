@@ -202,33 +202,21 @@ class Users extends BaseController
      */
     public function messageInstructor()
     {
-        print_r($this->aParams);
-        die;
         $aValidationResult = Validations::validateMessageInstructorInputs($this->aParams);
-        print_r($aValidationResult);
-        die;
         if ($aValidationResult['result'] === true) {
             Utils::sanitizeData($this->aParams);
 
-            // Perform update on schedules.
-            $iQuery = $this->oSchedulesModel->changeInstructors($this->aParams['courseInstructors']);
-
-            if ($iQuery > 0) {
-                $aData = array(
-                    'status' => ($this->aParams['instructorAction'] === 'disable') ? 'Inactive' : 'Active',
-                    'userId' => $this->aParams['instructorId']
-                );
-                // Disable instructor.
-                $iQuery = $this->oUsersModel->enableDisableInstructor($aData);
-
+            // Prepare email for sending to instructor.
+            $aSendEmail = $this->processSendingEmailToInstructor($this->aParams);
+            if ($aSendEmail === 1) {
                 $aResult = array(
                     'bResult' => true,
-                    'sMsg'    => 'Instructor ' . $this->aParams['instructorAction'] . 'd!'
+                    'sMsg'    => 'Message sent to instructor!'
                 );
             } else {
                 $aResult = array(
                     'bResult' => false,
-                    'sMsg'    => 'An error has occured.'
+                    'sMsg'    => 'An error has occured while sending message.'
                 );
             }
         } else {
@@ -236,5 +224,22 @@ class Users extends BaseController
         }
 
         echo json_encode($aResult);
+    }
+
+    /**
+     * processSendingEmailToInstructor
+     * Sends an email to an instructor.
+     */
+    private function processSendingEmailToInstructor($aInstructorDetails)
+    {
+        $oMail = new Email();
+        $oMail->addSingleRecipient($aInstructorDetails['email'], $aInstructorDetails['fullName']);
+        $oMail->setEmailSender('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
+        $oMail->setTitle($aInstructorDetails['title']);
+        if ($aInstructorDetails['file']['size'] > 0) {
+            $oMail->addFileUploadAttachment($aInstructorDetails['file']);
+        }
+        $oMail->setBody($aInstructorDetails['msg']);
+        return $oMail->send();
     }
 }

@@ -53,6 +53,11 @@ require_once "Template/header.php";
                         <input type="text" class="form-control certificationTitle" name="certificationTitle" placeholder="Vendor Certification" maxlength="50">
                     </div>
                 </div>
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border spinner" role="status" style="display:none;">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Add</button>
                     <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
@@ -97,6 +102,11 @@ require_once "Template/header.php";
                         <input type="text" class="form-control certificationTitle" name="certificationTitle" placeholder="Vendor Certification" maxlength="50">
                     </div>
                 </div>
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border spinner" role="status" style="display:none;">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Update</button>
                     <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
@@ -126,6 +136,11 @@ require_once "Template/header.php";
                     <div class="custom-file">
                         <label class="custom-file-label" for="file">Select File</label>
                         <input type="file" name="file" class="file" id="file">
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border spinner" role="status" style="display:none;">
+                        <span class="sr-only">Loading...</span>
                     </div>
                 </div>
                 <div class="modal-footer">

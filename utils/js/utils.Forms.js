@@ -138,8 +138,12 @@ var oForms = (() => {
         });
 
         $(document).on('change', '.file', function () {
-            let sFileName = $(this).val().split('\\').pop();
-            $(this).siblings('.custom-file-label').addClass('selected').html(sFileName);
+            if ($(this).val() !== '') {
+                let sFileName = $(this).val().split('\\').pop();
+                $(this).siblings('.custom-file-label').addClass('selected').html(sFileName);                
+            } else {
+                $(this).siblings('.custom-file-label').removeClass('selected').html('Select File');                
+            }
         });
     }
 

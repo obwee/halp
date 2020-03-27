@@ -361,7 +361,7 @@ class Quotations extends BaseController
         $oMail->addSingleRecipient($aSenderDetails['sEmail'], $aSenderDetails['sFullName']);
         $oMail->setEmailSender('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
         $oMail->setTitle('Quotation Request');
-        $oMail->addAttachment($sOutput);
+        $oMail->addFpdfAttachment($sOutput);
         // $oMail->setBody('');
         $oMail->send();
     }
