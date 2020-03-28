@@ -2,10 +2,10 @@
 require_once('utils/dbConnection.php');
 
 /**
- * UsersModel
- * Class for venue-related database functionalities.
+ * InstructorsModel
+ * Class for instructor-related database functionalities.
  */
-class UsersModel
+class InstructorsModel
 {
     /**
      * @var dbConnection $oConnection

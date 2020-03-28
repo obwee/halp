@@ -306,7 +306,7 @@ let CALENDAR = (function () {
      * fetchInstructors
      */
     async function fetchInstructors() {
-        await axios.get('/Nexus/utils/ajax.php?class=Users&action=fetchInstructors')
+        await axios.get('/Nexus/utils/ajax.php?class=Instructors&action=fetchInstructors')
             .then((oResponse) => {
                 aInstructors = oResponse.data;
                 aInstructors = aInstructors.filter(oInstructor => oInstructor.status === 'Active');

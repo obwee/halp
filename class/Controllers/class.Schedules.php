@@ -168,7 +168,6 @@ class Schedules extends BaseController
 
     public function deleteSchedule()
     {
-
         Utils::sanitizeData($this->aParams);
         if (empty($this->aParams['iScheduleId']) === true || !preg_match('/^[0-9]+$/', $this->aParams['iScheduleId'])) {
             $aResult = array(

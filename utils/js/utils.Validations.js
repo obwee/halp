@@ -3,16 +3,17 @@ class Validations {
     /**
      * validateRegisterInputs
      * Validates the inputs of the user before submission for registration.
+     * @param {string} sFormId (The id of the form.)
      * @return {object} oValidationResult (Result of the validation.)
      */
-    validateRegisterInputs() {
+    validateRegisterInputs(sFormId) {
 
         // Declare an object with properties related to inputs that need to be validated.
-        let registerInputRules = [
+        let aRegisterInputRules = [
             {
                 name: 'First name',
                 element: '#registrationFname',
-                length: $.trim($('#registrationFname').val()).length,
+                length: $.trim($(sFormId).find('#registrationFname').val()).length,
                 minLength: 2,
                 maxLength: 30,
                 pattern: /^[a-zA-Z\s\.]+$/g
@@ -20,7 +21,7 @@ class Validations {
             {
                 name: 'Last name',
                 element: '#registrationLname',
-                length: $.trim($('#registrationLname').val()).length,
+                length: $.trim($(sFormId).find('#registrationLname').val()).length,
                 minLength: 2,
                 maxLength: 30,
                 pattern: /^[a-zA-Z\s\.]+$/g
@@ -28,7 +29,7 @@ class Validations {
             {
                 name: 'Contact number',
                 element: '#registrationContactNum',
-                length: $.trim($('#registrationContactNum').val()).length,
+                length: $.trim($(sFormId).find('#registrationContactNum').val()).length,
                 minLength: 7,
                 maxLength: 12,
                 pattern: /^[0-9]+$/g
@@ -36,7 +37,7 @@ class Validations {
             {
                 name: 'Email address',
                 element: '#registrationEmail',
-                length: $.trim($('#registrationEmail').val()).length,
+                length: $.trim($(sFormId).find('#registrationEmail').val()).length,
                 minLength: 4,
                 maxLength: 50,
                 pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
@@ -44,7 +45,7 @@ class Validations {
             {
                 name: 'Username',
                 element: '#registrationUsername',
-                length: $.trim($('#registrationUsername').val()).length,
+                length: $.trim($(sFormId).find('#registrationUsername').val()).length,
                 minLength: 4,
                 maxLength: 15,
                 pattern: /^(?![0-9_])\w+$/g
@@ -52,31 +53,28 @@ class Validations {
             {
                 name: 'Password',
                 element: '#registrationPassword',
-                length: $.trim($('#registrationPassword').val()).length,
+                length: $.trim($(sFormId).find('#registrationPassword').val()).length,
                 minLength: 4,
-                maxLength: 30
+                maxLength: 30,
+                pattern: /.+/g
             },
             {
                 name: 'Password',
                 element: '#registrationConfirmPassword',
-                length: $.trim($('#registrationConfirmPassword').val()).length,
+                length: $.trim($(sFormId).find('#registrationConfirmPassword').val()).length,
                 minLength: 4,
-                maxLength: 30
+                maxLength: 30,
+                pattern: /.+/g
             },
         ];
 
-        // Declare initially the validation result to be returned by the function.
-        let validationResult = {
-            result: true
-        }
-
         // Check if middle name has a value.
-        if ($.trim($('#registrationMname').val()).length !== 0) {
-            registerInputRules.splice(1, 0,
+        if ($.trim($(sFormId).find('#registrationMname').val()).length !== 0) {
+            aRegisterInputRules.splice(1, 0,
                 {
                     name: 'Middle name',
                     element: '#registrationMname',
-                    length: $.trim($('#registrationMname').val()).length,
+                    length: $.trim($(sFormId).find('#registrationMname').val()).length,
                     minLength: 2,
                     maxLength: 30,
                     pattern: /^[a-zA-Z\s\.]+$/g
@@ -84,12 +82,12 @@ class Validations {
             );
         }
         // Check if company name has a value.
-        if ($.trim($('#registrationCompanyName').val()).length !== 0) {
-            registerInputRules.splice(4, 0,
+        if ($.trim($(sFormId).find('#registrationCompanyName').val()).length !== 0) {
+            aRegisterInputRules.splice(4, 0,
                 {
                     name: 'Company name',
                     element: '#registrationCompanyName',
-                    length: $.trim($('#registrationCompanyName').val()).length,
+                    length: $.trim($(sFormId).find('#registrationCompanyName').val()).length,
                     minLength: 4,
                     maxLength: 50,
                     pattern: /^[a-zA-Z0-9\s\.]+$/g
@@ -97,60 +95,37 @@ class Validations {
             );
         }
 
-        // Loop thru each registerInputRules and if there are rules violated, return false and the error message.
-        $.each(registerInputRules, function (key, inputRule) {
-            if (inputRule.length < inputRule.minLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
-                };
-                return false;
-            }
-            if (inputRule.length > inputRule.maxLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
-                };
-                return false;
-            }
-            if ((inputRule.name !== 'Password') && (inputRule.pattern.test($(inputRule.element).val()) === false)) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' input is invalid.'
-                };
-                return false;
-            }
-        });
+        // Loop thru each rules to check if there are rules violated.
+        let oValidationResult = this.loopThruRulesForErrors(aRegisterInputRules, sFormId);
 
-        // Check if passwords are equal.
-        if ($('#registrationPassword').val() !== $('#registrationConfirmPassword').val()) {
-            validationResult = {
-                result: false,
-                element: '#registrationPassword, #registrationConfirmPassword',
-                msg: 'Passwords do not match.'
-            };
+        if (oValidationResult.result === true) {
+            // Check if passwords are equal.
+            if ($(sFormId).find('#registrationPassword').val() !== $(sFormId).find('#registrationConfirmPassword').val()) {
+                oValidationResult = {
+                    result: false,
+                    element: '#registrationPassword, #registrationConfirmPassword',
+                    msg: 'Passwords do not match.'
+                };
+            }
         }
 
         // Return the result of the validation.
-        return validationResult;
+        return oValidationResult;
     }
 
     /**
      * validateQuoteInputs
      * Validates the inputs of the user before submission for quotation.
+     * @param {string} sFormId (The id of the form.)
      * @return {object} oValidationResult (Result of the validation.)
      */
-    validateQuoteInputs() {
-
+    validateQuoteInputs(sFormId) {
         // Declare an object with properties related to inputs that need to be validated.
-        let quoteInputRules = [
+        let aQuoteInputRules = [
             {
                 name: 'First name',
                 element: '.quoteFname',
-                length: $.trim($('.quoteFname').val()).length,
+                length: $.trim($(sFormId).find('.quoteFname').val()).length,
                 minLength: 2,
                 maxLength: 30,
                 pattern: /^[a-zA-Z\s\.]+$/g
@@ -158,7 +133,7 @@ class Validations {
             {
                 name: 'Last name',
                 element: '.quoteLname',
-                length: $.trim($('.quoteLname').val()).length,
+                length: $.trim($(sFormId).find('.quoteLname').val()).length,
                 minLength: 2,
                 maxLength: 30,
                 pattern: /^[a-zA-Z\s\.]+$/g
@@ -166,7 +141,7 @@ class Validations {
             {
                 name: 'Contact number',
                 element: '.quoteContactNum',
-                length: $.trim($('.quoteContactNum').val()).length,
+                length: $.trim($(sFormId).find('.quoteContactNum').val()).length,
                 minLength: 7,
                 maxLength: 12,
                 pattern: /^[0-9]+$/g
@@ -174,25 +149,20 @@ class Validations {
             {
                 name: 'Email address',
                 element: '.quoteEmail',
-                length: $.trim($('.quoteEmail').val()).length,
+                length: $.trim($(sFormId).find('.quoteEmail').val()).length,
                 minLength: 4,
                 maxLength: 50,
                 pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
             }
         ];
 
-        // Declare initially the validation result to be returned by the function.
-        let validationResult = {
-            result: true
-        }
-
         // Check if middle name has a value.
-        if ($.trim($('.quoteMname').val()).length !== 0) {
-            quoteInputRules.push(
+        if ($.trim($(sFormId).find('.quoteMname').val()).length !== 0) {
+            aQuoteInputRules.push(
                 {
                     name: 'Middle name',
                     element: '.quoteMname',
-                    length: $.trim($('.quoteMname').val()).length,
+                    length: $.trim($(sFormId).find('.quoteMname').val()).length,
                     minLength: 2,
                     maxLength: 30,
                     pattern: /^[a-zA-Z\s\.]+$/g
@@ -201,12 +171,12 @@ class Validations {
         }
 
         // Check if company name has a value.
-        if ($.trim($('.quoteCompanyName').val()).length !== 0) {
-            quoteInputRules.push(
+        if ($.trim($(sFormId).find('.quoteCompanyName').val()).length !== 0) {
+            aQuoteInputRules.push(
                 {
                     name: 'Company name',
                     element: '.quoteCompanyName',
-                    length: $.trim($('.quoteCompanyName').val()).length,
+                    length: $.trim($(sFormId).find('.quoteCompanyName').val()).length,
                     minLength: 4,
                     maxLength: 50,
                     pattern: /^[a-zA-Z0-9\s\.]+$/g
@@ -214,169 +184,119 @@ class Validations {
             );
         }
 
-        // Loop thru each quoteInputRules and if there are rules violated, return false and the error message.
-        $.each(quoteInputRules, function (key, inputRule) {
-            if (inputRule.length < inputRule.minLength) {
-                validationResult = {
+        // Loop thru each rules to check if there are rules violated.
+        let oValidationResult = this.loopThruRulesForErrors(aQuoteInputRules, sFormId);
+
+        if (oValidationResult.result === true) {
+            let iBillToCompany = $(sFormId).find('.quoteBillToCompany').is(':checked') ? 1 : 0;
+            $(sFormId).find('.quoteBillToCompany').val(iBillToCompany);
+
+            if (iBillToCompany === 1 && $(sFormId).find('.quoteCompanyName').val() === '') {
+                return {
                     result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
+                    element: '.quoteCompanyName',
+                    msg: 'Please specify company name if billing to company.'
                 };
-                return false;
             }
-            if (inputRule.length > inputRule.maxLength) {
-                validationResult = {
+
+            if ($(sFormId).find('.quoteCourse').val() === '') {
+                return {
                     result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
+                    element: '.quoteCourse',
+                    msg: 'Please select a course.'
                 };
-                return false;
             }
-            if (inputRule.pattern.test($(inputRule.element).val()) === false) {
-                validationResult = {
+
+            let numPaxRegex = /^(?!-\d+|0)\d+$/g;
+
+            if ($(sFormId).find('.numPax').val() < 1 || $(sFormId).find('.numPax').val() > 100 || numPaxRegex.test($(sFormId).find('.numPax').val()) === false) {
+                return {
                     result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' input is invalid.'
-                };
-                return false;
-            }
-        });
-
-        let iBillToCompany = $('.quoteBillToCompany').is(':checked') ? 1 : 0;
-        $('.quoteBillToCompany').val(iBillToCompany);
-
-        if (iBillToCompany === 1 && $('.quoteCompanyName').val() === '') {
-            return {
-                result: false,
-                element: '.quoteCompanyName',
-                msg: 'Please specify company name if billing to company.'
-            };
-        }
-
-        if ($('.quoteCourse').val() === '') {
-            return {
-                result: false,
-                element: '.quoteCourse',
-                msg: 'Please select a course.'
-            };
-        }
-
-        let numPaxRegex = /^(?!-\d+|0)\d+$/g;
-
-        if ($('.numPax').val() < 1 || $('.numPax').val() > 100 || numPaxRegex.test($('.numPax').val()) === false) {
-            return {
-                result: false,
-                element: '.numPax',
-                msg: 'Invalid value for number of persons.'
+                    element: '.numPax',
+                    msg: 'Invalid value for number of persons.'
+                }
             }
         }
 
         // Return the result of the validation.
-        return validationResult;
+        return oValidationResult;
     }
 
     /**
      * validateQuoteRequestInputs
      * Validates the inputs of the user before submission for quotation.
-     * @param {string} sFormId (The name of the form.)
+     * @param {string} sFormId (The id of the form.)
      * @return {object} oValidationResult (Result of the validation.)
      */
     validateQuoteRequestInputs(sFormId) {
 
-        let validationResult = {
-            result: true
-        }
-
-        let quoteInputRules = [];
+        let aQuoteInputRules = [];
 
         // Check if company name has a value.
-        if ($.trim($(`form[id="${sFormId}"]`).find('.quoteCompanyName').val()).length !== 0) {
-            quoteInputRules.push(
+        if ($.trim($(sFormId).find('.quoteCompanyName').val()).length !== 0) {
+            aQuoteInputRules.push(
                 {
                     name: 'Company name',
-                    element: $(`form[id="${sFormId}"]`).find('.quoteCompanyName'),
-                    length: $.trim($(`form[id="${sFormId}"]`).find('.quoteCompanyName').val()).length,
+                    element: $(sFormId).find('.quoteCompanyName'),
+                    length: $.trim($(sFormId).find('.quoteCompanyName').val()).length,
                     minLength: 4,
                     maxLength: 50,
                     pattern: /^[a-zA-Z0-9\s\.]+$/g
                 },
             );
-
-            // Loop thru each quoteInputRules and if there are rules violated, return false and the error message.
-            $.each(quoteInputRules, function (key, inputRule) {
-                if (inputRule.length < inputRule.minLength) {
-                    validationResult = {
-                        result: false,
-                        element: inputRule.element,
-                        msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
-                    };
-                    return false;
-                }
-                if (inputRule.length > inputRule.maxLength) {
-                    validationResult = {
-                        result: false,
-                        element: inputRule.element,
-                        msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
-                    };
-                    return false;
-                }
-                if (inputRule.pattern.test(inputRule.element.val()) === false) {
-                    validationResult = {
-                        result: false,
-                        element: inputRule.element,
-                        msg: inputRule.name + ' input is invalid.'
-                    };
-                    return false;
-                }
-            });
-
         }
 
-        let iBillToCompany = $(`form[id="${sFormId}"]`).find('.quoteBillToCompany').is(':checked') ? 1 : 0;
-        $(`form[id="${sFormId}"]`).find('.quoteBillToCompany').val(iBillToCompany);
+        // Loop thru each rules to check if there are rules violated.
+        let oValidationResult = this.loopThruRulesForErrors(aQuoteInputRules, sFormId);
 
-        if (iBillToCompany === 1 && $(`form[id="${sFormId}"]`).find('.quoteCompanyName').val() === '') {
-            return {
-                result: false,
-                element: '.quoteCompanyName',
-                msg: 'Please specify company name if billing to company.'
-            };
-        }
+        if (oValidationResult.result === true) {
+            let iBillToCompany = $(sFormId).find('.quoteBillToCompany').is(':checked') ? 1 : 0;
+            $(sFormId).find('.quoteBillToCompany').val(iBillToCompany);
 
-        if ($(`form[id="${sFormId}"]`).find('.quoteCourse').val() === '') {
-            return {
-                result: false,
-                element: '.quoteCourse',
-                msg: 'Please select a course.'
-            };
-        }
+            if (iBillToCompany === 1 && $(sFormId).find('.quoteCompanyName').val() === '') {
+                return {
+                    result: false,
+                    element: '.quoteCompanyName',
+                    msg: 'Please specify company name if billing to company.'
+                };
+            }
 
-        let numPaxRegex = /^(?!-\d+|0)\d+$/g;
+            if ($(sFormId).find('.quoteCourse').val() === '') {
+                return {
+                    result: false,
+                    element: '.quoteCourse',
+                    msg: 'Please select a course.'
+                };
+            }
 
-        if ($('.numPax').val() < 1 || $('.numPax').val() > 100 || numPaxRegex.test($('.numPax').val()) === false) {
-            return {
-                result: false,
-                element: '.numPax',
-                msg: 'Invalid value for number of persons.'
+            let numPaxRegex = /^(?!-\d+|0)\d+$/g;
+
+            if ($(sFormId).find('.numPax').val() < 1 || $(sFormId).find('.numPax').val() > 100 || numPaxRegex.test($(sFormId).find('.numPax').val()) === false) {
+                return {
+                    result: false,
+                    element: '.numPax',
+                    msg: 'Invalid value for number of persons.'
+                }
             }
         }
 
         // Return the result of the validation.
-        return validationResult;
+        return oValidationResult;
     }
 
     /**
      * validateEmailUsInputs
      * Validates the inputs of the user before submission for emailing.
+     * @param {string} sFormId (The id of the form.)
      * @return {object} oValidationResult (Result of the validation.)
      */
-    validateEmailUsInputs() {
+    validateEmailUsInputs(sFormId) {
         // Declare an object with properties related to inputs that need to be validated.
-        let emailInputRules = [
+        let aEmailInputRules = [
             {
                 name: 'First name',
                 element: '#emailFname',
-                length: $.trim($('#emailFname').val()).length,
+                length: $.trim($(sFormId).find('#emailFname').val()).length,
                 minLength: 2,
                 maxLength: 30,
                 pattern: /^[a-zA-Z\s\.]+$/g
@@ -384,7 +304,7 @@ class Validations {
             {
                 name: 'Last name',
                 element: '#emailLname',
-                length: $.trim($('#emailLname').val()).length,
+                length: $.trim($(sFormId).find('#emailLname').val()).length,
                 minLength: 2,
                 maxLength: 30,
                 pattern: /^[a-zA-Z\s\.]+$/g
@@ -392,7 +312,7 @@ class Validations {
             {
                 name: 'Email address',
                 element: '#emailAddress',
-                length: $.trim($('#emailAddress').val()).length,
+                length: $.trim($(sFormId).find('#emailAddress').val()).length,
                 minLength: 4,
                 maxLength: 50,
                 pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
@@ -400,7 +320,7 @@ class Validations {
             {
                 name: 'Email title',
                 element: '#emailTitle',
-                length: $.trim($('#emailTitle').val()).length,
+                length: $.trim($(sFormId).find('#emailTitle').val()).length,
                 minLength: 4,
                 maxLength: 30,
                 pattern: /.+/g
@@ -408,24 +328,19 @@ class Validations {
             {
                 name: 'Email message',
                 element: '#emailMsg',
-                length: $.trim($('#emailMsg').val()).length,
+                length: $.trim($(sFormId).find('#emailMsg').val()).length,
                 minLength: 4,
                 maxLength: 255
             }
         ];
 
-        // Declare initially the validation result to be returned by the function.
-        let validationResult = {
-            result: true
-        }
-
         // Check if middle name has a value.
         if ($.trim($('#emailMname').val()).length !== 0) {
-            emailInputRules.push(
+            aEmailInputRules.push(
                 {
                     name: 'Middle name',
                     element: '#emailMname',
-                    length: $.trim($('#emailMname').val()).length,
+                    length: $.trim($(sFormId).find('#emailMname').val()).length,
                     minLength: 2,
                     maxLength: 30,
                     pattern: /^[a-zA-Z\s\.]+$/g
@@ -433,49 +348,26 @@ class Validations {
             );
         }
 
-        // Loop thru each emailInputRules and if there are rules violated, return false and the error message.
-        $.each(emailInputRules, function (key, inputRule) {
-            if (inputRule.length < inputRule.minLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
-                };
-                return false;
-            }
-            if (inputRule.length > inputRule.maxLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
-                };
-                return false;
-            }
-            if (inputRule.pattern.test($(inputRule.element).val()) === false) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' input is invalid.'
-                };
-                return false;
-            }
-        });
+        // Loop thru each rules to check if there are rules violated.
+        let oValidationResult = this.loopThruRulesForErrors(aEmailInputRules, sFormId);
+
         // Return the result of the validation.
-        return validationResult;
+        return oValidationResult;
     }
 
     /**
      * validateAddUpdateCourseInputs
      * Validates the inputs of the user before submission for course addition.
+     * @param {string} sFormId (The id of the form.)
      * @return {object} oValidationResult (Result of the validation.)
      */
-    validateAddUpdateCourseInputs() {
+    validateAddUpdateCourseInputs(sFormId) {
         // Declare an object with properties related to inputs that need to be validated.
-        let addCourseRules = [
+        let aAddCourseRules = [
             {
                 name: 'Course code',
                 element: '.courseCode',
-                length: $.trim($('.courseCode').val()).length,
+                length: $.trim($(sFormId).find('.courseCode').val()).length,
                 minLength: 2,
                 maxLength: 10,
                 pattern: /^[a-zA-Z0-9&\-\s\.]+$/g,
@@ -483,7 +375,7 @@ class Validations {
             {
                 name: 'Course title',
                 element: '.courseTitle',
-                length: $.trim($('.courseTitle').val()).length,
+                length: $.trim($(sFormId).find('.courseTitle').val()).length,
                 minLength: 2,
                 maxLength: 50,
                 pattern: /^[a-zA-Z0-9&\-\s\.]+$/g,
@@ -491,48 +383,18 @@ class Validations {
             {
                 name: 'Course details',
                 element: '.courseDetails',
-                length: $.trim($('.courseDetails').val()).length,
+                length: $.trim($(sFormId).find('.courseDetails').val()).length,
                 minLength: 0,
                 maxLength: 50,
                 pattern: /^[a-zA-Z0-9&\-\s\.]+$/g,
             }
         ];
 
-        // Declare initially the validation result to be returned by the function.
-        let validationResult = {
-            result: true
-        }
+        // Loop thru each rules to check if there are rules violated.
+        let oValidationResult = this.loopThruRulesForErrors(aAddCourseRules, sFormId);
 
-        // Loop thru each emailInputRules and if there are rules violated, return false and the error message.
-        $.each(addCourseRules, function (key, inputRule) {
-            if (inputRule.length < inputRule.minLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
-                };
-                return false;
-            }
-            if (inputRule.length > inputRule.maxLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
-                };
-                return false;
-            }
-            if (inputRule.pattern.test($(inputRule.element).val()) === false) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' input is invalid.'
-                };
-                return false;
-            }
-        });
-
-        if (validationResult.result === true) {
-            if ($('.courseAmount').val() == '' || $('.courseAmount').val() <= 0) {
+        if (oValidationResult.result === true) {
+            if ($(sFormId).find('.courseAmount').val() == '' || $(sFormId).find('.courseAmount').val() <= 0) {
                 return {
                     result: false,
                     element: '.courseAmount',
@@ -540,7 +402,7 @@ class Validations {
                 };
             }
 
-            if (/^[0-9]+$/g.test($('.courseAmount').val()) === false) {
+            if (/^[0-9]+$/g.test($(sFormId).find('.courseAmount').val()) === false) {
                 return {
                     result: false,
                     element: '.courseAmount',
@@ -550,23 +412,21 @@ class Validations {
         }
 
         // Return the result of the validation.
-        return validationResult;
+        return oValidationResult;
     }
 
     /**
      * validateScheduleInputs
      * Validates the inputs of the user before submission for schedule addition/alteration.
-     * @param {string} sFormName (The name of the form.)
+     * @param {string} sFormId (The id of the form.)
      * @return {object} oValidationResult (Result of the validation.)
      */
-    validateScheduleInputs(sFormName) {
-        sFormName = sFormName.substr(1);
-        // Declare an object with properties related to inputs that need to be validated.
+    validateScheduleInputs(sFormId) {        // Declare an object with properties related to inputs that need to be validated.
         const aScheduleRules = [
             {
                 name: 'Course title',
                 element: '.courseTitle',
-                length: $.trim($(`form[id="${sFormName}"]`).find('.courseTitle option:selected').text()).length,
+                length: $.trim($(sFormId).find('.courseTitle option:selected').text()).length,
                 minLength: 2,
                 maxLength: 100,
                 pattern: /^[\d]+$/g,
@@ -574,7 +434,7 @@ class Validations {
             {
                 name: 'Venue',
                 element: '.courseVenue',
-                length: $.trim($(`form[id="${sFormName}"]`).find('.courseVenue option:selected').text()).length,
+                length: $.trim($(sFormId).find('.courseVenue option:selected').text()).length,
                 minLength: 2,
                 maxLength: 50,
                 pattern: /^[\d]+$/g,
@@ -582,7 +442,7 @@ class Validations {
             {
                 name: 'Start date',
                 element: '.fromDate',
-                length: $.trim($(`form[id="${sFormName}"]`).find('.fromDate').val()).length,
+                length: $.trim($(sFormId).find('.fromDate').val()).length,
                 minLength: 10,
                 maxLength: 10,
                 pattern: /^\d{4}-\d{2}-\d{2}/g,
@@ -590,7 +450,7 @@ class Validations {
             {
                 name: 'End date',
                 element: '.toDate',
-                length: $.trim($(`form[id="${sFormName}"]`).find('.toDate').val()).length,
+                length: $.trim($(sFormId).find('.toDate').val()).length,
                 minLength: 10,
                 maxLength: 10,
                 pattern: /^\d{4}-\d{2}-\d{2}/g,
@@ -598,75 +458,45 @@ class Validations {
             {
                 name: 'Instructor name',
                 element: '.courseInstructor',
-                length: $.trim($(`form[id="${sFormName}"]`).find('.courseInstructor option:selected').text()).length,
+                length: $.trim($(sFormId).find('.courseInstructor option:selected').text()).length,
                 minLength: 2,
                 maxLength: 50,
                 pattern: /^[\d]+$/g,
             }
         ];
 
-        // Declare initially the validation result to be returned by the function.
-        let validationResult = {
-            result: true
-        }
+        // Loop thru each rules to check if there are rules violated.
+        let oValidationResult = this.loopThruRulesForErrors(aScheduleRules, sFormId);
 
-        // Loop thru each emailInputRules and if there are rules violated, return false and the error message.
-        $.each(aScheduleRules, function (key, inputRule) {
-            if (inputRule.length < inputRule.minLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
-                };
-                return false;
-            }
-            if (inputRule.length > inputRule.maxLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
-                };
-                return false;
-            }
-            if (inputRule.pattern.test($(`form[id="${sFormName}"]`).find(inputRule.element).val()) === false) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' input is invalid.'
-                };
-                return false;
-            }
-        });
+        if (oValidationResult.result === true) {
+            let sNumSlotsRegex = /^(?!-\d+|0)\d+$/g;
 
-        let sNumSlotsRegex = /^(?!-\d+|0)\d+$/g;
-
-        if ($('.numSlots').val() < 1 || $('.numSlots').val() > 100 || sNumSlotsRegex.test($('.numSlots').val()) === false) {
-            return {
-                result: false,
-                element: '.numSlots',
-                msg: 'Invalid value for number of slots.'
+            if ($('.numSlots').val() < 1 || $('.numSlots').val() > 100 || sNumSlotsRegex.test($('.numSlots').val()) === false) {
+                return {
+                    result: false,
+                    element: '.numSlots',
+                    msg: 'Invalid value for number of slots.'
+                }
             }
         }
 
         // Return the result of the validation.
-        return validationResult;
+        return oValidationResult;
     }
 
     /**
      * validateInstructorInputs
      * Validates the inputs before inserting instructor.
-     * @param {string} sFormName (The name of the form.)
+     * @param {string} sFormId (The id of the form.)
      * @return {object} oValidationResult (Result of the validation.)
      */
-    validateInstructorInputs(sFormName) {
-        sFormName = sFormName.substr(1);
-
+    validateInstructorInputs(sFormId) {
         // Declare an object with properties related to inputs that need to be validated.
-        let instructorInputRules = [
+        let aInstructorInputRules = [
             {
                 name: 'First name',
                 element: '.firstName',
-                length: $.trim($(`form[id="${sFormName}"]`).find('.firstName').val()).length,
+                length: $.trim($(sFormId).find('.firstName').val()).length,
                 minLength: 2,
                 maxLength: 30,
                 pattern: /^[a-zA-Z\s\.]+$/g
@@ -674,7 +504,7 @@ class Validations {
             {
                 name: 'Last name',
                 element: '.lastName',
-                length: $.trim($(`form[id="${sFormName}"]`).find('.lastName').val()).length,
+                length: $.trim($(sFormId).find('.lastName').val()).length,
                 minLength: 2,
                 maxLength: 30,
                 pattern: /^[a-zA-Z\s\.]+$/g
@@ -682,7 +512,7 @@ class Validations {
             {
                 name: 'Contact number',
                 element: '.contactNum',
-                length: $.trim($(`form[id="${sFormName}"]`).find('.contactNum').val()).length,
+                length: $.trim($(sFormId).find('.contactNum').val()).length,
                 minLength: 7,
                 maxLength: 12,
                 pattern: /^[0-9]+$/g
@@ -690,25 +520,20 @@ class Validations {
             {
                 name: 'Email address',
                 element: '.email',
-                length: $.trim($(`form[id="${sFormName}"]`).find('.email').val()).length,
+                length: $.trim($(sFormId).find('.email').val()).length,
                 minLength: 4,
                 maxLength: 50,
                 pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
             }
         ];
 
-        // Declare initially the validation result to be returned by the function.
-        let validationResult = {
-            result: true
-        }
-
         // Check if middle name has a value.
         if ($.trim($('.middleName').val()).length !== 0) {
-            instructorInputRules.splice(1, 0,
+            aInstructorInputRules.splice(1, 0,
                 {
                     name: 'Middle name',
                     element: '.middleName',
-                    length: $.trim($(`form[id="${sFormName}"]`).find('.middleName').val()).length,
+                    length: $.trim($(sFormId).find('.middleName').val()).length,
                     minLength: 2,
                     maxLength: 30,
                     pattern: /^[a-zA-Z\s\.]+$/g
@@ -718,11 +543,11 @@ class Validations {
 
         // Check if certification title has a value.
         if ($.trim($('.certificationTitle').val()).length !== 0) {
-            instructorInputRules.splice(1, 0,
+            aInstructorInputRules.splice(1, 0,
                 {
                     name: 'Certification title',
                     element: '.certificationTitle',
-                    length: $.trim($(`form[id="${sFormName}"]`).find('.certificationTitle').val()).length,
+                    length: $.trim($(sFormId).find('.certificationTitle').val()).length,
                     minLength: 2,
                     maxLength: 30,
                     pattern: /^[a-zA-Z0-9,-\s]+$/g
@@ -730,46 +555,20 @@ class Validations {
             );
         }
 
-        // Loop thru each instructorInputRules and if there are rules violated, return false and the error message.
-        $.each(instructorInputRules, function (key, inputRule) {
-            if (inputRule.length < inputRule.minLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
-                };
-                return false;
-            }
-            if (inputRule.length > inputRule.maxLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
-                };
-                return false;
-            }
-            if (inputRule.pattern.test($(`form[id="${sFormName}"]`).find(inputRule.element).val()) === false) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' input is invalid.'
-                };
-                return false;
-            }
-        });
+        // Loop thru each rules to check if there are rules violated.
+        let oValidationResult = this.loopThruRulesForErrors(aInstructorInputRules, sFormId);
 
         // Return the result of the validation.
-        return validationResult;
+        return oValidationResult;
     }
 
     /**
      * validateChangeInstructorInputs
      * Validates the inputs before changing instructors.
-     * @param {string} sFormName (The name of the form.)
      * @param {string} oFormData (The data.)
      * @return {object} oValidationResult (Result of the validation.)
      */
-    validateChangeInstructorInputs(sFormName, oFormData) {
+    validateChangeInstructorInputs(oFormData) {
         // Declare initially the validation result to be returned by the function.
         let oValidationResult = {
             result: true
@@ -810,11 +609,12 @@ class Validations {
     /**
      * validateMessageInstructorInputs
      * Validates the inputs before messaging the instructor.
+     * @param {string} sFormId (Form ID.)
      * @return {object} oValidationResult (Result of the validation.)
      */
-    validateMessageInstructorInputs() {
+    validateMessageInstructorInputs(sFormId) {
         // Declare an object with properties related to inputs that need to be validated.
-        let emailInputRules = [
+        let aEmailInputRules = [
             {
                 name: 'Email title',
                 element: '.title',
@@ -833,46 +633,16 @@ class Validations {
             }
         ];
 
-        // Declare initially the validation result to be returned by the function.
-        let validationResult = {
-            result: true
-        }
-
-        // Loop thru each emailInputRules and if there are rules violated, return false and the error message.
-        $.each(emailInputRules, function (key, inputRule) {
-            if (inputRule.length < inputRule.minLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
-                };
-                return false;
-            }
-            if (inputRule.length > inputRule.maxLength) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
-                };
-                return false;
-            }
-            if (inputRule.pattern.test($(inputRule.element).val()) === false) {
-                validationResult = {
-                    result: false,
-                    element: inputRule.element,
-                    msg: inputRule.name + ' input is invalid.'
-                };
-                return false;
-            }
-        });
-
+        // Loop thru each rules to check if there are rules violated.
+        let oValidationResult = this.loopThruRulesForErrors(aEmailInputRules, sFormId);
         let oFile = $('.file').prop('files')[0];
-        if (validationResult.result === true && oFile !== undefined) {
-            validationResult = this.validateFileForMessagingInstructor(oFile);
+
+        if (oValidationResult.result === true && oFile !== undefined) {
+            oValidationResult = this.validateFileForMessagingInstructor(oFile);
         }
 
         // Return the result of the validation.
-        return validationResult;
+        return oValidationResult;
     }
 
     /**
@@ -886,7 +656,7 @@ class Validations {
             result: true
         };
 
-        let fileInputRules = [
+        let aFileInputRules = [
             {
                 name: 'File',
                 element: '.file',
@@ -895,7 +665,7 @@ class Validations {
             },
         ];
 
-        $.each(fileInputRules, function (iKey, oInputRule) {
+        $.each(aFileInputRules, function (iKey, oInputRule) {
             // Test if file is a PDF file.
             if (!oInputRule.pattern.exec(oFile.name)) {
                 oFileValidation = {
@@ -920,6 +690,331 @@ class Validations {
         return oFileValidation;
     }
 
+    /**
+     * validateEditAdminInputs
+     * Validates the inputs before editing the admin details.
+     * @param {string} sFormId (Form ID.)
+     * @return {object} oValidationResult (Result of the validation.)
+     */
+    validateEditAdminInputs(sFormId) {
+        // Declare an object with properties related to inputs that need to be validated.
+        let aEditAdminRules = [
+            {
+                name: 'First name',
+                element: '.adminFirstName',
+                length: $.trim($(sFormId).find('.adminFirstName').val()).length,
+                minLength: 2,
+                maxLength: 30,
+                pattern: /^[a-zA-Z\s\.]+$/g
+            },
+            {
+                name: 'Last name',
+                element: '.adminLastName',
+                length: $.trim($(sFormId).find('.adminLastName').val()).length,
+                minLength: 2,
+                maxLength: 30,
+                pattern: /^[a-zA-Z\s\.]+$/g
+            },
+            {
+                name: 'Contact number',
+                element: '.adminContact',
+                length: $.trim($(sFormId).find('.adminContact').val()).length,
+                minLength: 7,
+                maxLength: 12,
+                pattern: /^[0-9]+$/g
+            },
+            {
+                name: 'Email address',
+                element: '.adminEmail',
+                length: $.trim($(sFormId).find('.adminEmail').val()).length,
+                minLength: 4,
+                maxLength: 50,
+                pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
+            },
+            {
+                name: 'Username',
+                element: '.adminUsername',
+                length: $.trim($(sFormId).find('.adminUsername').val()).length,
+                minLength: 4,
+                maxLength: 15,
+                pattern: /^(?![0-9_])\w+$/g
+            }
+        ];
+
+        // Check if middle name has a value.
+        if ($.trim($('.adminMiddleName').val()).length !== 0) {
+            aEditAdminRules.splice(1, 0,
+                {
+                    name: 'Middle name',
+                    element: '.adminMiddleName',
+                    length: $.trim($(sFormId).find('.adminMiddleName').val()).length,
+                    minLength: 2,
+                    maxLength: 30,
+                    pattern: /^[a-zA-Z\s\.]+$/g
+                },
+            );
+        }
+
+        // Return the result of the validation.
+        return this.loopThruRulesForErrors(aEditAdminRules, sFormId);
+    }
+
+    /**
+     * validateAddAdminInputs
+     * Validates the inputs of the user before submission for adding admin.
+     * @param {string} sFormId (The id of the form.)
+     * @return {object} oValidationResult (Result of the validation.)
+     */
+    validateAddAdminInputs(sFormId) {
+        // Declare an object with properties related to inputs that need to be validated.
+        let aAddAdminRules = [
+            {
+                name: 'First name',
+                element: '.adminFirstName',
+                length: $.trim($(sFormId).find('.adminFirstName').val()).length,
+                minLength: 2,
+                maxLength: 30,
+                pattern: /^[a-zA-Z\s\.]+$/g
+            },
+            {
+                name: 'Last name',
+                element: '.adminLastName',
+                length: $.trim($(sFormId).find('.adminLastName').val()).length,
+                minLength: 2,
+                maxLength: 30,
+                pattern: /^[a-zA-Z\s\.]+$/g
+            },
+            {
+                name: 'Contact number',
+                element: '.adminContact',
+                length: $.trim($(sFormId).find('.adminContact').val()).length,
+                minLength: 7,
+                maxLength: 12,
+                pattern: /^[0-9]+$/g
+            },
+            {
+                name: 'Email address',
+                element: '.adminEmail',
+                length: $.trim($(sFormId).find('.adminEmail').val()).length,
+                minLength: 4,
+                maxLength: 50,
+                pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
+            },
+            {
+                name: 'Username',
+                element: '.adminUsername',
+                length: $.trim($(sFormId).find('.adminUsername').val()).length,
+                minLength: 4,
+                maxLength: 15,
+                pattern: /^(?![0-9_])\w+$/g
+            },
+            {
+                name: 'Password',
+                element: '.adminPassword',
+                length: $.trim($(sFormId).find('.adminPassword').val()).length,
+                minLength: 4,
+                maxLength: 30,
+                pattern: /.+/g
+            },
+            {
+                name: 'Password',
+                element: '.adminConfirmPassword',
+                length: $.trim($(sFormId).find('.adminConfirmPassword').val()).length,
+                minLength: 4,
+                maxLength: 30,
+                pattern: /.+/g
+            }
+        ];
+
+        // Check if middle name has a value.
+        if ($.trim($(sFormId).find('.adminMiddleName').val()).length !== 0) {
+            aAddAdminRules.splice(1, 0,
+                {
+                    name: 'Middle name',
+                    element: '.adminMiddleName',
+                    length: $.trim($(sFormId).find('.adminMiddleName').val()).length,
+                    minLength: 2,
+                    maxLength: 30,
+                    pattern: /^[a-zA-Z\s\.]+$/g
+                },
+            );
+        }
+
+        // Loop thru each rules to check if there are rules violated.
+        let oValidationResult = this.loopThruRulesForErrors(aAddAdminRules, sFormId);
+
+        if (oValidationResult.result === true) {
+            // Check if passwords are equal.
+            if ($(sFormId).find('.adminPassword').val() !== $(sFormId).find('.adminConfirmPassword').val()) {
+                oValidationResult = {
+                    result: false,
+                    element: '.adminPassword, .adminConfirmPassword',
+                    msg: 'Passwords do not match.'
+                };
+            }
+        }
+
+        // Return the result of the validation.
+        return oValidationResult;
+    }
+
+    /**
+     * validateEditPersonalDetailsInputs
+     * Validates the inputs of the user before submission for editing personal details.
+     * @param {string} sFormId (The id of the form.)
+     * @return {object} oValidationResult (Result of the validation.)
+     */
+    validateEditPersonalDetailsInputs(sFormId) {
+        // Declare an object with properties related to inputs that need to be validated.
+        let aAddAdminRules = [
+            {
+                name: 'First name',
+                element: '.adminFirstName',
+                length: $.trim($(sFormId).find('.adminFirstName').val()).length,
+                minLength: 2,
+                maxLength: 30,
+                pattern: /^[a-zA-Z\s\.]+$/g
+            },
+            {
+                name: 'Last name',
+                element: '.adminLastName',
+                length: $.trim($(sFormId).find('.adminLastName').val()).length,
+                minLength: 2,
+                maxLength: 30,
+                pattern: /^[a-zA-Z\s\.]+$/g
+            },
+            {
+                name: 'Email address',
+                element: '.adminEmail',
+                length: $.trim($(sFormId).find('.adminEmail').val()).length,
+                minLength: 4,
+                maxLength: 50,
+                pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
+            },
+            {
+                name: 'Contact number',
+                element: '.adminContact',
+                length: $.trim($(sFormId).find('.adminContact').val()).length,
+                minLength: 7,
+                maxLength: 12,
+                pattern: /^[0-9]+$/g
+            }
+        ];
+
+        // Check if middle name has a value.
+        if ($.trim($(sFormId).find('.adminMiddleName').val()).length !== 0) {
+            aAddAdminRules.splice(1, 0,
+                {
+                    name: 'Middle name',
+                    element: '.adminMiddleName',
+                    length: $.trim($(sFormId).find('.adminMiddleName').val()).length,
+                    minLength: 2,
+                    maxLength: 30,
+                    pattern: /^[a-zA-Z\s\.]+$/g
+                },
+            );
+        }
+
+        // Loop thru each rules to check if there are rules violated.
+        let oValidationResult = this.loopThruRulesForErrors(aAddAdminRules, sFormId);
+
+        // Return the result of the validation.
+        return oValidationResult;
+    }
+
+    /**
+     * validateEditOwnCredentialsInputs
+     * Validates the inputs of the user before submission for editing login credentials.
+     * @param {string} sFormId (The id of the form.)
+     * @return {object} oValidationResult (Result of the validation.)
+     */
+    validateEditOwnCredentialsInputs(sFormId) {
+        // Declare an object with properties related to inputs that need to be validated.
+        let aAddAdminRules = [
+            {
+                name: 'Username',
+                element: '.adminUsername',
+                length: $.trim($(sFormId).find('.adminUsername').val()).length,
+                minLength: 4,
+                maxLength: 15,
+                pattern: /^(?![0-9_])\w+$/g
+            },
+            {
+                name: 'Password',
+                element: '.adminPassword',
+                length: $.trim($(sFormId).find('.adminPassword').val()).length,
+                minLength: 4,
+                maxLength: 30,
+                pattern: /.+/g
+            },
+            {
+                name: 'Password',
+                element: '.adminConfirmPassword',
+                length: $.trim($(sFormId).find('.adminConfirmPassword').val()).length,
+                minLength: 4,
+                maxLength: 30,
+                pattern: /.+/g
+            },
+        ];
+
+        // Loop thru each rules to check if there are rules violated.
+        let oValidationResult = this.loopThruRulesForErrors(aAddAdminRules, sFormId);
+
+        if (oValidationResult.result === true) {
+            // Check if passwords are equal.
+            if ($(sFormId).find('.adminPassword').val() !== $(sFormId).find('.adminConfirmPassword').val()) {
+                oValidationResult = {
+                    result: false,
+                    element: '.adminPassword, .adminConfirmPassword',
+                    msg: 'Passwords do not match.'
+                };
+            }
+        }
+
+        // Return the result of the validation.
+        return oValidationResult;
+    }
+
+    /**
+     * loopThruRulesForErrors
+     * @param {array} aRules (Array of rules.)
+     * @param {string} sFormId (The id of the form.)
+     * @return {object} oValidationResult (Result of the validation.)
+     */
+    loopThruRulesForErrors(aRules, sFormId) {
+        let oValidationResult = {
+            result: true
+        }
+
+        $.each(aRules, function (key, inputRule) {
+            if (inputRule.length < inputRule.minLength) {
+                oValidationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' must be minimum of ' + inputRule.minLength + ' characters.'
+                };
+                return false;
+            }
+            if (inputRule.length > inputRule.maxLength) {
+                oValidationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' must be maximum of ' + inputRule.maxLength + ' characters.'
+                };
+                return false;
+            }
+            if (inputRule.pattern.test($(sFormId).find(inputRule.element).val()) === false) {
+                oValidationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: inputRule.name + ' input is invalid.'
+                };
+                return false;
+            }
+        });
+
+        return oValidationResult;
+    }
 };
 
-let oValidations = new Validations();
+const oValidations = new Validations();

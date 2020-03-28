@@ -30,7 +30,6 @@ class Student extends BaseController
      */
     public function registerStudent()
     {
-        $aResult = array();
         $aValidationResult = Validations::validateRegistrationInputs($this->aParams);
 
         if ($aValidationResult['result'] === true) {
@@ -42,21 +41,21 @@ class Student extends BaseController
 
             if ($this->oStudentModel->checkUsernameIfTaken($this->aParams[':username']) > 0) {
                 $aResult = array(
-                    'result' => false,
-                    'msg'    => 'Username already taken.'
+                    'bResult' => false,
+                    'sMsg'    => 'Username already taken.'
                 );
             } else {
                 $oQueryResult = $this->oStudentModel->insertStudent($this->aParams);
 
                 if ($oQueryResult === true) {
                     $aResult = array(
-                        'result' => true,
-                        'msg'    => 'Successfully registered!'
+                        'bResult' => true,
+                        'sMsg'    => 'Successfully registered!'
                     );
                 } else {
                     $aResult = array(
-                        'result' => false,
-                        'msg'    => 'An error has occurred. Please try again.'
+                        'bResult' => false,
+                        'sMsg'    => 'An error has occurred. Please try again.'
                     );
                 }
             }
@@ -86,13 +85,13 @@ class Student extends BaseController
 
             if ($oQueryResult === true && $this->proceedSendingEmail() === 1) {
                 $aResult = array(
-                    'result' => true,
-                    'msg'    => 'Email sent!'
+                    'bResult' => true,
+                    'sMsg'    => 'Email sent!'
                 );
             } else {
                 $aResult = array(
-                    'result' => false,
-                    'msg'    => 'An error has occurred. Please try again.'
+                    'bResult' => false,
+                    'sMsg'    => 'An error has occurred. Please try again.'
                 );
             }
         } else {

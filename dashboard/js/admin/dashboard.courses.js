@@ -1,6 +1,7 @@
 var oCourses = (() => {
 
     let oTblCourses = $('#tbl_courses');
+    
     let aCourses = [];
 
     let oColumns = {
@@ -80,55 +81,55 @@ var oCourses = (() => {
         $(document).on('submit', 'form', function(oEvent) {
             oEvent.preventDefault();
 
+            // Get the form name being submitted.
+            let sFormId = '#' + $(this).attr('id') + '';
+
             // Create an object with key names of forms and its corresponding validation and request action as its value.
             let oInputForms = {
                 '#addCourseForm': {
-                    'validationMethod': oValidations.validateAddUpdateCourseInputs(),
+                    'validationMethod': oValidations.validateAddUpdateCourseInputs(sFormId),
                     'requestClass': 'Courses',
                     'requestAction': 'addCourse'
                 },
                 '#editCourseForm': {
-                    'validationMethod': oValidations.validateAddUpdateCourseInputs(),
+                    'validationMethod': oValidations.validateAddUpdateCourseInputs(sFormId),
                     'requestClass': 'Courses',
                     'requestAction': 'updateCourse'
                 }
             }
-            
-            // Get the form name being submitted.
-            let formName = '#' + $(this).attr('id') + '';
 
-            oForms.disableFormState(formName, true);
+            oForms.disableFormState(sFormId, true);
 
             // Invoke the resetInputBorders method inside oForms utils for that form.
-            oForms.resetInputBorders(formName);
+            oForms.resetInputBorders(sFormId);
 
             // Validate the inputs of the submitted form and store the result inside validateInputs variable.
-            let validateInputs = oInputForms[formName].validationMethod;
+            let validateInputs = oInputForms[sFormId].validationMethod;
 
             // Get the request class of the form submitted.
-            let requestClass = oInputForms[formName].requestClass;
+            let requestClass = oInputForms[sFormId].requestClass;
 
             // Get the request action of the form submitted.
-            let requestAction = oInputForms[formName].requestAction;
+            let requestAction = oInputForms[sFormId].requestAction;
 
             // Check if input validation result is true.
             if (validateInputs.result === true) {
                 // Extract form data.
-                let formData = $(formName).serializeArray();
+                let aFormData = $(sFormId).serializeArray();
 
                 // Execute AJAX request.
                 $.ajax({
                     url: `/Nexus/utils/ajax.php?class=${requestClass}&action=${requestAction}`,
                     type: 'post',
-                    data: formData,
+                    data: aFormData,
                     dataType: 'json',
                     success: function (oResponse) {
                         if (oResponse.bResult === true) {
-                            $(formName).parents().find('div.modal').modal('hide');
+                            $(sFormId).parents().find('div.modal').modal('hide');
                             populateCoursesTable();
                             oLibraries.displayAlertMessage('success', oResponse.sMsg);
                         } else {
-                            oLibraries.displayErrorMessage(formName, oResponse.sMsg, oResponse.sElement);
+                            oLibraries.displayErrorMessage(sFormId, oResponse.sMsg, oResponse.sElement);
                         }
                     },
                     error: function () {
@@ -136,9 +137,9 @@ var oCourses = (() => {
                     }
                 });
             } else { // This means that there's an error while validating inputs.
-                oLibraries.displayErrorMessage(formName, validateInputs.msg, validateInputs.element);
+                oLibraries.displayErrorMessage(sFormId, validateInputs.msg, validateInputs.element);
             }
-            oForms.disableFormState(formName, false);
+            oForms.disableFormState(sFormId, false);
         });
     }
 

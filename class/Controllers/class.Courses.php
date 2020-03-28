@@ -30,7 +30,6 @@ class Courses extends BaseController
 
     public function addCourse()
     {
-        $aResult = array();
         $aValidationResult = Validations::validateAddUpdateCourseInputs($this->aParams);
 
         if ($aValidationResult['bResult'] === true) {
@@ -58,7 +57,6 @@ class Courses extends BaseController
 
     public function updateCourse()
     {
-        $aResult = array();
         $aValidationResult = Validations::validateAddUpdateCourseInputs($this->aParams);
 
         if ($aValidationResult['bResult'] === true) {
@@ -94,8 +92,8 @@ class Courses extends BaseController
 
         echo json_encode(
             array(
-                'result' => true,
-                'msg'    => 'Quotation deleted!'
+                'bResult' => true,
+                'sMsg'    => 'Quotation deleted!'
             )
         );
     }

@@ -110,10 +110,9 @@ class Quotations extends BaseController
      */
     public function requestQuotation()
     {
-        $aResult = array();
         $aValidationResult = Validations::validateQuotationInputs($this->aParams);
 
-        if ($aValidationResult['result'] === true) {
+        if ($aValidationResult['bResult'] === true) {
             Utils::sanitizeData($this->aParams);
 
             $iUserId = $this->oStudentModel->getUserId($this->aParams['quoteFname'], $this->aParams['quoteLname']);
@@ -150,8 +149,8 @@ class Quotations extends BaseController
             }
 
             $aResult = array(
-                'result' => true,
-                'msg'    => 'Quotation requested!'
+                'bResult' => true,
+                'sMsg'    => 'Quotation requested!'
             );
         } else {
             $aResult = $aValidationResult;
@@ -166,10 +165,9 @@ class Quotations extends BaseController
      */
     public function addNewQuotation()
     {
-        $aResult = array();
         $aValidationResult = Validations::validateQuotationInputs($this->aParams);
 
-        if ($aValidationResult['result'] === true) {
+        if ($aValidationResult['bResult'] === true) {
             Utils::sanitizeData($this->aParams);
 
             $iUserId = $this->oStudentModel->getUserId($this->aParams['quoteFname'], $this->aParams['quoteLname']);
@@ -206,8 +204,8 @@ class Quotations extends BaseController
             }
 
             $aResult = array(
-                'result' => true,
-                'msg'    => 'Quotation requested!'
+                'bResult' => true,
+                'sMsg'    => 'Quotation requested!'
             );
         } else {
             $aResult = $aValidationResult;
@@ -249,10 +247,9 @@ class Quotations extends BaseController
 
     public function updateQuotation()
     {
-        $aResult = array();
         $aValidationResult = Validations::validateQuotationInputsForEdit($this->aParams);
 
-        if ($aValidationResult['result'] === true) {
+        if ($aValidationResult['bResult'] === true) {
             Utils::sanitizeData($this->aParams);
             Utils::prepareData($this->aParams, 'updateQuotation');
 
@@ -281,8 +278,8 @@ class Quotations extends BaseController
             }
 
             $aResult = array(
-                'result' => true,
-                'msg'    => 'Quotation updated!'
+                'bResult' => true,
+                'sMsg'    => 'Quotation updated!'
             );
         } else {
             $aResult = $aValidationResult;
@@ -303,8 +300,8 @@ class Quotations extends BaseController
 
         echo json_encode(
             array(
-                'result' => true,
-                'msg'    => 'Quotation deleted!'
+                'bResult' => true,
+                'sMsg'    => 'Quotation deleted!'
             )
         );
     }
@@ -320,8 +317,8 @@ class Quotations extends BaseController
 
         echo json_encode(
             array(
-                'result' => true,
-                'msg'    => 'Sender and quotations deleted!'
+                'bResult' => true,
+                'sMsg'    => 'Sender and quotations deleted!'
             )
         );
     }
@@ -380,11 +377,9 @@ class Quotations extends BaseController
 
     public function requestQuotationForStudent()
     {
-        $aResult = array();
-        
         $aValidationResult = Validations::validateQuotationInputsForEdit($this->aParams);
 
-        if ($aValidationResult['result'] === true) {
+        if ($aValidationResult['bResult'] === true) {
             Utils::sanitizeData($this->aParams);
             Utils::prepareData($this->aParams, 'updateQuotation');
 
@@ -405,8 +400,8 @@ class Quotations extends BaseController
             }
 
             $aResult = array(
-                'result' => true,
-                'msg'    => 'Quotation requested!'
+                'bResult' => true,
+                'sMsg'    => 'Quotation requested!'
             );
         } else {
             $aResult = $aValidationResult;
