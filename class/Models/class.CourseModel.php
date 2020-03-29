@@ -45,16 +45,23 @@ class CourseModel
         return $statement->execute($aCourseDetails);
     }
 
-    public function deleteCourse($aCourseId)
+    /**
+     * enableDisableCourse
+     * Queries the courses table in enabling/disabling a course.
+     * @param array $aData
+     * @return int
+     */
+    public function enableDisableCourse($aData)
     {
-        // Prepare a delete query for the tbl_quotation_details table.
+        // Prepare a delete query for the tbl_venue table.
         $statement = $this->oConnection->prepare("
-            DELETE FROM tbl_courses
+            UPDATE tbl_courses
+            SET status = :status
             WHERE id = :id
         ");
 
         // Execute the above statement along with the needed where clauses then return.
-        return $statement->execute($aCourseId);
+        return $statement->execute($aData);
     }
 
     public function fetchAllCourses()
@@ -88,6 +95,7 @@ class CourseModel
                 AND ts.fromDate > CURDATE()
                 AND ts.toDate > CURDATE()
                 AND ts.remainingSlots != 0
+                AND tc.status = 'Active'
             ORDER BY ts.fromDate, tc.courseName ASC
         ");
 

@@ -119,8 +119,8 @@ class SchedulesModel
     }
 
     /**
-     * fetchSchedules
-     * Queries the database in getting all the schedules.
+     * fetchSchedulesForSpecificInstructor
+     * Queries the database in getting all the schedules for a specific instructor.
      * @param array aId
      * @return array
      */
@@ -144,6 +144,38 @@ class SchedulesModel
 
         // Execute the above statement.
         $statement->execute($aId);
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetchAll();
+    }
+
+    /**
+     * fetchSchedulesForSpecificVenue
+     * Queries the database in getting all the schedules for a specific venue.
+     * @param array $iVenueId
+     * @return array
+     */
+    public function fetchSchedulesForSpecificVenue($iVenueId)
+    {
+        // Prepare a select query.
+        $statement = $this->oConnection->prepare("
+            SELECT
+                tc.courseCode, ts.id AS scheduleId,
+                ts.fromDate, ts.toDate,
+                CONCAT(tu.firstName, ' ', tu.lastName) AS instructorName
+            FROM tbl_schedules     ts
+            INNER JOIN tbl_courses tc
+            ON ts.courseId     = tc.id
+            INNER JOIN tbl_users   tu
+            ON ts.instructorId = tu.userId
+            WHERE 1 = 1
+                AND ts.venueId  = ?
+                AND ts.fromDate > CURDATE()
+                AND ts.toDate   > CURDATE()
+        ");
+
+        // Execute the above statement.
+        $statement->execute([$iVenueId]);
 
         // Return the number of rows returned by the executed query.
         return $statement->fetchAll();

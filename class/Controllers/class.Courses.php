@@ -28,6 +28,11 @@ class Courses extends BaseController
         parent::__construct();
     }
 
+    public function fetchAllCourses()
+    {
+        echo json_encode($this->oCourseModel->fetchAllCourses());
+    }
+
     public function addCourse()
     {
         $aValidationResult = Validations::validateAddUpdateCourseInputs($this->aParams);
@@ -82,25 +87,29 @@ class Courses extends BaseController
         echo json_encode($aResult);
     }
 
-    public function deleteCourse()
+    public function enableDisableCourse()
     {
-        $aIds = array(
-            ':id' => $this->aParams['iCourseId']
+        $aData = array(
+            'id' => $this->aParams['courseId'],
+            'status' => ($this->aParams['courseAction'] === 'enable') ? 'Active' : 'Inactive'
         );
 
-        $this->oCourseModel->deleteCourse($aIds);
+        // Perform enabling/disabling.
+        $iQuery = $this->oCourseModel->enableDisableCourse($aData);
 
-        echo json_encode(
-            array(
+        if ($iQuery > 0) {
+            $aResult = array(
                 'bResult' => true,
-                'sMsg'    => 'Quotation deleted!'
-            )
-        );
-    }
+                'sMsg'    => 'Course ' . $this->aParams['courseAction'] . 'd!'
+            );
+        } else {
+            $aResult = array(
+                'bResult' => false,
+                'sMsg'    => 'An error has occured.'
+            );
+        }
 
-    public function fetchAllCourses()
-    {
-        echo json_encode($this->oCourseModel->fetchAllCourses());
+        echo json_encode($aResult);
     }
 
     /**

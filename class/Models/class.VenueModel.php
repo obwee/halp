@@ -86,18 +86,19 @@ class VenueModel
     /**
      * deleteVenue
      * Queries the venue table in deleting a venue.
-     * @param array $aVenueId
+     * @param array $aData
      * @return int
      */
-    public function deleteVenue($aVenueId)
+    public function enableDisableVenue($aData)
     {
-        // Prepare a delete query for the tbl_venue table.
+        // Prepare an update query to the schedules table.
         $statement = $this->oConnection->prepare("
-            DELETE FROM tbl_venue
+            UPDATE tbl_venue
+            SET status = :status
             WHERE id = :id
         ");
 
-        // Execute the above statement along with the needed where clauses then return.
-        return $statement->execute($aVenueId);
+        // Return the result of the execution of the above statement.
+        return $statement->execute($aData);
     }
 }

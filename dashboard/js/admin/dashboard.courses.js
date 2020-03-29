@@ -14,7 +14,7 @@ var oCourses = (() => {
             },
             {
                 title: 'Details', className: 'text-center', render: (aData, oType, oRow) =>
-                    (oRow.courseDescription === '') ? '' : oRow.courseDescription
+                    (oRow.courseDescription === '') ? '-' : oRow.courseDescription
             },
             {
                 title: 'Amount', className: 'text-center', render: (aData, oType, oRow) =>
@@ -25,8 +25,8 @@ var oCourses = (() => {
                     `<button class="btn btn-warning btn-sm" data-toggle="modal" id="editCourse" data-id="${oRow.id}">
                         <i class="fa fa-pencil-alt"></i>
                     </button>
-                    <button class="btn btn-danger btn-sm" data-toggle="modal" id="deleteCourse" data-id="${oRow.id}">
-                        <i class="fa fa-trash"></i>
+                    <button class="btn btn-${(oRow.status === 'Active') ? 'danger' : 'success'} btn-sm" data-toggle="modal" id="${(oRow.status === 'Active') ? 'disableCourse' : 'enableCourse'}" data-id="${oRow.id}">
+                        <i class="fa fa-${(oRow.status === 'Active') ? 'times-circle' : 'check-circle'}"></i>
                     </button>`
             },
         ]
@@ -58,22 +58,48 @@ var oCourses = (() => {
             $('#editCourseModal').modal('show');
         });
 
-        $(document).on('click', '#deleteCourse', function() {
+        $(document).on('click', '#disableCourse', function () {
+            const iCourseId = parseInt($(this).attr('data-id'), 10);
+            const oCourse = aCourses.filter(oCourseData => oCourseData.id == iCourseId)[0];
+
             Swal.fire({
-                title: 'Delete the course?',
-                text: "You won't be able to revert this!",
+                title: 'Disable the course?',
+                text: `This will mark the payment mode of ${oCourse.courseCode} as 'Inactive'.`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: 'Yes'
             }).then((bResult) => {
                 if (bResult.value === true) {
-                    let oDetails = {
-                        iCourseId: $(this).attr('data-id')
-                    };
-                    oLibraries.displayAlertMessage('success', deleteCourse(oDetails));
-                    populateCoursesTable();
+                    const oDetails = {
+                        'courseId': iCourseId,
+                        'courseAction': 'disable'
+                    }
+                    toggleEnableDisableCourse(oDetails);
+                }
+            });
+        });
+
+        $(document).on('click', '#enableCourse', function () {
+            const iCourseId = parseInt($(this).attr('data-id'), 10);
+            const oCourse = aCourses.filter(oCourseData => oCourseData.id == iCourseId)[0];
+
+            Swal.fire({
+                title: 'Enable the course?',
+                text: `This will mark the status of ${oCourse.courseCode} as 'Active'.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((bResult) => {
+                if (bResult.value === true) {
+                    const oDetails = {
+                        'courseId': iCourseId,
+                        'courseAction': 'enable'
+                    }
+                    toggleEnableDisableCourse(oDetails);
                 }
             });
         });
@@ -143,14 +169,23 @@ var oCourses = (() => {
         });
     }
 
-    function deleteCourse(oData) {
+    /**
+     * toggleEnableDisableCourse
+     * @param {object} oCourseData
+     */
+    function toggleEnableDisableCourse(oCourseData) {
         $.ajax({
-            url: '/Nexus/utils/ajax.php?class=Courses&action=deleteCourse',
+            url: '/Nexus/utils/ajax.php?class=Courses&action=enableDisableCourse',
             type: 'POST',
-            data: oData,
+            data: oCourseData,
             dataType: 'json',
             success: function (oResponse) {
-                return oResponse.sMsg;
+                if (oResponse.bResult === true) {
+                    oLibraries.displayAlertMessage('success', oResponse.sMsg);
+                    populateCoursesTable();
+                } else {
+                    oLibraries.displayAlertMessage('error', oResponse.sMsg);
+                }
             }
         });
     }

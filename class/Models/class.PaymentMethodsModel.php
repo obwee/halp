@@ -80,7 +80,7 @@ class PaymentMethodsModel
 
     /**
      * enableDisablePaymentMethod
-     * Queries the venue table in enabling/disabling a payment mode.
+     * Queries the payment method table in enabling/disabling a payment mode.
      * @param array $aData
      * @return int
      */
