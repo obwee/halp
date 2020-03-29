@@ -12,6 +12,7 @@ var oForms = (() => {
         prepareVenueEvents();
         prepareInstructorEvents();
         prepareAdminEvents();
+        prepareModeOfPaymentEvents();
     }
 
     function prepareRegistrationAndQuotationEvents() {
@@ -160,6 +161,23 @@ var oForms = (() => {
                 return this.value = this.value.replace(this.value, '');
             }
             return this.value = this.value.replace(/[^a-zA-Z0-9_]/g, '');
+        });
+    }
+
+    /**
+     * prepareModeOfPaymentEvents
+     * jQuery event handlers for paymentMethods.php
+     */
+    function prepareModeOfPaymentEvents() {
+        // Allow only alphabetical characters and a period on first, middle, and last name via RegExp.
+        $(document).on('keyup keydown', '.paymentMode', function () {
+            return this.value = this.value.replace(/[^a-zA-Z]/g, '');
+
+        });
+
+        // Trim excess spaces and dots on specific inputs via RegExp on focusout event.
+        $(document).on('focusout', '.paymentMode', function () {
+            $(this).val($(this).val().replace(/\s+/g, ' ').replace(/\.+/g, '.').trim());
         });
     }
 

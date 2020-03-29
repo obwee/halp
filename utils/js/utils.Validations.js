@@ -976,6 +976,29 @@ class Validations {
     }
 
     /**
+     * validatePaymentModeInputs
+     * Validates the inputs of the user before submission for adding/editing payment modes.
+     * @param {string} sFormId (The id of the form.)
+     * @return {object} oValidationResult (Result of the validation.)
+     */
+    validatePaymentModeInputs(sFormId) {
+        // Declare an object with properties related to inputs that need to be validated.
+        let aPaymentModeInputs = [
+            {
+                name: 'Payment method',
+                element: '.paymentMode',
+                length: $.trim($(sFormId).find('.paymentMode').val()).length,
+                minLength: 2,
+                maxLength: 20,
+                pattern: /^[a-zA-Z]+$/g
+            }
+        ];
+
+        // Loop thru each rules to check if there are rules violated and return the result.
+        return this.loopThruRulesForErrors(aPaymentModeInputs, sFormId);
+    }
+
+    /**
      * loopThruRulesForErrors
      * @param {array} aRules (Array of rules.)
      * @param {string} sFormId (The id of the form.)

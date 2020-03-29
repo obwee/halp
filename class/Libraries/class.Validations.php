@@ -409,7 +409,6 @@ class Validations
         )
     );
 
-
     /**
      * @var array $aSuperAdminCredentialsRules
      * Array of rules for validating admin inputs for editing credentials sent by AJAX.
@@ -436,6 +435,20 @@ class Validations
             'sName'       => 'Admin',
             'sElement'    => 'adminId',
             'oPattern'    => '/^[0-9]+$/'
+        )
+    );
+
+    /**
+     * @var array $aPaymentModeRules
+     * Array of rules for validating admin inputs for adding/editing payment mode sent by AJAX.
+     */
+    public static $aPaymentModeRules = array(
+        array(
+            'sName'       => 'Payment mode',
+            'sElement'    => 'paymentMode',
+            'iMinLength'  => 2,
+            'iMaxLength'  => 20,
+            'oPattern'    => '/^[a-zA-Z]+$/'
         )
     );
 
@@ -994,6 +1007,31 @@ class Validations
         }
 
         return $aValidationResult;
+    }
+
+    /**
+     * validatePaymentModeInputs
+     * Validates the inputs for adding/updating payment mode.
+     * @param array $aParams
+     * @return array $aValidationResult (Result of the validation.)
+     */
+    public static function validatePaymentModeInputs($aParams)
+    {
+        // Add rules for optional fields if filled-up.
+        if (isset($aParams['methodId']) === true) {
+            array_splice(self::$aPaymentModeRules, 1, 0, array(
+                array(
+                    'sName'       => 'Payment method',
+                    'sElement'    => 'methodId',
+                    'iMinLength'  => 1,
+                    'iMaxLength'  => PHP_INT_MAX,
+                    'oPattern'    => '/^[\d]+$/'
+                )
+            ));
+        }
+
+        // Loop thru each inputRules and if there are rules violated, return false and the error message.
+        return self::loopThruRulesForErrors($aParams, self::$aPaymentModeRules, '.');;
     }
 
     /**
