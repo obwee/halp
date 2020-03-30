@@ -37,6 +37,15 @@ if (validateData() === true) {
         
         // Compare the password sent from the AJAX and the password from the database if equal.
         if ($password === $userDetails['password']) {
+
+            if ($userDetails['status'] === 'Inactive') {
+                echo json_encode(array(
+                    'result' => false,
+                    'msg'    => 'Account disabled. Please contact your administrator.'
+                ));
+                exit;
+            }
+
             // Set the session variables here.
             Session::set('isLoggedIn', true);
             Session::set('username', $userDetails['username']);

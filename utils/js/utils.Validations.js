@@ -1076,7 +1076,7 @@ class Validations {
                 length: $.trim($(sFormId).find('.paymentMode').val()).length,
                 minLength: 2,
                 maxLength: 20,
-                pattern: /^[a-zA-Z]+$/g
+                pattern: /^[a-zA-Z\s\.\-]+$/g
             }
         ];
 

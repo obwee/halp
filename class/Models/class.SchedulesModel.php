@@ -33,7 +33,7 @@ class SchedulesModel
             SELECT
                 ts.id, tc.courseCode AS title, ts.fromDate AS start, ts.toDate AS end,
                 ts.numSlots, ts.remainingSlots, ts.instructorId, tv.id AS venueId, tv.venue,
-                CONCAT(tu.firstName, ' ', tu.lastName) AS instructor, tc.id AS courseId,
+                CONCAT(tu.firstName, ' ', tu.lastName) AS instructor, tc.id AS courseId, ts.status,
                 CASE
                     WHEN tv.venue = 'Manila' THEN 'purple'
                     WHEN tv.venue = 'Makati' THEN 'blue'
@@ -101,21 +101,22 @@ class SchedulesModel
     }
 
     /**
-     * deleteSchedule
-     * Delete a schedule.
-     * @param array $aData
+     * disableSchedule
+     * Disable a schedule.
+     * @param int $iScheduleId
      * @return int
      */
-    public function deleteSchedule($aScheduleId)
+    public function disableSchedule($iScheduleId)
     {
         // Prepare an update query to the schedules table.
         $statement = $this->oConnection->prepare("
-            DELETE FROM tbl_schedules
-            WHERE id = :id
+            UPDATE tbl_schedules
+            SET status = 'Inactive'
+            WHERE id = ?
         ");
 
         // Return the result of the execution of the above statement.
-        return $statement->execute($aScheduleId);
+        return $statement->execute([$iScheduleId]);
     }
 
     /**

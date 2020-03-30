@@ -116,12 +116,16 @@ let CALENDAR = (function () {
         });
 
         oCalendar.on('eventClick', function (oInfo) {
+            if (moment(oInfo.event.end) < moment()) {
+                removeTooltip();
+                return false;
+            }
             Swal.fire({
                 title: 'What do you want to do?',
                 text: "Select an action for the selected schedule.",
                 icon: 'warning',
                 showCancelButton: true,
-                cancelButtonText: 'Delete',
+                cancelButtonText: 'Disable',
                 confirmButtonText: 'Update',
                 confirmButtonColor: '#0069d9',
                 cancelButtonColor: '#c82333',
@@ -134,13 +138,17 @@ let CALENDAR = (function () {
                     // If selected option is 'Update'.
                     openEditScheduleModal(oInfo.event);
                 } else {
-                    // If selected option is 'Delete'.
-                    executeDelete(parseInt(oInfo.event.id, 10));
+                    // If selected option is 'Disable'.
+                    executeDisable(parseInt(oInfo.event.id, 10), parseInt(oInfo.event.extendedProps.courseId, 10));
                 }
             });
         });
 
         oCalendar.on('select', function (oInfo) {
+            if (moment(oInfo.start) < moment()) {
+                removeTooltip();
+                return false;
+            }
             $('.fc-highlight').css('background', 'red');
             let sStartDate = oInfo.startStr;
             let sEndDate = moment(oInfo.endStr)
@@ -153,6 +161,11 @@ let CALENDAR = (function () {
         });
 
         oCalendar.on('eventDrop', (oInfo) => {
+            if (moment(oInfo.oldEvent.end) < moment() || moment(oInfo.event.start) < moment()) {
+                removeTooltip();
+                oInfo.revert();
+                return false;
+            }
             Swal.fire({
                 title: 'Move the schedule?',
                 text: 'This will update the schedule dates.',
@@ -169,6 +182,11 @@ let CALENDAR = (function () {
         });
 
         oCalendar.on('eventResize', (oInfo) => {
+            if (moment(oInfo.event.end) < moment()) {
+                removeTooltip();
+                oInfo.revert();
+                return false;
+            }
             Swal.fire({
                 title: 'Update schedule?',
                 text: 'This will update the schedule end date.',
@@ -277,7 +295,7 @@ let CALENDAR = (function () {
             dataType: 'json',
             async: false,
             success: function (oResponse) {
-                aEvents = oResponse;
+                aEvents = oResponse.filter(oEvent => oEvent.extendedProps.status == 'Active');
             }
         });
     }
@@ -288,7 +306,7 @@ let CALENDAR = (function () {
     async function fetchCourses() {
         await axios.get('/Nexus/utils/ajax.php?class=Courses&action=fetchAllCourses')
             .then((oResponse) => {
-                aCourses = oResponse.data;
+                aCourses = oResponse.data.filter((oCourse) => oCourse.status === 'Active');
                 populateCourseDropdown(aCourses);
             });
     }
@@ -299,8 +317,8 @@ let CALENDAR = (function () {
     async function fetchVenues() {
         await axios.get('/Nexus/utils/ajax.php?class=Venue&action=fetchVenues')
             .then((oResponse) => {
-                aVenues = oResponse.data;
-                populateVenueDropdown(oResponse.data);
+                aVenues = oResponse.data.filter((oVenue) => oVenue.status === 'Active');
+                populateVenueDropdown(aVenues);
             });
     }
 
@@ -310,8 +328,7 @@ let CALENDAR = (function () {
     async function fetchInstructors() {
         await axios.get('/Nexus/utils/ajax.php?class=Instructors&action=fetchInstructors')
             .then((oResponse) => {
-                aInstructors = oResponse.data;
-                aInstructors = aInstructors.filter(oInstructor => oInstructor.status === 'Active');
+                aInstructors = oResponse.data.filter(oInstructor => oInstructor.status === 'Active');
                 populateInstructorsDropdown(aInstructors);
             });
     }
@@ -463,12 +480,13 @@ let CALENDAR = (function () {
     }
 
     /**
-     * executeDelete
+     * executeDisable
      * @param {int} iScheduleId
+     * @param {int} iCourseId
      */
-    function executeDelete(iScheduleId) {
-        axios.post('/Nexus/utils/ajax.php?class=Schedules&action=deleteSchedule', {
-            iScheduleId
+    function executeDisable(iScheduleId, iCourseId) {
+        axios.post('/Nexus/utils/ajax.php?class=Schedules&action=disableSchedule', {
+            iScheduleId, iCourseId
         })
             .then((oResponse) => {
                 oLibraries.displayAlertMessage(
@@ -483,11 +501,18 @@ let CALENDAR = (function () {
      * Re-initializes the calendar data and closes any open tooltip/modal.
      */
     function reinitializeDisplay() {
-        $('.tooltip').remove();
+        removeTooltip();
         fetchSchedules();
         oCalendar.destroy();
         initializeCalendar(sDefaultDate);
         $('.modal').modal('hide');
+    }
+
+    /**
+     * removeTooltip
+     */
+    function removeTooltip() {
+        $('.tooltip').remove();
     }
 
     /**
