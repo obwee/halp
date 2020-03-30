@@ -9,6 +9,12 @@ class Venue extends BaseController
     private $oVenueModel;
 
     /**
+     * @var SchedulesModel $oModel
+     * Class instance for Venue model.
+     */
+    private $oSchedulesModel;
+
+    /**
      * Venue constructor.
      * @param array $aPostVariables
      */
@@ -18,6 +24,8 @@ class Venue extends BaseController
         $this->aParams = $aPostVariables;
         // Instantiate the VenueModel class and store it inside $this->oVenueModel.
         $this->oVenueModel = new VenueModel();
+        // Instantiate the VenueModel class and store it inside $this->oVenueModel.
+        $this->oSchedulesModel = new SchedulesModel();
     }
 
     /**
@@ -110,25 +118,77 @@ class Venue extends BaseController
         echo json_encode($aResult);
     }
 
-    public function deleteVenue()
+    public function enableDisableVenue()
     {
-        $aId = array(
-            'id' => $this->aParams['venueId']
+        $oData = array(
+            'id' => $this->aParams['venueId'],
+            'status' => ($this->aParams['venueAction'] === 'enable') ? 'Active' : 'Inactive'
         );
 
-        // Perform delete.
-        $iQuery = $this->oVenueModel->deleteVenue($aId);
+        // Check if venue still has upcoming trainings before disabling.
+        if ($oData['status'] === 'Inactive') {
+            $aSchedules = $this->oSchedulesModel->fetchSchedulesForSpecificVenue($oData['id']);
+            if (count($aSchedules) > 0) {
+                echo json_encode(array(
+                    'bResult'    => false,
+                    'aSchedules' => $aSchedules
+                ));
+                exit;
+            }
+        }
+
+        // Perform enabling/disabling.
+        $iQuery = $this->oVenueModel->enableDisableVenue($oData);
 
         if ($iQuery > 0) {
             $aResult = array(
                 'bResult' => true,
-                'sMsg'    => 'Venue deleted!'
+                'sMsg'    => 'Venue ' . $this->aParams['venueAction'] . 'd!'
             );
         } else {
             $aResult = array(
                 'bResult' => false,
                 'sMsg'    => 'An error has occured.'
             );
+        }
+
+        echo json_encode($aResult);
+    }
+
+    /**
+     * changeVenues
+     * Change the venues in behalf of the venue to be disabled.
+     */
+    public function changeVenues()
+    {
+        $aValidationResult = Validations::validateChangeVenueInputs($this->aParams);
+
+        if ($aValidationResult['bResult'] === true) {
+            Utils::sanitizeData($this->aParams);
+
+            // Perform update on schedules.
+            $iQuery = $this->oSchedulesModel->changeVenues($this->aParams['venues']);
+
+            if ($iQuery > 0) {
+                $aData = array(
+                    'status' => 'Inactive',
+                    'id' => $this->aParams['venueId']
+                );
+                // Disable instructor.
+                $iQuery = $this->oVenueModel->enableDisableVenue($aData);
+
+                $aResult = array(
+                    'bResult' => true,
+                    'sMsg'    => 'Venue disabled!'
+                );
+            } else {
+                $aResult = array(
+                    'bResult' => false,
+                    'sMsg'    => 'An error has occured.'
+                );
+            }
+        } else {
+            $aResult = $aValidationResult;
         }
 
         echo json_encode($aResult);

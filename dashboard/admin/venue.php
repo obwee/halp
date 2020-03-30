@@ -81,6 +81,51 @@ require_once "Template/header.php";
     </div>
 </div>
 
+<div class="modal fade" id="changeVenueModal" role="dialog">
+    <div class="modal-dialog modal-lg changeVenueModal">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #3c8dbc;">
+                <h5 align="center" style="color:white;"><i class="fas fa-edit"></i> Update Venue</h5>
+            </div>
+            <form id="changeVenueForm" method="post">
+                <div class="modal-body">
+                    <input type="text" class="venueId" name="venueId" readonly hidden>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label for="venue" class="col-form-label"><i class="fas fa-map-marked-alt"></i> Venue</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control venue" readonly>
+                        </div>
+                        <div class="col-12 alert alert-danger error-msg" role="alert" style="display: none;"></div>
+                    </div>
+                    <div class="box mt-4" style="border:5px solid #3c8dbc;margin:5px 5px;padding:7px 7px ;overflow-y: scroll;height:250px;overflow-x: hidden;">
+                        <div class="template" hidden>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p class="courseCode" style="padding-left: 10px;"><i class="fas fa-book"></i> Course: <span></span></p>
+                                    <p class="courseSchedule" style="padding-left: 10px;"><i class="fas fa-calendar-day"></i> Schedule: <span></span></p>
+                                    <p class="courseInstructor" style="padding-left: 10px;"><i class="fas fa-map-marked-alt"></i> Instructor: <span></span></p>
+                                </div>
+                                <div class="col-sm-6 d-flex align-items-center">
+                                    <select class="form-control venues" name="">
+                                        <option selected hidden disabled>Select New Venue</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr class="mt-0">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Update</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <?php
 require_once "template/scripts.php";
 ?>

@@ -393,46 +393,46 @@ var oQuotationRequests = (() => {
         $(document).on('submit', 'form', function (event) {
             event.preventDefault();
 
+            // Get the form name being submitted.
+            let sFormId = '#' + $(this).attr('id') + '';
+
             // Create an object with key names of forms and its corresponding validation and request action as its value.
             let oInputForms = {
                 '#quotationForm': {
-                    'validationMethod': oValidations.validateQuoteInputs(),
+                    'validationMethod': oValidations.validateQuoteInputs(sFormId),
                     'requestClass': 'Quotations',
                     'requestAction': 'requestQuotation'
                 },
                 '#insertNewRequestForm': {
-                    'validationMethod': oValidations.validateQuoteRequestInputs('insertNewRequestForm'),
+                    'validationMethod': oValidations.validateQuoteRequestInputs(sFormId),
                     'requestClass': 'Quotations',
                     'requestAction': 'requestQuotation'
                 },
                 '#editRequestForm': {
-                    'validationMethod': oValidations.validateQuoteRequestInputs('editRequestForm'),
+                    'validationMethod': oValidations.validateQuoteRequestInputs(sFormId),
                     'requestClass': 'Quotations',
                     'requestAction': 'updateQuotation'
                 }
             }
 
-            // Get the form name being submitted.
-            let formName = '#' + $(this).attr('id') + '';
-
-            oForms.disableFormState(formName, true);
+            oForms.disableFormState(sFormId, true);
 
             // Invoke the resetInputBorders method inside oForms utils for that form.
-            oForms.resetInputBorders(formName);
+            oForms.resetInputBorders(sFormId);
 
             // Validate the inputs of the submitted form and store the result inside validateInputs variable.
-            let validateInputs = oInputForms[formName].validationMethod;
+            let validateInputs = oInputForms[sFormId].validationMethod;
 
             // Get the request class of the form submitted.
-            let requestClass = oInputForms[formName].requestClass;
+            let requestClass = oInputForms[sFormId].requestClass;
 
             // Get the request action of the form submitted.
-            let requestAction = oInputForms[formName].requestAction;
+            let requestAction = oInputForms[sFormId].requestAction;
 
             // Check if input validation result is true.
             if (validateInputs.result === true) {
                 // Extract form data.
-                let formData = $(formName).serializeArray();
+                let formData = $(sFormId).serializeArray();
 
                 let aSelectedCourses = [];
                 let aSelectedSchedules = [];
@@ -462,7 +462,7 @@ var oQuotationRequests = (() => {
                 formData.push({ 'name': 'quoteSchedules', 'value': aSelectedSchedules });
                 formData.push({ 'name': 'quoteNumPax', 'value': aSelectedNumPax });
 
-                if (formName === '#editRequestForm') {
+                if (sFormId === '#editRequestForm') {
                     formData.push({ 'name': ':senderId', 'value': oEditIds.iSenderId });
                     formData.push({ 'name': ':userId', 'value': oEditIds.iUserId });
                     formData.push({ 'name': ':dateRequested', 'value': oEditIds.sDateRequested });
@@ -474,13 +474,13 @@ var oQuotationRequests = (() => {
                     type: 'post',
                     data: formData,
                     dataType: 'json',
-                    success: function (response) {
-                        if (response.result === true) {
-                            $(formName).parents().find('div.modal').modal('hide');
+                    success: function (oResponse) {
+                        if (oResponse.bResult === true) {
+                            $(sFormId).parents().find('div.modal').modal('hide');
                             populateSendersTable();
-                            oLibraries.displayAlertMessage('success', response.msg);
+                            oLibraries.displayAlertMessage('success', oResponse.sMsg);
                         } else {
-                            oLibraries.displayErrorMessage(formName, response.msg, response.element);
+                            oLibraries.displayErrorMessage(sFormId, oResponse.sMsg, oResponse.sElement);
                         }
                     },
                     error: function () {
@@ -488,9 +488,9 @@ var oQuotationRequests = (() => {
                     }
                 });
             } else { // This means that there's an error while validating inputs.
-                oLibraries.displayErrorMessage(formName, validateInputs.msg, validateInputs.element);
+                oLibraries.displayErrorMessage(sFormId, validateInputs.msg, validateInputs.element);
             }
-            oForms.disableFormState(formName, false);
+            oForms.disableFormState(sFormId, false);
         });
     }
 
@@ -498,7 +498,7 @@ var oQuotationRequests = (() => {
         let oAjax = {
             url: `/Nexus/utils/ajax.php?class=Quotations&action=fetchSenders`,
             type: 'POST',
-            data: {iIsQuotationSent : 0},
+            data: { iIsQuotationSent: 0 },
             dataType: 'JSON',
             dataSrc: function (oJson) {
                 aSenders = oJson.aData;
@@ -744,7 +744,7 @@ var oQuotationRequests = (() => {
             data: oData,
             dataType: 'json',
             success: function (oResponse) {
-                return oResponse.msg;
+                return oResponse.sMsg;
             }
         });
     }
@@ -756,7 +756,7 @@ var oQuotationRequests = (() => {
             data: oData,
             dataType: 'json',
             success: function (oResponse) {
-                return oResponse.msg;
+                return oResponse.sMsg;
             }
         });
     }

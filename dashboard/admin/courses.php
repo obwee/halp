@@ -100,6 +100,51 @@ require_once "template/header.php";
     </div>
 </div>
 
+<div class="modal fade" id="changeCourseModal" role="dialog">
+    <div class="modal-dialog modal-lg changeCourseModal">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #3c8dbc;">
+                <h5 align="center" style="color:white;"><i class="fas fa-edit"></i> Update Course</h5>
+            </div>
+            <form id="changeCourseForm" method="post">
+                <div class="modal-body">
+                    <input type="text" class="courseId" name="courseId" readonly hidden>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label for="courseName" class="col-form-label"><i class="fas fa-chalkboard-teacher"></i> Course</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control courseName" readonly>
+                        </div>
+                        <div class="col-12 alert alert-danger error-msg" role="alert" style="display: none;"></div>
+                    </div>
+                    <div class="box mt-4" style="border:5px solid #3c8dbc;margin:5px 5px;padding:7px 7px ;overflow-y: scroll;height:250px;overflow-x: hidden;">
+                        <div class="template" hidden>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p class="courseSchedule" style="padding-left: 10px;"><i class="fas fa-calendar"></i> Schedule: <span></span></p>
+                                    <p class="courseInstructor" style="padding-left: 10px;"><i class="fas fa-user"></i> Instructor: <span></span></p>
+                                    <p class="courseVenue" style="padding-left: 10px;"><i class="fas fa-map-marked-alt"></i> Venue: <span></span></p>
+                                </div>
+                                <div class="col-sm-6 d-flex align-items-center">
+                                    <select class="form-control courses" name="">
+                                        <option selected hidden disabled>Select New Course</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr class="mt-0">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Update</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <?php
 require_once "template/scripts.php";
 ?>

@@ -271,35 +271,6 @@ var oStudentQuotationRequests = (() => {
             });
         });
 
-        $(document).on('click', '#approveRequest', function () {
-            let oDetails = {
-                iSenderId: $(this).attr('data-sender-id'),
-                iUserId: $(this).attr('data-user-id'),
-                sDateRequested: $(this).attr('data-date-requested'),
-                sFullName: `${aSenderDetails[0]['firstName']} ${aSenderDetails[0]['lastName']}`,
-                sEmail: aSenderDetails[0]['email'],
-                iContactNum: aSenderDetails[0]['contactNum']
-            };
-
-            Swal.fire({
-                title: 'Approve the request?',
-                text: 'This will send an email to the sender.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, approve it!',
-                showLoaderOnConfirm: true,
-                preConfirm: () => {
-                    return approveQuotation(oDetails);
-                },
-                allowOutsideClick: () => !Swal.isLoading()
-            }).then((oResponse) => {
-                if (oResponse.value.bResult === true) {
-                    oLibraries.displayAlertMessage('success', oResponse.value.sMsg);
-                    populateSendersTable();
-                }
-            });
-        });
-
         $(document).on('click', '.viewDetails', function () {
             let oDetails = {
                 iSenderId: $(this).attr('data-sender-id'),
@@ -401,13 +372,13 @@ var oStudentQuotationRequests = (() => {
                     type: 'post',
                     data: formData,
                     dataType: 'json',
-                    success: function (response) {
-                        if (response.result === true) {
+                    success: function (oResponse) {
+                        if (oResponse.bResult === true) {
                             $(formName).parents().find('div.modal').modal('hide');
                             populateRequestsTable();
-                            oLibraries.displayAlertMessage('success', response.msg);
+                            oLibraries.displayAlertMessage('success', oResponse.sMsg);
                         } else {
-                            oLibraries.displayErrorMessage(formName, response.msg, response.element);
+                            oLibraries.displayErrorMessage(formName, oResponse.sMsg, oResponse.sElement);
                         }
                     },
                     error: function () {
@@ -584,7 +555,7 @@ var oStudentQuotationRequests = (() => {
             data: oData,
             dataType: 'json',
             success: function (oResponse) {
-                return oResponse.msg;
+                return oResponse.sMsg;
             }
         });
     }

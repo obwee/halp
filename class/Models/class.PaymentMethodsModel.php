@@ -2,10 +2,10 @@
 require_once('utils/dbConnection.php');
 
 /**
- * VenueModel
- * Class for venue-related database functionalities.
+ * PaymentMethodsModel
+ * Class for payment method-related database functionalities.
  */
-class VenueModel
+class PaymentMethodsModel
 {
     /**
      * @var dbConnection $oConnection
@@ -22,16 +22,16 @@ class VenueModel
     }
 
     /**
-     * fetchVenues
-     * Queries the venue table in getting all the venues.
+     * fetchModeOfPayments
+     * Queries the payment methods table in getting all the venues.
      * @return array
      */
-    public function fetchVenues()
+    public function fetchModeOfPayments()
     {
         // Prepare a select query.
         $statement = $this->oConnection->prepare("
             SELECT *
-            FROM tbl_venue tv
+            FROM tbl_payment_methods tpm
         ");
 
         // Execute the above statement.
@@ -42,19 +42,17 @@ class VenueModel
     }
 
     /**
-     * addVenue
-     * Inserts a new record inside the venue table.
+     * addPaymentMethod
+     * Inserts a new record inside the payment methods table.
      * @param array $aData
      * @return int
      */
-    public function addVenue($aData)
+    public function addPaymentMethod($aData)
     {
         // Prepare an update query to the schedules table.
         $statement = $this->oConnection->prepare("
-            INSERT INTO tbl_venue
-                (venue, address, contactNum)
-            VALUES
-                (:venue, :address, :contactNum)
+            INSERT INTO tbl_payment_methods (methodName)
+            VALUES (:methodName)
         ");
 
         // Return the result of the execution of the above statement.
@@ -62,20 +60,17 @@ class VenueModel
     }
 
     /**
-     * updateVenue
-     * Queries the venue table in updating a venue.
+     * updatePaymentMethod
+     * Queries the payment methods table in updating a payment mode.
      * @param array $aData
      * @return int
      */
-    public function updateVenue($aData)
+    public function updatePaymentMethod($aData)
     {
         // Prepare an update query to the schedules table.
         $statement = $this->oConnection->prepare("
-            UPDATE tbl_venue
-            SET
-                venue      = :venue,
-                address    = :address,
-                contactNum = :contactNum
+            UPDATE tbl_payment_methods
+            SET methodName = :methodName
             WHERE id = :id
         ");
 
@@ -84,21 +79,21 @@ class VenueModel
     }
 
     /**
-     * deleteVenue
-     * Queries the venue table in deleting a venue.
+     * enableDisablePaymentMethod
+     * Queries the payment method table in enabling/disabling a payment mode.
      * @param array $aData
      * @return int
      */
-    public function enableDisableVenue($aData)
+    public function enableDisablePaymentMethod($aData)
     {
-        // Prepare an update query to the schedules table.
+        // Prepare a delete query for the tbl_venue table.
         $statement = $this->oConnection->prepare("
-            UPDATE tbl_venue
+            UPDATE tbl_payment_methods
             SET status = :status
             WHERE id = :id
         ");
 
-        // Return the result of the execution of the above statement.
+        // Execute the above statement along with the needed where clauses then return.
         return $statement->execute($aData);
     }
 }

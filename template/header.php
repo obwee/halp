@@ -162,7 +162,11 @@
                         <ul class="treeview-menu">
                             <li><a href="/Nexus/dashboard/admin/venue"><i class="fas fa-map-marked-alt"></i>&emsp; Venue</a></li>
                             <li><a href="/Nexus/dashboard/admin/instructors"><i class="fas fa-chalkboard-teacher"></i>&emsp;Instructors </a></li>
-                            <li><a href="/Nexus/dashboard/admin/credentials"><i class="fas fa-user-edit"></i>&emsp;Credentials </a></li>
+                            <?php if (Session::get('LOA') === 'Super Admin') { ?>
+                                <li><a href="/Nexus/dashboard/admin/credentials"><i class="fas fa-user-edit"></i>&emsp;Credentials </a></li>
+                            <?php } else { ?>
+                                <li><a href="/Nexus/dashboard/admin/profile"><i class="fas fa-user-edit"></i>&emsp;Profile </a></li>
+                            <?php } ?>
                             <li><a href="/Nexus/dashboard/admin/paymentMode"><i class="fas fa-hand-holding-usd"></i>&emsp; Payment Mode </a></li>
                         </ul>
                     </li>

@@ -149,43 +149,43 @@ var oInstructor = (() => {
         $(document).on('submit', 'form', function (oEvent) {
             oEvent.preventDefault();
 
-            const sFormName = `#${$(this).attr('id')}`;
+            const sFormId = `#${$(this).attr('id')}`;
 
             // Disable the form.
-            // oForms.disableFormState(sFormName, true);
+            oForms.disableFormState(sFormId, true);
 
             // Invoke the resetInputBorders method inside oForms utils for that form.
-            oForms.resetInputBorders(sFormName);
+            oForms.resetInputBorders(sFormId);
 
             // Get form data.
-            const oFormData = $(sFormName).serializeArray();
+            const aFormData = $(sFormId).serializeArray();
 
             // Create an object with key names of forms and its corresponding validation and request action as its value.
             const oInputForms = {
                 '#addInstructorForm': {
-                    'validationMethod': oValidations.validateInstructorInputs(sFormName),
-                    'requestClass': 'Users',
+                    'validationMethod': oValidations.validateInstructorInputs(sFormId),
+                    'requestClass': 'Instructors',
                     'requestAction': 'addInstructor',
                     'alertTitle': 'Add instructor?',
                     'alertText': 'This will insert a new instructor.'
                 },
                 '#editInstructorForm': {
-                    'validationMethod': oValidations.validateInstructorInputs(sFormName),
-                    'requestClass': 'Users',
+                    'validationMethod': oValidations.validateInstructorInputs(sFormId),
+                    'requestClass': 'Instructors',
                     'requestAction': 'updateInstructor',
                     'alertTitle': 'Update instructor?',
                     'alertText': 'This will update the instructor details.'
                 },
                 '#changeInstructorForm': {
-                    'validationMethod': oValidations.validateChangeInstructorInputs(sFormName, oFormData),
-                    'requestClass': 'Users',
+                    'validationMethod': oValidations.validateChangeInstructorInputs(aFormData),
+                    'requestClass': 'Instructors',
                     'requestAction': 'changeInstructors',
                     'alertTitle': 'Change instructors?',
                     'alertText': 'This will change the instructors of the schedules above.'
                 },
                 '#messageInstructorForm': {
-                    'validationMethod': oValidations.validateMessageInstructorInputs(sFormName),
-                    'requestClass': 'Users',
+                    'validationMethod': oValidations.validateMessageInstructorInputs(sFormId),
+                    'requestClass': 'Instructors',
                     'requestAction': 'messageInstructor',
                     'alertTitle': 'Message instructor?',
                     'alertText': 'This will send a message to the selected instructor.'
@@ -193,12 +193,12 @@ var oInstructor = (() => {
             }
 
             // Validate the inputs of the submitted form and store the result inside oValidateInputs variable.
-            let oValidateInputs = oInputForms[sFormName].validationMethod;
+            let oValidateInputs = oInputForms[sFormId].validationMethod;
 
             if (oValidateInputs.result === true) {
                 Swal.fire({
-                    title: oInputForms[sFormName].alertTitle,
-                    text: oInputForms[sFormName].alertText,
+                    title: oInputForms[sFormId].alertTitle,
+                    text: oInputForms[sFormId].alertText,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Yes',
@@ -207,42 +207,23 @@ var oInstructor = (() => {
                         return false;
                     } else {
                         // Get the request class of the form submitted.
-                        let sRequestClass = oInputForms[sFormName].requestClass;
+                        let sRequestClass = oInputForms[sFormId].requestClass;
 
                         // Get the request action of the form submitted.
-                        let sRequestAction = oInputForms[sFormName].requestAction;
+                        let sRequestAction = oInputForms[sFormId].requestAction;
 
                         // Check if input validation result is true.
-                        // const oFormData = $(sFormName).serializeArray();
-                        const oFormData = new FormData($(sFormName)[0]);
+                        const oFormData = new FormData($(sFormId)[0]);
+
                         // console.log(oFormData); return;
                         executeSubmit(oFormData, sRequestClass, sRequestAction);
                     }
                 });
             } else {
-                oLibraries.displayErrorMessage(sFormName, oValidateInputs.msg, oValidateInputs.element);
+                oLibraries.displayErrorMessage(sFormId, oValidateInputs.msg, oValidateInputs.element);
             }
             // Enable the form.
-            oForms.disableFormState(sFormName, false);
-        });
-
-        $(document).on('click', '#deleteVenue', function () {
-            Swal.fire({
-                title: 'Delete the venue?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((bResult) => {
-                if (bResult.value === true) {
-                    const oVenueId = {
-                        'venueId': parseInt($(this).attr('data-id'), 10)
-                    }
-                    executeDelete(oVenueId);
-                }
-            });
+            oForms.disableFormState(sFormId, false);
         });
     }
 
@@ -293,6 +274,7 @@ var oInstructor = (() => {
         });
 
         $('.clonedTpl hr').last().remove();
+        oChangeInstructorModal.find('.instructorId').val(iInstructorId);
         oChangeInstructorModal.modal('show');
     }
 
@@ -340,8 +322,10 @@ var oInstructor = (() => {
      * @param {string} sRequestAction
      */
     function executeSubmit(oFormData, sRequestClass, sRequestAction) {
-        for ([sName, mValue] of Object.entries(oInstructorDetails)) {
-            oFormData.append(sName, mValue);
+        if (sRequestAction === 'messageInstructor') {
+            for ([sName, mValue] of Object.entries(oInstructorDetails)) {
+                oFormData.append(sName, mValue);
+            }
         }
 
         // Execute AJAX.
@@ -352,12 +336,18 @@ var oInstructor = (() => {
             dataType: 'json',
             contentType: false,
             processData: false,
-            success: function (oResponse) {
-                // oLibraries.displayAlertMessage(
-                //     (oResponse.bResult === true) ? 'success' : 'error', oResponse.sMsg
-                // );
-                // fetchInstructors();
-                // $('.modal').modal('hide');
+            beforeSend: () => {
+                $('.spinner').css('display', 'block');
+            },
+            success: (oResponse) => {
+                oLibraries.displayAlertMessage(
+                    (oResponse.bResult === true) ? 'success' : 'error', oResponse.sMsg
+                );
+                fetchInstructors();
+                $('.modal').modal('hide');
+            },
+            complete: () => {
+                $('.spinner').css('display', 'none');
             }
         });
     }
@@ -368,7 +358,7 @@ var oInstructor = (() => {
      */
     function toggleEnableDisableInstructor(oInstructorData) {
         $.ajax({
-            url: '/Nexus/utils/ajax.php?class=Users&action=enableDisableInstructor',
+            url: '/Nexus/utils/ajax.php?class=Instructors&action=enableDisableInstructor',
             type: 'POST',
             data: oInstructorData,
             dataType: 'json',
@@ -377,6 +367,7 @@ var oInstructor = (() => {
                     oLibraries.displayAlertMessage('success', oResponse.sMsg);
                     fetchInstructors();
                 } else {
+                    // If there are pending schedules for the instructor to be disabled.
                     if (typeof (oResponse.aSchedules) !== 'undefined') {
                         oInstructorDetails = oInstructorData;
                         proceedToChangeInstructor(oResponse.aSchedules, oInstructorData.instructorId);
@@ -393,7 +384,7 @@ var oInstructor = (() => {
      */
     function fetchInstructors() {
         let oAjax = {
-            url: `/Nexus/utils/ajax.php?class=Users&action=fetchInstructors`,
+            url: `/Nexus/utils/ajax.php?class=Instructors&action=fetchInstructors`,
             type: 'GET',
             dataType: 'JSON',
             dataSrc: function (oData) {

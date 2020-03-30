@@ -24,8 +24,8 @@ class Utils
 
     /**
      * sanitizeData
-     * @param array &$aParams (Passed by reference)
      * Method for santizing input data.
+     * @param array &$aParams (Passed by reference)
      */
     public static function sanitizeData(&$aParams)
     {
@@ -41,9 +41,9 @@ class Utils
 
     /**
      * prepareData
+     * Method for preparing data for querying the database.
      * @param array &$aParams (Passed by reference)
      * @param string $sInputRuleName
-     * Method for preparing data for querying the database.
      */
     public static function prepareData(&$aParams, $sInputRuleName)
     {
@@ -82,7 +82,7 @@ class Utils
                 'validationRule'    => Validations::$aAddUpdateCourseRules,
                 'notRequiredInputs' => array(
                     'courseDetails'
-                ) 
+                )
             )
         );
 
@@ -113,5 +113,29 @@ class Utils
             $aParams[':quoteNumPax'] = explode(',', $aParams[':quoteNumPax']);
             unset($aParams['numPax']);
         }
+    }
+
+    /**
+     * renameKeys
+     * @param array &$aParams (Passed by reference)
+     * @param string $sInputRuleName
+     * Method for preparing data for querying the database.
+     */
+    public static function renameKeys(&$aParams, $aKeys)
+    {
+        // Loop thru the POST data sent by AJAX for renaming.
+        foreach ($aKeys as $sKey => $mValue) {
+            $aParams[$mValue] = $aParams[$sKey];
+            unset($aParams[$sKey]);
+        }
+    }
+
+    /**
+     * generateRandomString
+     * Method for generating random string of 20 characters.
+     */
+    public static function generateRandomString()
+    {
+        return bin2hex(random_bytes(10));
     }
 }

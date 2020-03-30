@@ -125,6 +125,8 @@ let CALENDAR = (function () {
                 confirmButtonText: 'Update',
                 confirmButtonColor: '#0069d9',
                 cancelButtonColor: '#c82333',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
                 footer: '<button class="btn btn-secondary" id="cancelEventClick">Cancel</button>',
                 reverseButtons: true
             }).then((oResult) => {
@@ -306,7 +308,7 @@ let CALENDAR = (function () {
      * fetchInstructors
      */
     async function fetchInstructors() {
-        await axios.get('/Nexus/utils/ajax.php?class=Users&action=fetchInstructors')
+        await axios.get('/Nexus/utils/ajax.php?class=Instructors&action=fetchInstructors')
             .then((oResponse) => {
                 aInstructors = oResponse.data;
                 aInstructors = aInstructors.filter(oInstructor => oInstructor.status === 'Active');

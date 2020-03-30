@@ -64,7 +64,7 @@ class Schedules extends BaseController
     public function updateSchedule()
     {
         $aValidationResult = Validations::validateScheduleInputs($this->aParams);
-        if ($aValidationResult['result'] === true) {
+        if ($aValidationResult['bResult'] === true) {
             // Declare an array with keys equivalent to that inside the database.
             $aDatabaseColumns = array(
                 'iScheduleId'   => 'id',
@@ -123,7 +123,7 @@ class Schedules extends BaseController
         $this->aParams = array_filter($this->aParams);
 
         $aValidationResult = Validations::validateScheduleInputs($this->aParams, 'Insert');
-        if ($aValidationResult['result'] === true) {
+        if ($aValidationResult['bResult'] === true) {
             // Declare an array with keys equivalent to that inside the database.
             $aDatabaseColumns = array(
                 'iInstructorId' => 'instructorId',
@@ -168,7 +168,6 @@ class Schedules extends BaseController
 
     public function deleteSchedule()
     {
-
         Utils::sanitizeData($this->aParams);
         if (empty($this->aParams['iScheduleId']) === true || !preg_match('/^[0-9]+$/', $this->aParams['iScheduleId'])) {
             $aResult = array(

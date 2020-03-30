@@ -1,12 +1,12 @@
 <?php
 
-class Users extends BaseController
+class Instructors extends BaseController
 {
     /**
-     * @var UsersModel $oModel
+     * @var InstructorsModel $oInstructorsModel
      * Class instance for Venue model.
      */
-    private $oUsersModel;
+    private $oInstructorsModel;
 
     /**
      * @var SchedulesModel $oModel
@@ -23,7 +23,7 @@ class Users extends BaseController
         // Store the $_POST variables inside $this->aParams variable.
         $this->aParams = $aPostVariables;
         // Instantiate the UsersModel class and store it inside $this->oVenueModel.
-        $this->oUsersModel = new UsersModel();
+        $this->oInstructorsModel = new InstructorsModel();
 
         // Instantiate the SchedulesModel class and store it inside $this->oSchedulesModel.
         $this->oSchedulesModel = new SchedulesModel();
@@ -35,7 +35,7 @@ class Users extends BaseController
      */
     public function fetchInstructors()
     {
-        $aInstructors = $this->oUsersModel->fetchInstructors();
+        $aInstructors = $this->oInstructorsModel->fetchInstructors();
 
         // Filter the data before returning to front-end.
         foreach ($aInstructors as $iKey => $aInstructor) {
@@ -52,11 +52,11 @@ class Users extends BaseController
     public function addInstructor()
     {
         $aValidationResult = Validations::validateInstructorInputs($this->aParams);
-        if ($aValidationResult['result'] === true) {
+        if ($aValidationResult['bResult'] === true) {
             Utils::sanitizeData($this->aParams);
 
             // Perform insert.
-            $iQuery = $this->oUsersModel->addInstructor($this->aParams);
+            $iQuery = $this->oInstructorsModel->addInstructor($this->aParams);
 
             if ($iQuery > 0) {
                 $aResult = array(
@@ -81,7 +81,7 @@ class Users extends BaseController
     public function updateInstructor()
     {
         $aValidationResult = Validations::validateInstructorInputs($this->aParams);
-        if ($aValidationResult['result'] === true) {
+        if ($aValidationResult['bResult'] === true) {
             // Declare an array with keys equivalent to that inside the database.
             $aDatabaseColumns = array(
                 'instructorId'       => 'userId'
@@ -96,7 +96,7 @@ class Users extends BaseController
             Utils::sanitizeData($this->aParams);
 
             // Perform update.
-            $iQuery = $this->oUsersModel->updateInstructor($this->aParams);
+            $iQuery = $this->oInstructorsModel->updateInstructor($this->aParams);
 
             if ($iQuery > 0) {
                 $aResult = array(
@@ -140,7 +140,7 @@ class Users extends BaseController
         }
 
         // Perform enabling/disabling.
-        $iQuery = $this->oUsersModel->enableDisableInstructor($oData);
+        $iQuery = $this->oInstructorsModel->enableDisableInstructor($oData);
 
         if ($iQuery > 0) {
             $aResult = array(
@@ -165,7 +165,7 @@ class Users extends BaseController
     {
         $aValidationResult = Validations::validateChangeInstructorInputs($this->aParams);
 
-        if ($aValidationResult['result'] === true) {
+        if ($aValidationResult['bResult'] === true) {
             Utils::sanitizeData($this->aParams);
 
             // Perform update on schedules.
@@ -173,15 +173,15 @@ class Users extends BaseController
 
             if ($iQuery > 0) {
                 $aData = array(
-                    'status' => ($this->aParams['instructorAction'] === 'disable') ? 'Inactive' : 'Active',
+                    'status' => 'Inactive',
                     'userId' => $this->aParams['instructorId']
                 );
                 // Disable instructor.
-                $iQuery = $this->oUsersModel->enableDisableInstructor($aData);
+                $iQuery = $this->oInstructorsModel->enableDisableInstructor($aData);
 
                 $aResult = array(
                     'bResult' => true,
-                    'sMsg'    => 'Instructor ' . $this->aParams['instructorAction'] . 'd!'
+                    'sMsg'    => 'Instructor disabled!'
                 );
             } else {
                 $aResult = array(
@@ -202,33 +202,21 @@ class Users extends BaseController
      */
     public function messageInstructor()
     {
-        print_r($this->aParams);
-        die;
         $aValidationResult = Validations::validateMessageInstructorInputs($this->aParams);
-        print_r($aValidationResult);
-        die;
-        if ($aValidationResult['result'] === true) {
+        if ($aValidationResult['bResult'] === true) {
             Utils::sanitizeData($this->aParams);
 
-            // Perform update on schedules.
-            $iQuery = $this->oSchedulesModel->changeInstructors($this->aParams['courseInstructors']);
-
-            if ($iQuery > 0) {
-                $aData = array(
-                    'status' => ($this->aParams['instructorAction'] === 'disable') ? 'Inactive' : 'Active',
-                    'userId' => $this->aParams['instructorId']
-                );
-                // Disable instructor.
-                $iQuery = $this->oUsersModel->enableDisableInstructor($aData);
-
+            // Prepare email for sending to instructor.
+            $aSendEmail = $this->processSendingEmailToInstructor($this->aParams);
+            if ($aSendEmail === 1) {
                 $aResult = array(
                     'bResult' => true,
-                    'sMsg'    => 'Instructor ' . $this->aParams['instructorAction'] . 'd!'
+                    'sMsg'    => 'Message sent to instructor!'
                 );
             } else {
                 $aResult = array(
                     'bResult' => false,
-                    'sMsg'    => 'An error has occured.'
+                    'sMsg'    => 'An error has occured while sending message.'
                 );
             }
         } else {
@@ -236,5 +224,23 @@ class Users extends BaseController
         }
 
         echo json_encode($aResult);
+    }
+
+    /**
+     * processSendingEmailToInstructor
+     * Sends an email to an instructor.
+     * @param array $aInstructorDetails
+     */
+    private function processSendingEmailToInstructor($aInstructorDetails)
+    {
+        $oMail = new Email();
+        $oMail->addSingleRecipient($aInstructorDetails['email'], $aInstructorDetails['fullName']);
+        $oMail->setEmailSender('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
+        $oMail->setTitle($aInstructorDetails['title']);
+        if ($aInstructorDetails['file']['size'] > 0) {
+            $oMail->addFileUploadAttachment($aInstructorDetails['file']);
+        }
+        $oMail->setBody($aInstructorDetails['msg']);
+        return $oMail->send();
     }
 }
