@@ -160,6 +160,7 @@ require_once "Template/header.php";
             </div>
             <form id="changeInstructorForm" method="post">
                 <div class="modal-body">
+                    <input type="text" class="instructorId" name="instructorId" readonly hidden>
                     <div class="row">
                         <div class="col-sm-2">
                             <label for="instructorName" class="col-form-label"><i class="fas fa-chalkboard-teacher"></i> Instructor</label>
@@ -195,7 +196,6 @@ require_once "Template/header.php";
         </div>
     </div>
 </div>
-
 
 <?php
 require_once "template/scripts.php";

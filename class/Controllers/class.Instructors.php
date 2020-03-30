@@ -173,7 +173,7 @@ class Instructors extends BaseController
 
             if ($iQuery > 0) {
                 $aData = array(
-                    'status' => ($this->aParams['instructorAction'] === 'disable') ? 'Inactive' : 'Active',
+                    'status' => 'Inactive',
                     'userId' => $this->aParams['instructorId']
                 );
                 // Disable instructor.
@@ -181,7 +181,7 @@ class Instructors extends BaseController
 
                 $aResult = array(
                     'bResult' => true,
-                    'sMsg'    => 'Instructor ' . $this->aParams['instructorAction'] . 'd!'
+                    'sMsg'    => 'Instructor disabled!'
                 );
             } else {
                 $aResult = array(

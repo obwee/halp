@@ -1,7 +1,13 @@
 var oCourses = (() => {
 
     let oTblCourses = $('#tbl_courses');
-    
+
+    /**
+     * @var {object} oTemplate
+     * Template holder for cloning elements.
+     */
+    let oTemplate = {};
+
     let aCourses = [];
 
     let oColumns = {
@@ -40,7 +46,7 @@ var oCourses = (() => {
     function setEvents() {
         oForms.prepareDomEvents();
 
-        $(document).on('click', '#editCourse', function() {
+        $(document).on('click', '#editCourse', function () {
             let iCourseId = $(this).attr('data-id');
 
             // Get the course by filtering the fetched courses using the course ID.
@@ -103,12 +109,15 @@ var oCourses = (() => {
                 }
             });
         });
-    
-        $(document).on('submit', 'form', function(oEvent) {
+
+        $(document).on('submit', 'form', function (oEvent) {
             oEvent.preventDefault();
 
             // Get the form name being submitted.
             let sFormId = '#' + $(this).attr('id') + '';
+
+            // Extract form data.
+            let aFormData = $(sFormId).serializeArray();
 
             // Create an object with key names of forms and its corresponding validation and request action as its value.
             let oInputForms = {
@@ -121,7 +130,12 @@ var oCourses = (() => {
                     'validationMethod': oValidations.validateAddUpdateCourseInputs(sFormId),
                     'requestClass': 'Courses',
                     'requestAction': 'updateCourse'
-                }
+                },
+                '#changeCourseForm': {
+                    'validationMethod': oValidations.validateChangeCourseInputs(aFormData),
+                    'requestClass': 'Courses',
+                    'requestAction': 'changeCourses'
+                },
             }
 
             oForms.disableFormState(sFormId, true);
@@ -140,8 +154,6 @@ var oCourses = (() => {
 
             // Check if input validation result is true.
             if (validateInputs.result === true) {
-                // Extract form data.
-                let aFormData = $(sFormId).serializeArray();
 
                 // Execute AJAX request.
                 $.ajax({
@@ -170,6 +182,79 @@ var oCourses = (() => {
     }
 
     /**
+     * proceedToChangeCourse
+     * @param {object} oDetails
+     * @param {int} iCourseId
+     */
+    function proceedToChangeCourse(oDetails, iCourseId) {
+        oLibraries.displayAlertMessage('warning', 'Please update the courses for the following schedules.');
+
+        loadTemplate();
+
+        $('.box')
+            .empty()
+            .find('div[class!="template"]')
+            .remove();
+
+        $.each(oDetails, (iKey, oVal) => {
+            let oRow = oTemplate.clone().attr({
+                'hidden': false,
+                'class': 'clonedTpl',
+            });
+
+            oRow.find('.courseSchedule span').text(oVal.fromDate + ' - ' + oVal.toDate);
+            oRow.find('.courseInstructor span').text(oVal.instructorName);
+            oRow.find('.courseVenue span').text(oVal.venue);
+
+            cloneCourseDropdown(oRow.find('.courses'), oVal.scheduleId, iCourseId);
+            insertCourseToBeDisabled($('.courseName'), iCourseId);
+
+            $('.box').append(oRow);
+        });
+
+        $('.clonedTpl hr').last().remove();
+        $('#changeCourseModal').find('.courseId').val(iCourseId);
+        $("#changeCourseModal").modal('show');
+    }
+
+    /**
+     * loadTemplate
+     * Loads the template.
+     */
+    function loadTemplate() {
+        if ($.isEmptyObject(oTemplate) === true) {
+            oTemplate = $('.template').clone();
+        }
+    }
+
+    /**
+     * cloneCourseDropdown
+     * Clones the course dropdown inside the template.
+     */
+    function cloneCourseDropdown(oElement, iScheduleId, iCourseId) {
+        let aFilteredCourses = aCourses.filter((oCourse) => {
+            return oCourse.id !== iCourseId && oCourse.status === 'Active';
+        });
+
+        oElement.empty().attr('name', `courses[${iScheduleId}]`).append($('<option selected disabled hidden>Select Course</option>'));
+        $.each(aFilteredCourses, (iKey, oVal) => {
+            oElement.append($('<option />').val(oVal.id).text(`${oVal.courseCode}`));
+        });
+    }
+
+    /**
+     * insertCourseToBeDisabled
+     * Inserts the name of the course to be disabled.
+     */
+    function insertCourseToBeDisabled(oElement, iCourseId) {
+        let oCourseData = aCourses.filter((oCourse) => {
+            return oCourse.id === iCourseId;
+        })[0];
+
+        oElement.val(`${oCourseData.courseCode} (${oCourseData.courseName})`);
+    }
+
+    /**
      * toggleEnableDisableCourse
      * @param {object} oCourseData
      */
@@ -184,6 +269,12 @@ var oCourses = (() => {
                     oLibraries.displayAlertMessage('success', oResponse.sMsg);
                     populateCoursesTable();
                 } else {
+                    // If there are pending schedules for the instructor to be disabled.
+                    if (typeof (oResponse.aSchedules) !== 'undefined') {
+                        oCourseDetails = oCourseData;
+                        proceedToChangeCourse(oResponse.aSchedules, oCourseData.courseId);
+                        return;
+                    }
                     oLibraries.displayAlertMessage('error', oResponse.sMsg);
                 }
             }
@@ -227,13 +318,13 @@ var oCourses = (() => {
             columnDefs: aColumnDefs
         });
     }
-	
+
     return {
         initialize: init
     }
 
 })();
 
-$(document).ready(function() {
+$(document).ready(function () {
     oCourses.initialize();
 });

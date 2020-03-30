@@ -274,6 +274,7 @@ var oInstructor = (() => {
         });
 
         $('.clonedTpl hr').last().remove();
+        oChangeInstructorModal.find('.instructorId').val(iInstructorId);
         oChangeInstructorModal.modal('show');
     }
 

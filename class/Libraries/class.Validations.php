@@ -1035,6 +1035,68 @@ class Validations
     }
 
     /**
+     * validateChangeVenueInputs
+     * Method for validating venue inputs to be changed sent by AJAX.
+     * @param array $aParams
+     * @return array $aValidationResult
+     */
+    public static function validateChangeVenueInputs($aParams)
+    {
+        foreach ($aParams['venues'] as $iScheduleId => $iVenueId) {
+            // Check if the values are not a digit.
+            if (!preg_match('/^[\d]/', $iScheduleId)) {
+                return array(
+                    'bResult'  => false,
+                    'sElement' => '.venues',
+                    'sMsg'     => 'Invalid instructor.'
+                );
+            }
+            if (!preg_match('/^[\d]/', $iVenueId)) {
+                return array(
+                    'bResult'  => false,
+                    'sElement' => '.venues',
+                    'sMsg'     => 'Invalid instructor.'
+                );
+            }
+        }
+
+        return array(
+            'bResult' => true
+        );
+    }
+
+    /**
+     * validateChangeCourseInputs
+     * Method for validating course inputs to be changed sent by AJAX.
+     * @param array $aParams
+     * @return array $aValidationResult
+     */
+    public static function validateChangeCourseInputs($aParams)
+    {
+        foreach ($aParams['courses'] as $iScheduleId => $iCourseId) {
+            // Check if the values are not a digit.
+            if (!preg_match('/^[\d]/', $iScheduleId)) {
+                return array(
+                    'bResult'  => false,
+                    'sElement' => '.venues',
+                    'sMsg'     => 'Invalid course.'
+                );
+            }
+            if (!preg_match('/^[\d]/', $iCourseId)) {
+                return array(
+                    'bResult'  => false,
+                    'sElement' => '.venues',
+                    'sMsg'     => 'Invalid course.'
+                );
+            }
+        }
+
+        return array(
+            'bResult' => true
+        );
+    }
+
+    /**
      * validateFileForMessagingInstructor
      * Validates the file uploaded for messaging instructor.
      * @param array $aFile (The file object.)

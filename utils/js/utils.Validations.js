@@ -646,6 +646,92 @@ class Validations {
     }
 
     /**
+     * validateChangeVenueInputs
+     * Validates the inputs before changing venues.
+     * @param {string} oFormData (The data.)
+     * @return {object} oValidationResult (Result of the validation.)
+     */
+    validateChangeVenueInputs(oFormData) {
+        // Declare initially the validation result to be returned by the function.
+        let oValidationResult = {
+            result: true
+        }
+
+        // Get venue dropdowns without values.
+        const oElementWithNoValue = $('.venues').filter(function () {
+            return $(this).val() === null
+        })[0];
+
+        if (oElementWithNoValue === undefined) {
+            // Get venue dropdowns with invalid values.
+            const oElementWithInvalidValue = $('.venues').filter(function () {
+                return /^[^\d]+$/.test($(this).val()) === true;
+            })[0];
+
+            $.each(oFormData, (iKey, oData) => {
+                if (/^[0-9]+$/.test(oData.value) === false) {
+                    oValidationResult = {
+                        result: false,
+                        element: oElementWithInvalidValue,
+                        msg: 'Invalid venue.'
+                    };
+                    return false;
+                }
+            });
+        } else {
+            oValidationResult = {
+                result: false,
+                element: oElementWithNoValue,
+                msg: 'Please fill-up all the venue fields.'
+            };
+        }
+        return oValidationResult;
+    }
+
+    /**
+     * validateChangeCourseInputs
+     * Validates the inputs before changing venues.
+     * @param {string} oFormData (The data.)
+     * @return {object} oValidationResult (Result of the validation.)
+     */
+    validateChangeCourseInputs(oFormData) {
+        // Declare initially the validation result to be returned by the function.
+        let oValidationResult = {
+            result: true
+        }
+
+        // Get course dropdowns without values.
+        const oElementWithNoValue = $('.courses').filter(function () {
+            return $(this).val() === null
+        })[0];
+
+        if (oElementWithNoValue === undefined) {
+            // Get course dropdowns with invalid values.
+            const oElementWithInvalidValue = $('.courses').filter(function () {
+                return /^[^\d]+$/.test($(this).val()) === true;
+            })[0];
+
+            $.each(oFormData, (iKey, oData) => {
+                if (/^[0-9]+$/.test(oData.value) === false) {
+                    oValidationResult = {
+                        result: false,
+                        element: oElementWithInvalidValue,
+                        msg: 'Invalid course.'
+                    };
+                    return false;
+                }
+            });
+        } else {
+            oValidationResult = {
+                result: false,
+                element: oElementWithNoValue,
+                msg: 'Please fill-up all the course fields.'
+            };
+        }
+        return oValidationResult;
+    }
+
+    /**
      * validateFileForMessagingInstructor
      * Validates the file uploaded for messaging instructor.
      * @param {object} oFile (The file object.)

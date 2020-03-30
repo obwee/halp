@@ -152,7 +152,7 @@ class SchedulesModel
     /**
      * fetchSchedulesForSpecificVenue
      * Queries the database in getting all the schedules for a specific venue.
-     * @param array $iVenueId
+     * @param int $iVenueId
      * @return array
      */
     public function fetchSchedulesForSpecificVenue($iVenueId)
@@ -182,8 +182,40 @@ class SchedulesModel
     }
 
     /**
-     * enableDisableInstructor
-     * Updates the instructor status inside the users table.
+     * fetchSchedulesForSpecificCourse
+     * Queries the database in getting all the schedules for a specific course.
+     * @param int $iCourseId
+     * @return array
+     */
+    public function fetchSchedulesForSpecificCourse($iCourseId)
+    {
+        // Prepare a select query.
+        $statement = $this->oConnection->prepare("
+            SELECT
+                ts.id AS scheduleId, tv.venue,
+                ts.fromDate, ts.toDate,
+                CONCAT(tu.firstName, ' ', tu.lastName) AS instructorName
+            FROM tbl_schedules     ts
+            INNER JOIN tbl_venue   tv
+            ON ts.venueId      = tv.id
+            INNER JOIN tbl_users   tu
+            ON ts.instructorId = tu.userId
+            WHERE 1 = 1
+                AND ts.courseId  = ?
+                AND ts.fromDate > CURDATE()
+                AND ts.toDate   > CURDATE()
+        ");
+
+        // Execute the above statement.
+        $statement->execute([$iCourseId]);
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetchAll();
+    }
+
+    /**
+     * changeInstructors
+     * Updates the instructor status inside the schedules table.
      * @param array $aData
      * @return int
      */
@@ -206,6 +238,68 @@ class SchedulesModel
             // Execute update.
             $oStatement->execute([
                 $iInstructorId,
+                $iScheduleId
+            ]);
+        }
+        return $this->oConnection->commit();
+    }
+    
+    /**
+     * changeVenues
+     * Updates the venue status inside the schedules table.
+     * @param array $aData
+     * @return int
+     */
+    public function changeVenues($aData)
+    {
+        $this->oConnection->beginTransaction();
+
+        // Prepare an update query to the schedules table.
+        $oStatement = $this->oConnection->prepare("
+            UPDATE tbl_schedules
+            SET
+                venueId = ?
+            WHERE 1 = 1
+                AND id = ?
+                AND fromDate > CURDATE()
+                AND toDate   > CURDATE()
+        ");
+
+        foreach ($aData as $iScheduleId => $iVenueId) {
+            // Execute update.
+            $oStatement->execute([
+                $iVenueId,
+                $iScheduleId
+            ]);
+        }
+        return $this->oConnection->commit();
+    }
+
+    /**
+     * changeCourses
+     * Updates the courses status inside the schedules table.
+     * @param array $aData
+     * @return int
+     */
+    public function changeCourses($aData)
+    {
+        $this->oConnection->beginTransaction();
+
+        // Prepare an update query to the schedules table.
+        $oStatement = $this->oConnection->prepare("
+            UPDATE tbl_schedules
+            SET
+                courseId = ?
+            WHERE 1 = 1
+                AND id = ?
+                AND fromDate > CURDATE()
+                AND toDate   > CURDATE()
+        ");
+
+        foreach ($aData as $iScheduleId => $iCourseId) {
+            // Execute update.
+            $oStatement->execute([
+                $iCourseId,
                 $iScheduleId
             ]);
         }

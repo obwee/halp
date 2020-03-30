@@ -125,6 +125,8 @@ let CALENDAR = (function () {
                 confirmButtonText: 'Update',
                 confirmButtonColor: '#0069d9',
                 cancelButtonColor: '#c82333',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
                 footer: '<button class="btn btn-secondary" id="cancelEventClick">Cancel</button>',
                 reverseButtons: true
             }).then((oResult) => {

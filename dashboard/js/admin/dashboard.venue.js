@@ -131,13 +131,15 @@ var oVenue = (() => {
         $(document).on('submit', 'form', function (oEvent) {
             oEvent.preventDefault();
 
-            const sFormName = `#${$(this).attr('id')}`;
+            const sFormId = `#${$(this).attr('id')}`;
+
+            const aFormData = $(sFormId).serializeArray();
 
             // Disable the form.
-            oForms.disableFormState(sFormName, true);
+            oForms.disableFormState(sFormId, true);
 
             // Invoke the resetInputBorders method inside oForms utils for that form.
-            oForms.resetInputBorders(sFormName);
+            oForms.resetInputBorders(sFormId);
 
             // Create an object with key names of forms and its corresponding validation and request action as its value.
             const oInputForms = {
@@ -152,32 +154,35 @@ var oVenue = (() => {
                     'requestAction': 'updateVenue',
                     'alertTitle': 'Update venue?',
                     'alertText': 'This will update the venue details.'
+                },
+                '#changeVenueForm': {
+                    'validationMethod': oValidations.validateChangeVenueInputs(aFormData),
+                    'requestClass': 'Venue',
+                    'requestAction': 'changeVenues',
+                    'alertTitle': 'Change venues?',
+                    'alertText': 'This will change the venues of the schedules above.'
                 }
             }
 
+            if (oInputForms[sFormId].hasOwnProperty('validationMethod') === true && oInputForms[sFormId].validationMethod.result === false) {
+                oLibraries.displayErrorMessage(sFormId, oInputForms[sFormId].validationMethod.msg, oInputForms[sFormId].validationMethod.element);
+                oForms.disableFormState(sFormId, false);
+                return false;
+            }
+
             Swal.fire({
-                title: oInputForms[sFormName].alertTitle,
-                text: oInputForms[sFormName].alertText,
+                title: oInputForms[sFormId].alertTitle,
+                text: oInputForms[sFormId].alertText,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes',
             }).then((bIsConfirm) => {
-                if (bIsConfirm.value !== true) {
-                    return false;
-                } else {
-                    // Get the request class of the form submitted.
-                    let sRequestClass = oInputForms[sFormName].requestClass;
-
-                    // Get the request action of the form submitted.
-                    let sRequestAction = oInputForms[sFormName].requestAction;
-
-                    // Check if input validation result is true.
-                    const oFormData = $(sFormName).serializeArray();
-                    executeSubmit(oFormData, sRequestClass, sRequestAction);
+                if (bIsConfirm.value === true) {
+                    executeSubmit(aFormData, oInputForms[sFormId].requestClass, oInputForms[sFormId].requestAction);
                 }
             });
             // Enable the form.
-            oForms.disableFormState(sFormName, false);
+            oForms.disableFormState(sFormId, false);
         });
     }
 
@@ -206,17 +211,18 @@ var oVenue = (() => {
             oRow.find('.courseSchedule span').text(oVal.fromDate + ' - ' + oVal.toDate);
             oRow.find('.courseInstructor span').text(oVal.instructorName);
 
-            cloneVenueDropdown(oRow.find('.courseVenues'), oVal.scheduleId, iVenueId);
+            cloneVenueDropdown(oRow.find('.venues'), oVal.scheduleId, iVenueId);
             insertVenueToBeDisabled($('.venue'), iVenueId);
 
             $('.box').append(oRow);
         });
 
         $('.clonedTpl hr').last().remove();
+        $('#changeVenueModal').find('.venueId').val(iVenueId);
         $("#changeVenueModal").modal('show');
     }
 
-        /**
+    /**
      * loadTemplate
      * Loads the template.
      */

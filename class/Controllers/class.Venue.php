@@ -154,4 +154,43 @@ class Venue extends BaseController
 
         echo json_encode($aResult);
     }
+
+    /**
+     * changeVenues
+     * Change the venues in behalf of the venue to be disabled.
+     */
+    public function changeVenues()
+    {
+        $aValidationResult = Validations::validateChangeVenueInputs($this->aParams);
+
+        if ($aValidationResult['bResult'] === true) {
+            Utils::sanitizeData($this->aParams);
+
+            // Perform update on schedules.
+            $iQuery = $this->oSchedulesModel->changeVenues($this->aParams['venues']);
+
+            if ($iQuery > 0) {
+                $aData = array(
+                    'status' => 'Inactive',
+                    'id' => $this->aParams['venueId']
+                );
+                // Disable instructor.
+                $iQuery = $this->oVenueModel->enableDisableVenue($aData);
+
+                $aResult = array(
+                    'bResult' => true,
+                    'sMsg'    => 'Venue disabled!'
+                );
+            } else {
+                $aResult = array(
+                    'bResult' => false,
+                    'sMsg'    => 'An error has occured.'
+                );
+            }
+        } else {
+            $aResult = $aValidationResult;
+        }
+
+        echo json_encode($aResult);
+    }
 }

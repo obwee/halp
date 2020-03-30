@@ -96,6 +96,8 @@ class CourseModel
                 AND ts.toDate > CURDATE()
                 AND ts.remainingSlots != 0
                 AND tc.status = 'Active'
+                AND ts.status = 'Active'
+                AND tv.status = 'Active'
             ORDER BY ts.fromDate, tc.courseName ASC
         ");
 

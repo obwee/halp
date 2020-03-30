@@ -89,6 +89,7 @@ require_once "Template/header.php";
             </div>
             <form id="changeVenueForm" method="post">
                 <div class="modal-body">
+                    <input type="text" class="venueId" name="venueId" readonly hidden>
                     <div class="row">
                         <div class="col-sm-2">
                             <label for="venue" class="col-form-label"><i class="fas fa-map-marked-alt"></i> Venue</label>
@@ -107,7 +108,7 @@ require_once "Template/header.php";
                                     <p class="courseInstructor" style="padding-left: 10px;"><i class="fas fa-map-marked-alt"></i> Instructor: <span></span></p>
                                 </div>
                                 <div class="col-sm-6 d-flex align-items-center">
-                                    <select class="form-control courseVenues" name="">
+                                    <select class="form-control venues" name="">
                                         <option selected hidden disabled>Select New Venue</option>
                                     </select>
                                 </div>
