@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2020 at 09:03 AM
+-- Generation Time: Mar 30, 2020 at 03:17 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -35,26 +35,27 @@ CREATE TABLE `tbl_courses` (
   `courseName` varchar(255) NOT NULL,
   `coursePrice` decimal(10,0) NOT NULL,
   `courseDescription` varchar(255) NOT NULL,
-  `courseCode` varchar(255) NOT NULL
+  `courseCode` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tbl_courses`
 --
 
-INSERT INTO `tbl_courses` (`id`, `courseName`, `coursePrice`, `courseDescription`, `courseCode`) VALUES
-(1, 'Cisco Certified Network Associate v4', '20000', 'Implementing and Administering Cisco Solutions', 'CCNAv4'),
-(2, 'Cisco Certified Network Professional', '28000', 'Enterprise Core', 'CCNP&CCIE'),
-(3, 'Cisco Certified Network Professional', '28000', 'Implementing Cisco Enterprise Advanced Routing and Services', 'CCNP ENARSI'),
-(4, 'MCP 20410D', '8000', 'Installing and Configuring Windows Server 2012', '20410D'),
-(5, 'MCSA in Windows Server 2016', '22500', 'Microsoft Certified Solutions Associate in Windows Server 2016', 'MCSA2016'),
-(6, 'MCSA in Windows Server 2012', '18000', 'Microsoft Certified Solutions Associate in Windows Server 2012', 'MCSA2012'),
-(7, 'Microsoft Azure Administrator', '30000', '', 'AZ-1003T00-A'),
-(8, 'AWS - Solutions Architect', '18000', 'Amazon Web Services Solutions Architect', 'AWS'),
-(9, 'VMware 6.7 ICM', '25000', 'Vmware vSphere 6.7: Install, Configure and Manage', 'VMware'),
-(10, 'Vmware Hyper-Converged Infrastructure', '55000', '', 'HCI'),
-(11, 'Ethical Hacking & Penetration Testing', '3000', '', 'EH'),
-(12, 'Certified Digital Forensics Examiner', '45000', '', 'CDFE');
+INSERT INTO `tbl_courses` (`id`, `courseName`, `coursePrice`, `courseDescription`, `courseCode`, `status`) VALUES
+(1, 'Cisco Certified Network Associate v4', '20000', 'Implementing and Administering Cisco Solutions', 'CCNAv4', 'Active'),
+(2, 'Cisco Certified Network Professional', '28000', 'Enterprise Core', 'CCNP&CCIE', 'Active'),
+(3, 'Cisco Certified Network Professional', '28000', 'Implementing Cisco Enterprise Advanced Routing and Services', 'CCNP ENARSI', 'Active'),
+(4, 'MCP 20410D', '8000', 'Installing and Configuring Windows Server 2012', '20410D', 'Active'),
+(5, 'MCSA in Windows Server 2016', '22500', 'Microsoft Certified Solutions Associate in Windows Server 2016', 'MCSA2016', 'Active'),
+(6, 'MCSA in Windows Server 2012', '18000', 'Microsoft Certified Solutions Associate in Windows Server 2012', 'MCSA2012', 'Active'),
+(7, 'Microsoft Azure Administrator', '30000', '', 'AZ-1003T00-A', 'Active'),
+(8, 'AWS - Solutions Architect', '18000', 'Amazon Web Services Solutions Architect', 'AWS', 'Inactive'),
+(9, 'VMware 6.7 ICM', '25000', 'Vmware vSphere 6.7: Install, Configure and Manage', 'VMware', 'Active'),
+(10, 'Vmware Hyper-Converged Infrastructure', '55000', '', 'HCI', 'Active'),
+(11, 'Ethical Hacking & Penetration Testing', '3000', '', 'EH', 'Active'),
+(12, 'Certified Digital Forensics Examiner', '45000', '', 'CDFE', 'Active');
 
 -- --------------------------------------------------------
 
@@ -119,8 +120,18 @@ CREATE TABLE `tbl_payments` (
 
 CREATE TABLE `tbl_payment_methods` (
   `id` int(11) NOT NULL,
-  `methodName` varchar(255) NOT NULL
+  `methodName` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_payment_methods`
+--
+
+INSERT INTO `tbl_payment_methods` (`id`, `methodName`, `status`) VALUES
+(1, 'Cash', 'Active'),
+(2, 'BDO', 'Active'),
+(3, 'Cheque', 'Active');
 
 -- --------------------------------------------------------
 
@@ -219,12 +230,12 @@ CREATE TABLE `tbl_schedules` (
 --
 
 INSERT INTO `tbl_schedules` (`id`, `courseId`, `instructorId`, `venueId`, `numSlots`, `remainingSlots`, `fromDate`, `toDate`) VALUES
-(2, 1, 111, 2, 50, 50, '2020-04-23', '2020-04-27'),
-(3, 2, 111, 1, 50, 50, '2020-04-23', '2020-04-27'),
-(4, 1, 109, 2, 50, 50, '2020-04-28', '2020-04-29'),
-(5, 4, 110, 1, 50, 50, '2020-04-29', '2020-04-29'),
-(6, 8, 109, 1, 50, 50, '2020-04-16', '2020-04-20'),
-(9, 9, 111, 2, 10, 0, '2020-04-09', '2020-04-11');
+(2, 1, 111, 1, 50, 50, '2020-04-23', '2020-04-27'),
+(3, 2, 111, 2, 50, 49, '2020-04-23', '2020-04-27'),
+(4, 1, 111, 1, 50, 50, '2020-04-28', '2020-04-29'),
+(5, 4, 111, 2, 50, 50, '2020-04-07', '2020-04-07'),
+(6, 12, 111, 1, 50, 50, '2020-04-14', '2020-04-18'),
+(25, 12, 111, 1, 1, 1, '2020-03-09', '2020-03-10');
 
 -- --------------------------------------------------------
 
@@ -259,8 +270,8 @@ CREATE TABLE `tbl_training` (
 --
 
 INSERT INTO `tbl_training` (`id`, `studentId`, `courseId`, `scheduleId`, `isDone`, `paymentId`, `certificateIssued`) VALUES
-(1, 98, 3, 1, 0, 1, 0),
-(2, 98, 2, 1, 0, 2, 0);
+(2, 98, 1, 2, 0, 2, 0),
+(3, 98, 2, 3, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -279,29 +290,32 @@ CREATE TABLE `tbl_users` (
   `companyName` varchar(255) NOT NULL,
   `contactNum` varchar(13) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL DEFAULT 'Active'
+  `status` varchar(255) NOT NULL DEFAULT 'Active',
+  `certificationTitle` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tbl_users`
 --
 
-INSERT INTO `tbl_users` (`userId`, `username`, `password`, `firstName`, `middleName`, `lastName`, `position`, `companyName`, `contactNum`, `email`, `status`) VALUES
-(1, 'chris', 'chris123', 'Christopher', 'Iglesia', 'Buenaventura', 'Super Admin', '', '09261759759', 'angelikaaubreyarbiol@gmail.com', 'Active'),
-(7, 'markus', '123456789', 'Mark Exequiel', 'Reambillo', 'Sale', 'Student', 'Concentrix', '516874621345', 'markexequielsale@gmail.com', 'Active'),
-(59, 'student17', 'student', 'Leonard Mayer', 'White', 'Daniel', 'Student', 'Mayer, Fisher and Dibbert', '14531', 'wehner.twila@example.net', 'Inactive'),
-(64, 'student10', 'student', 'Loyal Wisozk', 'Gutkowski', 'Reinger', 'Student', 'Dare-Bernhard', '88381', 'ashleigh68@example.org', 'Active'),
-(70, 'student14', 'student', 'Bethel Bergstrom', 'Lakin', 'Roob', 'Student', 'Greenfelder, Olson and DuBuque', '32110', 'gjacobs@example.net', 'Active'),
-(73, 'student16', 'student', 'Haskell Schmeler', 'Harvey', 'Blick', 'Student', 'Lynch Group', '80359', 'jason.reichert@example.com', 'Active'),
-(79, 'student11', 'student', 'Dave Breitenberg V', 'Spencer', 'Weber', 'Student', 'Schiller Ltd', '58602', 'lonie77@example.com', 'Inactive'),
-(92, 'student15', 'student', 'Ora Mayert Sr.', 'Pouros', 'Heathcote', 'Student', 'Eichmann Group', '16384', 'tschowalter@example.com', 'Active'),
-(97, 'student12', 'student', 'Fay Gorczany', 'Bergnaum', 'Hilpert', 'Student', 'Botsford and Sons', '89606', 'coreilly@example.net', 'Inactive'),
-(98, 'aries', 'student', 'Aries', 'Valenzuela', 'Macandili', 'Student', 'Cafe24 PH', '09161225985', 'macandili.aries@gmail.com', 'Active'),
-(103, 'student13', 'student', 'Milton Dibbert', 'Quitzon', 'Hyatt', 'Student', 'Bradtke-West', '28141', 'gregg33@example.net', 'Inactive'),
-(108, 'angelyn', 'angelyn', 'Angelyn', '', 'Dequito', 'Student', 'Google', '09123456789', 'gelyn@gmail.com', 'Active'),
-(109, 'mark', 'mark123', 'Mark', '', 'Sampayan', 'Instructor', 'Ingram Micro', '1234567890', 'marksampayan@gmail.com', 'Active'),
-(110, 'richard', 'richard123', 'Richard', '', 'Reblando', 'Instructor', 'Nexus ITTC', '1234567890', 'richardreblando@gmail.com', 'Active'),
-(111, 'judith', 'judith123', 'Judith', '', 'Correa', 'Instructor', 'Nexus ITTC', '1234567890', 'judithcorrea@gmail.com', 'Active');
+INSERT INTO `tbl_users` (`userId`, `username`, `password`, `firstName`, `middleName`, `lastName`, `position`, `companyName`, `contactNum`, `email`, `status`, `certificationTitle`) VALUES
+(1, 'chris123', 'chris', 'Christopher', 'Iglesia', 'Buenaventura', 'Super Admin', '', '09261759759', 'chrisventures@gmail.com', 'Active', ''),
+(7, 'markus', 'markus', 'Mark Exequiel', 'Reambillo', 'Sale', 'Student', 'Concentrix', '516874621345', 'markexequielsale@gmail.com', 'Active', ''),
+(59, 'student17', 'student', 'Leonard Mayer', 'White', 'Daniel', 'Student', 'Mayer, Fisher and Dibbert', '14531', 'wehner.twila@example.net', 'Inactive', ''),
+(64, 'student10', 'student', 'Loyal Wisozk', 'Gutkowski', 'Reinger', 'Student', 'Dare-Bernhard', '88381', 'ashleigh68@example.org', 'Active', ''),
+(70, 'student14', 'student', 'Bethel Bergstrom', 'Lakin', 'Roob', 'Student', 'Greenfelder, Olson and DuBuque', '32110', 'gjacobs@example.net', 'Active', ''),
+(73, 'student16', 'student', 'Haskell Schmeler', 'Harvey', 'Blick', 'Student', 'Lynch Group', '80359', 'jason.reichert@example.com', 'Active', ''),
+(79, 'student11', 'student', 'Dave Breitenberg V', 'Spencer', 'Weber', 'Student', 'Schiller Ltd', '58602', 'lonie77@example.com', 'Inactive', ''),
+(92, 'student15', 'student', 'Ora Mayert Sr.', 'Pouros', 'Heathcote', 'Student', 'Eichmann Group', '16384', 'tschowalter@example.com', 'Active', ''),
+(97, 'student12', 'student', 'Fay Gorczany', 'Bergnaum', 'Hilpert', 'Student', 'Botsford and Sons', '89606', 'coreilly@example.net', 'Inactive', ''),
+(98, 'aries', 'student', 'Aries', 'Valenzuela', 'Macandili', 'Student', 'Cafe24 PH', '09161225985', 'macandili.aries@gmail.com', 'Active', ''),
+(103, 'student13', 'student', 'Milton Dibbert', 'Quitzon', 'Hyatt', 'Student', 'Bradtke-West', '28141', 'gregg33@example.net', 'Inactive', ''),
+(108, 'angelyn', 'angelyn', 'Angelyn', '', 'Dequito', 'Student', 'Google', '09123456789', 'gelyn@gmail.com', 'Active', ''),
+(109, 'mark', 'mark', 'Mark', '', 'Sampayan', 'Instructor', 'Ingram Micro', '1234567890', 'marksampayan@gmail.com', 'Inactive', ''),
+(110, 'richard', 'richard', 'Richard', '', 'Reblando', 'Instructor', 'Nexus ITTC', '1234567890', 'richardreblando@gmail.com', 'Inactive', ''),
+(111, 'judith', 'judith', 'Judith', '', 'Correa', 'Instructor', 'Nexus ITTC', '1234567890', 'judithcorrea@gmail.com', 'Active', 'CCNA'),
+(113, 'aubrey', 'aubrey', 'Angelika Aubrey', 'Albano', 'Arbiol', 'Admin', 'Nexus ITTC', '09261759759', 'angelikaaubreyarbiol@gmail.com', 'Inactive', ''),
+(114, 'drei', 'drei', 'Andrea Nicole', 'Albano', 'Arbiol', 'Admin', '', '09121234567', 'drei_nikki@gmail.com', 'Active', '');
 
 -- --------------------------------------------------------
 
@@ -313,16 +327,17 @@ CREATE TABLE `tbl_venue` (
   `id` int(11) NOT NULL,
   `venue` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
-  `contactNum` varchar(255) NOT NULL
+  `contactNum` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tbl_venue`
 --
 
-INSERT INTO `tbl_venue` (`id`, `venue`, `address`, `contactNum`) VALUES
-(1, 'Manila', 'Room 401 Dona Amparo Bldg., Espana Blvd., Manila', '+63 2 8355-7759'),
-(2, 'Makati', 'Unit 2417, 24th Floor Cityland 10 Tower 2, 154 H.V. Dela Costa St., Ayala North, Makati City\r\n', '+63 2 8362-3755');
+INSERT INTO `tbl_venue` (`id`, `venue`, `address`, `contactNum`, `status`) VALUES
+(1, 'Manila', 'Room 401 Dona Amparo Bldg., Espana Blvd., Manila', '+63 2 8355-7759', 'Active'),
+(2, 'Makati', 'Unit 2417, 24th Floor Cityland 10 Tower 2, 154 H.V. Dela Costa St., Ayala North, Makati City', '+63 2 8362-3755', 'Active');
 
 --
 -- Indexes for dumped tables
@@ -432,7 +447,7 @@ ALTER TABLE `tbl_payments`
 -- AUTO_INCREMENT for table `tbl_payment_methods`
 --
 ALTER TABLE `tbl_payment_methods`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_quotation_details`
@@ -450,7 +465,7 @@ ALTER TABLE `tbl_quotation_senders`
 -- AUTO_INCREMENT for table `tbl_schedules`
 --
 ALTER TABLE `tbl_schedules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `tbl_sent_quotations`
@@ -462,19 +477,19 @@ ALTER TABLE `tbl_sent_quotations`
 -- AUTO_INCREMENT for table `tbl_training`
 --
 ALTER TABLE `tbl_training`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
 -- AUTO_INCREMENT for table `tbl_venue`
 --
 ALTER TABLE `tbl_venue`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
