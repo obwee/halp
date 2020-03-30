@@ -448,7 +448,7 @@ class Validations
             'sElement'    => 'paymentMode',
             'iMinLength'  => 2,
             'iMaxLength'  => 20,
-            'oPattern'    => '/^[a-zA-Z]+$/'
+            'oPattern'    => '/^[a-zA-Z\s\.\-]+$/'
         )
     );
 
@@ -1105,21 +1105,21 @@ class Validations
     private static function validateFileForMessagingInstructor($aFile)
     {
         $aFileValidation = array(
-            'result' => true
+            'bResult' => true
         );
 
         if ($aFile['type'] !== 'application/pdf') {
             $aFileValidation = array(
-                'result'  => false,
-                'element' => '.file',
-                'msg'     => 'File must be PDF.'
+                'bResult'  => false,
+                'sElement' => '.file',
+                'sMsg'     => 'File must be PDF.'
             );
         }
         if ($aFile['size'] > 10485760) {
             $aFileValidation = array(
-                'result'  => false,
-                'element' => '.file',
-                'msg'     => 'File must not exceed 10 MB.'
+                'bResult'  => false,
+                'sElement' => '.file',
+                'sMsg'     => 'File must not exceed 10 MB.'
             );
         }
 

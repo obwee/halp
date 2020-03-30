@@ -13,6 +13,12 @@ class Schedules extends BaseController
     private $oScheduleModel;
 
     /**
+     * @var TrainingModel $oScheduleModel
+     * Class instance for schedule model.
+     */
+    private $oTrainingModel;
+
+    /**
      * Schedules constructor.
      * @param array $aPostVariables
      */
@@ -22,6 +28,8 @@ class Schedules extends BaseController
         $this->aParams = $aPostVariables;
         // Instantiate the SchedulesModel class and store it inside $this->oScheduleModel.
         $this->oScheduleModel = new SchedulesModel();
+        // Instantiate the SchedulesModel class and store it inside $this->oScheduleModel.
+        $this->oTrainingModel = new TrainingModel();
     }
 
     /**
@@ -134,6 +142,8 @@ class Schedules extends BaseController
                 'iSlots'        => 'numSlots'
             );
 
+            Utils::renameKeys($this->aParams, $aDatabaseColumns);
+
             // Loop thru the POST data sent by AJAX for renaming.
             foreach ($this->aParams as $sKey => $mValue) {
                 $sNewKeys = $aDatabaseColumns[$sKey];
@@ -166,7 +176,7 @@ class Schedules extends BaseController
         echo json_encode($aResult);
     }
 
-    public function deleteSchedule()
+    public function disableSchedule()
     {
         Utils::sanitizeData($this->aParams);
         if (empty($this->aParams['iScheduleId']) === true || !preg_match('/^[0-9]+$/', $this->aParams['iScheduleId'])) {
@@ -175,10 +185,21 @@ class Schedules extends BaseController
                 'sMsg'    => 'Invalid schedule to be deleted.'
             );
         } else {
-            $this->aParams['id'] = $this->aParams['iScheduleId'];
-            unset($this->aParams['iScheduleId']);
-            
-            if ($this->oScheduleModel->deleteSchedule($this->aParams) == 0) {
+            $aDatabaseColumns = array(
+                'iScheduleId' => 'scheduleId',
+                'iCourseId'   => 'courseId'
+            );
+            Utils::renameKeys($this->aParams, $aDatabaseColumns);
+
+            if ($this->oTrainingModel->fetchNumberOfEnrollees($this->aParams) !== 0) {
+                echo json_encode(array(
+                    'bResult' => false,
+                    'sMsg'    => 'Schedule cannot be disabled since there are reserved students.'
+                ));
+                exit;
+            }
+
+            if ($this->oScheduleModel->disableSchedule($this->aParams['scheduleId']) == 0) {
                 $aResult = array(
                     'bResult' => false,
                     'sMsg'    => 'An error has occurred.'

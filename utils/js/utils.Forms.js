@@ -171,7 +171,7 @@ var oForms = (() => {
     function prepareModeOfPaymentEvents() {
         // Allow only alphabetical characters and a period on first, middle, and last name via RegExp.
         $(document).on('keyup keydown', '.paymentMode', function () {
-            return this.value = this.value.replace(/[^a-zA-Z]/g, '');
+            return this.value = this.value.replace(/[^a-zA-Z\s\.\-]/g, '');
 
         });
 

@@ -340,11 +340,13 @@ var oInstructor = (() => {
                 $('.spinner').css('display', 'block');
             },
             success: (oResponse) => {
-                oLibraries.displayAlertMessage(
-                    (oResponse.bResult === true) ? 'success' : 'error', oResponse.sMsg
-                );
-                fetchInstructors();
-                $('.modal').modal('hide');
+                if (oResponse.bResult === true) {
+                    oLibraries.displayAlertMessage('success', oResponse.sMsg);
+                    fetchInstructors();
+                    $('.modal').modal('hide');
+                } else {
+                    oLibraries.displayErrorMessage(sFormId, oResponse.sMsg, oResponse.sElement);
+                }
             },
             complete: () => {
                 $('.spinner').css('display', 'none');
