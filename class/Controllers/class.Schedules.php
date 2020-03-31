@@ -84,13 +84,7 @@ class Schedules extends BaseController
                 'iSlots'        => 'numSlots'
             );
 
-            // Loop thru the POST data sent by AJAX for renaming.
-            foreach ($this->aParams as $sKey => $mValue) {
-                $sNewKeys = $aDatabaseColumns[$sKey];
-                $this->aParams[$sNewKeys] = $mValue;
-                unset($this->aParams[$sKey]);
-            }
-
+            Utils::renameKeys($this->aParams, $aDatabaseColumns);
             Utils::sanitizeData($this->aParams);
 
             $this->aParams['remainingSlots'] = $this->getRemainingSlots($this->aParams);
@@ -143,14 +137,6 @@ class Schedules extends BaseController
             );
 
             Utils::renameKeys($this->aParams, $aDatabaseColumns);
-
-            // Loop thru the POST data sent by AJAX for renaming.
-            foreach ($this->aParams as $sKey => $mValue) {
-                $sNewKeys = $aDatabaseColumns[$sKey];
-                $this->aParams[$sNewKeys] = $mValue;
-                unset($this->aParams[$sKey]);
-            }
-
             Utils::sanitizeData($this->aParams);
 
             $this->aParams['remainingSlots'] = $this->aParams['numSlots'];
@@ -224,8 +210,7 @@ class Schedules extends BaseController
     {
         $oTrainingModel = new TrainingModel();
         $aIds = array(
-            'courseId'   => $aData['courseId'],
-            'scheduleId' => $aData['id']
+            ':scheduleId' => $aData['id']
         );
         $iNumberOfEmployees = $oTrainingModel->fetchNumberOfEnrollees($aIds);
         return $aData['numSlots'] - $iNumberOfEmployees;

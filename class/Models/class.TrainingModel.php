@@ -36,7 +36,6 @@ class TrainingModel
             FROM tbl_training tt
             WHERE 1 = 1
                 AND scheduleId = :scheduleId
-                AND courseId   = :courseId
         ");
 
         // Execute the above statement.
