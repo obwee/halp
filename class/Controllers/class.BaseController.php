@@ -23,4 +23,8 @@ class BaseController
     protected function getUserId() {
         return $this->oStudentModel->getUserIdByUsername(Session::get('username'));
     }
+
+    protected function getUserIdOfQuoteRequester($sFirstName, $sLastName) {
+        return $this->oStudentModel->getUserIdByFirstAndLastName($sFirstName, $sLastName);
+    }
 }

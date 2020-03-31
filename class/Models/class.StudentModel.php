@@ -110,6 +110,33 @@ class StudentModel
     }
 
     /**
+     * getUserIdByFirstAndLastName
+     * Get user ID inside the tbl_users table using first name and last name.
+     */
+    public function getUserIdByFirstAndLastName($sFirstName, $sLastName)
+    {
+        // Query the tbl_users for a username equal to $username.
+        $statement = $this->oConnection->prepare("
+            SELECT userId
+            FROM tbl_users
+            WHERE 1 = 1
+                AND firstName = ?
+                AND lastName = ?
+        ");
+
+        // Execute the above statement.
+        $statement->execute(
+            array(
+                $sFirstName,
+                $sLastName
+            )
+        );
+
+        // Return the result of the execution of the above statement.
+        return $statement->fetchColumn();
+    }
+
+    /**
      * getUserDetails
      * Get user ID inside the tbl_users table.
      */

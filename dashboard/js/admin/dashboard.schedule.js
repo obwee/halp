@@ -139,7 +139,7 @@ let CALENDAR = (function () {
                     openEditScheduleModal(oInfo.event);
                 } else {
                     // If selected option is 'Disable'.
-                    executeDisable(parseInt(oInfo.event.id, 10), parseInt(oInfo.event.extendedProps.courseId, 10));
+                    executeDisable(parseInt(oInfo.event.id, 10));
                 }
             });
         });
@@ -482,11 +482,10 @@ let CALENDAR = (function () {
     /**
      * executeDisable
      * @param {int} iScheduleId
-     * @param {int} iCourseId
      */
-    function executeDisable(iScheduleId, iCourseId) {
+    function executeDisable(iScheduleId) {
         axios.post('/Nexus/utils/ajax.php?class=Schedules&action=disableSchedule', {
-            iScheduleId, iCourseId
+            iScheduleId
         })
             .then((oResponse) => {
                 oLibraries.displayAlertMessage(

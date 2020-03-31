@@ -115,7 +115,7 @@ class Quotations extends BaseController
         if ($aValidationResult['bResult'] === true) {
             Utils::sanitizeData($this->aParams);
 
-            $iUserId = $this->oStudentModel->getUserId($this->aParams['quoteFname'], $this->aParams['quoteLname']);
+            $iUserId = $this->getUserIdOfQuoteRequester($this->aParams['quoteFname'], $this->aParams['quoteLname']);
             $iQuoteSenderId = $this->oQuotationModel->checkIfSenderExists($this->aParams['quoteFname'], $this->aParams['quoteLname']);
 
             Utils::prepareData($this->aParams, 'quotation');
@@ -170,7 +170,7 @@ class Quotations extends BaseController
         if ($aValidationResult['bResult'] === true) {
             Utils::sanitizeData($this->aParams);
 
-            $iUserId = $this->oStudentModel->getUserId($this->aParams['quoteFname'], $this->aParams['quoteLname']);
+            $iUserId = $this->getUserIdOfQuoteRequester($this->aParams['quoteFname'], $this->aParams['quoteLname']);
             $iQuoteSenderId = $this->oQuotationModel->checkIfSenderExists($this->aParams['quoteFname'], $this->aParams['quoteLname']);
 
             Utils::prepareData($this->aParams, 'quotation');

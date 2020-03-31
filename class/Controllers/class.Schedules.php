@@ -172,8 +172,7 @@ class Schedules extends BaseController
             );
         } else {
             $aDatabaseColumns = array(
-                'iScheduleId' => 'scheduleId',
-                'iCourseId'   => 'courseId'
+                'iScheduleId' => 'scheduleId'
             );
             Utils::renameKeys($this->aParams, $aDatabaseColumns);
 
