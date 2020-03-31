@@ -85,12 +85,15 @@ class CourseModel
         // Query the tbl_courses.
         $statement = $this->oConnection->prepare("
             SELECT tc.id AS courseId, tc.courseName, tc.courseDescription, tc.courseCode,
-                   ts.id AS scheduleId, ts.fromDate, ts.toDate, tv.venue
+                   ts.id AS scheduleId, ts.fromDate, ts.toDate, tv.venue,
+                   ts.instructorId, CONCAT(tu.firstName, ' ', tu.lastName) AS instructorName
             FROM       tbl_courses   tc
             INNER JOIN tbl_schedules ts
             ON tc.id = ts.courseId
             INNER JOIN tbl_venue     tv
             ON tv.id = ts.venueId
+            INNER JOIN tbl_users     tu
+            ON ts.instructorId = tu.userId
             WHERE 1 = 1
                 AND ts.fromDate > CURDATE()
                 AND ts.toDate > CURDATE()
@@ -112,18 +115,20 @@ class CourseModel
         // Query the tbl_courses.
         $statement = $this->oConnection->prepare("
             SELECT tc.id AS courseId, tc.courseName, tc.courseDescription, tc.courseCode,
-                   ts.id AS scheduleId, ts.fromDate, ts.toDate, tv.venue
+                   ts.id AS scheduleId, ts.fromDate, ts.toDate, tv.venue,
+                   ts.instructorId, CONCAT(tu.firstName, ' ', tu.lastName) AS instructorName
             FROM       tbl_courses   tc
             INNER JOIN tbl_schedules ts
             ON tc.id = ts.courseId
             INNER JOIN tbl_venue     tv
             ON tv.id = ts.venueId
-            LEFT  JOIN tbl_training  tt
-            ON tt.courseId = tc.id
+            INNER JOIN tbl_training  tt
+            ON tt.scheduleId = ts.id
+            INNER JOIN tbl_users     tu
+            ON ts.instructorId = tu.userId
             WHERE 1 = 1
                 AND ts.fromDate > CURDATE()
                 AND ts.toDate > CURDATE()
-                AND ts.remainingSlots != 0
                 AND tt.studentId = :studentId
             ORDER BY ts.fromDate, tc.courseName ASC
         ");

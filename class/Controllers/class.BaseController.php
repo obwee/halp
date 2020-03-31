@@ -21,7 +21,6 @@ class BaseController
     }
 
     protected function getUserId() {
-        [$aStudentFirstName, $aStudentLastName] = explode(' ', Session::get('fullName'));
-        return $this->oStudentModel->getUserId($aStudentFirstName, $aStudentLastName);
+        return $this->oStudentModel->getUserIdByUsername(Session::get('username'));
     }
 }
