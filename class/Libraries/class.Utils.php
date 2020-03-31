@@ -138,4 +138,13 @@ class Utils
     {
         return bin2hex(random_bytes(10));
     }
+
+    /**
+     * searchKeyByValueInMultiDimensionalArray
+     * @return mixed
+     */
+    public static function searchKeyByValueInMultiDimensionalArray($mNeedle, $aHaystack, $sColumnToSearch)
+    {
+        return array_search($mNeedle, array_column($aHaystack, $sColumnToSearch));
+    }
 }

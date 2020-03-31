@@ -84,7 +84,7 @@ class CourseModel
     {
         // Query the tbl_courses.
         $statement = $this->oConnection->prepare("
-            SELECT tc.id AS courseId, tc.courseName, tc.courseDescription, tc.courseCode,
+            SELECT tc.id AS courseId, tc.courseName, tc.courseDescription, tc.courseCode, tc.coursePrice,
                    ts.id AS scheduleId, ts.fromDate, ts.toDate, tv.venue,
                    ts.instructorId, CONCAT(tu.firstName, ' ', tu.lastName) AS instructorName
             FROM       tbl_courses   tc
@@ -110,11 +110,11 @@ class CourseModel
         return $statement->fetchAll();
     }
 
-    public function fetchEnrolledCourses($aStudentId)
+    public function fetchEnrolledCourses($iStudentId)
     {
         // Query the tbl_courses.
         $statement = $this->oConnection->prepare("
-            SELECT tc.id AS courseId, tc.courseName, tc.courseDescription, tc.courseCode,
+            SELECT tc.id AS courseId, tc.courseName, tc.courseDescription, tc.courseCode, tc.coursePrice,
                    ts.id AS scheduleId, ts.fromDate, ts.toDate, tv.venue,
                    ts.instructorId, CONCAT(tu.firstName, ' ', tu.lastName) AS instructorName
             FROM       tbl_courses   tc
@@ -129,12 +129,12 @@ class CourseModel
             WHERE 1 = 1
                 AND ts.fromDate > CURDATE()
                 AND ts.toDate > CURDATE()
-                AND tt.studentId = :studentId
+                AND tt.studentId = ?
             ORDER BY ts.fromDate, tc.courseName ASC
         ");
 
         // Execute the above statement.
-        $statement->execute($aStudentId);
+        $statement->execute([$iStudentId]);
 
         // Return the number of rows returned by the executed query.
         return $statement->fetchAll();

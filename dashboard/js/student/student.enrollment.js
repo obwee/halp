@@ -30,11 +30,14 @@ var oEnrollment = (() => {
             },
             {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
-                    `<button class="btn btn-warning btn-sm" data-toggle="modal" id="editCourse" data-id="${oRow.scheduleId}">
-                        <i class="fa fa-pencil-alt"></i>
+                    `<button class="btn btn-success btn-sm" data-toggle="modal" id="payEnrolledSchedule" data-id="${oRow.trainingId}">
+                        <i class="fa fa-hand-holding-usd"></i>
                     </button>
-                    <button class="btn btn-${(oRow.status === 'Active') ? 'danger' : 'success'} btn-sm" data-toggle="modal" id="${(oRow.status === 'Active') ? 'disableCourse' : 'enableCourse'}" data-id="${oRow.scheduleId}">
-                        <i class="fa fa-${(oRow.status === 'Active') ? 'times-circle' : 'check-circle'}"></i>
+                    <button class="btn btn-primary btn-sm" data-toggle="modal" id="printRegiForm" data-id="${oRow.trainingId}">
+                        <i class="fa fa-print"></i>
+                    </button>
+                    <button class="btn btn-danger btn-sm" data-toggle="modal" id="deleteEnrolledSchedule" data-id="${oRow.trainingId}">
+                        <i class="fa fa-trash-alt"></i>
                     </button>`
             },
         ]
@@ -46,7 +49,9 @@ var oEnrollment = (() => {
     }
 
     function setEvents() {
-
+        $(document).on('click', '#payEnrolledSchedule', function() {
+            $('#paymentModal').modal('show');
+        });
     }
 
     function fetchCourses() {
@@ -77,7 +82,7 @@ var oEnrollment = (() => {
         $(`#${sTableName} > tbody`).empty().parent().DataTable({
             destroy: true,
             deferRender: true,
-            ajax: aEnrolledCourses,
+            data: aEnrolledCourses,
             responsive: true,
             pagingType: 'first_last_numbers',
             pageLength: 4,

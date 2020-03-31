@@ -8,6 +8,12 @@ class BaseController
 
     protected $oStudentModel;
 
+    protected $aPaymentStatus = array(
+        'Not Yet Paid',
+        'Partially Paid',
+        'Fully Paid'
+    );
+
     /**
      * @var array $aParams
      * Holder of request parameters sent by AJAX.

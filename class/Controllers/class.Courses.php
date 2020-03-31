@@ -21,6 +21,12 @@ class Courses extends BaseController
     private $oSchedulesModel;
 
     /**
+     * @var TrainingModel $oModel
+     * Class instance for Student model.
+     */
+    private $oTrainingModel;
+
+    /**
      * Quotations constructor.
      * @param array $aPostVariables
      */
@@ -32,6 +38,8 @@ class Courses extends BaseController
         $this->oCourseModel = new CourseModel();
         // Instantiate the SchedulesModel class and store it inside $this->oSchedulesModel.
         $this->oSchedulesModel = new SchedulesModel();
+        // Instantiate the TrainingModel class and store it inside $this->oTrainingModel.
+        $this->oTrainingModel = new TrainingModel();
         parent::__construct();
     }
 
@@ -179,20 +187,10 @@ class Courses extends BaseController
         $aSchedules = array();
         $aScheduleIds = array();
 
-        $aStudentId = array(
-            ':studentId' => $this->getUserId()
-        );
+        $iStudentId = $this->getUserId();
 
-        $aEnrolledCourses = $this->oCourseModel->fetchEnrolledCourses($aStudentId);
+        $aEnrolledCourses = $this->oCourseModel->fetchEnrolledCourses($iStudentId);
         $aCourses = $this->oCourseModel->fetchAvailableCoursesAndSchedules();
-
-        // Extract schedule IDs of enrolled courses in getting training data.
-        foreach ($aEnrolledCourses as $aEnrolledCourse) {
-            array_push($aScheduleIds, $aEnrolledCourse['scheduleId']);
-        }
-
-        print_r($aScheduleIds);
-        print_r($aEnrolledCourses);
 
         // Get the difference of the aCourses array and aEnrolledCourses array
         // by serializing the arrays and performing an array_diff.
@@ -212,6 +210,23 @@ class Courses extends BaseController
             $aCoursesToEnroll[$aCourse['courseId']]['schedule'] = $aSchedules[$aCourse['courseId']];
         }
 
+        // Extract schedule IDs of enrolled courses in getting training data.
+        foreach ($aEnrolledCourses as $aEnrolledCourse) {
+            array_push($aScheduleIds, $aEnrolledCourse['scheduleId']);
+        }
+
+        // Get training data.
+        $aTrainingData = $this->oTrainingModel->getTrainingData($iStudentId, $aScheduleIds);
+
+        // Insert training data to enrolled courses.
+        foreach ($aEnrolledCourses as $iKey => $aEnrolledCourse) {
+            // Search schedule ID index inside the training data.
+            $iIndex = Utils::searchKeyByValueInMultiDimensionalArray($aEnrolledCourse['scheduleId'], $aTrainingData, 'scheduleId');
+            $aEnrolledCourses[$iKey]['trainingId'] = $aTrainingData[$iIndex]['trainingId'];
+            $aEnrolledCourses[$iKey]['paymentId'] = $aTrainingData[$iIndex]['paymentId'];
+            $aEnrolledCourses[$iKey]['paymentStatus'] = $this->aPaymentStatus[$aTrainingData[$iIndex]['paymentStatus']];
+        }
+        
         echo json_encode(array(
             'aEnrolledCourses'  => $aEnrolledCourses,
             'aCoursesAvailable' => array_values($aCoursesToEnroll)
