@@ -97,7 +97,7 @@ class Courses extends BaseController
     public function enableDisableCourse()
     {
         $aData = array(
-            'id' => $this->aParams['courseId'],
+            'id'     => $this->aParams['courseId'],
             'status' => ($this->aParams['courseAction'] === 'enable') ? 'Active' : 'Inactive'
         );
 
@@ -179,8 +179,8 @@ class Courses extends BaseController
             ':studentId' => $this->getUserId()
         );
 
-        $aCourses = $this->oCourseModel->fetchAvailableCoursesAndSchedules();
         $aEnrolledCourses = $this->oCourseModel->fetchEnrolledCourses($aStudentId);
+        $aCourses = $this->oCourseModel->fetchAvailableCoursesAndSchedules();
 
         // Get the difference of the aCourses array and aEnrolledCourses array
         // by serializing the arrays and performing an array_diff.
@@ -203,9 +203,9 @@ class Courses extends BaseController
             $aCoursesToEnroll[$aCourse['courseId']]['schedule'] = $aSchedules[$aCourse['courseId']];
         }
 
-        print_r($aCoursesToEnroll);
-        die;
-        // print_r($aEnrolledCourses);
-        // print_r($aCoursesAvailable); die;
+        echo json_encode(array(
+            'aEnrolledCourses'  => $aEnrolledCourses,
+            'aCoursesAvailable' => array_values($aCoursesToEnroll)
+        ));
     }
 }

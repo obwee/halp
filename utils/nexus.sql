@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 30, 2020 at 03:17 PM
+-- Generation Time: Mar 31, 2020 at 02:57 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -105,12 +105,19 @@ CREATE TABLE `tbl_inclusions` (
 
 CREATE TABLE `tbl_payments` (
   `id` int(11) NOT NULL,
-  `userId` int(11) NOT NULL,
-  `courseId` int(11) NOT NULL,
+  `trainingId` int(11) NOT NULL,
   `paymentDate` datetime NOT NULL,
   `paymentMethod` varchar(255) NOT NULL,
   `isPaid` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_payments`
+--
+
+INSERT INTO `tbl_payments` (`id`, `trainingId`, `paymentDate`, `paymentMethod`, `isPaid`) VALUES
+(1, 2, '0000-00-00 00:00:00', '', 0),
+(2, 3, '0000-00-00 00:00:00', '', 0);
 
 -- --------------------------------------------------------
 
@@ -222,20 +229,21 @@ CREATE TABLE `tbl_schedules` (
   `numSlots` int(11) NOT NULL,
   `remainingSlots` int(11) NOT NULL,
   `fromDate` date NOT NULL,
-  `toDate` date NOT NULL
+  `toDate` date NOT NULL,
+  `status` varchar(255) NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tbl_schedules`
 --
 
-INSERT INTO `tbl_schedules` (`id`, `courseId`, `instructorId`, `venueId`, `numSlots`, `remainingSlots`, `fromDate`, `toDate`) VALUES
-(2, 1, 111, 1, 50, 50, '2020-04-23', '2020-04-27'),
-(3, 2, 111, 2, 50, 49, '2020-04-23', '2020-04-27'),
-(4, 1, 111, 1, 50, 50, '2020-04-28', '2020-04-29'),
-(5, 4, 111, 2, 50, 50, '2020-04-07', '2020-04-07'),
-(6, 12, 111, 1, 50, 50, '2020-04-14', '2020-04-18'),
-(25, 12, 111, 1, 1, 1, '2020-03-09', '2020-03-10');
+INSERT INTO `tbl_schedules` (`id`, `courseId`, `instructorId`, `venueId`, `numSlots`, `remainingSlots`, `fromDate`, `toDate`, `status`) VALUES
+(2, 1, 111, 1, 50, 50, '2020-04-23', '2020-04-27', 'Active'),
+(3, 2, 111, 2, 50, 49, '2020-04-23', '2020-04-27', 'Active'),
+(4, 1, 110, 1, 50, 50, '2020-04-28', '2020-04-29', 'Active'),
+(5, 4, 111, 2, 50, 50, '2020-04-07', '2020-04-07', 'Inactive'),
+(6, 12, 111, 1, 50, 50, '2020-04-14', '2020-04-18', 'Active'),
+(25, 12, 110, 1, 1, 1, '2020-03-09', '2020-03-10', 'Active');
 
 -- --------------------------------------------------------
 
@@ -258,7 +266,6 @@ CREATE TABLE `tbl_sent_quotations` (
 CREATE TABLE `tbl_training` (
   `id` int(11) NOT NULL,
   `studentId` int(11) NOT NULL,
-  `courseId` int(11) NOT NULL,
   `scheduleId` int(11) NOT NULL,
   `isDone` tinyint(1) NOT NULL DEFAULT 0,
   `paymentId` int(11) NOT NULL,
@@ -269,9 +276,9 @@ CREATE TABLE `tbl_training` (
 -- Dumping data for table `tbl_training`
 --
 
-INSERT INTO `tbl_training` (`id`, `studentId`, `courseId`, `scheduleId`, `isDone`, `paymentId`, `certificateIssued`) VALUES
-(2, 98, 1, 2, 0, 2, 0),
-(3, 98, 2, 3, 0, 1, 0);
+INSERT INTO `tbl_training` (`id`, `studentId`, `scheduleId`, `isDone`, `paymentId`, `certificateIssued`) VALUES
+(2, 7, 2, 0, 1, 0),
+(3, 7, 3, 0, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -312,7 +319,7 @@ INSERT INTO `tbl_users` (`userId`, `username`, `password`, `firstName`, `middleN
 (103, 'student13', 'student', 'Milton Dibbert', 'Quitzon', 'Hyatt', 'Student', 'Bradtke-West', '28141', 'gregg33@example.net', 'Inactive', ''),
 (108, 'angelyn', 'angelyn', 'Angelyn', '', 'Dequito', 'Student', 'Google', '09123456789', 'gelyn@gmail.com', 'Active', ''),
 (109, 'mark', 'mark', 'Mark', '', 'Sampayan', 'Instructor', 'Ingram Micro', '1234567890', 'marksampayan@gmail.com', 'Inactive', ''),
-(110, 'richard', 'richard', 'Richard', '', 'Reblando', 'Instructor', 'Nexus ITTC', '1234567890', 'richardreblando@gmail.com', 'Inactive', ''),
+(110, 'richard', 'richard', 'Richard', '', 'Reblando', 'Instructor', 'Nexus ITTC', '1234567890', 'richardreblando@gmail.com', 'Active', ''),
 (111, 'judith', 'judith', 'Judith', '', 'Correa', 'Instructor', 'Nexus ITTC', '1234567890', 'judithcorrea@gmail.com', 'Active', 'CCNA'),
 (113, 'aubrey', 'aubrey', 'Angelika Aubrey', 'Albano', 'Arbiol', 'Admin', 'Nexus ITTC', '09261759759', 'angelikaaubreyarbiol@gmail.com', 'Inactive', ''),
 (114, 'drei', 'drei', 'Andrea Nicole', 'Albano', 'Arbiol', 'Admin', '', '09121234567', 'drei_nikki@gmail.com', 'Active', '');
@@ -441,7 +448,7 @@ ALTER TABLE `tbl_inclusions`
 -- AUTO_INCREMENT for table `tbl_payments`
 --
 ALTER TABLE `tbl_payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_payment_methods`

@@ -86,23 +86,22 @@ class StudentModel
     }
 
     /**
-     * getUserId
-     * Get user ID inside the tbl_users table.
+     * getUserIdByUsername
+     * Get user ID inside the tbl_users table using username stored inside session.
      */
-    public function getUserId($sFirstName, $sLastName)
+    public function getUserIdByUsername($sUsername)
     {
         // Query the tbl_users for a username equal to $username.
         $statement = $this->oConnection->prepare("
             SELECT userId
             FROM tbl_users
-            WHERE firstName = :firstName AND lastName = :lastName
+            WHERE username = ?
         ");
 
         // Execute the above statement.
         $statement->execute(
             array(
-                ':firstName' => $sFirstName,
-                ':lastName'  => $sLastName
+                $sUsername
             )
         );
 
