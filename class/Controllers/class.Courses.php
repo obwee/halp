@@ -175,6 +175,10 @@ class Courses extends BaseController
      */
     public function fetchCoursesToEnroll()
     {
+        $aCoursesToEnroll = array();
+        $aSchedules = array();
+        $aScheduleIds = array();
+
         $aStudentId = array(
             ':studentId' => $this->getUserId()
         );
@@ -182,13 +186,18 @@ class Courses extends BaseController
         $aEnrolledCourses = $this->oCourseModel->fetchEnrolledCourses($aStudentId);
         $aCourses = $this->oCourseModel->fetchAvailableCoursesAndSchedules();
 
+        // Extract schedule IDs of enrolled courses in getting training data.
+        foreach ($aEnrolledCourses as $aEnrolledCourse) {
+            array_push($aScheduleIds, $aEnrolledCourse['scheduleId']);
+        }
+
+        print_r($aScheduleIds);
+        print_r($aEnrolledCourses);
+
         // Get the difference of the aCourses array and aEnrolledCourses array
         // by serializing the arrays and performing an array_diff.
         // Afterwards, unserialize the difference.
         $aCoursesAvailable = array_map('unserialize', (array_diff(array_map('serialize', $aCourses), array_map('serialize', $aEnrolledCourses))));
-
-        $aCoursesToEnroll = array();
-        $aSchedules = array();
 
         foreach ($aCoursesAvailable as $iKey => $aCourse) {
             $iFromDate = strtotime($aCourse['fromDate']);
