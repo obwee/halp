@@ -8,7 +8,7 @@ require_once "template/studentHeader.php";
     </div>
 
     <div align="right">
-        <button type="button" id="enroll" data-toggle="modal" data-target="#enrollModal" class="btn btn-primary btn-lg">Enroll</button>
+        <button type="button" id="enrollBtn" class="btn btn-primary btn-lg">Enroll</button>
     </div>
 
     <br>
@@ -60,36 +60,48 @@ require_once "template/studentHeader.php";
                 <div class="modal-header" style="background-color: #A2C710;">
                     <h5 align="center">Enrollment</h5>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label><i class="fas fa-book"></i> Course</label>
-                        <select class="form-control">
-                            <option selected disabled hidden>Select Course</option>
-                        </select>
+                <form action="POST" id="enrollForm">
+                    <div class="modal-body">
+                        <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+                        <div class="form-group">
+                            <label><i class="fas fa-book"></i> Course</label>
+                            <select class="form-control courses" name="courses">
+                                <option selected disabled hidden>Select Course</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-calendar-alt"></i> Schedule</label>
+                            <select class="form-control schedules" name="schedules">
+                                <option selected disabled hidden>Select Schedule</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-map"></i> Venue</label>
+                            <input type="text" class="form-control venue" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-money"></i> Price</label>
+                            <input type="text" class="form-control price" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-users"></i> Available Slots</label>
+                            <input type="text" class="form-control slots" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-chalkboard"></i> Instructor</label>
+                            <input type="text" class="form-control instructor" readonly>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-calendar-alt"></i> Schedule</label>
-                        <select class="form-control">
-                            <option selected disabled hidden>Select Schedule</option>
-                        </select>
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border spinner" role="status" style="display:none;">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-map"></i> Venue</label>
-                        <input type="text" name="venue" class="form-control" readonly>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Enroll</button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
                     </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-users"></i> Available Slots</label>
-                        <input type="text" name="slots" class="form-control" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-chalkboard"></i> Instructor</label>
-                        <input type="text" name="instructor" class="form-control" readonly>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Enroll</button>
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                </div>
+                </form>
             </div>
         </div>
     </div>

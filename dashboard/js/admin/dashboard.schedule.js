@@ -111,7 +111,9 @@ let CALENDAR = (function () {
                 html: true,
                 title: `Instructor: ${oInfo.event.extendedProps.instructor.name}<br>
                         Venue: ${oInfo.event.extendedProps.venue.name}<br>
-                        Slots: ${oInfo.event.extendedProps.remainingSlots} / ${oInfo.event.extendedProps.numSlots}`
+                        Slots: ${oInfo.event.extendedProps.remainingSlots} / ${oInfo.event.extendedProps.numSlots}<br>
+                        Price: P${new Number(oInfo.event.extendedProps.coursePrice).toLocaleString('en-US')}`
+                        
             });
         });
 
@@ -209,6 +211,8 @@ let CALENDAR = (function () {
      * Prepares the DOM-related events.
      */
     function setDomEvents() {
+
+        oForms.prepareDomEvents();
 
         $('.modal').on('hidden.bs.modal', function () {
             let sFormName = `#${$(this).find('form').attr('id')}`;
@@ -391,6 +395,8 @@ let CALENDAR = (function () {
         $('#editScheduleModal').find('.fromDate').val(sStartDate);
         $('#editScheduleModal').find('.toDate').val(sEndDate);
         $('#editScheduleModal').find('.numSlots').val(oData.extendedProps.numSlots);
+        $('#editScheduleModal').find('.coursePrice').val(oData.extendedProps.coursePrice);
+        $('#editScheduleModal').find('.remainingSlots').val(oData.extendedProps.remainingSlots);
         $('#editScheduleModal').find('.courseInstructor').val(iInstructorId);
 
         $('#editScheduleModal').modal('show');
@@ -422,6 +428,7 @@ let CALENDAR = (function () {
         const aParams = [
             { scheduleId: 'iScheduleId' },
             { courseTitle: 'iCourseId' },
+            { coursePrice: 'iCoursePrice' },
             { courseVenue: 'iVenueId' },
             { fromDate: 'sStart' },
             { toDate: 'sEnd' },

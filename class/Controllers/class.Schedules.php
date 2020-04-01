@@ -59,7 +59,7 @@ class Schedules extends BaseController
             unset($aSchedules[$iKey]['venueId']);
             unset($aSchedules[$iKey]['instructorId']);
 
-            $aSchedules[$iKey]['extendedProps'] = array_splice($aSchedules[$iKey], 4, -1);
+            $aSchedules[$iKey]['extendedProps'] = array_splice($aSchedules[$iKey], 5, -1);
         }
 
         echo json_encode($aSchedules);
@@ -77,6 +77,7 @@ class Schedules extends BaseController
             $aDatabaseColumns = array(
                 'iScheduleId'   => 'id',
                 'iInstructorId' => 'instructorId',
+                'iCoursePrice'  => 'coursePrice',
                 'iVenueId'      => 'venueId',
                 'iCourseId'     => 'courseId',
                 'sStart'        => 'fromDate',
@@ -91,8 +92,9 @@ class Schedules extends BaseController
 
             if ($this->aParams['remainingSlots'] < 0) {
                 $aResult = array(
-                    'bResult' => false,
-                    'sMsg'    => 'Remaining slots cannot be less than 0.'
+                    'bResult'  => false,
+                    'sElement' => '.remainingSlots',
+                    'sMsg'     => 'Remaining slots cannot be less than ' . $this->aParams['remainingSlots'] . '.'
                 );
                 echo json_encode($aResult);
                 exit();
@@ -129,6 +131,7 @@ class Schedules extends BaseController
             // Declare an array with keys equivalent to that inside the database.
             $aDatabaseColumns = array(
                 'iInstructorId' => 'instructorId',
+                'iCoursePrice'  => 'coursePrice',
                 'iVenueId'      => 'venueId',
                 'iCourseId'     => 'courseId',
                 'sStart'        => 'fromDate',

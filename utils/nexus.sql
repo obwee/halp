@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2020 at 02:57 PM
+-- Generation Time: Apr 01, 2020 at 06:32 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -33,7 +33,6 @@ USE `nexus`;
 CREATE TABLE `tbl_courses` (
   `id` int(11) NOT NULL,
   `courseName` varchar(255) NOT NULL,
-  `coursePrice` decimal(10,0) NOT NULL,
   `courseDescription` varchar(255) NOT NULL,
   `courseCode` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL DEFAULT 'Active'
@@ -43,19 +42,19 @@ CREATE TABLE `tbl_courses` (
 -- Dumping data for table `tbl_courses`
 --
 
-INSERT INTO `tbl_courses` (`id`, `courseName`, `coursePrice`, `courseDescription`, `courseCode`, `status`) VALUES
-(1, 'Cisco Certified Network Associate v4', '20000', 'Implementing and Administering Cisco Solutions', 'CCNAv4', 'Active'),
-(2, 'Cisco Certified Network Professional', '28000', 'Enterprise Core', 'CCNP&CCIE', 'Active'),
-(3, 'Cisco Certified Network Professional', '28000', 'Implementing Cisco Enterprise Advanced Routing and Services', 'CCNP ENARSI', 'Active'),
-(4, 'MCP 20410D', '8000', 'Installing and Configuring Windows Server 2012', '20410D', 'Active'),
-(5, 'MCSA in Windows Server 2016', '22500', 'Microsoft Certified Solutions Associate in Windows Server 2016', 'MCSA2016', 'Active'),
-(6, 'MCSA in Windows Server 2012', '18000', 'Microsoft Certified Solutions Associate in Windows Server 2012', 'MCSA2012', 'Active'),
-(7, 'Microsoft Azure Administrator', '30000', '', 'AZ-1003T00-A', 'Active'),
-(8, 'AWS - Solutions Architect', '18000', 'Amazon Web Services Solutions Architect', 'AWS', 'Inactive'),
-(9, 'VMware 6.7 ICM', '25000', 'Vmware vSphere 6.7: Install, Configure and Manage', 'VMware', 'Active'),
-(10, 'Vmware Hyper-Converged Infrastructure', '55000', '', 'HCI', 'Active'),
-(11, 'Ethical Hacking & Penetration Testing', '3000', '', 'EH', 'Active'),
-(12, 'Certified Digital Forensics Examiner', '45000', '', 'CDFE', 'Active');
+INSERT INTO `tbl_courses` (`id`, `courseName`, `courseDescription`, `courseCode`, `status`) VALUES
+(1, 'Cisco Certified Network Associate v4', 'Implementing and Administering Cisco Solutions', 'CCNAv4', 'Active'),
+(2, 'Cisco Certified Network Professional', 'Enterprise Core', 'CCNP&CCIE', 'Active'),
+(3, 'Cisco Certified Network Professional', 'Implementing Cisco Enterprise Advanced Routing and Services', 'CCNP ENARSI', 'Active'),
+(4, 'MCP 20410D', 'Installing and Configuring Windows Server 2012', '20410D', 'Active'),
+(5, 'MCSA in Windows Server 2016', 'Microsoft Certified Solutions Associate in Windows Server 2016', 'MCSA2016', 'Active'),
+(6, 'MCSA in Windows Server 2012', 'Microsoft Certified Solutions Associate in Windows Server 2012', 'MCSA2012', 'Active'),
+(7, 'Microsoft Azure Administrator', '', 'AZ-1003T00-A', 'Active'),
+(8, 'AWS - Solutions Architect', 'Amazon Web Services Solutions Architect', 'AWS', 'Inactive'),
+(9, 'VMware 6.7 ICM', 'Vmware vSphere 6.7: Install, Configure and Manage', 'VMware', 'Active'),
+(10, 'Vmware Hyper-Converged Infrastructure', '', 'HCI', 'Active'),
+(11, 'Ethical Hacking & Penetration Testing', '', 'EH', 'Inactive'),
+(12, 'Certified Digital Forensics Examiner', '', 'CDFE', 'Active');
 
 -- --------------------------------------------------------
 
@@ -108,6 +107,7 @@ CREATE TABLE `tbl_payments` (
   `trainingId` int(11) NOT NULL,
   `paymentDate` datetime NOT NULL,
   `paymentMethod` varchar(255) NOT NULL,
+  `paymentAmount` int(11) NOT NULL,
   `isPaid` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -115,9 +115,9 @@ CREATE TABLE `tbl_payments` (
 -- Dumping data for table `tbl_payments`
 --
 
-INSERT INTO `tbl_payments` (`id`, `trainingId`, `paymentDate`, `paymentMethod`, `isPaid`) VALUES
-(1, 2, '0000-00-00 00:00:00', '', 0),
-(2, 3, '0000-00-00 00:00:00', '', 0);
+INSERT INTO `tbl_payments` (`id`, `trainingId`, `paymentDate`, `paymentMethod`, `paymentAmount`, `isPaid`) VALUES
+(1, 2, '0000-00-00 00:00:00', '', 0, 0),
+(2, 3, '0000-00-00 00:00:00', '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -184,7 +184,11 @@ INSERT INTO `tbl_quotation_details` (`id`, `userId`, `senderId`, `courseId`, `sc
 (59, 0, 22, '1', 0, 1, '2020-03-08 22:16:46', '', 0, 0),
 (60, 0, 23, '1', 6, 1, '2020-03-08 22:17:27', 'fsaffsa', 1, 0),
 (61, 0, 23, '2', 0, 1, '2020-03-08 22:17:27', 'fsaffsa', 1, 0),
-(68, 98, 0, '4', 5, 21, '2020-03-01 16:29:52', '', 0, 0);
+(68, 98, 0, '4', 5, 21, '2020-03-01 16:29:52', '', 0, 0),
+(70, 0, 24, '11', 26, 1, '2020-03-31 21:38:34', 'sdasdasd', 0, 0),
+(71, 0, 25, '4', 5, 1, '2020-03-31 21:40:10', 'asdzxcqwe', 0, 0),
+(72, 0, 25, '11', 26, 1, '2020-03-31 21:40:10', 'asdzxcqwe', 0, 0),
+(73, 7, 0, '4', 5, 1, '2020-03-31 21:45:37', '1234', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -213,7 +217,9 @@ INSERT INTO `tbl_quotation_senders` (`quoteSenderId`, `firstName`, `middleName`,
 (20, 'asdasd', '', 'asdasd', 'dsadasd@adasdas.com', '12412412'),
 (21, 'fsafasf', '', 'fasfas', 'dsadasd@adasdas.com', '2141241241'),
 (22, 'sasadasd', 'dsadasd', 'jfklsjfdlk', 'asjfklsafj@gmail.com', '42141241'),
-(23, 'fsafasf', 'fsafasf', 'fsdfas', 'asjfklsafj@gmail.com', '4328423');
+(23, 'fsafasf', 'fsafasf', 'fsdfas', 'asjfklsafj@gmail.com', '4328423'),
+(24, 'fsafasf', 'fasfasf', 'fsafasf', 'fasfasf@gmail.com', '41241241'),
+(25, 'asdasdasda', 'dasdasdasdas', 'dasdasdsa', 'dsadsadasd@dsadasdas.asd', '12412412');
 
 -- --------------------------------------------------------
 
@@ -224,6 +230,7 @@ INSERT INTO `tbl_quotation_senders` (`quoteSenderId`, `firstName`, `middleName`,
 CREATE TABLE `tbl_schedules` (
   `id` int(11) NOT NULL,
   `courseId` int(11) NOT NULL,
+  `coursePrice` varchar(255) NOT NULL,
   `instructorId` int(11) NOT NULL,
   `venueId` int(11) NOT NULL,
   `numSlots` int(11) NOT NULL,
@@ -237,13 +244,16 @@ CREATE TABLE `tbl_schedules` (
 -- Dumping data for table `tbl_schedules`
 --
 
-INSERT INTO `tbl_schedules` (`id`, `courseId`, `instructorId`, `venueId`, `numSlots`, `remainingSlots`, `fromDate`, `toDate`, `status`) VALUES
-(2, 1, 111, 1, 50, 50, '2020-04-23', '2020-04-27', 'Active'),
-(3, 2, 111, 2, 50, 49, '2020-04-23', '2020-04-27', 'Active'),
-(4, 1, 110, 1, 50, 50, '2020-04-28', '2020-04-29', 'Active'),
-(5, 4, 111, 2, 50, 50, '2020-04-07', '2020-04-07', 'Inactive'),
-(6, 12, 111, 1, 50, 50, '2020-04-14', '2020-04-18', 'Active'),
-(25, 12, 110, 1, 1, 1, '2020-03-09', '2020-03-10', 'Active');
+INSERT INTO `tbl_schedules` (`id`, `courseId`, `coursePrice`, `instructorId`, `venueId`, `numSlots`, `remainingSlots`, `fromDate`, `toDate`, `status`) VALUES
+(2, 1, '20000', 111, 1, 12, 11, '2020-04-23', '2020-04-27', 'Active'),
+(3, 2, '20000', 111, 2, 50, 49, '2020-04-23', '2020-04-27', 'Active'),
+(4, 1, '20000', 110, 1, 50, 50, '2020-04-28', '2020-04-29', 'Active'),
+(5, 4, '20000', 111, 2, 50, 50, '2020-04-07', '2020-04-07', 'Inactive'),
+(6, 12, '20000', 111, 1, 49, 49, '2020-04-14', '2020-04-18', 'Active'),
+(25, 12, '20000', 110, 1, 1, 1, '2020-03-09', '2020-03-10', 'Active'),
+(26, 12, '20000', 110, 1, 1, 1, '2020-04-07', '2020-04-08', 'Inactive'),
+(27, 10, '20000', 110, 1, 1, 1, '2020-04-07', '2020-04-09', 'Inactive'),
+(28, 7, '12345', 110, 2, 25, 25, '2020-04-07', '2020-04-09', 'Active');
 
 -- --------------------------------------------------------
 
@@ -268,7 +278,6 @@ CREATE TABLE `tbl_training` (
   `studentId` int(11) NOT NULL,
   `scheduleId` int(11) NOT NULL,
   `isDone` tinyint(1) NOT NULL DEFAULT 0,
-  `paymentId` int(11) NOT NULL,
   `certificateIssued` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -276,9 +285,9 @@ CREATE TABLE `tbl_training` (
 -- Dumping data for table `tbl_training`
 --
 
-INSERT INTO `tbl_training` (`id`, `studentId`, `scheduleId`, `isDone`, `paymentId`, `certificateIssued`) VALUES
-(2, 7, 2, 0, 1, 0),
-(3, 7, 3, 0, 2, 0);
+INSERT INTO `tbl_training` (`id`, `studentId`, `scheduleId`, `isDone`, `certificateIssued`) VALUES
+(2, 7, 2, 0, 0),
+(3, 7, 3, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -460,19 +469,19 @@ ALTER TABLE `tbl_payment_methods`
 -- AUTO_INCREMENT for table `tbl_quotation_details`
 --
 ALTER TABLE `tbl_quotation_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `tbl_quotation_senders`
 --
 ALTER TABLE `tbl_quotation_senders`
-  MODIFY `quoteSenderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `quoteSenderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `tbl_schedules`
 --
 ALTER TABLE `tbl_schedules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `tbl_sent_quotations`

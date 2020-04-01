@@ -31,7 +31,7 @@ class SchedulesModel
         // Prepare a select query.
         $statement = $this->oConnection->prepare("
             SELECT
-                ts.id, tc.courseCode AS title, ts.fromDate AS start, ts.toDate AS end,
+                ts.id, tc.courseCode AS title, ts.coursePrice, ts.fromDate AS start, ts.toDate AS end,
                 ts.numSlots, ts.remainingSlots, ts.instructorId, tv.id AS venueId, tv.venue,
                 CONCAT(tu.firstName, ' ', tu.lastName) AS instructor, tc.id AS courseId, ts.status,
                 CASE
@@ -72,7 +72,8 @@ class SchedulesModel
                 courseId       = :courseId,
                 instructorId   = :instructorId,
                 numSlots       = :numSlots,
-                remainingSlots = :remainingSlots
+                remainingSlots = :remainingSlots,
+                coursePrice    = :coursePrice
             WHERE id = :id
         ");
 
@@ -91,9 +92,9 @@ class SchedulesModel
         // Prepare an update query to the schedules table.
         $statement = $this->oConnection->prepare("
             INSERT INTO tbl_schedules
-                (fromDate, toDate, venueId, courseId, instructorId, numSlots, remainingSlots)
+                (fromDate, toDate, venueId, courseId, coursePrice, instructorId, numSlots, remainingSlots)
             VALUES
-                (:fromDate, :toDate, :venueId, :courseId, :instructorId, :numSlots, :remainingSlots)
+                (:fromDate, :toDate, :venueId, :courseId, :coursePrice, :instructorId, :numSlots, :remainingSlots)
         ");
 
         // Return the result of the execution of the above statement.

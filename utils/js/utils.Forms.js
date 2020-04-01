@@ -9,6 +9,7 @@ var oForms = (() => {
 
         prepareRegistrationAndQuotationEvents();
         prepareCourseEvents();
+        prepareScheduleEvents();
         prepareVenueEvents();
         prepareInstructorEvents();
         prepareAdminEvents();
@@ -88,6 +89,24 @@ var oForms = (() => {
             $(this).val($(this).val().replace(/\s+/g, ' ').replace(/\.+/g, '.').trim());
         });
     }
+
+    /**
+     * prepareScheduleEvents
+     * jQuery event handlers for schedules.php
+     */
+    function prepareScheduleEvents() {
+        $(document).on('keyup keydown', '.numSlots', function () {
+            if ($(this).val() > 100) {
+                return this.value = this.value.slice(0, -1);
+            }
+            return this.value = this.value.replace(/^0/g, '');
+        });
+
+        $(document).on('keyup keydown', '.coursePrice', function () {
+            return this.value = this.value.replace(/^0/g, '');
+        });
+    }
+
 
     /**
      * prepareInstructorEvents

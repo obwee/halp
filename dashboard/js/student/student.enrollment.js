@@ -6,6 +6,12 @@ var oEnrollment = (() => {
 
     let aCoursesAvailable = [];
 
+    let aInstructors = [];
+
+    let oCourseDropdown = $('.courses');
+
+    let oScheduleDropdown = $('.schedules');
+
     let oColumns = {
         aCourses: [
             {
@@ -49,9 +55,111 @@ var oEnrollment = (() => {
     }
 
     function setEvents() {
-        $(document).on('click', '#payEnrolledSchedule', function() {
+
+        $('.modal').on('hidden.bs.modal', function () {
+            let sFormId = `#${$(this).find('form').attr('id')}`;
+            $(sFormId)[0].reset();
+            $('.error-msg').css('display', 'none').html('');
+        });
+
+        $(document).on('click', '#payEnrolledSchedule', function () {
             $('#paymentModal').modal('show');
         });
+
+        $(document).on('click', '#enrollBtn', function () {
+            populateCourseDropdown();
+            $('#enrollModal').modal('show');
+        });
+
+        $(document).on('change', '.courses', function () {
+            populateScheduleDropdown($(this).val());
+        });
+
+        $(document).on('change', '.schedules', function () {
+            populateRemainingInputs($(this).val());
+        });
+
+        $(document).on('submit', 'form', function (oEvent) {
+            oEvent.preventDefault();
+
+            const sFormId = `#${$(this).attr('id')}`;
+
+            // Disable the form.
+            // oForms.disableFormState(sFormId, true);
+
+            // Invoke the resetInputBorders method inside oForms utils for that form.
+            oForms.resetInputBorders(sFormId);
+
+            const oInputForms = {
+                '#addPaymentMethodForm': {
+                    'validationMethod': oValidations.validatePaymentModeInputs(sFormId),
+                    'requestClass': 'PaymentMethods',
+                    'requestAction': 'addPaymentMethod',
+                    'alertTitle': 'Add payment method?',
+                    'alertText': 'This will insert a new payment method.'
+                },
+                '#editPaymentMethodForm': {
+                    'validationMethod': oValidations.validatePaymentModeInputs(sFormId),
+                    'requestClass': 'PaymentMethods',
+                    'requestAction': 'updatePaymentMethod',
+                    'alertTitle': 'Update payment method?',
+                    'alertText': 'This will update the payment method.'
+                }
+            }
+
+            // Validate the inputs of the submitted form and store the result inside oValidateInputs variable.
+            let oValidateInputs = oInputForms[sFormId].validationMethod;
+
+            if (oValidateInputs.result === true) {
+                Swal.fire({
+                    title: oInputForms[sFormId].alertTitle,
+                    text: oInputForms[sFormId].alertText,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                }).then((bIsConfirm) => {
+                    if (bIsConfirm.value === true) {
+                        executeSubmit(sFormId, oInputForms[sFormId].requestClass, oInputForms[sFormId].requestAction);
+                    }
+                });
+            } else {
+                oLibraries.displayErrorMessage(sFormId, oValidateInputs.msg, oValidateInputs.element);
+            }
+            // Enable the form.
+            oForms.disableFormState(sFormId, false);
+        });
+
+    }
+
+    function populateCourseDropdown() {
+        oCourseDropdown.empty().append($('<option selected disabled hidden>Select Course</option>'));
+
+        $.each(aCoursesAvailable, function (iKey, oCourse) {
+            oCourseDropdown.append($('<option />').val(oCourse.courseId).text(`${oCourse.courseName} (${oCourse.courseCode})`));
+        });
+    }
+
+    function populateScheduleDropdown(iCourseId) {
+        let oFilteredCourse = aCoursesAvailable.filter(oCourse => oCourse.courseId == iCourseId)[0];
+
+        oScheduleDropdown.empty().append($('<option selected disabled hidden>Select Schedule</option>'));
+
+        $.each(oFilteredCourse.schedules, function (iScheduleId, sScheduleDate) {
+            oScheduleDropdown.append($('<option />').val(iScheduleId).text(sScheduleDate));
+        });
+    }
+
+    function populateRemainingInputs(iScheduleId) {
+        let oFilteredSchedule = aCoursesAvailable.filter(oCourse => oCourse.schedules[iScheduleId])[0];
+
+        $('.price').val(`P${parseInt(oFilteredSchedule['prices'][iScheduleId], 10).toLocaleString()}`);
+        $('.venue').val(oFilteredSchedule['venues'][iScheduleId]);
+        $('.slots').val(oFilteredSchedule['slots'][iScheduleId]);
+
+        let iInstructorId = oFilteredSchedule['instructors'][iScheduleId];
+        let oInstructor = aInstructors.filter(oInstructor => oInstructor.id == iInstructorId)[0];
+
+        $('.instructor').val(`${oInstructor.firstName} ${oInstructor.lastName}`);
     }
 
     function fetchCourses() {
@@ -62,6 +170,7 @@ var oEnrollment = (() => {
             success: function (oResponse) {
                 aEnrolledCourses = oResponse.aEnrolledCourses;
                 aCoursesAvailable = oResponse.aCoursesAvailable;
+                aInstructors = oResponse.aInstructors;
                 populateEnrollmentTable();
             },
             error: function () {
