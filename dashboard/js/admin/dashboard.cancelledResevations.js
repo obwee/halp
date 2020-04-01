@@ -1,12 +1,7 @@
 var oCancelledReservations = (() => {
 
     function init() {
-        $('#tbl_refundRequests').DataTable({
-        	"scrollY": true
-        });
-        $('#tbl_approvedRequests').DataTable({
-        	"scrollY": true
-        });
+        $('#tbl_requests').DataTable();
     }
 
     return {
@@ -18,4 +13,3 @@ var oCancelledReservations = (() => {
 $(document).ready(function () {
     oCancelledReservations.initialize();
 });
-

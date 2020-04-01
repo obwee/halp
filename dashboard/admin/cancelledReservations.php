@@ -4,41 +4,38 @@ require_once "template/header.php";
 ?>
 
 <div class="container">
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-     <p class="h2">Cancelled Reservations</p>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h2><span class="fas fa-times"></span> Cancelled Reservations</h2>
+    </div>
 
- </div>
 
-         <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
-            <h4>Requests</h4>
-            <table id="tbl_refundRequests" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
-                <thead>
-                 <tr>
-                    <th style="white-space:nowrap;">Date of Request</th>
-                    <th style="white-space:nowrap;">Student Name</th>
-                    <th style="white-space:nowrap;">Email-Address</th>
-                    <th style="white-space:nowrap;">Phone</th>
-                    <th style="white-space:nowrap;">Course</th>
-                    <th style="white-space:nowrap;">Start Date</th>
-                    <th style="white-space:nowrap;">End Date</th>
-                    <th style="white-space:nowrap;">Actions</th>
+    <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+        <h4>Cancellation Requests</h4>
+        <table id="tbl_requests" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
+            <thead>
+                <tr>
+                    <th style="white-space:nowrap;text-align: center;">Date Requested</th>
+                    <th style="white-space:nowrap;text-align: center;">Student Name</th>
+                    <th style="white-space:nowrap;text-align: center;">Course</th>
+                    <th style="white-space:nowrap;text-align: center;">Start Date</th>
+                    <th style="white-space:nowrap;text-align: center;">End Date</th>
+                    <th style="white-space:nowrap;text-align: center;">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>Mar 01, 2020</td>
-                    <td>Aries Macandili</td>
-                    <td>macandili.aries@gmail.com</td>
-                    <td>5841881</td>
-                    <td>20410</td>
-                    <td>Mar 6 2020</td>
-                    <td>Mar 9 2020</td>
-                    <td>
-                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewRequestModal"><i class="fas fa-eye"></i></button>
+                    <td style="text-align: center;">Apr 2, 2020</td>
+                    <td style="text-align: center;">Britney Spears</td>
+                    <td style="text-align: center;">EH</td>
+                    <td style="text-align: center;">Feb 28, 2020</td>
+                    <td style="text-align: center;">Feb 29, 2020</td>
+                    <td style="text-align: center;">
+                        <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#rescheduleModal"><i class="fas fa-eye"></i></button>
                     </td>
                 </tr>
-            </tbody>
-        </table> 
+            </tbody>    
+        </table>
+    </div> 
 
         <br><br>
 
@@ -73,6 +70,8 @@ require_once "template/header.php";
         </table>
     </div>
 </div>
+
+
 
 
    
@@ -117,7 +116,7 @@ require_once "template/header.php";
 require_once "template/scripts.php";
 ?>
 
-<script src="/Nexus/dashboard/admin/js/dashboard.cancelledReservations.js"></script>
+<script src="/Nexus/dashboard/js/admin/dashboard.cancelledReservations.js"></script>
 
 <?php
 require_once "template/footer.php";
