@@ -84,8 +84,8 @@ class CourseModel
     {
         // Query the tbl_courses.
         $statement = $this->oConnection->prepare("
-            SELECT tc.id AS courseId, tc.courseName, tc.courseDescription, tc.courseCode,
-                   ts.id AS scheduleId, ts.fromDate, ts.toDate, tv.venue,
+            SELECT tc.id AS courseId, tc.courseName, tc.courseDescription, tc.courseCode, ts.coursePrice,
+                   ts.id AS scheduleId, ts.fromDate, ts.toDate, tv.venue, ts.remainingSlots,
                    ts.instructorId, CONCAT(tu.firstName, ' ', tu.lastName) AS instructorName
             FROM       tbl_courses   tc
             INNER JOIN tbl_schedules ts
@@ -98,6 +98,7 @@ class CourseModel
                 AND ts.fromDate > CURDATE()
                 AND ts.toDate > CURDATE()
                 AND ts.remainingSlots != 0
+                AND ts.status = 'Active'
                 AND tc.status = 'Active'
                 AND tv.status = 'Active'
             ORDER BY ts.fromDate, tc.courseName ASC
@@ -110,12 +111,12 @@ class CourseModel
         return $statement->fetchAll();
     }
 
-    public function fetchEnrolledCourses($aStudentId)
+    public function fetchEnrolledCourses($iStudentId)
     {
         // Query the tbl_courses.
         $statement = $this->oConnection->prepare("
-            SELECT tc.id AS courseId, tc.courseName, tc.courseDescription, tc.courseCode,
-                   ts.id AS scheduleId, ts.fromDate, ts.toDate, tv.venue,
+            SELECT tc.id AS courseId, tc.courseName, tc.courseDescription, tc.courseCode, ts.coursePrice,
+                   ts.id AS scheduleId, ts.fromDate, ts.toDate, tv.venue, ts.remainingSlots,
                    ts.instructorId, CONCAT(tu.firstName, ' ', tu.lastName) AS instructorName
             FROM       tbl_courses   tc
             INNER JOIN tbl_schedules ts
@@ -129,12 +130,12 @@ class CourseModel
             WHERE 1 = 1
                 AND ts.fromDate > CURDATE()
                 AND ts.toDate > CURDATE()
-                AND tt.studentId = :studentId
+                AND tt.studentId = ?
             ORDER BY ts.fromDate, tc.courseName ASC
         ");
 
         // Execute the above statement.
-        $statement->execute($aStudentId);
+        $statement->execute([$iStudentId]);
 
         // Return the number of rows returned by the executed query.
         return $statement->fetchAll();

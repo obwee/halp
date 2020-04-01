@@ -761,6 +761,16 @@ class Validations
             );
         }
 
+        $sCoursePriceRegex = '/^(?!-\d+|0)\d+$/';
+
+        if ($aParams['iCoursePrice'] < 1 || !preg_match($sCoursePriceRegex, $aParams['iCoursePrice'])) {
+            return array(
+                'bResult'  =>  false,
+                'sElement' =>  '.coursePrice',
+                'sMsg'     => 'Invalid value for course price.'
+            );
+        }
+
         // Return the result of the validation.
         return $aValidationResult;
     }

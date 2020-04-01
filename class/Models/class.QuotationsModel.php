@@ -181,16 +181,18 @@ class QuotationsModel
         // Query the tbl_quotation_details.
         $statement = $this->oConnection->prepare("
             SELECT
-                tqd.courseId, tc.courseDescription, tc.courseName, tc.courseCode, tc.coursePrice,
+                tqd.courseId, tc.courseDescription, tc.courseName, tc.courseCode, ts.coursePrice,
                 tqd.numPax, tqd.companyName, tqd.isCompanySponsored,
                 ts.fromDate, ts.toDate, tv.venue
             FROM tbl_quotation_details tqd
-            INNER JOIN tbl_courses           tc ON tqd.courseId   = tc.id
-            LEFT  JOIN tbl_schedules         ts ON tqd.scheduleId = ts.id
-            LEFT  JOIN tbl_venue             tv ON ts.venueId = tv.id
-            WHERE
-                tqd.userId = :userId AND tqd.senderId = :senderId
-                AND tqd.isQuotationSent = :isQuotationSent AND tqd.dateRequested = :dateRequested
+            INNER JOIN tbl_courses    tc ON tqd.courseId   = tc.id
+            LEFT  JOIN tbl_schedules  ts ON tqd.scheduleId = ts.id
+            LEFT  JOIN tbl_venue      tv ON ts.venueId = tv.id
+            WHERE 1 = 1
+                AND tqd.userId = :userId
+                AND tqd.senderId = :senderId
+                AND tqd.isQuotationSent = :isQuotationSent
+                AND tqd.dateRequested = :dateRequested
         ");
 
         // Execute the above statement along with the needed where clauses.

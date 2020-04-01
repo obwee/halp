@@ -469,6 +469,17 @@ class Validations {
         let oValidationResult = this.loopThruRulesForErrors(aScheduleRules, sFormId);
 
         if (oValidationResult.result === true) {
+
+            let sCoursePriceRegex = /^(?!-\d+|0)\d+$/g;
+
+            if ($(sFormId).find('.coursePrice').val() < 1 || sCoursePriceRegex.test($(sFormId).find('.coursePrice').val()) === false) {
+                return {
+                    result: false,
+                    element: '.coursePrice',
+                    msg: 'Invalid value for course price.'
+                }
+            }
+
             let sNumSlotsRegex = /^(?!-\d+|0)\d+$/g;
 
             if ($('.numSlots').val() < 1 || $('.numSlots').val() > 100 || sNumSlotsRegex.test($('.numSlots').val()) === false) {

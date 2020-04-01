@@ -21,6 +21,10 @@ require_once "Template/header.php";
                         <select class="form-control courseTitle" name="courseTitle"></select>
                     </div>
                     <div class="form-group">
+                        <label for="coursePrice"><span class="fas fa-money"></span> Course Price</label>
+                        <input type="number" name="coursePrice" class="form-control coursePrice" placeholder="Course Price">
+                    </div>
+                    <div class="form-group">
                         <label for="courseVenue"><span class="fas fa-map"></span> Select Venue</label>
                         <select class="form-control courseVenue" name="courseVenue"></select>
                     </div>
@@ -68,6 +72,10 @@ require_once "Template/header.php";
                         <select class="form-control courseTitle" name="courseTitle"></select>
                     </div>
                     <div class="form-group">
+                        <label for="coursePrice"><span class="fas fa-money"></span> Course Price</label>
+                        <input type="number" name="coursePrice" class="form-control coursePrice" placeholder="Course Price">
+                    </div>
+                    <div class="form-group">
                         <label for="courseVenue"><span class="fas fa-map"></span> Select Venue</label>
                         <select class="form-control courseVenue" name="courseVenue"></select>
                     </div>
@@ -82,6 +90,10 @@ require_once "Template/header.php";
                         </div>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                     </div>
                     <br>
+                    <div class="form-group">
+                        <label for="remainingSlots"><span class="fas fa-users"></span> Slots Remaining</label>
+                        <input type="text" class="form-control remainingSlots" readonly>
+                    </div>
                     <div class="form-group">
                         <label for="numSlots"><span class="fas fa-users"></span> No. of Students</label>
                         <input type="number" name="numSlots" class="form-control numSlots" min="1" max="100" value="1">

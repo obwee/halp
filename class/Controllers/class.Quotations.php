@@ -325,6 +325,7 @@ class Quotations extends BaseController
 
     public function approveQuotation()
     {
+        die;
         $aIds = array(
             ':userId'          => $this->aParams['iUserId']   ?? 0,
             ':senderId'        => $this->aParams['iSenderId'] ?? 0,
@@ -333,6 +334,20 @@ class Quotations extends BaseController
         );
 
         $aCourseDetails = $this->oQuotationModel->fetchDetails($aIds);
+        $aCourseId = array();
+
+        foreach ($aCourseDetails as $aCourse) {
+            if (empty($aCourse['fromDate']) || empty($aCourse['fromDate'])) {
+                $aCourseId[] = $aCourse['courseId'];
+            }
+        }
+
+        if (empty($aCourseId) === false) {
+            $aAdditionalCourses = $this->oQuotationModel->fetchDetailsForEachCourse();
+        }
+
+        print_r($aCourseId);
+        print_r($aCourseDetails); die;
 
         $aSenderDetails = array_splice($this->aParams, 3, 3);
         $aSenderDetails['sCompanyName'] = ($aCourseDetails[0]['isCompanySponsored'] == 0) ? 'N/A' : $aCourseDetails[0]['companyName'];
@@ -355,7 +370,8 @@ class Quotations extends BaseController
         $sOutput = $oPdf->Output('Quotation.pdf', 'S');
 
         $oMail = new Email();
-        $oMail->addSingleRecipient($aSenderDetails['sEmail'], $aSenderDetails['sFullName']);
+        // $oMail->addSingleRecipient($aSenderDetails['sEmail'], $aSenderDetails['sFullName']);
+        $oMail->addSingleRecipient('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
         $oMail->setEmailSender('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
         $oMail->setTitle('Quotation Request');
         $oMail->addFpdfAttachment($sOutput);

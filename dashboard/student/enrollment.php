@@ -8,117 +8,100 @@ require_once "template/studentHeader.php";
     </div>
 
     <div align="right">
-        <button type="button" id="enroll" data-toggle="modal" data-target="#enrollModal" class="btn btn-primary btn-lg">Enroll</button>    
+        <button type="button" id="enrollBtn" class="btn btn-primary btn-lg">Enroll</button>
     </div>
 
     <br>
 
-<div class="container">
-    <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
-        <table id="tbl_enrollment" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
-            <thead>
-                <tr>
-                    <th style="white-space:nowrap;text-align:center;">Course Code</th>
-                    <th style="white-space:nowrap;text-align:center;">Start Date</th>
-                    <th style="white-space:nowrap;text-align:center;">End Date</th>
-                    <th style="white-space:nowrap;text-align:center;">Venue</th>
-                    <th style="white-space:nowrap;text-align:center;">Instructor</th>
-                    <th style="white-space:nowrap;text-align:center;">Payment Status</th>
-					<th style="white-space:nowrap;text-align:center;">Actions</th>
-				</tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>20410D</td>
-                    <td>Mar 5, 2020</td>
-                    <td>Mar 8, 2020</td>
-                    <td>Makati</td>
-                    <td>Mark Sampayan</td>
-                    <td>Unpaid</td>
-                    <td style="text-align:center;">
-                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#paymentModal">
-                            <i class="fas fa-hand-holding-usd"></i>
-                        </button>
-                        <button class="btn btn-success btn-sm">
-                            <i class="fas fa-print"></i>
-                        </button>
-                        <button class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="container">
+        <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+            <table id="tbl_enrollment" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
-</div>
 
-<div class="modal fade" id="paymentModal" role="dialog">
-    <div class="modal-dialog modal-lg paymentModal">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color: #A2C710;">
-                <h5 align="center">Upload Payment</h5>
-            </div>
-            <div class="modal-body">
-                <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
-                    <table id="tbl_enrollment" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
-                        <thead>
-                            <tr>
-                                <th style="white-space:nowrap;">Course Code</th>
-                                <th style="white-space:nowrap;">Start Date</th>
-                                <th style="white-space:nowrap;">End Date</th>
-                                <th style="white-space:nowrap;">Venue</th>
-                            </tr>
-                        </thead>
-                    </table>
+    <div class="modal fade" id="paymentModal" role="dialog">
+        <div class="modal-dialog modal-lg paymentModal">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #A2C710;">
+                    <h5 align="center">Upload Payment</h5>
                 </div>
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="customFile">
-                    <label class="custom-file-label" for="customFile">Upload File</label>
+                <div class="modal-body">
+                    <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+                        <table id="tbl_enrollment" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
+                            <thead>
+                                <tr>
+                                    <th style="white-space:nowrap;">Course Code</th>
+                                    <th style="white-space:nowrap;">Start Date</th>
+                                    <th style="white-space:nowrap;">End Date</th>
+                                    <th style="white-space:nowrap;">Venue</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="customFile">Upload File</label>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Upload</button>
-                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Upload</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="modal fade" id="enrollModal" role="dialog">
-    <div class="modal-dialog enrollModal">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color: #A2C710;">
-                <h5 align="center">Enrollment</h5>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label><i class="fas fa-book"></i> Course</label>
-                    <select class="form-control">
-                        <option selected disabled hidden>Select Course</option>
-                    </select>
+    <div class="modal fade" id="enrollModal" role="dialog">
+        <div class="modal-dialog enrollModal">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #A2C710;">
+                    <h5 align="center">Enrollment</h5>
                 </div>
-                <div class="form-group">
-                    <label><i class="fas fa-calendar-alt"></i> Schedule</label>
-                    <select class="form-control">
-                        <option selected disabled hidden>Select Schedule</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-map"></i> Venue</label>
-                    <input type="text" name="venue" class="form-control" readonly>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-users"></i> Available Slots</label>
-                    <input type="text" name="slots" class="form-control" readonly>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-chalkboard"></i> Instructor</label>
-                    <input type="text" name="instructor" class="form-control" readonly>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Enroll</button>
-                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                <form action="POST" id="enrollForm">
+                    <div class="modal-body">
+                        <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+                        <div class="form-group">
+                            <label><i class="fas fa-book"></i> Course</label>
+                            <select class="form-control courses" name="courses">
+                                <option selected disabled hidden>Select Course</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-calendar-alt"></i> Schedule</label>
+                            <select class="form-control schedules" name="schedules">
+                                <option selected disabled hidden>Select Schedule</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-map"></i> Venue</label>
+                            <input type="text" class="form-control venue" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-money"></i> Price</label>
+                            <input type="text" class="form-control price" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-users"></i> Available Slots</label>
+                            <input type="text" class="form-control slots" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-chalkboard"></i> Instructor</label>
+                            <input type="text" class="form-control instructor" readonly>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border spinner" role="status" style="display:none;">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Enroll</button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
