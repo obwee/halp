@@ -393,24 +393,6 @@ class Validations {
         // Loop thru each rules to check if there are rules violated.
         let oValidationResult = this.loopThruRulesForErrors(aAddCourseRules, sFormId);
 
-        if (oValidationResult.result === true) {
-            if ($(sFormId).find('.courseAmount').val() == '' || $(sFormId).find('.courseAmount').val() <= 0) {
-                return {
-                    result: false,
-                    element: '.courseAmount',
-                    msg: 'Course amount cannot be empty/zero.'
-                };
-            }
-
-            if (/^[0-9]+$/g.test($(sFormId).find('.courseAmount').val()) === false) {
-                return {
-                    result: false,
-                    element: '.courseAmount',
-                    msg: 'Invalid course amount.'
-                };
-            }
-        }
-
         // Return the result of the validation.
         return oValidationResult;
     }
@@ -1093,6 +1075,47 @@ class Validations {
 
         // Loop thru each rules to check if there are rules violated and return the result.
         return this.loopThruRulesForErrors(aPaymentModeInputs, sFormId);
+    }
+
+    /**
+     * validateEnrollmentInputs
+     * Validates the inputs of the user before submission for enrolling a new schedule.
+     * @param {string} sFormId (The id of the form.)
+     * @return {object} oValidationResult (Result of the validation.)
+     */
+    validateEnrollmentInputs(sFormId) {
+        // Declare initially the validation result to be returned by the function.
+        let oValidationResult = {
+            result: true
+        }
+
+        if ($(sFormId).find('.courses').val() === null) {
+            return {
+                result: false,
+                element: '.courses',
+                msg: 'Please select a course.'
+            };
+        }
+
+        if ($(sFormId).find('.schedules').val() === null) {
+            return {
+                result: false,
+                element: '.schedules',
+                msg: 'Please select a schedule.'
+            };
+        }
+
+        $.each($(sFormId).serializeArray(), (iKey, oElement) => {
+            if (/^[0-9]+$/.test(oElement.value) === false) {
+                oValidationResult = {
+                    result: false,
+                    element: `.${oElement.name}`,
+                    msg: `Invalid ${(oElement.value === 'courses') ? 'course' : 'schedule'}.`
+                };
+                return false;
+            }
+        });
+        return oValidationResult;
     }
 
     /**

@@ -163,7 +163,7 @@ class PdfQuotation extends Fpdf
         //Table Header
         $this->Cell(25, 5, 'COURSE CODE', 1, 0, 'C');
 
-        $this->Cell(80, 5, 'COURSE DESCRIPTION', 1, 0, 'C');
+        $this->Cell(80, 5, 'COURSE NAME', 1, 0, 'C');
 
         $this->Cell(40, 5, 'SCHEDULE', 1, 0, 'C');
 
@@ -189,11 +189,11 @@ class PdfQuotation extends Fpdf
             $sCourseDescription = ($aCourse['courseDescription'] !== '') ? ' - ' . $aCourse['courseDescription'] : '';
 
             $this->Cell(25, 5, ($aCourse['courseCode'] !== '') ? $aCourse['courseCode'] : '-', 1, 0, 'C');
-            $this->Cell(80, 5, $sCourseName . $sCourseDescription, 1, 0, 'C');
+            $this->Cell(80, 5, $sCourseName, 1, 0, 'C');
             $this->Cell(40, 5, $aCourse['fromDate'] . ' - ' . $aCourse['toDate'], 1, 0, 'C');
             $this->Cell(20, 5, ($aCourse['venue'] !== '') ? $aCourse['venue'] : '-', 1, 0, 'C');
             $this->Cell(8, 5, $aCourse['numPax'], 1, 0, 'C');
-            $this->Cell(25, 5, $aCourse['numPax'] * $aCourse['coursePrice'], 1, 0, 'C');
+            $this->Cell(25, 5, 'P' . number_format($aCourse['numPax'] * $aCourse['coursePrice']), 1, 0, 'C');
             $this->Ln(5);
         }
     }
@@ -216,7 +216,7 @@ class PdfQuotation extends Fpdf
             $iTotalAmount += ($aCourse['numPax'] * $aCourse['coursePrice']);
         }
 
-        $this->Cell(25, 5, $iTotalAmount, 1, 0, 'C');
+        $this->Cell(25, 5, 'P' . number_format($iTotalAmount), 1, 0, 'C');
 
         $this->Ln(10);
     }

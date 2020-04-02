@@ -165,6 +165,7 @@ var oQuotationRequests = (() => {
             }).then((oResponse) => {
                 if (oResponse.value.bResult === true) {
                     oLibraries.displayAlertMessage('success', oResponse.value.sMsg);
+                    $('.modal').modal('hide');
                     populateSendersTable();
                 }
             });

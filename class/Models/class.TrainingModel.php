@@ -53,7 +53,7 @@ class TrainingModel
      */
     public function getTrainingData($sUserId, $aScheduleIds)
     {
-        $sPlaceHolders = str_repeat ('?, ',  count ($aScheduleIds) - 1) . '?';
+        $sPlaceHolders = str_repeat('?, ',  count($aScheduleIds) - 1) . '?';
 
         // Prepare a select query.
         $statement = $this->oConnection->prepare("
@@ -76,4 +76,64 @@ class TrainingModel
         return $statement->fetchAll();
     }
 
+    /**
+     * enrollForTraining
+     * Enroll a student for training.
+     * @param int $iScheduleId
+     * @param int $iCourseId
+     * @param int $iStudentId
+     * @return int
+     */
+    public function enrollForTraining($iScheduleId, $iCourseId, $iStudentId)
+    {
+        try {
+            $this->oConnection->beginTransaction();
+
+            // Prepare an insert query to the training table.
+            $oTrainingStatement = $this->oConnection->prepare("
+                INSERT INTO tbl_training
+                    (scheduleId, studentId)
+                VALUES
+                    (?, ?)
+            ");
+
+            $oTrainingStatement->execute([
+                $iScheduleId,
+                $iStudentId
+            ]);
+
+            // Prepare an insert query to the payment table.
+            $oPaymentStatement = $this->oConnection->prepare("
+                INSERT INTO tbl_payments
+                    (trainingId, paymentDate)
+                VALUES
+                    (?, ?)
+            ");
+
+            // Execute update.
+            $oPaymentStatement->execute([
+                $this->oConnection->lastInsertId(),
+                date('Y-m-d H:i:s')
+            ]);
+
+            // Prepare an update query to the schedule table.
+            $oScheduleStatement = $this->oConnection->prepare("
+                UPDATE tbl_schedules
+                    SET remainingSlots = (remainingSlots - 1)
+                WHERE 1 = 1
+                    AND id         = ?
+                    AND courseId   = ?
+            ");
+
+            // Execute update.
+            $oScheduleStatement->execute([
+                $iScheduleId,
+                $iCourseId
+            ]);
+            return $this->oConnection->commit();
+        } catch (PDOException $oError) {
+            $this->oConnection->rollBack();
+            return 0;
+        }
+    }
 }

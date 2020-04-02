@@ -147,4 +147,16 @@ class Utils
     {
         return array_search($mNeedle, array_column($aHaystack, $sColumnToSearch));
     }
+
+    /**
+     * unsetUnnecessaryData
+     */
+    public static function unsetUnnecessaryData(&$aData, $aColumnsToUnset)
+    {
+        foreach ($aData as $iDataKey => $aDetails) {
+            foreach ($aColumnsToUnset as $sKeyToUnset) {
+                unset($aData[$iDataKey][$sKeyToUnset]);
+            }
+        }
+    }
 }

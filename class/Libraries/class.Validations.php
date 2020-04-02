@@ -681,44 +681,6 @@ class Validations
     }
 
     /**
-     * validateAddUpdateCourseInputs
-     * Method for validating add course inputs sent by AJAX.
-     * @param array $aParams
-     * @return array $aValidationResult
-     */
-    public static function validateAddUpdateCourseInputs($aParams)
-    {
-        // Loop thru each inputRules and if there are rules violated, return false and the error message.
-        $aValidationResult = self::loopThruRulesForErrors($aParams, self::$aAddUpdateCourseRules, '.');
-
-        if ($aValidationResult['bResult'] === true) {
-            if (empty($aParams['courseAmount']) === true || $aParams['courseAmount'] <= 0) {
-                return array(
-                    'bResult'  => false,
-                    'sElement' => '.courseAmount',
-                    'sMsg'     => 'Course amount cannot be empty/zero.'
-                );
-            }
-            if (!preg_match('/^[0-9]+$/', $aParams['courseAmount'])) {
-                return array(
-                    'bResult'  => false,
-                    'sElement' => '.courseAmount',
-                    'sMsg'     => 'Invalid course amount.'
-                );
-            }
-        }
-
-        // Add course amount inside the $aAddCourseRules array for data preparation.
-        array_push(self::$aAddUpdateCourseRules, array(
-            'sElement'    => 'courseAmount',
-            'sColumnName' => ':coursePrice'
-        ));
-
-        // Return the result of the validation.
-        return $aValidationResult;
-    }
-
-    /**
      * validateScheduleInputs
      * Method for validating schedule inputs sent by AJAX.
      * @param string $sAction = 'Update'
@@ -1099,6 +1061,35 @@ class Validations
                     'sMsg'     => 'Invalid course.'
                 );
             }
+        }
+
+        return array(
+            'bResult' => true
+        );
+    }
+
+    /**
+     * validateEnrollmentInputs
+     * Method for validating enrollment inputs sent by AJAX.
+     * @param array $aParams
+     * @return array $aValidationResult
+     */
+    public static function validateEnrollmentInputs($aParams)
+    {
+        // Check if the values are not a digit.
+        if (!preg_match('/^[\d]/', $aParams['courses'])) {
+            return array(
+                'bResult'  => false,
+                'sElement' => '.courses',
+                'sMsg'     => 'Invalid course.'
+            );
+        }
+        if (!preg_match('/^[\d]/', $aParams['schedules'])) {
+            return array(
+                'bResult'  => false,
+                'sElement' => '.schedules',
+                'sMsg'     => 'Invalid schedule.'
+            );
         }
 
         return array(
