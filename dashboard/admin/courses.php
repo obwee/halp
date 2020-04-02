@@ -40,15 +40,6 @@ require_once "template/header.php";
                         <label for="courseDetails"><span class="fas fa-book-open"></span> Course Details</label>
                         <input type="text" class="form-control courseDetails" name="courseDetails" placeholder="Course Details" autofocus>
                     </div>
-                    <div class="form-group">
-                        <label for="courseAmount"><span class="fas fa-money"></span> Amount</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">₱</span>
-                            </div>
-                            <input type="text" class="form-control courseAmount" name="courseAmount" placeholder="Course Amount">
-                        </div>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Add</button>
@@ -80,15 +71,6 @@ require_once "template/header.php";
                     <div class="form-group">
                         <label for="courseDetails"><span class="fas fa-book-open"></span> Course Details</label>
                         <input type="text" class="form-control courseDetails" name="courseDetails" placeholder="Course Details" autofocus>
-                    </div>
-                    <div class="form-group">
-                        <label for="courseAmount"><span class="fas fa-money"></span> Amount</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">₱</span>
-                            </div>
-                            <input type="text" class="form-control courseAmount" name="courseAmount" placeholder="Course Amount">
-                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

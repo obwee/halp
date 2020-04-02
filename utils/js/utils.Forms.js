@@ -69,14 +69,6 @@ var oForms = (() => {
             }
             return this.value = this.value.replace(/[^a-zA-Z0-9&\-\s\.]/g, '');
         });
-
-        $(document).on('keyup keydown', '.courseAmount', function () {
-            // Input must always start by a numeric character.
-            if (this.value.length === 1 && this.value.match(/[^1-9]/)) {
-                return this.value = this.value.replace(this.value, '');
-            }
-            return this.value = this.value.replace(/[^0-9]/g, '');
-        });
     }
 
     /**

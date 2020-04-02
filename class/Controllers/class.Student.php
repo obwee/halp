@@ -7,10 +7,10 @@
 class Student extends BaseController
 {
     /**
-     * @var StudentModel $oStudentModel
-     * Class instance for Student model.
+     * @var TrainingModel $oTrainingModel
+     * Class instance for training model.
      */
-    private $oStudentModel;
+    private $oTrainingModel;
 
     /**
      * Student constructor.
@@ -20,8 +20,9 @@ class Student extends BaseController
     {
         // Store the $_POST variables inside $this->aParams variable.
         $this->aParams = $aPostVariables;
-        // Instantiate the StudentModel class and store it inside $this->oStudentModel.
-        $this->oStudentModel = new StudentModel();
+        // Instantiate the TrainingModel.
+        $this->oTrainingModel = new TrainingModel();
+        parent::__construct();
     }
 
     /**
@@ -71,7 +72,6 @@ class Student extends BaseController
      */
     public function sendEmail()
     {
-        $aResult = array();
         $aValidationResult = Validations::validateEmailInputs($this->aParams);
 
         if ($aValidationResult['result'] === true) {
@@ -122,13 +122,69 @@ class Student extends BaseController
 
     public function fetchStudentDetails()
     {
-        $aStudentName = explode(' ', Session::get('fullName'));
-        $iUserId = $this->oStudentModel->getUserId($aStudentName[0], $aStudentName[1]);
-
         $aUserId = array(
-            ':userId' => $iUserId
+            ':userId' => $this->getUserId()
         );
 
         echo json_encode($this->oStudentModel->getUserDetails($aUserId));
+    }
+
+    /**
+     * enrollForTraining
+     * Enroll a schedule for a particular student.
+     */
+    public function enrollForTraining()
+    {
+        $aValidationResult = Validations::validateEnrollmentInputs($this->aParams);
+        if ($aValidationResult['bResult'] === true) {
+            $aDatabaseColumns = array(
+                'courses'   => 'courseId',
+                'schedules' => 'scheduleId'
+            );
+
+            Utils::renameKeys($this->aParams, $aDatabaseColumns);
+            Utils::sanitizeData($this->aParams);
+
+            // Insert into training table.
+            $iQuery = $this->oTrainingModel->enrollForTraining($this->aParams['scheduleId'], $this->aParams['courseId'], $this->getUserId());
+
+            if ($iQuery > 0) {
+                $aResult = array(
+                    'bResult' => true,
+                    'sMsg'    => 'Course enrolled!'
+                );
+            } else {
+                $aResult = array(
+                    'bResult' => false,
+                    'sMsg'    => 'An error has occured.'
+                );
+            }
+        } else {
+            $aResult = $aValidationResult;
+        }
+
+        echo json_encode($aResult);
+    }
+
+    public function printRegiForm()
+    {
+        // Unset unnecessary data to be returned to the front-end.
+        $aUnnecessaryData = array(
+            'courseId',
+            'paymentId',
+            'instructorId',
+            'scheduleId',
+            'trainingId',
+            'paymentStatus',
+            'remainingSlots',
+            'instructorName'
+        );
+        $aCourseDetails = [$this->aParams];
+        Utils::unsetUnnecessaryData($aCourseDetails, $aUnnecessaryData);
+
+        $aStudentDetails = $this->oStudentModel->getUserDetails(['userId' => $this->getUserId()]);
+        print_r($aCourseDetails[0]);
+        print_r($aStudentDetails);
+        die;
     }
 }

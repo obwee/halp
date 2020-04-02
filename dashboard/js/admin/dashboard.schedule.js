@@ -176,7 +176,7 @@ let CALENDAR = (function () {
                 confirmButtonText: 'Yes',
             }).then((bIsConfirm) => {
                 if (bIsConfirm.value === true) {
-                    executeUpdate(prepareCalendarData(oInfo.event));
+                    executeUpdate(prepareCalendarData(oInfo.event, true));
                 } else {
                     oInfo.revert();
                 }
@@ -405,16 +405,20 @@ let CALENDAR = (function () {
     /**
      * prepareCalendarData
      * @param {object} oData
+     * @param {bool} bReschedule
      */
-    function prepareCalendarData(oData) {
+    function prepareCalendarData(oData, bReschedule = false) {
         return {
             iScheduleId: parseInt(oData.id, 10),
             iInstructorId: parseInt(oData.extendedProps.instructor.id, 10),
             iVenueId: oData.extendedProps.venue.id,
             iCourseId: oData.extendedProps.courseId,
+            iCoursePrice: oData.extendedProps.coursePrice,
             sStart: moment(oData.start).format('YYYY-MM-DD'),
             sEnd: moment(oData.end).subtract(1, 'days').format('YYYY-MM-DD'),
-            iSlots: oData.extendedProps.numSlots
+            iSlots: oData.extendedProps.numSlots,
+            iRemainingSlots: oData.extendedProps.remainingSlots,
+            bReschedule: bReschedule
         };
     }
 

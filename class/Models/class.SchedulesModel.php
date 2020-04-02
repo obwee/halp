@@ -203,9 +203,10 @@ class SchedulesModel
             INNER JOIN tbl_users   tu
             ON ts.instructorId = tu.userId
             WHERE 1 = 1
-                AND ts.courseId  = ?
+                AND ts.courseId = ?
                 AND ts.fromDate > CURDATE()
                 AND ts.toDate   > CURDATE()
+                AND ts.status   = 'Active'
         ");
 
         // Execute the above statement.
@@ -223,10 +224,11 @@ class SchedulesModel
      */
     public function changeInstructors($aData)
     {
-        $this->oConnection->beginTransaction();
+        try {
+            $this->oConnection->beginTransaction();
 
-        // Prepare an update query to the schedules table.
-        $oStatement = $this->oConnection->prepare("
+            // Prepare an update query to the schedules table.
+            $oStatement = $this->oConnection->prepare("
             UPDATE tbl_schedules
             SET
                 instructorId = ?
@@ -236,16 +238,20 @@ class SchedulesModel
                 AND toDate   > CURDATE()
         ");
 
-        foreach ($aData as $iScheduleId => $iInstructorId) {
-            // Execute update.
-            $oStatement->execute([
-                $iInstructorId,
-                $iScheduleId
-            ]);
+            foreach ($aData as $iScheduleId => $iInstructorId) {
+                // Execute update.
+                $oStatement->execute([
+                    $iInstructorId,
+                    $iScheduleId
+                ]);
+            }
+            return $this->oConnection->commit();
+        } catch (PDOException $oError) {
+            $this->oConnection->rollBack();
+            return 0;
         }
-        return $this->oConnection->commit();
     }
-    
+
     /**
      * changeVenues
      * Updates the venue status inside the schedules table.

@@ -73,6 +73,16 @@ class Schedules extends BaseController
     {
         $aValidationResult = Validations::validateScheduleInputs($this->aParams);
         if ($aValidationResult['bResult'] === true) {
+
+            if ($this->aParams['bReschedule'] == true && $this->aParams['iRemainingSlots'] < $this->aParams['iSlots']) {
+                $aResult = array(
+                    'bResult' => false,
+                    'sMsg'    => 'Cannot update schedules. Inform the enrolees first.'
+                );
+                echo json_encode($aResult);
+                exit();
+            }
+
             // Declare an array with keys equivalent to that inside the database.
             $aDatabaseColumns = array(
                 'iScheduleId'   => 'id',
@@ -87,6 +97,15 @@ class Schedules extends BaseController
 
             Utils::renameKeys($this->aParams, $aDatabaseColumns);
             Utils::sanitizeData($this->aParams);
+
+            $aUnnecessaryData = array(
+                'iRemainingSlots',
+                'bReschedule'
+            );
+
+            $aScheduleDetails = [$this->aParams];
+            Utils::unsetUnnecessaryData($aScheduleDetails, $aUnnecessaryData);
+            $this->aParams = $aScheduleDetails[0];
 
             $this->aParams['remainingSlots'] = $this->getRemainingSlots($this->aParams);
 

@@ -71,6 +71,11 @@ var oEnrollment = (() => {
             $('#enrollModal').modal('show');
         });
 
+        $(document).on('click', '#printRegiForm', function () {
+            const oDetails = aEnrolledCourses.filter(oCourse => oCourse.trainingId == $(this).attr('data-id'))[0];
+            printRegiForm(oDetails);
+        });
+
         $(document).on('change', '.courses', function () {
             populateScheduleDropdown($(this).val());
         });
@@ -85,25 +90,18 @@ var oEnrollment = (() => {
             const sFormId = `#${$(this).attr('id')}`;
 
             // Disable the form.
-            // oForms.disableFormState(sFormId, true);
+            oForms.disableFormState(sFormId, true);
 
             // Invoke the resetInputBorders method inside oForms utils for that form.
             oForms.resetInputBorders(sFormId);
 
             const oInputForms = {
-                '#addPaymentMethodForm': {
-                    'validationMethod': oValidations.validatePaymentModeInputs(sFormId),
-                    'requestClass': 'PaymentMethods',
-                    'requestAction': 'addPaymentMethod',
-                    'alertTitle': 'Add payment method?',
-                    'alertText': 'This will insert a new payment method.'
-                },
-                '#editPaymentMethodForm': {
-                    'validationMethod': oValidations.validatePaymentModeInputs(sFormId),
-                    'requestClass': 'PaymentMethods',
-                    'requestAction': 'updatePaymentMethod',
-                    'alertTitle': 'Update payment method?',
-                    'alertText': 'This will update the payment method.'
+                '#enrollForm': {
+                    'validationMethod': oValidations.validateEnrollmentInputs(sFormId),
+                    'requestClass': 'Student',
+                    'requestAction': 'enrollForTraining',
+                    'alertTitle': 'Enroll course?',
+                    'alertText': 'This will add a new course to enroll.'
                 }
             }
 
@@ -162,6 +160,55 @@ var oEnrollment = (() => {
         $('.instructor').val(`${oInstructor.firstName} ${oInstructor.lastName}`);
     }
 
+    /**
+     * executeSubmit
+     * @param {string} sFormId
+     * @param {string} sRequestClass
+     * @param {string} sRequestAction
+     */
+    function executeSubmit(sFormId, sRequestClass, sRequestAction) {
+        const oFormData = new FormData($(sFormId)[0])
+        // Execute AJAX.
+        $.ajax({
+            url: `/Nexus/utils/ajax.php?class=${sRequestClass}&action=${sRequestAction}`,
+            type: 'POST',
+            data: oFormData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            beforeSend: () => {
+                $('.spinner').css('display', 'block');
+            },
+            success: (oResponse) => {
+                if (oResponse.bResult === true) {
+                    fetchCourses();
+                    oLibraries.displayAlertMessage('success', oResponse.sMsg);
+                    $('.modal').modal('hide');
+                } else {
+                    oLibraries.displayErrorMessage(sFormId, oResponse.sMsg, oResponse.sElement);
+                }
+            },
+            complete: () => {
+                $('.spinner').css('display', 'none');
+            }
+        });
+    }
+
+    function printRegiForm(oDetails) {
+        $.ajax({
+            url: `/Nexus/utils/ajax.php?class=Student&action=printRegiForm`,
+            type: 'POST',
+            data: oDetails,
+            dataType: 'json',
+            success: function (oResponse) {
+
+            },
+            error: function () {
+                // oLibraries.displayAlertMessage('error', 'An error has occured. Please try again.');
+            }
+        });
+    }
+
     function fetchCourses() {
         $.ajax({
             url: `/Nexus/utils/ajax.php?class=Courses&action=fetchCoursesToEnroll`,
@@ -181,7 +228,7 @@ var oEnrollment = (() => {
 
     function populateEnrollmentTable() {
         let aColumnDefs = [
-            { orderable: false, targets: [2, 3, 4] }
+            { orderable: false, targets: [3, 4, 5, 6] }
         ];
 
         loadTable(oTblEnrollment.attr('id'), oColumns.aCourses, aColumnDefs);

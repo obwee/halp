@@ -19,9 +19,9 @@ class CourseModel
         // Prepare an insert query.
         $statement = $this->oConnection->prepare("
             INSERT INTO tbl_courses
-                (courseName, coursePrice, courseDescription, courseCode)
+                (courseName, courseDescription, courseCode)
             VALUES
-                (:courseName, :coursePrice, :courseDescription, :courseCode)
+                (:courseName, :courseDescription, :courseCode)
         ");
 
         // Return the result of the execution of the above statement.
@@ -35,7 +35,6 @@ class CourseModel
             UPDATE tbl_courses
             SET
                 courseName = :courseName,
-                coursePrice = :coursePrice,
                 courseDescription = :courseDescription,
                 courseCode = :courseCode
             WHERE id = :courseId

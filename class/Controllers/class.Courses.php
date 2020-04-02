@@ -58,54 +58,42 @@ class Courses extends BaseController
 
     public function addCourse()
     {
-        $aValidationResult = Validations::validateAddUpdateCourseInputs($this->aParams);
+        Utils::sanitizeData($this->aParams);
+        Utils::prepareData($this->aParams, 'addUpdateCourse');
 
-        if ($aValidationResult['bResult'] === true) {
-            Utils::sanitizeData($this->aParams);
-            Utils::prepareData($this->aParams, 'addUpdateCourse');
+        $aResult = $this->oCourseModel->addCourse($this->aParams);
 
-            $aResult = $this->oCourseModel->addCourse($this->aParams);
-
-            if ($aResult === true) {
-                $aResult = array(
-                    'bResult' => true,
-                    'sMsg'    => 'Course added!'
-                );
-            } else {
-                $aResult = array(
-                    'bResult' => false,
-                    'sMsg'    => 'An error has occurred. Please try again.'
-                );
-            }
+        if ($aResult === true) {
+            $aResult = array(
+                'bResult' => true,
+                'sMsg'    => 'Course added!'
+            );
         } else {
-            $aResult = $aValidationResult;
+            $aResult = array(
+                'bResult' => false,
+                'sMsg'    => 'An error has occurred. Please try again.'
+            );
         }
         echo json_encode($aResult);
     }
 
     public function updateCourse()
     {
-        $aValidationResult = Validations::validateAddUpdateCourseInputs($this->aParams);
+        Utils::sanitizeData($this->aParams);
+        Utils::prepareData($this->aParams, 'addUpdateCourse');
 
-        if ($aValidationResult['bResult'] === true) {
-            Utils::sanitizeData($this->aParams);
-            Utils::prepareData($this->aParams, 'addUpdateCourse');
+        $aResult = $this->oCourseModel->updateCourse($this->aParams);
 
-            $aResult = $this->oCourseModel->updateCourse($this->aParams);
-
-            if ($aResult === true) {
-                $aResult = array(
-                    'bResult' => true,
-                    'sMsg'    => 'Course updated!'
-                );
-            } else {
-                $aResult = array(
-                    'bResult' => false,
-                    'sMsg'    => 'An error has occurred. Please try again.'
-                );
-            }
+        if ($aResult === true) {
+            $aResult = array(
+                'bResult' => true,
+                'sMsg'    => 'Course updated!'
+            );
         } else {
-            $aResult = $aValidationResult;
+            $aResult = array(
+                'bResult' => false,
+                'sMsg'    => 'An error has occurred. Please try again.'
+            );
         }
         echo json_encode($aResult);
     }
@@ -241,16 +229,12 @@ class Courses extends BaseController
         // Unset unnecessary data to be returned to the front-end.
         $aUnnecessaryData = array(
             'venue',
-            'instructorId', 
+            'instructorId',
             'instructorName',
             'remainingSlots'
         );
 
-        foreach ($aCoursesToEnroll as $iKey => $aCourses) {
-            foreach ($aUnnecessaryData as $sKeyToUnset) {
-                unset($aCoursesToEnroll[$iKey][$sKeyToUnset]);
-            }
-        }
+        Utils::unsetUnnecessaryData($aCoursesToEnroll, $aUnnecessaryData);
 
         // Get training data.
         $aTrainingData = $this->oTrainingModel->getTrainingData($iStudentId, $aScheduleIds);
@@ -263,11 +247,11 @@ class Courses extends BaseController
             $aEnrolledCourses[$iKey]['paymentId'] = $aTrainingData[$iIndex]['paymentId'];
             $aEnrolledCourses[$iKey]['paymentStatus'] = $this->aPaymentStatus[$aTrainingData[$iIndex]['paymentStatus']];
         }
-        
+
         echo json_encode(array(
             'aEnrolledCourses'  => $aEnrolledCourses,
             'aCoursesAvailable' => array_values($aCoursesToEnroll),
-            'aInstructors'      => array_values(array_filter($this->oInstructorsModel->fetchInstructors(), fn($aInstructors) => $aInstructors['status'] === 'Active'))
+            'aInstructors'      => array_values(array_filter($this->oInstructorsModel->fetchInstructors(), fn ($aInstructors) => $aInstructors['status'] === 'Active'))
         ));
     }
 }

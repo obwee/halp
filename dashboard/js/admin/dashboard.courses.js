@@ -23,10 +23,6 @@ var oCourses = (() => {
                     (oRow.courseDescription === '') ? '-' : oRow.courseDescription
             },
             {
-                title: 'Amount', className: 'text-center', render: (aData, oType, oRow) =>
-                    'P' + parseInt(oRow.coursePrice, 10).toLocaleString()
-            },
-            {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
                     `<button class="btn btn-warning btn-sm" data-toggle="modal" id="editCourse" data-id="${oRow.id}">
                         <i class="fa fa-pencil-alt"></i>
@@ -59,7 +55,6 @@ var oCourses = (() => {
             $('.courseCode').val(oCourse.courseCode);
             $('.courseTitle').val(oCourse.courseName);
             $('.courseDetails').val((oCourse.courseDescription === '-') ? '' : oCourse.courseDescription);
-            $('.courseAmount').val(oCourse.coursePrice);
 
             $('#editCourseModal').modal('show');
         });
@@ -294,7 +289,7 @@ var oCourses = (() => {
         };
 
         let aColumnDefs = [
-            { orderable: false, targets: [2, 3, 4] }
+            { orderable: false, targets: [1, 2, 3] }
         ];
 
         loadTable(oTblCourses.attr('id'), oAjax, oColumns.aCourses, aColumnDefs);
@@ -309,7 +304,6 @@ var oCourses = (() => {
             pagingType: 'first_last_numbers',
             pageLength: 4,
             ordering: true,
-            order: [[1, 'asc']],
             searching: true,
             lengthChange: true,
             lengthMenu: [[4, 8, 12, 16, 20, 24, -1], [4, 8, 12, 16, 20, 24, 'All']],
