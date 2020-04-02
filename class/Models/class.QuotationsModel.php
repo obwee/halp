@@ -281,4 +281,26 @@ class QuotationsModel
         // Execute the above statement along with the needed where clauses.
         $statement->execute($aIds);
     }
+
+    public function fetchDetailsForEachCourse($aCourseIds)
+    {
+        $sPlaceHolders = str_repeat ('?, ',  count ($aCourseIds) - 1) . '?';
+
+        // Query the tbl_quotation_details.
+        $statement = $this->oConnection->prepare("
+            SELECT
+                ts.courseId, tc.courseDescription, tc.courseName, tc.courseCode, ts.coursePrice,
+                ts.fromDate, ts.toDate, tv.venue
+            FROM tbl_schedules ts
+            INNER JOIN tbl_courses    tc ON ts.courseId   = tc.id
+            INNER JOIN tbl_venue      tv ON ts.venueId = tv.id
+            WHERE ts.courseId IN ($sPlaceHolders)
+        ");
+
+        // Execute the above statement along with the needed where clauses.
+        $statement->execute($aCourseIds);
+
+        // Return the result of the execution of the above statement.
+        return $statement->fetchAll();
+    }
 }

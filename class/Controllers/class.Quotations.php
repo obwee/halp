@@ -325,7 +325,6 @@ class Quotations extends BaseController
 
     public function approveQuotation()
     {
-        die;
         $aIds = array(
             ':userId'          => $this->aParams['iUserId']   ?? 0,
             ':senderId'        => $this->aParams['iSenderId'] ?? 0,
@@ -334,20 +333,17 @@ class Quotations extends BaseController
         );
 
         $aCourseDetails = $this->oQuotationModel->fetchDetails($aIds);
-        $aCourseId = array();
+        $aCourseIds = array();
 
         foreach ($aCourseDetails as $aCourse) {
             if (empty($aCourse['fromDate']) || empty($aCourse['fromDate'])) {
-                $aCourseId[] = $aCourse['courseId'];
+                $aCourseIds[] = $aCourse['courseId'];
             }
         }
 
-        if (empty($aCourseId) === false) {
-            $aAdditionalCourses = $this->oQuotationModel->fetchDetailsForEachCourse();
+        if (empty($aCourseIds) === false) {
+            $aCourseDetails = $this->addAdditionalCoursesWithoutSchedule($aCourseDetails, $aCourseIds);
         }
-
-        print_r($aCourseId);
-        print_r($aCourseDetails); die;
 
         $aSenderDetails = array_splice($this->aParams, 3, 3);
         $aSenderDetails['sCompanyName'] = ($aCourseDetails[0]['isCompanySponsored'] == 0) ? 'N/A' : $aCourseDetails[0]['companyName'];
@@ -362,6 +358,23 @@ class Quotations extends BaseController
                 'sMsg'    => 'Quotation approved!'
             )
         );
+    }
+
+    private function addAdditionalCoursesWithoutSchedule($aOriginalCourseDetailsSelected, $aCourseIds)
+    {
+        $aAdditionalCourseDetails = $this->oQuotationModel->fetchDetailsForEachCourse($aCourseIds);
+
+        foreach ($aOriginalCourseDetailsSelected as $mKey => $aCourse) {
+            foreach ($aAdditionalCourseDetails as $mAdditionalKey => $aAdditionalCourse) {
+                if ($aCourse['courseId'] == $aAdditionalCourse['courseId']) {
+                    $aAdditionalCourseDetails[$mAdditionalKey]['numPax'] = $aCourse['numPax'];
+                    $aAdditionalCourseDetails[$mAdditionalKey]['companyName'] = $aCourse['companyName'];
+                    $aAdditionalCourseDetails[$mAdditionalKey]['isCompanySponsored'] = $aCourse['isCompanySponsored'];
+                    unset($aOriginalCourseDetailsSelected[$mKey]);
+                }
+            }
+        }
+        return [...$aOriginalCourseDetailsSelected, ...$aAdditionalCourseDetails];
     }
 
     private function processSendingEmail($aSenderDetails, $aCourseDetails)
