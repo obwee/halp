@@ -21,7 +21,7 @@
 
 </head>
 
-<body>
+<body data-spy="scroll" data-target="#nav">
 
 
 
@@ -40,6 +40,10 @@
             <div class="navbar-collapse collapse" id="navbar-collapse-main">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#faqs">FAQs</a></li>
+                    <li><a href="#terms">Terms and Conditions</a></li>
+                    <li><a href="#contact">Contact</a></li>
                     <li><a href="courses.php" target="_blank">Courses</a></li>
                     <!--    <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown">Courses<b class="caret"></b></a>
@@ -66,13 +70,8 @@
                         <li class="dd-content"><a href="courses/cysA.php" target="_blank">Cybersecurity Analyst+</a></li>
                     </ul>
                 </li> -->
-
-                    <li><a href="#services">Services</a></li>
                     <li><a href="" data-toggle="modal" data-target="#getQuoteModal">Get Quote</a></li>
                     <li><a href="" data-toggle="modal" data-target="#emailUsModal">Email Us</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="#faqs">FAQs</a></li>
-                    <li><a href="#terms">Terms and Conditions</a></li>
                 </ul>
             </div>
         </div>
@@ -661,10 +660,10 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            $("a").click(function() {
-                $("a").css("color", "");
-                $(this).css("color", "#edbb00");
-            });
+            //$("a").click(function() {
+            //    $("a").css("color", "");
+            //    $(this).css("color", "#ffffff");
+            //});
 
             $(window).scroll(function() {
                 var scroll = $(window).scrollTop();

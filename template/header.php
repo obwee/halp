@@ -139,15 +139,15 @@
                     </li>
                     <li class="treeview">
                         <a href="#.php">
-                            <i class="fas fa-users"></i>
+                            <i class="fas fa-calendar"></i>
                             <span>&emsp;Trainings</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="/Nexus/dashboard/admin/courses"><i class="fas fa-book"></i>&emsp;Courses</a></li>
-                            <li><a href="/Nexus/dashboard/admin/schedule"><i class="far fa-calendar-alt"></i>&emsp; Schedule</a></li>
+                            <li><a href="/Nexus/dashboard/admin/upcomingSched"><i class="fas fa-calendar-alt"></i>&emsp;Upcoming Schedule</a></li>
+                            <li><a href="/Nexus/dashboard/admin/upcomingSched"><i class="fas fa-calendar-check"></i>&emsp;Ongoing Schedule</a></li>
                         </ul>
                     </li>
                     <li>
@@ -160,6 +160,8 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
+                            <li><a href="/Nexus/dashboard/admin/courses"><i class="fas fa-book"></i>&emsp;Courses</a></li>
+                            <li><a href="/Nexus/dashboard/admin/schedule"><i class="far fa-calendar-alt"></i>&emsp; Schedule</a></li>
                             <li><a href="/Nexus/dashboard/admin/venue"><i class="fas fa-map-marked-alt"></i>&emsp; Venue</a></li>
                             <li><a href="/Nexus/dashboard/admin/instructors"><i class="fas fa-chalkboard-teacher"></i>&emsp;Instructors </a></li>
                             <?php if (Session::get('LOA') === 'Super Admin') { ?>
