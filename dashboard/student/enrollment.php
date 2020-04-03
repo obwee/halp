@@ -25,8 +25,8 @@ require_once "template/studentHeader.php";
     <div class="modal fade" id="paymentModal" role="dialog">
         <div class="modal-dialog modal-lg paymentModal">
             <div class="modal-content">
-                <div class="modal-header" style="background-color: #A2C710;">
-                    <h5 align="center">Upload Payment</h5>
+                <div class="modal-header" style="background-color: #605ca8;">
+                    <h5 align="center" style="color: white;">Upload Payment</h5>
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
@@ -57,8 +57,8 @@ require_once "template/studentHeader.php";
     <div class="modal fade" id="enrollModal" role="dialog">
         <div class="modal-dialog enrollModal">
             <div class="modal-content">
-                <div class="modal-header" style="background-color: #A2C710;">
-                    <h5 align="center">Enrollment</h5>
+                <div class="modal-header" style="background-color: #605ca8;">
+                    <h5 align="center" style="color:white;">Enrollment</h5>
                 </div>
                 <form action="POST" id="enrollForm">
                     <div class="modal-body">
@@ -105,6 +105,47 @@ require_once "template/studentHeader.php";
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="cancelModal" role="dialog">
+        <div class="modal-dialog cancelModal">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #605ca8;">
+                    <h5 align="center" style="color:white;">Cancel Reservation</h5>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+                        <div style="border:1px solid #d5d5d5; padding:5px 5px;border-radius:3px 3px;text-align: justify">
+                            <p><i class="fas fa-exclamation-circle" style="color:red;"></i> To RESCHEDULE your training, please contact us immediately.</p>
+                            <p><i class="fas fa-exclamation-circle" style="color:red;"></i> Refunds requests should be submitted atleast three (3) days before your reserved schedule.</p>
+                            <p><i class="fas fa-exclamation-circle" style="color:red;"></i> Refunds are not allowed if the student decides to backout on the first day of class.</p>
+                            <p><i class="fas fa-exclamation-circle" style="color:red;"></i> Upon receiving your request, an admin will contact you regarding your refund.</p>
+                            <p><i class="fas fa-exclamation-circle" style="color:red;"></i> Please give us one (1) week to process your request.</p>
+                        </div> <br>
+                        <div class="form-group">
+                            <label for="refundReason"><i class="fas fa-comments"></i> Refund reason:</label>
+                            <textarea class="form-control" id="refundReason" rows="4"></textarea>
+                        </div>
+                        <div>
+                        <div class="custom-control custom-checkbox mr-sm-2">
+                            <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+                            <label class="custom-control-label" for="customControlAutosizing" style="text-align:justify;">I have read, understood and agreed to the terms and conditions stated above. I understand that submitting this request does not guarantee the request to be accepted and processed immediately.</label>
+                        </div>
+                    </div>
+
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border spinner" role="status" style="display:none;">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </div>
 
 <?php
