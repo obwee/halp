@@ -47,6 +47,23 @@ require_once "Template/header.php";
                         <label for="courseInstructor"><span class="fas fa-chalkboard-teacher"></span> Instructor</label>
                         <select class="form-control courseInstructor" name="courseInstructor"></select>
                     </div>
+                    <div id="recurrenceDiv">
+                        <div class="form-group">
+                            <label for="recurrence"><span class="fas fa-calendar"></span> Recurrence</label>
+                            <div class="form-check ml-2">
+                                <input class="form-check-input recurrence" type="radio" name="recurrence" value="" checked>
+                                <label class="form-check-label">None</label>
+                            </div>
+                            <div class="form-check ml-2">
+                                <input class="form-check-input recurrence" type="radio" name="recurrence" value="weekly">
+                                <label class="form-check-label">Weekly</label>
+                            </div>
+                        </div>
+                        <div class="form-group" hidden>
+                            <label for="numRepetitions"><span class="fas fa-clock"></span> No. of Repetitions</label>
+                            <input type="number" name="numRepetitions" class="form-control numRepetitions" min="1" max="4" value="1" disabled>
+                        </div>
+                    </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Add</button>
                         <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
@@ -101,6 +118,23 @@ require_once "Template/header.php";
                     <div class="form-group">
                         <label for="courseInstructor"><span class="fas fa-chalkboard-teacher"></span> Instructor</label>
                         <select class="form-control courseInstructor" name="courseInstructor"></select>
+                    </div>
+                    <div id="recurrenceDiv">
+                        <div class="form-group">
+                            <label for="recurrence"><span class="fas fa-calendar"></span> Recurrence</label>
+                            <div class="form-check ml-2">
+                                <input class="form-check-input recurrence" type="radio" name="recurrence" value="none" checked>
+                                <label class="form-check-label">None</label>
+                            </div>
+                            <div class="form-check ml-2">
+                                <input class="form-check-input recurrence" type="radio" name="recurrence" value="weekly">
+                                <label class="form-check-label">Weekly</label>
+                            </div>
+                        </div>
+                        <div class="form-group" hidden>
+                            <label for="numRepetitions"><span class="fas fa-clock"></span> No. of Days</label>
+                            <input type="number" name="numRepetitions" class="form-control numRepetitions" min="2" max="5" value="2" disabled>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Update</button>

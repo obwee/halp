@@ -41,28 +41,78 @@ class Schedules extends BaseController
         $aSchedules = $this->oScheduleModel->fetchSchedules();
 
         foreach ($aSchedules as $iKey => $aSchedule) {
-            // Add 1 day to each end date for rendering to Full Calendar JS in the front-end.
-            $oEndDate = new DateTime($aSchedule['end']);
-            $oEndDate->modify('+1 day');
-            $aSchedules[$iKey]['end'] = $oEndDate->format('Y-m-d');
+            $this->prepareEventData($aSchedules[$iKey], $aSchedule);
 
-            $aSchedules[$iKey]['venue'] = array(
-                'id'   => $aSchedule['venueId'],
-                'name' => $aSchedule['venue']
+            if ($aSchedule['recurrence'] === 'weekly') {
+                $this->prepareRecurringEventData($aSchedules[$iKey], $aSchedule);
+            }
+
+            $aUnnecessaryData = array(
+                'courseId',
+                'numSlots',
+                'remainingSlots',
+                'instructor',
+                'instructorId',
+                'venue',
+                'venueId',
+                'status',
+                'recurrence',
+                'numRepetitions'
             );
-
-            $aSchedules[$iKey]['instructor'] = array(
-                'id'   => $aSchedule['instructorId'],
-                'name' => $aSchedule['instructor']
-            );
-
-            unset($aSchedules[$iKey]['venueId']);
-            unset($aSchedules[$iKey]['instructorId']);
-
-            $aSchedules[$iKey]['extendedProps'] = array_splice($aSchedules[$iKey], 5, -1);
+            $this->unsetKeys($aSchedules[$iKey], $aUnnecessaryData);
         }
 
         echo json_encode($aSchedules);
+    }
+
+    private function prepareEventData(&$aData, $aDetails)
+    {
+        // Add 1 day to each end date for rendering to Full Calendar JS in the front-end.
+        $oEndDate = new DateTime($aDetails['end']);
+        $oEndDate->modify('+1 day');
+        $aData['end'] = $oEndDate->format('Y-m-d');
+
+        $aVenues = array(
+            'id'   => $aDetails['venueId'],
+            'name' => $aDetails['venue']
+        );
+
+        $aInstructors = array(
+            'id'   => $aDetails['instructorId'],
+            'name' => $aDetails['instructor']
+        );
+
+        $aData['extendedProps'] = array(
+            'isRecurring'    => false,
+            'numSlots'       => $aDetails['numSlots'],
+            'remainingSlots' => $aDetails['remainingSlots'],
+            'courseId'       => $aDetails['courseId'],
+            'status'         => $aDetails['status'],
+            'venue'          => $aVenues,
+            'instructor'     => $aInstructors
+        );
+    }
+
+    private function prepareRecurringEventData(&$aData, $aDetails)
+    {
+        $aData['borderColor'] = 'red';
+        $aData['extendedProps']['isRecurring'] = true;
+        $aData['extendedProps']['frequency'] = $aDetails['numRepetitions'] . ' ' . date('l', strtotime($aDetails['end'])) . 's';
+        $aData['rrule'] = array(
+            'freq'      => $aDetails['recurrence'],
+            'interval'  => 1,
+            'byweekday' => array(
+                substr(strtolower(date('l', strtotime($aDetails['end']))), 0, 2) // Day of the week.
+            ),
+            'dtstart'   => $aData['start'],
+            'until'     => $aData['end']
+        );
+
+        $aUnnecessaryData = array(
+            'start',
+            'end'
+        );
+        $this->unsetKeys($aData, $aUnnecessaryData);
     }
 
     /**
@@ -71,10 +121,11 @@ class Schedules extends BaseController
      */
     public function updateSchedule()
     {
+        $this->aParams = array_filter($this->aParams);
         $aValidationResult = Validations::validateScheduleInputs($this->aParams);
         if ($aValidationResult['bResult'] === true) {
 
-            if ($this->aParams['bReschedule'] == true && $this->aParams['iRemainingSlots'] < $this->aParams['iSlots']) {
+            if (empty($this->aParams['bReschedule']) === false && $this->aParams['bReschedule'] == true && $this->aParams['iRemainingSlots'] < $this->aParams['iSlots']) {
                 $aResult = array(
                     'bResult' => false,
                     'sMsg'    => 'Cannot update schedules. Inform the enrolees first.'
@@ -85,28 +136,21 @@ class Schedules extends BaseController
 
             // Declare an array with keys equivalent to that inside the database.
             $aDatabaseColumns = array(
-                'iScheduleId'   => 'id',
-                'iInstructorId' => 'instructorId',
-                'iCoursePrice'  => 'coursePrice',
-                'iVenueId'      => 'venueId',
-                'iCourseId'     => 'courseId',
-                'sStart'        => 'fromDate',
-                'sEnd'          => 'toDate',
-                'iSlots'        => 'numSlots'
+                'iScheduleId'     => 'id',
+                'iInstructorId'   => 'instructorId',
+                'iCoursePrice'    => 'coursePrice',
+                'iVenueId'        => 'venueId',
+                'iCourseId'       => 'courseId',
+                'sStart'          => 'fromDate',
+                'sEnd'            => 'toDate',
+                'iSlots'          => 'numSlots',
+                'iRecurrence'     => 'recurrence',
+                'iNumRepetitions' => 'numRepetitions'
             );
 
             Utils::renameKeys($this->aParams, $aDatabaseColumns);
             Utils::sanitizeData($this->aParams);
-
-            $aUnnecessaryData = array(
-                'iRemainingSlots',
-                'bReschedule'
-            );
-
-            $aScheduleDetails = [$this->aParams];
-            Utils::unsetUnnecessaryData($aScheduleDetails, $aUnnecessaryData);
-            $this->aParams = $aScheduleDetails[0];
-
+            $this->aParams['toDate'] = $this->changeEndDateIfRecurring($this->aParams);
             $this->aParams['remainingSlots'] = $this->getRemainingSlots($this->aParams);
 
             if ($this->aParams['remainingSlots'] < 0) {
@@ -119,8 +163,14 @@ class Schedules extends BaseController
                 exit();
             }
 
+            $aUnnecessaryKeys = array(
+                'iRemainingSlots',
+                'bReschedule'
+            );
+            $this->unsetKeys($this->aParams, $aUnnecessaryKeys);
+
             // Perform update.
-            $iQuery = $this->oScheduleModel->updateSchedule($this->aParams);
+            $iQuery = $this->executeScheduleUpdate($this->aParams);
 
             if ($iQuery > 0) {
                 $aResult = array(
@@ -140,6 +190,16 @@ class Schedules extends BaseController
         echo json_encode($aResult);
     }
 
+    private function executeScheduleUpdate($aParams)
+    {
+        // Update the schedule depending on recurrence field.
+        if (isset($aParams['recurrence']) === true) {
+            $aParams['numRepetitions'] = $aParams['numRepetitions'] ?? 1;
+            return $this->oScheduleModel->updateRecurringSchedule($aParams);
+        }
+        return $this->oScheduleModel->updateSchedule($aParams);
+    }
+
     public function addSchedule()
     {
         // Remove array elements with empty values.
@@ -149,19 +209,21 @@ class Schedules extends BaseController
         if ($aValidationResult['bResult'] === true) {
             // Declare an array with keys equivalent to that inside the database.
             $aDatabaseColumns = array(
-                'iInstructorId' => 'instructorId',
-                'iCoursePrice'  => 'coursePrice',
-                'iVenueId'      => 'venueId',
-                'iCourseId'     => 'courseId',
-                'sStart'        => 'fromDate',
-                'sEnd'          => 'toDate',
-                'iSlots'        => 'numSlots'
+                'iInstructorId'   => 'instructorId',
+                'iCoursePrice'    => 'coursePrice',
+                'iVenueId'        => 'venueId',
+                'iCourseId'       => 'courseId',
+                'sStart'          => 'fromDate',
+                'sEnd'            => 'toDate',
+                'iSlots'          => 'numSlots',
+                'iRecurrence'     => 'recurrence',
+                'iNumRepetitions' => 'numRepetitions'
             );
 
             Utils::renameKeys($this->aParams, $aDatabaseColumns);
             Utils::sanitizeData($this->aParams);
-
             $this->aParams['remainingSlots'] = $this->aParams['numSlots'];
+            $this->aParams['toDate'] = $this->changeEndDateIfRecurring($this->aParams);
 
             // Perform insert.
             $iQuery = $this->oScheduleModel->addSchedule($this->aParams);
@@ -182,6 +244,17 @@ class Schedules extends BaseController
         }
 
         echo json_encode($aResult);
+    }
+
+    private function changeEndDateIfRecurring($aSchedule)
+    {
+        if (isset($aSchedule['recurrence']) === true && $aSchedule['recurrence'] === 'weekly') {
+            // Add number of repetitions as weeks for event recursion.
+            $oEndDate = new DateTime($aSchedule['fromDate']);
+            $oEndDate->modify('+' . $aSchedule['numRepetitions'] - 1 . ' week');
+            $aSchedule['toDate'] = $oEndDate->format('Y-m-d');
+        }
+        return $aSchedule['toDate'];
     }
 
     public function disableSchedule()
