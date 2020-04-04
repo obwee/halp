@@ -40,4 +40,18 @@ class BaseController
             unset($aData[$sKey]);
         }
     }
+
+    /**
+     * getInterval
+     */
+    protected function getInterval($aCourseDetails)
+    {
+        if ($aCourseDetails['recurrence'] !== 'none') {
+            $iInterval = $aCourseDetails['numRepetitions'] . ' ' . Utils::getDayName($aCourseDetails['fromDate']) . 's';
+        } else {
+            $iInterval = ((strtotime($aCourseDetails['fromDate']) - strtotime($aCourseDetails['fromDate'])) / 86400) + 1;
+            $iInterval .= ($iInterval === 1) ? ' day' : ' days';
+        }
+        return $iInterval;
+    }
 }

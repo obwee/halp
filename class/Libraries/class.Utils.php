@@ -163,4 +163,12 @@ class Utils
             }
         }
     }
+
+    /**
+     * getDayName
+     */
+    public static function getDayName($sDate)
+    {
+        return date('l', strtotime($sDate));
+    }
 }

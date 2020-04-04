@@ -200,11 +200,7 @@ class Courses extends BaseController
 
         // Get schedules, venues, instructors, and slots for each courses available and remove duplicates.
         foreach ($aCoursesAvailable as $aCourse) {
-            $iFromDate = strtotime($aCourse['fromDate']);
-            $iToDate = strtotime($aCourse['toDate']);
-            $iInterval = (($iToDate - $iFromDate) / 86400) + 1;
-
-            $aSchedules[$aCourse['courseId']][$aCourse['scheduleId']] = $aCourse['fromDate'] . ' - ' . $aCourse['toDate'] . ' (' . $iInterval . ' days)';
+            $aSchedules[$aCourse['courseId']][$aCourse['scheduleId']] = $aCourse['fromDate'] . ' - ' . $aCourse['toDate'] . ' (' . $this->getInterval($aCourse) . ')';
             $aCoursePrice[$aCourse['courseId']][$aCourse['scheduleId']] = $aCourse['coursePrice'];
             $aVenues[$aCourse['courseId']][$aCourse['scheduleId']] = $aCourse['venue'];
             $aInstructors[$aCourse['courseId']][$aCourse['scheduleId']] = $aCourse['instructorId'];
