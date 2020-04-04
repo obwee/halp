@@ -378,12 +378,13 @@
                 <ol>
                     <div class="col-sm-6 terms-content">
                         <li>NEXUS ITTC reserves the right to change schedules, instructors or even cancel a class if the need arises.</li>
+                        <li>Rescheduling of reservations should be done at least three (3) days prior the reserved schedule.</li>
+                        <li>To reschedule, contact NEXUS ITTC at least three (3) days prior the reserved schedule. Check your account to see your new schedule.</li>
                         <li>All schedule and fees are subject to change without prior notice.</li>
                         <li>Minimum of five (5) students to commence a class</li>
-                        <li>No refund is allowed.</li>
-                        <li>Rescheduling of reservations should be done at least three (3) days prior your reserved schedule.</li>
                     </div>
                     <div class="col-sm-6 terms-content">
+                        <li>Refunds are not allowed if the student decides to backout on the first day of class.</li>
                         <li>Walk-ins are accepted depending on the availability of slots.</li>
                         <li>Upon uploading a proof of payment, please wait for the confirmation of your slot via email.</li>
                         <li>Students who wish to enroll must be at least a high school graduate.</li>

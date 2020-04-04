@@ -99,20 +99,21 @@
                         </a>
                     </li>
                     <li><a href="quotationRequest.php"><i class="fas fa-mail-bulk"></i>&emsp;Quotation Requests</a></li>
+                    <li><a href="enrollment.php"><i class="fas fa-university"></i>&emsp;Enrollment</a></li>
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-users-cog"></i>
-                            <span>&emsp;Registration</span>
+                            <span>&emsp;Reservations</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="enrollment.php"><i class="fas fa-users"></i>&emsp;Enrollment</a></li>
-                            <li><a href="payment.php"><i class="fas fa-money"></i>&emsp;Payment</a></li>
+                            <li><a href="stud.Unpaid.php"><i class="fas fa-times"></i>&emsp; Unpaid Reservations</a></li>
+                            <li><a href="payment.php"><i class="fas fa-check"></i>&emsp;Partially Paid Reservations</a></li>
+                            <li><a href="payment.php"><i class="fas fa-check-double"></i>&emsp;Fully Paid Reservations</a></li>
                         </ul>
                     </li>
-                    <li>
                     <li>
                         <a href="profile.php"><i class="fas fa-user-edit"></i>&emsp;Profile </a>
                     </li>
