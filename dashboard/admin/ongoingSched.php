@@ -41,6 +41,7 @@ require_once "template/header.php";
 require_once "template/scripts.php";
 ?>
 
+<script src="/Nexus/dashboard/js/admin/dashboard.ongoingSched.js"></script>
 
 <?php
 require_once "template/footer.php";

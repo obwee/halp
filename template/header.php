@@ -96,6 +96,40 @@
                             <span>&emsp;Dashboard</span>
                         </a>
                     </li>
+                    <li class="">
+                        <a href="/Nexus/dashboard/admin/reservations">
+                            <i class="fas fa-university"></i>
+                            <span>&emsp;Enrollment</span>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fas fa-hand-holding-usd"></i>
+                            <span>&emsp; Payments</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="/Nexus/dashboard/admin/payment"><i class="fas fa-cash-register"></i>&emsp;Student Payments</a></li>
+                            <li><a href="/Nexus/dashboard/admin/refundRequests"><i class="fas fa-user-times"></i>&emsp;Refund Requests</a></li>
+                            <li><a href="/Nexus/dashboard/admin/cancelledReservations"><i class="fas fa-check-double"></i>&emsp;Approved Refunds</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-user-cog"></i>
+                            <span>&emsp;Reservations</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href=""><i class="fas fa-check"></i>&emsp;Partially Paid Reservations</a></li>
+                            <li><a href=""><i class="fas fa-check-double"></i>&emsp;Fully Paid Reservations</a></li>
+                            <li><a href="/Nexus/dashboard/admin/unpaidStudents"><i class="fas fa-times"></i>&emsp;&nbspUnpaid Reservations</a></li>
+                        </ul>
+                    </li>
                     <li class="treeview">
                         <a href="#">
                             <i class="fas fa-file-invoice"></i>
@@ -107,21 +141,6 @@
                         <ul class="treeview-menu">
                             <li><a href="/Nexus/dashboard/admin/quotationRequest"><i class="fas fa-mail-bulk"></i>&emsp;Quotation Requests</a></li>
                             <li><a href="/Nexus/dashboard/admin/sentQuotations"><i class="fas fa-paper-plane"></i>&emsp;Sent Quotations</a></li>
-                        </ul>
-                    </li>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-users-cog"></i>
-                            <span>&emsp;Enrollment</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="/Nexus/dashboard/admin/reservations"><i class="fas fa-check"></i>&emsp;Reservations</a></li>
-                            <li><a href="/Nexus/dashboard/admin/payment"><i class="fas fa-cash-register"></i>&emsp;Payment</a></li>
-                            <li><a href="/Nexus/dashboard/admin/unpaidStudents"><i class="fas fa-user-times"></i>&emsp;Unpaid Students</a></li>
-                            <li><a href="/Nexus/dashboard/admin/cancelledReservations"><i class="fas fa-times"></i>&emsp; Cancelled Reservations</a></li>
                         </ul>
                     </li>
                     <li class="treeview">
@@ -137,20 +156,6 @@
                             <li><a href="/Nexus/dashboard/admin/masterList"><i class="fas fa-user-graduate"></i>&emsp; Students</a></li>
                         </ul>
                     </li>
-                    <li class="treeview">
-                        <a href="#.php">
-                            <i class="fas fa-calendar"></i>
-                            <span>&emsp;Trainings</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="/Nexus/dashboard/admin/upcomingSched"><i class="fas fa-calendar-alt"></i>&emsp;Upcoming Schedule</a></li>
-                            <li><a href="/Nexus/dashboard/admin/upcomingSched"><i class="fas fa-calendar-check"></i>&emsp;Ongoing Schedule</a></li>
-                        </ul>
-                    </li>
-                    <li>
                     <li class="treeview">
                         <a href="">
                             <i class="fa fa-cog"></i>
@@ -170,6 +175,19 @@
                                 <li><a href="/Nexus/dashboard/admin/profile"><i class="fas fa-user-edit"></i>&emsp;Profile </a></li>
                             <?php } ?>
                             <li><a href="/Nexus/dashboard/admin/paymentMode"><i class="fas fa-hand-holding-usd"></i>&emsp; Payment Mode </a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#.php">
+                            <i class="fas fa-calendar"></i>
+                            <span>&emsp;Trainings</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="/Nexus/dashboard/admin/upcomingSched"><i class="fas fa-calendar-alt"></i>&emsp;Upcoming Schedule</a></li>
+                            <li><a href="/Nexus/dashboard/admin/ongoingSched"><i class="fas fa-calendar-check"></i>&emsp;Ongoing Schedule</a></li>
                         </ul>
                     </li>
                     <li>
