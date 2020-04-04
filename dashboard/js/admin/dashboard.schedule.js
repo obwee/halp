@@ -65,7 +65,7 @@ let CALENDAR = (function () {
      */
     function initializeCalendar(sDefaultDate) {
         oCalendar = new FullCalendar.Calendar(oCalendarEl, {
-            plugins: ['interaction', 'dayGrid'],
+            plugins: ['interaction', 'dayGrid', 'rrule'],
             themeSystem: 'bootstrap',
             height: 550,
             events: aEvents,
@@ -112,8 +112,8 @@ let CALENDAR = (function () {
                 title: `Instructor: ${oInfo.event.extendedProps.instructor.name}<br>
                         Venue: ${oInfo.event.extendedProps.venue.name}<br>
                         Slots: ${oInfo.event.extendedProps.remainingSlots} / ${oInfo.event.extendedProps.numSlots}<br>
-                        Price: P${new Number(oInfo.event.extendedProps.coursePrice).toLocaleString('en-US')}`
-                        
+                        Price: P${new Number(oInfo.event.extendedProps.coursePrice).toLocaleString('en-US')}
+                        ${(oInfo.event.extendedProps.isRecurring === true) ? '<br>' + oInfo.event.extendedProps.frequency : ''}`
             });
         });
 
@@ -138,7 +138,7 @@ let CALENDAR = (function () {
             }).then((oResult) => {
                 if (oResult.value === true) {
                     // If selected option is 'Update'.
-                    openEditScheduleModal(oInfo.event);
+                    proceedEditingSchedule(oInfo.event);
                 } else {
                     // If selected option is 'Disable'.
                     executeDisable(parseInt(oInfo.event.id, 10));
@@ -159,6 +159,11 @@ let CALENDAR = (function () {
 
             $('#addScheduleModal').find('.fromDate').val(sStartDate);
             $('#addScheduleModal').find('.toDate').val(sEndDate);
+
+            if (sStartDate === sEndDate) {
+                $('#recurrenceDiv').css('display', 'block').find('.recurrence').attr('disabled', false);
+            }
+
             $('#addScheduleModal').modal('show');
         });
 
@@ -181,10 +186,11 @@ let CALENDAR = (function () {
                     oInfo.revert();
                 }
             });
+            removeTooltip();
         });
 
         oCalendar.on('eventResize', (oInfo) => {
-            if (moment(oInfo.event.end) < moment()) {
+            if (moment(oInfo.event.end) < moment() || oInfo.event.extendedProps.isRecurring === true) {
                 removeTooltip();
                 oInfo.revert();
                 return false;
@@ -202,6 +208,7 @@ let CALENDAR = (function () {
                     oInfo.revert();
                 }
             });
+            removeTooltip();
         });
 
     }
@@ -214,10 +221,31 @@ let CALENDAR = (function () {
 
         oForms.prepareDomEvents();
 
+        $(document).on('change', '.recurrence', function () {
+            let sFormId = $(this).closest('form');
+            $(sFormId).find('.numRepetitions').attr('disabled', true).parent('.form-group').attr('hidden', true);
+            $(sFormId).find('.toDate').val($(this).closest('form').find('.fromDate').val());
+
+            if ($(this).val() === 'weekly') {
+                $(sFormId).find('.numRepetitions').attr('disabled', false).val(2).parent('.form-group').attr('hidden', false);
+                let sNewEndDate = moment($(sFormId).find('.fromDate').val()).add($(sFormId).find('.numRepetitions').val(), 'weeks').format('YYYY-MM-DD');
+                $(sFormId).find('.toDate').val(sNewEndDate);
+            }
+        });
+
+        $(document).on('input change', '.numRepetitions', function () {
+            const sFormId = `#${$(this).closest('form').attr('id')}`;
+            let sNewEndDate = moment($(sFormId).find('.fromDate').val()).add($(this).val(), 'weeks').format('YYYY-MM-DD');
+            $(sFormId).find('.toDate').val(sNewEndDate);
+        });
+
         $('.modal').on('hidden.bs.modal', function () {
-            let sFormName = `#${$(this).find('form').attr('id')}`;
-            $(sFormName)[0].reset();
-            $('.error-msg').css('display', 'none').html('');
+            let sFormId = `#${$(this).find('form').attr('id')}`;
+            $(sFormId)[0].reset();
+            $(sFormId).find('#recurrenceDiv').css('display', 'none').find('input').attr('disabled', true);
+            $(sFormId).find('.numRepetitions').parent('.form-group').attr('hidden', true);
+            $(sFormId).find('.recurrence[value="none"]').attr('checked', true);
+            $(sFormId).find('.error-msg').css('display', 'none').html('');
         });
 
         $(document).on('click', '#cancelEventClick', () => {
@@ -227,25 +255,25 @@ let CALENDAR = (function () {
 
         $(document).on('submit', 'form', function (oEvent) {
             oEvent.preventDefault();
-            const sFormName = `#${$(this).attr('id')}`;
+            const sFormId = `#${$(this).attr('id')}`;
 
             // Disable the form.
-            oForms.disableFormState(sFormName, true);
+            oForms.disableFormState(sFormId, true);
 
             // Invoke the resetInputBorders method inside oForms utils for that form.
-            oForms.resetInputBorders(sFormName);
+            oForms.resetInputBorders(sFormId);
 
             // Create an object with key names of forms and its corresponding validation and request action as its value.
             const oInputForms = {
                 '#addScheduleForm': {
-                    'validationMethod': oValidations.validateScheduleInputs(sFormName),
+                    'validationMethod': oValidations.validateScheduleInputs(sFormId),
                     'requestClass': 'Schedules',
                     'requestAction': 'addSchedule',
                     'alertTitle': 'Add schedule?',
                     'alertText': 'This will insert a new schedule.'
                 },
                 '#editScheduleForm': {
-                    'validationMethod': oValidations.validateScheduleInputs(sFormName),
+                    'validationMethod': oValidations.validateScheduleInputs(sFormId),
                     'requestClass': 'Schedules',
                     'requestAction': 'updateSchedule',
                     'alertTitle': 'Update schedule?',
@@ -254,8 +282,8 @@ let CALENDAR = (function () {
             }
 
             Swal.fire({
-                title: oInputForms[sFormName].alertTitle,
-                text: oInputForms[sFormName].alertText,
+                title: oInputForms[sFormId].alertTitle,
+                text: oInputForms[sFormId].alertText,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes',
@@ -263,29 +291,28 @@ let CALENDAR = (function () {
                 if (bIsConfirm.value !== true) {
                     return false;
                 } else {
-
                     // Validate the inputs of the submitted form and store the result inside validateInputs variable.
-                    let oValidateInputs = oInputForms[sFormName].validationMethod;
+                    let oValidateInputs = oInputForms[sFormId].validationMethod;
 
                     // Get the request class of the form submitted.
-                    let sRequestClass = oInputForms[sFormName].requestClass;
+                    let sRequestClass = oInputForms[sFormId].requestClass;
 
                     // Get the request action of the form submitted.
-                    let sRequestAction = oInputForms[sFormName].requestAction;
+                    let sRequestAction = oInputForms[sFormId].requestAction;
 
                     // Check if input validation result is true.
                     if (oValidateInputs.result === true) {
-                        const oFormData = $(sFormName).serializeArray();
-                        (sFormName === '#addScheduleForm')
-                            ? executeInsert(prepareScheduleData(oFormData), sRequestClass, sRequestAction)
-                            : executeUpdate(prepareScheduleData(oFormData));
+                        const oFormData = $(sFormId).serializeArray();
+                        (sFormId === '#addScheduleForm')
+                            ? executeInsert(prepareScheduleData(oFormData, sFormId), sRequestClass, sRequestAction)
+                            : executeUpdate(prepareScheduleData(oFormData, sFormId));
                     } else {
-                        oLibraries.displayErrorMessage(sFormName, oValidateInputs.msg, oValidateInputs.element);
+                        oLibraries.displayErrorMessage(sFormId, oValidateInputs.msg, oValidateInputs.element);
                     }
                 }
             });
             // Enable the form.
-            oForms.disableFormState(sFormName, false);
+            oForms.disableFormState(sFormId, false);
         });
     }
 
@@ -374,26 +401,31 @@ let CALENDAR = (function () {
     }
 
     /**
-     * openEditScheduleModal
+     * proceedEditingSchedule
      * @param {object} oData 
      */
-    function openEditScheduleModal(oData) {
-        let sStartDate = moment(oData.start)
-            .format('YYYY-MM-DD');
-
-        let sEndDate = moment(oData.end)
-            .subtract(1, 'days')
-            .format('YYYY-MM-DD');
-
+    function proceedEditingSchedule(oData) {
         let iCourseId = aCourses.find(oCourse => oCourse.courseCode === oData.title).id;
         let iVenueId = aVenues.find(oVenue => oVenue.venue === oData.extendedProps.venue.name).id;
         let iInstructorId = aInstructors.find(oInstructor => oInstructor.fullName === oData.extendedProps.instructor.name).id;
 
+        const sStartDate = moment(oData.start).format('YYYY-MM-DD');
+        const sEndDate = moment(oData.end).subtract(1, 'days').format('YYYY-MM-DD');
+        $('#editScheduleModal').find('.fromDate').val(sStartDate);
+        $('#editScheduleModal').find('.toDate').val(sEndDate);
+
+        // If event selected occurs only in one day, display recurrenceDiv.
+        if (sStartDate === sEndDate) {
+            $('#editScheduleModal').find('#recurrenceDiv').css('display', 'block').find('.recurrence').attr('disabled', false);
+        }
+        // If event is recurring, set recurring data.
+        if (oData.extendedProps.isRecurring === true) {
+            setDataForRecurringEvents(oData);
+        }
+
         $('#editScheduleModal').find('.scheduleId').val(oData.id);
         $('#editScheduleModal').find('.courseTitle').val(iCourseId);
         $('#editScheduleModal').find('.courseVenue').val(iVenueId);
-        $('#editScheduleModal').find('.fromDate').val(sStartDate);
-        $('#editScheduleModal').find('.toDate').val(sEndDate);
         $('#editScheduleModal').find('.numSlots').val(oData.extendedProps.numSlots);
         $('#editScheduleModal').find('.coursePrice').val(oData.extendedProps.coursePrice);
         $('#editScheduleModal').find('.remainingSlots').val(oData.extendedProps.remainingSlots);
@@ -402,20 +434,49 @@ let CALENDAR = (function () {
         $('#editScheduleModal').modal('show');
     }
 
+    function setDataForRecurringEvents(oData)
+    {
+        const sStartDate = moment(oData._def.recurringDef.typeData.origOptions.dtstart)
+                .format('YYYY-MM-DD');
+
+        const sEndDate = moment(oData._def.recurringDef.typeData.origOptions.until)
+                .subtract(1, 'days')
+                .format('YYYY-MM-DD');
+
+        $('#editScheduleModal').find('.fromDate').val(sStartDate);
+        $('#editScheduleModal').find('.toDate').val(sEndDate);
+
+        $('#editScheduleModal')
+            .find('#recurrenceDiv')
+            .css('display', 'block')
+            .find('.recurrence')
+            .attr('disabled', false)
+            .filter('[value="weekly"]')
+            .attr('checked', true);
+        $('#editScheduleModal')
+            .find('.numRepetitions')
+            .attr('disabled', false)
+            .val(oData.extendedProps.frequency.match(/\d+/g).map(Number))
+            .parent('.form-group')
+            .attr('hidden', false);
+    }
+
     /**
      * prepareCalendarData
      * @param {object} oData
      * @param {bool} bReschedule
      */
     function prepareCalendarData(oData, bReschedule = false) {
+        const sFormDate = oData.start;
+        const sEndDate = oData.end ?? moment(sFormDate).add(oData._def.recurringDef.typeData.origOptions.freq - 1, 'weeks').add(1, 'days').format('YYYY-MM-DD');
         return {
             iScheduleId: parseInt(oData.id, 10),
             iInstructorId: parseInt(oData.extendedProps.instructor.id, 10),
             iVenueId: oData.extendedProps.venue.id,
             iCourseId: oData.extendedProps.courseId,
             iCoursePrice: oData.extendedProps.coursePrice,
-            sStart: moment(oData.start).format('YYYY-MM-DD'),
-            sEnd: moment(oData.end).subtract(1, 'days').format('YYYY-MM-DD'),
+            sStart: moment(sFormDate).format('YYYY-MM-DD') ,
+            sEnd: moment(sEndDate).subtract(1, 'days').format('YYYY-MM-DD'),
             iSlots: oData.extendedProps.numSlots,
             iRemainingSlots: oData.extendedProps.remainingSlots,
             bReschedule: bReschedule
@@ -426,10 +487,11 @@ let CALENDAR = (function () {
      * prepareScheduleData
      * Renames the keys.
      * @param {array} aData
+     * @param {string} sFormId
      * @param {return} aData
      */
-    function prepareScheduleData(aData) {
-        const aParams = [
+    function prepareScheduleData(aData, sFormId) {
+        let aParams = [
             { scheduleId: 'iScheduleId' },
             { courseTitle: 'iCourseId' },
             { coursePrice: 'iCoursePrice' },
@@ -439,6 +501,13 @@ let CALENDAR = (function () {
             { numSlots: 'iSlots' },
             { courseInstructor: 'iInstructorId' }
         ];
+
+        if ($(sFormId).find('.recurrence').prop('disabled') === false) {
+            aParams.push({ recurrence: 'iRecurrence' });
+            if ($(sFormId).find('.recurrence:selected').val() === 'weekly') {
+                aParams.push({ remainingSlots : 'iRemainingSlots' });
+            }
+        }
 
         $.each(aParams, function (mKey, oParam) {
             let sNewKey = aParams[mKey][aData[mKey].name];

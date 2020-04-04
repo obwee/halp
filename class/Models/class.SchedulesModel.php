@@ -32,11 +32,12 @@ class SchedulesModel
         $statement = $this->oConnection->prepare("
             SELECT
                 ts.id, tc.courseCode AS title, ts.coursePrice, ts.fromDate AS start, ts.toDate AS end,
-                ts.numSlots, ts.remainingSlots, ts.instructorId, tv.id AS venueId, tv.venue,
+                ts.numSlots, ts.remainingSlots, ts.instructorId, ts.recurrence, ts.numRepetitions,
+                tv.id AS venueId, tv.venue,
                 CONCAT(tu.firstName, ' ', tu.lastName) AS instructor, tc.id AS courseId, ts.status,
                 CASE
-                    WHEN tv.venue = 'Manila' THEN 'purple'
-                    WHEN tv.venue = 'Makati' THEN 'blue'
+                    WHEN tv.venue = 'Manila' THEN '#4fa242'
+                    WHEN tv.venue = 'Makati' THEN '#b169ec'
                 END AS color
             FROM tbl_schedules     ts
             INNER JOIN tbl_courses tc
@@ -82,6 +83,35 @@ class SchedulesModel
     }
 
     /**
+     * updateRecurringSchedule
+     * Updates the schedule table.
+     * @param array $aData
+     * @return int
+     */
+    public function updateRecurringSchedule($aData)
+    {
+        // Prepare an update query to the schedules table.
+        $statement = $this->oConnection->prepare("
+            UPDATE tbl_schedules
+            SET
+                fromDate       = :fromDate,
+                toDate         = :toDate,
+                venueId        = :venueId,
+                courseId       = :courseId,
+                instructorId   = :instructorId,
+                numSlots       = :numSlots,
+                remainingSlots = :remainingSlots,
+                coursePrice    = :coursePrice,
+                recurrence     = :recurrence,
+                numRepetitions = :numRepetitions
+            WHERE id = :id
+        ");
+
+        // Return the result of the execution of the above statement.
+        return $statement->execute($aData);
+    }
+
+    /**
      * addSchedule
      * Inserts a new record inside the schedule table.
      * @param array $aData
@@ -92,9 +122,9 @@ class SchedulesModel
         // Prepare an update query to the schedules table.
         $statement = $this->oConnection->prepare("
             INSERT INTO tbl_schedules
-                (fromDate, toDate, venueId, courseId, coursePrice, instructorId, numSlots, remainingSlots)
+                (fromDate, toDate, venueId, courseId, coursePrice, instructorId, numSlots, remainingSlots, recurrence, numRepetitions)
             VALUES
-                (:fromDate, :toDate, :venueId, :courseId, :coursePrice, :instructorId, :numSlots, :remainingSlots)
+                (:fromDate, :toDate, :venueId, :courseId, :coursePrice, :instructorId, :numSlots, :remainingSlots, :recurrence, :numRepetitions)
         ");
 
         // Return the result of the execution of the above statement.

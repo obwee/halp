@@ -33,4 +33,11 @@ class BaseController
     protected function getUserIdOfQuoteRequester($sFirstName, $sLastName) {
         return $this->oStudentModel->getUserIdByFirstAndLastName($sFirstName, $sLastName);
     }
+
+    protected function unsetKeys(&$aData, $aUnnecessaryData)
+    {
+        foreach ($aUnnecessaryData as $sKey) {
+            unset($aData[$sKey]);
+        }
+    }
 }
