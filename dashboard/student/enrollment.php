@@ -22,38 +22,6 @@ require_once "template/studentHeader.php";
         </div>
     </div>
 
-    <div class="modal fade" id="paymentModal" role="dialog">
-        <div class="modal-dialog modal-lg paymentModal">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: #605ca8;">
-                    <h5 align="center" style="color: white;">Upload Payment</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
-                        <table id="tbl_enrollment" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
-                            <thead>
-                                <tr>
-                                    <th style="white-space:nowrap;">Course Code</th>
-                                    <th style="white-space:nowrap;">Start Date</th>
-                                    <th style="white-space:nowrap;">End Date</th>
-                                    <th style="white-space:nowrap;">Venue</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="customFile">
-                        <label class="custom-file-label" for="customFile">Upload File</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Upload</button>
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="modal fade" id="enrollModal" role="dialog">
         <div class="modal-dialog enrollModal">
             <div class="modal-content">
@@ -106,44 +74,130 @@ require_once "template/studentHeader.php";
         </div>
     </div>
 
-    <div class="modal fade" id="cancelModal" role="dialog">
-        <div class="modal-dialog cancelModal">
+    <div class="modal fade" id="cancelReservationModal" role="dialog">
+        <div class="modal-dialog cancelReservationModal">
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #605ca8;">
                     <h5 align="center" style="color:white;">Cancel Reservation</h5>
                 </div>
-                    <div class="modal-body">
-                        <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
-                        <div style="border:1px solid #d5d5d5; padding:5px 5px;border-radius:3px 3px;text-align: justify">
-                            <p><i class="fas fa-exclamation-circle" style="color:red;"></i> To RESCHEDULE your training, please contact us immediately.</p>
-                            <p><i class="fas fa-exclamation-circle" style="color:red;"></i> Refunds requests should be submitted atleast three (3) days before your reserved schedule.</p>
-                            <p><i class="fas fa-exclamation-circle" style="color:red;"></i> Refunds are not allowed if the student decides to backout on the first day of class.</p>
-                            <p><i class="fas fa-exclamation-circle" style="color:red;"></i> Upon receiving your request, an admin will contact you regarding your refund.</p>
-                            <p><i class="fas fa-exclamation-circle" style="color:red;"></i> Please give us one (1) week to process your request.</p>
-                        </div> <br>
-                        <div class="form-group">
-                            <label for="refundReason"><i class="fas fa-comments"></i> Refund reason:</label>
-                            <textarea class="form-control" id="refundReason" rows="4"></textarea>
-                        </div>
-                        <div>
+                <div class="modal-body">
+                    <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+                    <div style="border:1px solid #d5d5d5; padding:5px 5px;border-radius:3px 3px;text-align: justify">
+                        <p><i class="fas fa-exclamation-circle" style="color:red;"></i> To RESCHEDULE your training, please contact us immediately.</p>
+                        <p><i class="fas fa-exclamation-circle" style="color:red;"></i> Refunds requests should be submitted atleast three (3) days before your reserved schedule.</p>
+                        <p><i class="fas fa-exclamation-circle" style="color:red;"></i> Refunds are not allowed if the student decides to backout on the first day of class.</p>
+                        <p><i class="fas fa-exclamation-circle" style="color:red;"></i> Upon receiving your request, an admin will contact you regarding your refund.</p>
+                        <p><i class="fas fa-exclamation-circle" style="color:red;"></i> Please give us one (1) week to process your request.</p>
+                    </div> <br>
+                    <div class="form-group">
+                        <label for="refundReason"><i class="fas fa-comments"></i> Refund reason:</label>
+                        <textarea class="form-control" id="refundReason" rows="4"></textarea>
+                    </div>
+                    <div>
                         <div class="custom-control custom-checkbox mr-sm-2">
                             <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
                             <label class="custom-control-label" for="customControlAutosizing" style="text-align:justify;">I have read, understood and agreed to the terms and conditions stated above. I understand that submitting this request does not guarantee the request to be accepted and processed immediately.</label>
                         </div>
                     </div>
-                <div class="d-flex justify-content-center">
-                    <div class="spinner-border spinner" role="status" style="display:none;">
-                        <span class="sr-only">Loading...</span>
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border spinner" role="status" style="display:none;">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="viewPaymentModal" role="dialog">
+        <div class="modal-dialog modal-lg viewPaymentModal">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #605ca8;">
+                    <h5 align="center" style="color:white;">View Payment History</h5>
+                </div>
+                <div class="modal-body">
+                    <div style="border: 3px solid #d5d5d5;padding-top:5px;padding-left:5px;padding-right:5px;padding-bottom:0;border-radius: 4px 4px;margin-bottom:5px;">
+                        <b>Training Details:</b>
+                        <div class="form-group row" style="margin-left:15px;">
+                            <label for="course" class="col-sm-3 col-form-label"><span class="fas fa-book"></span> <b>Course</b></label>
+                            <div class="col-sm-9">
+                                <input type="text" readonly class="form-control-plaintext" id="course" value="Ethical Hacking with Penetration Testing">
+                            </div>
+
+                            <label for="sched" class="col-sm-3 col-form-label"><span class="fas fa-calendar-alt"></span> <b>Schedule</b></label>
+                            <div class="col-sm-9">
+                                <input type="text" readonly class="form-control-plaintext" id="sched" value="April 29 - 30, 2020">
+                            </div>
+
+                            <label for="venue" class="col-sm-3 col-form-label"><span class="fas fa-map"></span> <b>Venue</b></label>
+                            <div class="col-sm-9">
+                                <input type="text" readonly class="form-control-plaintext" id="venue" value="Makati">
+                            </div>
+
+                            <label for="instructor" class="col-sm-3 col-form-label"><span class="fas fa-chalkboard-teacher"></span> <b>Instructor</b></label>
+                            <div class="col-sm-9">
+                                <input type="text" readonly class="form-control-plaintext" id="course" value="Richard Reblando">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+                        <table id="tbl_paymentDetails" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
+                            <thead>
+                                <tr style="white-space:nowrap;text-align:center;">
+                                    <th>Date Paid</th>
+                                    <th>MOP</th>
+                                    <th>Training Fee</th>
+                                    <th>Amount Paid</th>
+                                    <th>Remaining Balance</th>
+                                    <th>Payment Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="text-align: center;">
+                                    <td>April 1, 2020</td>
+                                    <td>BDO</td>
+                                    <td>P3,000.00</td>
+                                    <td>P1,500.00</td>
+                                    <td>P0.00</td>
+                                    <td>Partial</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Submit</button>
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success addPayment">Add Payment</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
+
+    <div class="modal fade" id="addPaymentModal" role="dialog">
+        <div class="modal-dialog modal-lg addPaymentModal">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #605ca8;">
+                    <h5 align="center" style="color: white;">Upload Payment</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="customFile">Upload File</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Upload</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <?php

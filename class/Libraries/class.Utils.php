@@ -165,6 +165,16 @@ class Utils
     }
 
     /**
+     * unsetKeys
+     */
+    public static function unsetKeys(&$aData, $aUnnecessaryData)
+    {
+        foreach ($aUnnecessaryData as $sKey) {
+            unset($aData[$sKey]);
+        }
+    }
+
+    /**
      * getDayName
      */
     public static function getDayName($sDate)

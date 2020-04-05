@@ -189,7 +189,6 @@ class Courses extends BaseController
         $aSlots = array();
 
         $iStudentId = $this->getUserId();
-
         $aEnrolledCourses = $this->oCourseModel->fetchEnrolledCourses($iStudentId);
         $aCourses = $this->oCourseModel->fetchAvailableCoursesAndSchedules();
 
