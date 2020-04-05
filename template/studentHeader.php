@@ -110,8 +110,8 @@
                         </a>
                         <ul class="treeview-menu">
                             <li><a href="stud.Unpaid.php"><i class="fas fa-times"></i>&emsp; Unpaid Reservations</a></li>
-                            <li><a href="payment.php"><i class="fas fa-check"></i>&emsp;Partially Paid Reservations</a></li>
-                            <li><a href="payment.php"><i class="fas fa-check-double"></i>&emsp;Fully Paid Reservations</a></li>
+                            <li><a href="partialPayment.php"><i class="fas fa-check"></i>&emsp;Partially Paid Reservations</a></li>
+                            <li><a href="fullPayment.php"><i class="fas fa-check-double"></i>&emsp;Fully Paid Reservations</a></li>
                         </ul>
                     </li>
                     <li>
