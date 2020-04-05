@@ -36,14 +36,14 @@ var oEnrollment = (() => {
             },
             {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
-                    `<button class="btn btn-success btn-sm" data-toggle="modal" id="payEnrolledSchedule" data-id="${oRow.trainingId}">
+                    `<button class="btn btn-success btn-sm" data-toggle="modal" id="viewPayment" data-id="${oRow.trainingId}">
                         <i class="fa fa-hand-holding-usd"></i>
                     </button>
                     <button class="btn btn-primary btn-sm" data-toggle="modal" id="printRegiForm" data-id="${oRow.trainingId}">
                         <i class="fa fa-print"></i>
                     </button>
-                    <button class="btn btn-danger btn-sm" data-toggle="modal" id="deleteEnrolledSchedule" data-id="${oRow.trainingId}">
-                        <i class="fa fa-trash-alt"></i>
+                    <button class="btn btn-danger btn-sm" data-toggle="modal" id="cancelReservation" data-id="${oRow.trainingId}">
+                        <i class="fa fa-times-circle"></i>
                     </button>`
             },
         ]
@@ -62,8 +62,16 @@ var oEnrollment = (() => {
             $('.error-msg').css('display', 'none').html('');
         });
 
-        $(document).on('click', '#payEnrolledSchedule', function () {
-            $('#paymentModal').modal('show');
+        $(document).on('click', '#viewPayment', function () {
+            $('#viewPaymentModal').modal('show');
+        });
+
+        $(document).on('click', '.addPayment', function () {
+            $('#addPaymentModal').modal('show');
+        });
+
+        $(document).on('click', '#cancelReservation', function () {
+            $('#cancelReservationModal').modal('show');
         });
 
         $(document).on('click', '#enrollBtn', function () {
@@ -195,18 +203,19 @@ var oEnrollment = (() => {
     }
 
     function printRegiForm(oDetails) {
-        $.ajax({
-            url: `/Nexus/utils/ajax.php?class=Student&action=printRegiForm`,
-            type: 'POST',
-            data: oDetails,
-            dataType: 'json',
-            success: function (oResponse) {
+        window.open('/Nexus/utils/ajax.php?class=Student&action=printRegiForm&tId=' + oDetails.trainingId);
+        // $.ajax({
+        //     url: `/Nexus/utils/ajax.php?class=Student&action=printRegiForm`,
+        //     type: 'POST',
+        //     data: oDetails,
+        //     dataType: 'json',
+        //     success: function (oResponse) {
 
-            },
-            error: function () {
-                // oLibraries.displayAlertMessage('error', 'An error has occured. Please try again.');
-            }
-        });
+        //     },
+        //     error: function () {
+        //         // oLibraries.displayAlertMessage('error', 'An error has occured. Please try again.');
+        //     }
+        // });  
     }
 
     function fetchCourses() {

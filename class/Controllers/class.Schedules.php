@@ -59,7 +59,7 @@ class Schedules extends BaseController
                 'recurrence',
                 'numRepetitions'
             );
-            $this->unsetKeys($aSchedules[$iKey], $aUnnecessaryData);
+            Utils::unsetKeys($aSchedules[$iKey], $aUnnecessaryData);
         }
 
         echo json_encode($aSchedules);
@@ -112,7 +112,7 @@ class Schedules extends BaseController
             'start',
             'end'
         );
-        $this->unsetKeys($aData, $aUnnecessaryData);
+        Utils::unsetKeys($aData, $aUnnecessaryData);
     }
 
     /**
@@ -167,7 +167,7 @@ class Schedules extends BaseController
                 'iRemainingSlots',
                 'bReschedule'
             );
-            $this->unsetKeys($this->aParams, $aUnnecessaryKeys);
+            Utils::unsetKeys($this->aParams, $aUnnecessaryKeys);
 
             // Perform update.
             $iQuery = $this->executeScheduleUpdate($this->aParams);
@@ -244,17 +244,6 @@ class Schedules extends BaseController
         }
 
         echo json_encode($aResult);
-    }
-
-    private function changeEndDateIfRecurring($aSchedule)
-    {
-        if (isset($aSchedule['recurrence']) === true && $aSchedule['recurrence'] === 'weekly') {
-            // Add number of repetitions as weeks for event recursion.
-            $oEndDate = new DateTime($aSchedule['fromDate']);
-            $oEndDate->modify('+' . $aSchedule['numRepetitions'] - 1 . ' week');
-            $aSchedule['toDate'] = $oEndDate->format('Y-m-d');
-        }
-        return $aSchedule['toDate'];
     }
 
     public function disableSchedule()

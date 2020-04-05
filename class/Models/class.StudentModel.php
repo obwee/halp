@@ -144,7 +144,7 @@ class StudentModel
     {
         // Query the tbl_users for a username equal to $username.
         $statement = $this->oConnection->prepare("
-            SELECT firstName, middleName, lastName, contactNum, email
+            SELECT firstName, middleName, lastName, contactNum, email, companyName
             FROM tbl_users
             WHERE userId = :userId
         ");

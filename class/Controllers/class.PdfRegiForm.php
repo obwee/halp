@@ -3,15 +3,15 @@
 use Fpdf\Fpdf;
 
 /**
- * Pdf
- * Class for printing PDF certificate of students.
+ * PdfRegiForm
+ * Class for printing PDF regi form of students.
  */
-class Pdf extends Fpdf
+class PdfRegiForm extends Fpdf
 {
     /**
-     * Pdf constructor.
+     * PdfRegiForm constructor.
      */
-    public function __construct()
+    public function __construct($aStudentDetails, $aCourseDetails)
     {
         // Invoke FPDF's constructor.
         parent::__construct('P', 'mm', 'Letter');
@@ -21,6 +21,12 @@ class Pdf extends Fpdf
         $this->SetAutoPageBreak(false);
         // Set PDF file title.
         $this->SetTitle('Registration Form');
+
+        $this->insertStudentDetails($aStudentDetails);
+        $this->insertCourseDetails($aCourseDetails);
+        $this->setTotalAmount($aCourseDetails);
+        $this->terms();
+        $this->setSignature($aStudentDetails);
     }
 
     /**
@@ -62,9 +68,9 @@ class Pdf extends Fpdf
         // Move to the right.
         $this->Cell(85);
 
-        $this->Cell(30, 2,'+63 2 8362-3755 | +63 2 8355-7759 | kdoz@live.com', 0, 0, 'C');
+        $this->Cell(30, 2, '+63 2 8362-3755 | +63 2 8355-7759 | kdoz@live.com', 0, 0, 'C');
 
-    
+
         $this->SetFont('BebasNeue-Regular', '', 20);
 
         // Line break.
@@ -81,177 +87,133 @@ class Pdf extends Fpdf
     }
 
     /**
-     * initializePage()
+     * insertStudentDetails()
      * Initializes the contents of the quotation.
      */
-    public function initializePage()
+    public function insertStudentDetails($aStudentDetails)
     {
-        $this->SetFont('BebasNeue-Regular', '', 12);
 
         //Name of Student
-        $this->Cell(25, 5, 'Student Name:', 1, 0, 'L');
-
-        $this->SetFont('Arial', '', 10);
-
-        $this->Cell(75, 5, '[Student Name]', 1, 0, 'L');
-
         $this->SetFont('BebasNeue-Regular', '', 12);
+        $this->Cell(25, 5, 'Student Name:', 1, 0, 'L');
+        $this->SetFont('Arial', '', 10);
+        $this->Cell(75, 5, $aStudentDetails['fullName'], 1, 0, 'L');
 
         //E-mail Address
+        $this->SetFont('BebasNeue-Regular', '', 12);
         $this->Cell(25, 5, 'E-mail Address:', 1, 0, 'L');
-
         $this->SetFont('Arial', '', 10);
-
-        $this->Cell(70, 5, '[Student E-mal]', 1, 0, 'L');
+        $this->Cell(70, 5, $aStudentDetails['email'], 1, 0, 'L');
 
         $this->Ln(5);
 
-        $this->SetFont('BebasNeue-Regular', '', 12);
-
         //Company Name
-        $this->Cell(25, 5, 'Company Name:', 1, 0, 'L');
-
-        $this->SetFont('Arial', '', 10);
-
-        $this->Cell(75, 5, '[Company Name]', 1, 0, 'L');
-
         $this->SetFont('BebasNeue-Regular', '', 12);
+        $this->Cell(25, 5, 'Company Name:', 1, 0, 'L');
+        $this->SetFont('Arial', '', 10);
+        $this->Cell(75, 5, ($aStudentDetails['email'] === false) ? $aStudentDetails['email'] : 'N/A', 1, 0, 'L');
 
         //Phone Number
+        $this->SetFont('BebasNeue-Regular', '', 12);
         $this->Cell(25, 5, 'Phone Number', 1, 0, 'L');
-
         $this->SetFont('Arial', '', 10);
+        $this->Cell(70, 5, $aStudentDetails['contactNum'], 1, 0, 'L');
 
-        $this->Cell(70, 5, '[Phone Number]', 1, 0, 'L');
+        $this->Ln(15);
+    }
 
-        $this->Ln(15);    
-        
+    /**
+     * insertCourseDetails
+     * Set the quotation's content.
+     */
+    public function insertCourseDetails($aCourseDetails)
+    {
         // Set the font.
         $this->SetFont('BebasNeue-Regular');
 
         //Table Header
         $this->Cell(25, 5, 'COURSE CODE');
-
-        $this->Cell(90, 5, 'COURSE DESCRIPTION');
-
-        $this->Cell(40, 5, 'SCHEDULE');
-
-        $this->Cell(15, 5, 'VENUE');
-
-        $this->Cell(25, 5, 'TIME');
+        $this->Cell(65, 5, 'COURSE DESCRIPTION');
+        $this->Cell(60, 5, 'SCHEDULE');
+        $this->Cell(20, 5, 'VENUE');
+        $this->Cell(0, 5, 'TIME');
 
         $this->Ln(5);
-    }
 
-    /**
-     * setRow
-     * Set the quotation's content.
-     */
-    public function setRow()
-    {
         $this->SetFont('Arial', '', 9);
 
-        $this->Cell(25, 5, '20410');
-
-        $this->Cell(90, 5, 'Installing and Configuring Windows Server 2012');
-
-        $this->Cell(40, 5, 'Mar 9 - Mar 11, 2020');
-
-        $this->Cell(15, 5, 'Makati');
-
-        $this->Cell(25, 5, '09:00A - 05:00P');
+        $this->Cell(25, 5, $aCourseDetails['courseCode']);
+        $this->Cell(65, 5, $aCourseDetails['courseName']);
+        $this->Cell(60, 5, $aCourseDetails['schedule']);
+        $this->Cell(20, 5, $aCourseDetails['venue']);
+        $this->Cell(0, 5, '9:00A - 5:00P');
 
         $this->Ln(5);
-        
     }
 
     /**
      * setTotalAmount
      * Set the training venue.
      */
-    public function setTotalAmount()
+    public function setTotalAmount($aCourseDetails)
     {
         $this->Ln(20);
 
         $this->Cell(50);
-
         $this->SetFont('BebasNeue-Regular', '', 12);
-
         $this->Cell(50, 5, 'COURSE CODE');
-
         $this->Cell(30, 5, 'AMOUNT');
 
         $this->Ln(5);
 
         $this->Cell(50);
-
         $this->SetFont('Arial', '', 10);
-
-        $this->Cell(50, 5, '20410');
-
-        $this->Cell(30, 5, '8,000');
+        $this->Cell(50, 5, $aCourseDetails['courseCode']);
+        $this->Cell(30, 5, 'P' . number_format($aCourseDetails['coursePrice']));
 
         $this->Ln(10);
 
         $this->SetFont('BebasNeue-Regular', '', 12);
-
         $this->Cell(70);
-
         $this->Cell(30, 5, 'TOTAL:');
+        $this->Cell(30, 5, 'P' . number_format($aCourseDetails['coursePrice']));
 
-        $this->Cell(30, 5, '8,000', 0, 1);
+        $this->Ln(10);
     }
 
     public function terms()
     {
-
         $this->Ln(5);
+
         $this->SetFont('BebasNeue-Regular', '', 10);
-
-        // Move to the right.
         $this->Cell(7);
-
         $this->Cell(10, 5, 'BDO BANK DETAILS', 0, 0, 'C');
 
         $this->Ln(5);
 
         $this->SetFont('Arial', '', 9);
-
         $this->Cell(30, 5, 'Account Name:');
-
         $this->Cell(10, 5, 'Nexus I.T. Training Center', 0, 1);
-
         $this->Cell(30, 3, 'Account Number:');
-
         $this->Cell(30, 3, '002810078994', 0, 1);
 
         $this->SetFont('BebasNeue-Regular', '', 10);
 
         $this->Ln(5);
 
-        // Move to the right.
         $this->Cell(10);
-
         $this->Cell(10, 5, 'TERMS AND CONDITIONS', 0, 0, 'C');
 
         $this->Ln(5);
 
         $this->SetFont('Arial', '', 8);
-
         $this->Cell(100, 5, '1. All cheques must be payable to NEXUS IT TRAINING CENTER.', 0, 1);
-
         $this->Cell(100, 5, '2. Cheque payments must be 100% good before the training starts.', 0, 1);
-
         $this->Cell(100, 5, '3. NO REFUND if the student decides to backout on the first day of class.', 0, 1);
-
         $this->Cell(100, 5, '4. For INSTALLMENTS, 50% downpayment as reservation. Balance must be paid on or before the first day of training.', 0, 1);
-
         $this->Cell(100, 5, '5. Please bring a copy of your BDO deposit slip on the first day of class.', 0, 1);
-
         $this->Cell(100, 5, '6. NEXUS ITTC reserves the rights to change schedule, venue, instuctor or cancel a class if the need arises.', 0, 1);
-
         $this->Cell(100, 5, '7. Minimum of five (5) students to commence a class.', 0, 1);
-
         $this->Cell(100, 5, '8. Upload a proof of payment on your account and wait for the confirmation in your email.', 0, 1);
 
         $this->Ln(10);
@@ -261,34 +223,18 @@ class Pdf extends Fpdf
      * setSignature
      * Set the instructor and the admin.
      */
-    public function setSignature()
+    public function setSignature($aStudentDetails)
     {
-
         // Move to the right.
-        
-        $this->Cell(250, 4, 'I have agreed to all the terms and conditions stated above. I understand that this enrollment comes on a first come first serve basis and by not being able to', 0, 1);
-        $this->Cell(250, 4, ' pay for my reservation fee forfeits me of my slot.');
+        $this->Cell(95);
+        $this->Cell(100, 5, 'I have agreed to all the terms and conditions stated above.', 0, 1, 'R');
 
-        $this->Ln(10);
         // Move to the right.
         $this->Cell(140);
         $this->Cell(10, 10, '______________________________', 0, 1);
-        
+
         // Move to the right.
         $this->Cell(155);
-        $this->Cell(20, 1, '[Student Name]');
- 
-
-        // Output the certificate into the browser.
-        $this->Output('I', 'Registration-Form.pdf');
+        $this->Cell(20, 1, $aStudentDetails['fullName']);
     }
-
-
 }
-
-$oPdf = new Pdf();
-$oPdf->initializePage();
-$oPdf->setRow();
-$oPdf->setTotalAmount();
-$oPdf->terms();
-$oPdf->setSignature();

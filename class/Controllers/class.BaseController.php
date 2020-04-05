@@ -34,13 +34,6 @@ class BaseController
         return $this->oStudentModel->getUserIdByFirstAndLastName($sFirstName, $sLastName);
     }
 
-    protected function unsetKeys(&$aData, $aUnnecessaryData)
-    {
-        foreach ($aUnnecessaryData as $sKey) {
-            unset($aData[$sKey]);
-        }
-    }
-
     /**
      * getInterval
      */
@@ -49,9 +42,23 @@ class BaseController
         if ($aCourseDetails['recurrence'] !== 'none') {
             $iInterval = $aCourseDetails['numRepetitions'] . ' ' . Utils::getDayName($aCourseDetails['fromDate']) . 's';
         } else {
-            $iInterval = ((strtotime($aCourseDetails['fromDate']) - strtotime($aCourseDetails['fromDate'])) / 86400) + 1;
-            $iInterval .= ($iInterval === 1) ? ' day' : ' days';
+            $iInterval = ((strtotime($aCourseDetails['toDate']) - strtotime($aCourseDetails['fromDate'])) / 86400) + 1;
+            $iInterval .= ($iInterval === 1) ? ' Day' : ' Days';
         }
         return $iInterval;
+    }
+
+    /**
+     * changeEndDateIfRecurring
+     */
+    protected function changeEndDateIfRecurring($aSchedule)
+    {
+        if (isset($aSchedule['recurrence']) === true && $aSchedule['recurrence'] === 'weekly') {
+            // Add number of repetitions as weeks for event recursion.
+            $oEndDate = new DateTime($aSchedule['fromDate']);
+            $oEndDate->modify('+' . $aSchedule['numRepetitions'] - 1 . ' week');
+            $aSchedule['toDate'] = $oEndDate->format('Y-m-d');
+        }
+        return $aSchedule['toDate'];
     }
 }

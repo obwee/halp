@@ -136,4 +136,32 @@ class TrainingModel
             return 0;
         }
     }
+
+    public function fetchTrainingDetails($iStudentId, $iTrainingId)
+    {
+        // Query the tbl_courses.
+        $statement = $this->oConnection->prepare("
+            SELECT tc.courseName, tc.courseDescription, tc.courseCode, ts.coursePrice,
+                   ts.fromDate, ts.toDate, tv.venue, ts.recurrence, ts.numRepetitions
+            FROM       tbl_courses   tc
+            INNER JOIN tbl_schedules ts
+                ON tc.id = ts.courseId
+            INNER JOIN tbl_venue     tv
+                ON tv.id = ts.venueId
+            INNER JOIN tbl_training  tt
+                ON tt.scheduleId = ts.id
+            WHERE 1 = 1
+                AND ts.fromDate > CURDATE()
+                AND ts.toDate > CURDATE()
+                AND tt.studentId = ?
+                AND tt.id = ?
+            ORDER BY ts.fromDate, tc.courseName ASC
+        ");
+
+        // Execute the above statement.
+        $statement->execute([$iStudentId, $iTrainingId]);
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetch();
+    }
 }

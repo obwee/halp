@@ -168,7 +168,17 @@ class Student extends BaseController
 
     public function printRegiForm()
     {
-        // Unset unnecessary data to be returned to the front-end.
+        $iTrainingId = filter_var($_GET['tId'], FILTER_VALIDATE_INT);
+
+        if ($iTrainingId === false) {
+            echo 'Error!';
+            exit();
+        }
+
+        $aCourseDetails = $this->oTrainingModel->fetchTrainingDetails($this->getUserId(), $iTrainingId);
+        $aStudentDetails = $this->oStudentModel->getUserDetails(['userId' => $this->getUserId()]);
+        $aStudentDetails['fullName'] = $aStudentDetails['firstName'] . ' ' . $aStudentDetails['lastName'];
+
         $aUnnecessaryData = array(
             'courseId',
             'paymentId',
@@ -179,12 +189,12 @@ class Student extends BaseController
             'remainingSlots',
             'instructorName'
         );
-        $aCourseDetails = [$this->aParams];
-        Utils::unsetUnnecessaryData($aCourseDetails, $aUnnecessaryData);
+        Utils::unsetKeys($aCourseDetails, $aUnnecessaryData);
 
-        $aStudentDetails = $this->oStudentModel->getUserDetails(['userId' => $this->getUserId()]);
-        print_r($aCourseDetails[0]);
-        print_r($aStudentDetails);
-        die;
+        $aCourseDetails['schedule'] = $aCourseDetails['fromDate'] . ' - ' . $aCourseDetails['toDate'];
+        $aCourseDetails['schedule'] .= ' (' . $this->getInterval($aCourseDetails) . ')';
+
+        $oPrintRegiForm = new PdfRegiForm($aStudentDetails, $aCourseDetails);
+        $oPrintRegiForm->Output('I', 'Registration-Form.pdf');
     }
 }

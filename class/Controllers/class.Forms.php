@@ -31,7 +31,7 @@ class Forms extends BaseController
         $aCourses = array();
         $aSchedules = array();
 
-        foreach ($aResult as $iKey => $aCourse) {
+        foreach ($aResult as $aCourse) {
             $aSchedules[$aCourse['courseId']][$aCourse['scheduleId']] = $aCourse['fromDate'] . ' - ' . $aCourse['toDate'] . ' (' . $this->getInterval($aCourse) . ')';
             $aCourses[$aCourse['courseId']] = $aCourse;
         }
