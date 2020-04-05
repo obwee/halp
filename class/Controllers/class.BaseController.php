@@ -33,4 +33,25 @@ class BaseController
     protected function getUserIdOfQuoteRequester($sFirstName, $sLastName) {
         return $this->oStudentModel->getUserIdByFirstAndLastName($sFirstName, $sLastName);
     }
+
+    protected function unsetKeys(&$aData, $aUnnecessaryData)
+    {
+        foreach ($aUnnecessaryData as $sKey) {
+            unset($aData[$sKey]);
+        }
+    }
+
+    /**
+     * getInterval
+     */
+    protected function getInterval($aCourseDetails)
+    {
+        if ($aCourseDetails['recurrence'] !== 'none') {
+            $iInterval = $aCourseDetails['numRepetitions'] . ' ' . Utils::getDayName($aCourseDetails['fromDate']) . 's';
+        } else {
+            $iInterval = ((strtotime($aCourseDetails['fromDate']) - strtotime($aCourseDetails['fromDate'])) / 86400) + 1;
+            $iInterval .= ($iInterval === 1) ? ' day' : ' days';
+        }
+        return $iInterval;
+    }
 }

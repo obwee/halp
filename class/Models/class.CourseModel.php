@@ -84,8 +84,8 @@ class CourseModel
         // Query the tbl_courses.
         $statement = $this->oConnection->prepare("
             SELECT tc.id AS courseId, tc.courseName, tc.courseDescription, tc.courseCode, ts.coursePrice,
-                   ts.id AS scheduleId, ts.fromDate, ts.toDate, tv.venue, ts.remainingSlots,
-                   ts.instructorId, CONCAT(tu.firstName, ' ', tu.lastName) AS instructorName
+                   ts.id AS scheduleId, ts.fromDate, ts.toDate, tv.venue, ts.remainingSlots, ts.instructorId,
+                   ts.recurrence, ts.numRepetitions, CONCAT(tu.firstName, ' ', tu.lastName) AS instructorName
             FROM       tbl_courses   tc
             INNER JOIN tbl_schedules ts
             ON tc.id = ts.courseId
@@ -115,8 +115,8 @@ class CourseModel
         // Query the tbl_courses.
         $statement = $this->oConnection->prepare("
             SELECT tc.id AS courseId, tc.courseName, tc.courseDescription, tc.courseCode, ts.coursePrice,
-                   ts.id AS scheduleId, ts.fromDate, ts.toDate, tv.venue, ts.remainingSlots,
-                   ts.instructorId, CONCAT(tu.firstName, ' ', tu.lastName) AS instructorName
+                   ts.id AS scheduleId, ts.fromDate, ts.toDate, tv.venue, ts.remainingSlots, ts.instructorId,
+                   ts.recurrence, ts.numRepetitions, CONCAT(tu.firstName, ' ', tu.lastName) AS instructorName
             FROM       tbl_courses   tc
             INNER JOIN tbl_schedules ts
             ON tc.id = ts.courseId

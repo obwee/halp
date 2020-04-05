@@ -125,6 +125,10 @@ class Utils
     {
         // Loop thru the POST data sent by AJAX for renaming.
         foreach ($aKeys as $sKey => $mValue) {
+            if (empty($aParams[$sKey]) === true) {
+                // $aParams[$sKey] = '';
+                continue;
+            }
             $aParams[$mValue] = $aParams[$sKey];
             unset($aParams[$sKey]);
         }
@@ -158,5 +162,13 @@ class Utils
                 unset($aData[$iDataKey][$sKeyToUnset]);
             }
         }
+    }
+
+    /**
+     * getDayName
+     */
+    public static function getDayName($sDate)
+    {
+        return date('l', strtotime($sDate));
     }
 }
