@@ -5,7 +5,7 @@ require_once "template/header.php";
 
 <div class="container">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h2><span class="fas fa-user-times"></span> Refund Requests</h2>
+        <h2><span class="fas fa-check-double"></span> Approved Refunds</h2>
     </div>
 
 
@@ -15,22 +15,24 @@ require_once "template/header.php";
                 <tr>
                     <th style="white-space:nowrap;text-align: center;">Date Requested</th>
                     <th style="white-space:nowrap;text-align: center;">Student Name</th>
+                    <th style="white-space:nowrap;text-align: center;">Contact No.</th>
                     <th style="white-space:nowrap;text-align: center;">Course</th>
                     <th style="white-space:nowrap;text-align: center;">Start Date</th>
                     <th style="white-space:nowrap;text-align: center;">End Date</th>
-                    <th style="white-space:nowrap;text-align: center;">Actions</th>
+                    <th style="white-space:nowrap;text-align: center;">Date Approved</th>
+                    <th style="white-space:nowrap;text-align: center;">Approved By</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td style="text-align: center;">Apr 2, 2020</td>
-                    <td style="text-align: center;">Aries Valenzuela</td>
-                    <td style="text-align: center;">EH</td>
-                    <td style="text-align: center;">Apr 28, 2020</td>
-                    <td style="text-align: center;">Apr 29, 2020</td>
-                    <td style="text-align: center;">
-                        <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#viewRequestModal"><i class="fas fa-eye"></i></button>
-                    </td>
+                <tr style="text-align: center;">
+                    <td>Apr 2, 2020</td>
+                    <td>Aries Valenzuela</td>
+                    <td>09261759559</td>
+                    <td>EH</td>
+                    <td>Apr 28, 2020</td>
+                    <td>Apr 29, 2020</td>
+                    <td>April 5, 2020</td>
+                    <td>Mark Exequiel Sale</td>
                 </tr>
             </tbody>    
         </table>
@@ -99,7 +101,7 @@ require_once "template/header.php";
 require_once "template/scripts.php";
 ?>
 
-<script src="/Nexus/dashboard/js/admin/dashboard.refundRequests.js"></script>
+<script src="/Nexus/dashboard/js/admin/dashboard.approvedRefunds.js"></script>
 
 <?php
 require_once "template/footer.php";

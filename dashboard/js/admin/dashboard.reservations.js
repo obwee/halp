@@ -2,7 +2,9 @@ var oReservations = (() => {
 
     function init() {
         $('#tbl_reserved').DataTable({
-        	"scrollX": true
+        	"scrollX": true,
+        	"scrollY": "300px",
+        	"scrollCollapse": true
         });
     }
 

@@ -113,7 +113,7 @@
                         <ul class="treeview-menu">
                             <li><a href="/Nexus/dashboard/admin/payment"><i class="fas fa-cash-register"></i>&emsp;Student Payments</a></li>
                             <li><a href="/Nexus/dashboard/admin/refundRequests"><i class="fas fa-user-times"></i>&emsp;Refund Requests</a></li>
-                            <li><a href="/Nexus/dashboard/admin/cancelledReservations"><i class="fas fa-check-double"></i>&emsp;Approved Refunds</a></li>
+                            <li><a href="/Nexus/dashboard/admin/approvedRefunds"><i class="fas fa-check-double"></i>&emsp;Approved Refunds</a></li>
                         </ul>
                     </li>
                     <li class="treeview">

@@ -112,7 +112,6 @@ require_once "template/studentHeader.php";
                 <div class="modal-header" style="background-color: #605ca8;">
                     <h5 align="center" style="color:white;">Cancel Reservation</h5>
                 </div>
-                <form>
                     <div class="modal-body">
                         <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                         <div style="border:1px solid #d5d5d5; padding:5px 5px;border-radius:3px 3px;text-align: justify">
@@ -132,7 +131,6 @@ require_once "template/studentHeader.php";
                             <label class="custom-control-label" for="customControlAutosizing" style="text-align:justify;">I have read, understood and agreed to the terms and conditions stated above. I understand that submitting this request does not guarantee the request to be accepted and processed immediately.</label>
                         </div>
                     </div>
-
                 <div class="d-flex justify-content-center">
                     <div class="spinner-border spinner" role="status" style="display:none;">
                         <span class="sr-only">Loading...</span>
