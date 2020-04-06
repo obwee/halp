@@ -1119,6 +1119,53 @@ class Validations {
     }
 
     /**
+     * validateFileForPayment
+     * Validates the file uploaded for payment.
+     * @param {string} sFormId (The form id.)
+     * @return {object} oFileValidation (Result of the validation.)
+     */
+    validateFileForPayment(sFormId) {
+        let oFile = $(sFormId).find('.paymentFile').prop('files')[0];
+
+        let oFileValidation = {
+            result: true
+        };
+
+        let aFileInputRules = [
+            {
+                name: 'File',
+                element: '.paymentFile',
+                maxSize: 10485760,
+                pattern: /(\.pdf)|(\.jpg)|(\.jpeg)|(\.png)$/i
+            },
+        ];
+
+        $.each(aFileInputRules, function (iKey, oInputRule) {
+            // Test if file is a PDF file.
+            if (!oInputRule.pattern.exec(oFile.name)) {
+                oFileValidation = {
+                    result: false,
+                    element: oInputRule.element,
+                    msg: 'File must be PDF, JPEG/JPG, or PNG.'
+                };
+                return false;
+            }
+
+            // Test if file size exceeds 10 MB.
+            if (oFile.size > oInputRule.maxSize) {
+                oFileValidation = {
+                    result: false,
+                    element: oInputRule.element,
+                    msg: 'File must not exceed 10 MB.'
+                };
+            }
+            return false;
+        });
+
+        return oFileValidation;
+    }
+
+    /**
      * loopThruRulesForErrors
      * @param {array} aRules (Array of rules.)
      * @param {string} sFormId (The id of the form.)

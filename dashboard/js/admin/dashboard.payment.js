@@ -121,14 +121,14 @@ let oPayment = (() => {
             const oInputForms = {
                 '#addPaymentMethodForm': {
                     'validationMethod': oValidations.validatePaymentModeInputs(sFormId),
-                    'requestClass': 'PaymentMethods',
+                    'requestClass': 'Payment',
                     'requestAction': 'addPaymentMethod',
                     'alertTitle': 'Add payment method?',
                     'alertText': 'This will insert a new payment method.'
                 },
                 '#editPaymentMethodForm': {
                     'validationMethod': oValidations.validatePaymentModeInputs(sFormId),
-                    'requestClass': 'PaymentMethods',
+                    'requestClass': 'Payment',
                     'requestAction': 'updatePaymentMethod',
                     'alertTitle': 'Update payment method?',
                     'alertText': 'This will update the payment method.'
@@ -208,7 +208,7 @@ let oPayment = (() => {
      */
     function toggleEnableDisablePaymentMode(oPaymentMethodData) {
         $.ajax({
-            url: '/Nexus/utils/ajax.php?class=PaymentMethods&action=enableDisablePaymentMethod',
+            url: '/Nexus/utils/ajax.php?class=Payment&action=enableDisablePaymentMethod',
             type: 'POST',
             data: oPaymentMethodData,
             dataType: 'json',
@@ -228,7 +228,7 @@ let oPayment = (() => {
      */
     function fetchModeOfPayments() {
         let oAjax = {
-            url: `/Nexus/utils/ajax.php?class=PaymentMethods&action=fetchModeOfPayments`,
+            url: `/Nexus/utils/ajax.php?class=Payment&action=fetchModeOfPayments`,
             type: 'GET',
             dataType: 'JSON',
             dataSrc: function (oData) {

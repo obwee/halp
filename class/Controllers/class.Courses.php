@@ -231,16 +231,18 @@ class Courses extends BaseController
 
         Utils::unsetUnnecessaryData($aCoursesToEnroll, $aUnnecessaryData);
 
-        // Get training data.
-        $aTrainingData = $this->oTrainingModel->getTrainingData($iStudentId, $aScheduleIds);
+        if (sizeof($aEnrolledCourses) !== 0) {
+            // Get training data.
+            $aTrainingData = $this->oTrainingModel->getTrainingData($iStudentId, $aScheduleIds);
 
-        // Insert training data to each of the enrolled courses.
-        foreach ($aEnrolledCourses as $iKey => $aEnrolledCourse) {
-            // Search schedule ID index inside the training data.
-            $iIndex = Utils::searchKeyByValueInMultiDimensionalArray($aEnrolledCourse['scheduleId'], $aTrainingData, 'scheduleId');
-            $aEnrolledCourses[$iKey]['trainingId'] = $aTrainingData[$iIndex]['trainingId'];
-            $aEnrolledCourses[$iKey]['paymentId'] = $aTrainingData[$iIndex]['paymentId'];
-            $aEnrolledCourses[$iKey]['paymentStatus'] = $this->aPaymentStatus[$aTrainingData[$iIndex]['paymentStatus']];
+            // Insert training data to each of the enrolled courses.
+            foreach ($aEnrolledCourses as $iKey => $aEnrolledCourse) {
+                // Search schedule ID index inside the training data.
+                $iIndex = Utils::searchKeyByValueInMultiDimensionalArray($aEnrolledCourse['scheduleId'], $aTrainingData, 'scheduleId');
+                $aEnrolledCourses[$iKey]['trainingId'] = $aTrainingData[$iIndex]['trainingId'];
+                $aEnrolledCourses[$iKey]['paymentStatus'] = $this->aPaymentStatus[$aTrainingData[$iIndex]['paymentStatus'] ?? 0];
+                $aEnrolledCourses[$iKey]['paymentBalance'] = $aEnrolledCourse['coursePrice'] - $aTrainingData[$iIndex]['paymentAmount'] ?? $aEnrolledCourse['coursePrice'];
+            }
         }
 
         echo json_encode(array(

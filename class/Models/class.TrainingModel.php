@@ -60,9 +60,10 @@ class TrainingModel
             SELECT
                 tt.id AS trainingId,
                 tt.scheduleId, tp.id AS paymentId,
+                tp.paymentAmount AS paymentAmount,
                 tp.isPaid AS paymentStatus
             FROM tbl_training tt
-            INNER JOIN tbl_payments tp
+            LEFT JOIN tbl_payments tp
             ON tp.trainingId = tt.id
             WHERE 1 = 1
                 AND studentId = $sUserId
@@ -102,19 +103,19 @@ class TrainingModel
                 $iStudentId
             ]);
 
-            // Prepare an insert query to the payment table.
-            $oPaymentStatement = $this->oConnection->prepare("
-                INSERT INTO tbl_payments
-                    (trainingId, paymentDate)
-                VALUES
-                    (?, ?)
-            ");
+            // // Prepare an insert query to the payment table.
+            // $oPaymentStatement = $this->oConnection->prepare("
+            //     INSERT INTO tbl_payments
+            //         (trainingId, paymentDate)
+            //     VALUES
+            //         (?, ?)
+            // ");
 
-            // Execute update.
-            $oPaymentStatement->execute([
-                $this->oConnection->lastInsertId(),
-                date('Y-m-d H:i:s')
-            ]);
+            // // Execute update.
+            // $oPaymentStatement->execute([
+            //     $this->oConnection->lastInsertId(),
+            //     date('Y-m-d H:i:s')
+            // ]);
 
             // Prepare an update query to the schedule table.
             $oScheduleStatement = $this->oConnection->prepare("

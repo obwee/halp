@@ -175,7 +175,7 @@ let CALENDAR = (function () {
             }
             Swal.fire({
                 title: 'Move the schedule?',
-                text: 'This will update the schedule dates.',
+                html: 'This will update the schedule dates.<br/>It is highly advised to inform the enrolees first, if any.',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes',
@@ -468,7 +468,7 @@ let CALENDAR = (function () {
      */
     function prepareCalendarData(oData, bReschedule = false) {
         const sFormDate = oData.start;
-        const sEndDate = oData.end ?? moment(sFormDate).add(oData._def.recurringDef.typeData.origOptions.freq - 1, 'weeks').add(1, 'days').format('YYYY-MM-DD');
+        const sEndDate = oData.end ?? moment(sFormDate).add(oData.extendedProps.frequency.match(/\d+/g).map(Number) - 1, 'weeks').add(1, 'days').format('YYYY-MM-DD');
         return {
             iScheduleId: parseInt(oData.id, 10),
             iInstructorId: parseInt(oData.extendedProps.instructor.id, 10),
