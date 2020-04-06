@@ -14,6 +14,7 @@ var oForms = (() => {
         prepareInstructorEvents();
         prepareAdminEvents();
         prepareModeOfPaymentEvents();
+        prepareEnrollmentEvents();
     }
 
     function prepareRegistrationAndQuotationEvents() {
@@ -189,6 +190,17 @@ var oForms = (() => {
         // Trim excess spaces and dots on specific inputs via RegExp on focusout event.
         $(document).on('focusout', '.paymentMode', function () {
             $(this).val($(this).val().replace(/\s+/g, ' ').replace(/\.+/g, '.').trim());
+        });
+    }
+
+    function prepareEnrollmentEvents() {
+        $(document).on('change', '.paymentFile', function () {
+            if ($(this).val() !== '') {
+                let sFileName = $(this).val().split('\\').pop();
+                $(this).siblings('.custom-file-label').addClass('selected').html(sFileName);
+            } else {
+                $(this).siblings('.custom-file-label').removeClass('selected').html('Select File');
+            }
         });
     }
 
