@@ -2,10 +2,10 @@
 require_once('utils/dbConnection.php');
 
 /**
- * PaymentMethodsModel
+ * PaymentModel
  * Class for payment method-related database functionalities.
  */
-class PaymentMethodsModel
+class PaymentModel
 {
     /**
      * @var dbConnection $oConnection
@@ -95,5 +95,30 @@ class PaymentMethodsModel
 
         // Execute the above statement along with the needed where clauses then return.
         return $statement->execute($aData);
+    }
+
+    public function getPaymentDetails($aTrainingId)
+    {
+        // Prepare a select query.
+        $statement = $this->oConnection->prepare("
+            SELECT
+                tt.id AS trainingId, ts.coursePrice,
+                tt.scheduleId, tp.paymentDate, tp.id AS paymentId,
+                tp.paymentAmount AS paymentAmount, tp.paymentMethod,
+                tp.isPaid AS paymentStatus
+            FROM tbl_training tt
+            INNER JOIN tbl_schedules ts
+            ON tt.scheduleId = ts.id
+            LEFT JOIN tbl_payments tp
+            ON tp.trainingId = tt.id
+            WHERE 1 = 1
+                AND tt.id = :trainingId
+        ");
+
+        // Execute the above statement.
+        $statement->execute($aTrainingId);
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetchAll();
     }
 }

@@ -1128,6 +1128,42 @@ class Validations
     }
 
     /**
+     * validateFileForPayment
+     * Method for validating instruction inputs to be changed sent by AJAX.
+     * @param array $aParams
+     * @return array $aValidationResult
+     */
+    public static function validateFileForPayment($aFile)
+    {
+        $aFileValidation = array(
+            'bResult' => true
+        );
+
+        $aAcceptedMimeTypes = array(
+            'application/pdf',
+            'image/jpeg',
+            'image/png'
+        );
+
+        if (in_array($aFile['type'], $aAcceptedMimeTypes) === false) {
+            $aFileValidation = array(
+                'bResult'  => false,
+                'sElement' => '.file',
+                'sMsg'     => 'File must be PDF, JPEG/JPG, or PNG.'
+            );
+        }
+        if ($aFile['size'] > 10485760) {
+            $aFileValidation = array(
+                'bResult'  => false,
+                'sElement' => '.file',
+                'sMsg'     => 'File must not exceed 10 MB.'
+            );
+        }
+
+        return $aFileValidation;
+    }
+
+    /**
      * loopThruRulesForErrors
      * @param array $aInputRules (Array of rules.)
      * @param string $sSelector (jQuery selector.)

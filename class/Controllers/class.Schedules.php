@@ -125,14 +125,14 @@ class Schedules extends BaseController
         $aValidationResult = Validations::validateScheduleInputs($this->aParams);
         if ($aValidationResult['bResult'] === true) {
 
-            if (empty($this->aParams['bReschedule']) === false && $this->aParams['bReschedule'] == true && $this->aParams['iRemainingSlots'] < $this->aParams['iSlots']) {
-                $aResult = array(
-                    'bResult' => false,
-                    'sMsg'    => 'Cannot update schedules. Inform the enrolees first.'
-                );
-                echo json_encode($aResult);
-                exit();
-            }
+            // if (empty($this->aParams['bReschedule']) === false && $this->aParams['bReschedule'] == true && $this->aParams['iRemainingSlots'] < $this->aParams['iSlots']) {
+            //     $aResult = array(
+            //         'bResult' => false,
+            //         'sMsg'    => 'Cannot update schedules. Inform the enrolees first.'
+            //     );
+            //     echo json_encode($aResult);
+            //     exit();
+            // }
 
             // Declare an array with keys equivalent to that inside the database.
             $aDatabaseColumns = array(

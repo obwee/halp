@@ -1,12 +1,12 @@
 <?php
 
-class PaymentMethods extends BaseController
+class Payment extends BaseController
 {
     /**
-     * @var PaymentMethodsModel $oPaymentMethodsModel
+     * @var PaymentModel $oPaymentModel
      * Class instance for Payment Methods model.
      */
-    private $oPaymentMethodsModel;
+    private $oPaymentModel;
 
     /**
      * Admins constructor.
@@ -17,7 +17,7 @@ class PaymentMethods extends BaseController
         // Store the $_POST variables inside $this->aParams variable.
         $this->aParams = $aPostVariables;
         // Instantiate the UsersModel class and store it inside $this->oVenueModel.
-        $this->oPaymentMethodsModel = new PaymentMethodsModel();
+        $this->oPaymentModel = new PaymentModel();
     }
 
     /**
@@ -26,7 +26,7 @@ class PaymentMethods extends BaseController
      */
     public function fetchModeOfPayments()
     {
-        echo json_encode($this->oPaymentMethodsModel->fetchModeOfPayments());
+        echo json_encode($this->oPaymentModel->fetchModeOfPayments());
     }
 
     /**
@@ -44,7 +44,7 @@ class PaymentMethods extends BaseController
             Utils::renameKeys($this->aParams, $aDatabaseColumns);
             Utils::sanitizeData($this->aParams);
             // Perform insert.
-            $iQuery = $this->oPaymentMethodsModel->addPaymentMethod($this->aParams);
+            $iQuery = $this->oPaymentModel->addPaymentMethod($this->aParams);
 
             if ($iQuery > 0) {
                 $aResult = array(
@@ -80,7 +80,7 @@ class PaymentMethods extends BaseController
             Utils::renameKeys($this->aParams, $aDatabaseColumns);
             Utils::sanitizeData($this->aParams);
             // Perform update.
-            $iQuery = $this->oPaymentMethodsModel->updatePaymentMethod($this->aParams);
+            $iQuery = $this->oPaymentModel->updatePaymentMethod($this->aParams);
 
             if ($iQuery > 0) {
                 $aResult = array(
@@ -112,7 +112,7 @@ class PaymentMethods extends BaseController
         );
 
         // Perform enabling/disabling.
-        $iQuery = $this->oPaymentMethodsModel->enableDisablePaymentMethod($aData);
+        $iQuery = $this->oPaymentModel->enableDisablePaymentMethod($aData);
 
         if ($iQuery > 0) {
             $aResult = array(
@@ -127,5 +127,33 @@ class PaymentMethods extends BaseController
         }
 
         echo json_encode($aResult);
+    }
+
+    public function fetchPaymentDetails()
+    {
+        Utils::sanitizeData($this->aParams);
+        $aPaymentDetails = $this->oPaymentModel->getPaymentDetails($this->aParams);
+
+        foreach ($aPaymentDetails as $aPaymentData) {
+            if (empty($aPaymentData['paymentId']) === true) {
+                echo json_encode([]);
+                exit();
+            }
+        }
+    }
+
+    public function addPayment()
+    {
+        $aIds = array(
+            'trainingId' => $this->aParams['trainingId'],
+            'scheduleId' => $this->aParams['scheduleId']
+        );
+        $aPaymentFile = $this->aParams['paymentFile'];
+
+        $aValidationResult = Validations::validateFileForPayment($aPaymentFile);
+        print_r($aIds);
+        print_r($aPaymentFile);
+        print_r($aValidationResult);
+        // Proceed with saving file to DB.
     }
 }
