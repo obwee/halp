@@ -28,6 +28,8 @@ require_once "template/studentHeader.php";
                         <td></td>
                         <td align="center">
                             <button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#viewPaymentModal"><i class="fas fa-eye"></i></button>
+                            <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#rescheduleModal"><i style="color:white;" class="fas fa-calendar-times"></i></button>
+                            <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#refundModal"><i style="color:white;" class="fas fa-times-circle"></i></button>
                         </td>
                     </tr>
                 </tbody>
@@ -41,6 +43,9 @@ require_once "template/studentHeader.php";
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #605ca8;">
                     <h5 align="center" style="color:white;">View Payment History</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color:white">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                         
@@ -101,7 +106,77 @@ require_once "template/studentHeader.php";
         </div>
     </div>
 
-   
+    <div class="modal fade" id="rescheduleModal" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered rescheduleModal">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #605ca8;">
+                    <h5 align="center" style="color: white;"><i class="fas fa-calendar-day"></i> Reschedule Reservation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color:white">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>For rescheduling, please inform us atleast three (3) days before your scheduled training.</p>
+                    <p>To reschedule your reservation, please contact us from 09:00AM - 05:00PM to assist you.</p>
+                    <ul>
+                        <li>Makati Branch: &nbsp&nbsp&nbsp+63 2 8362-3755</li>
+                        <li>Manila Branch: &nbsp&nbsp&nbsp+63 2 8355-7759</li>
+                    </ul>
+                    <p>You can also message us through <a href="https://www.facebook.com/nxs88" target="_blank">facebook</a>.</p>
+
+                    <p>To view the complete terms and conditions, click <a href="">here</a>.</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <div class="modal fade" id="refundModal" role="dialog" data-backdrop="static">
+        <div class="modal-dialog refundModal modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #605ca8;">
+                    <h5 align="center" style="color:white;">Cancel Reservation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color:white">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+                    <div style="border:1px solid #d5d5d5; padding:5px 5px;border-radius:3px 3px;text-align: justify">
+                        <p><i class="fas fa-exclamation-circle" style="color:red;"></i> To RESCHEDULE your training, please contact us immediately.</p>
+                        <p><i class="fas fa-exclamation-circle" style="color:red;"></i> Refunds requests should be submitted atleast three (3) days before your reserved schedule.</p>
+                        <p><i class="fas fa-exclamation-circle" style="color:red;"></i> Refunds are not allowed if the student decides to backout on the first day of class.</p>
+                        <p><i class="fas fa-exclamation-circle" style="color:red;"></i> Upon receiving your request, an admin will contact you regarding your refund.</p>
+                        <p><i class="fas fa-exclamation-circle" style="color:red;"></i> Please give us one (1) week to process your request.</p>
+                    </div>
+                    <p>To view the complete terms and conditions, click <a href="">here</a>.</p>
+                    <div class="form-group">
+                        <label for="refundReason"><i class="fas fa-comments"></i> Refund reason:</label>
+                        <textarea class="form-control" id="refundReason" rows="4"></textarea>
+                    </div>
+                    <div>
+                        <div class="custom-control custom-checkbox mr-sm-2">
+                            <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+                            <label class="custom-control-label" for="customControlAutosizing" style="text-align:justify;">I have read, understood and agreed to the terms and conditions stated above. I understand that submitting this request does not guarantee the request to be accepted and processed immediately.</label>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border spinner" role="status" style="display:none;">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 <?php
 require_once "template/scripts.php";
 ?>

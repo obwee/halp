@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 01, 2020 at 06:32 PM
+-- Generation Time: Apr 05, 2020 at 02:49 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -46,7 +46,7 @@ INSERT INTO `tbl_courses` (`id`, `courseName`, `courseDescription`, `courseCode`
 (1, 'Cisco Certified Network Associate v4', 'Implementing and Administering Cisco Solutions', 'CCNAv4', 'Active'),
 (2, 'Cisco Certified Network Professional', 'Enterprise Core', 'CCNP&CCIE', 'Active'),
 (3, 'Cisco Certified Network Professional', 'Implementing Cisco Enterprise Advanced Routing and Services', 'CCNP ENARSI', 'Active'),
-(4, 'MCP 20410D', 'Installing and Configuring Windows Server 2012', '20410D', 'Active'),
+(4, 'MCP 20410D', 'Installing and Configuring Windows Server 2012', '20410D', 'Inactive'),
 (5, 'MCSA in Windows Server 2016', 'Microsoft Certified Solutions Associate in Windows Server 2016', 'MCSA2016', 'Active'),
 (6, 'MCSA in Windows Server 2012', 'Microsoft Certified Solutions Associate in Windows Server 2012', 'MCSA2012', 'Active'),
 (7, 'Microsoft Azure Administrator', '', 'AZ-1003T00-A', 'Active'),
@@ -117,7 +117,9 @@ CREATE TABLE `tbl_payments` (
 
 INSERT INTO `tbl_payments` (`id`, `trainingId`, `paymentDate`, `paymentMethod`, `paymentAmount`, `isPaid`) VALUES
 (1, 2, '0000-00-00 00:00:00', '', 0, 0),
-(2, 3, '0000-00-00 00:00:00', '', 0, 0);
+(2, 3, '0000-00-00 00:00:00', '', 0, 0),
+(7, 9, '2020-04-02 22:43:09', '', 0, 0),
+(8, 10, '2020-04-05 18:18:47', '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -237,6 +239,8 @@ CREATE TABLE `tbl_schedules` (
   `remainingSlots` int(11) NOT NULL,
   `fromDate` date NOT NULL,
   `toDate` date NOT NULL,
+  `recurrence` varchar(255) DEFAULT 'none',
+  `numRepetitions` varchar(255) NOT NULL DEFAULT '1',
   `status` varchar(255) NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -244,16 +248,20 @@ CREATE TABLE `tbl_schedules` (
 -- Dumping data for table `tbl_schedules`
 --
 
-INSERT INTO `tbl_schedules` (`id`, `courseId`, `coursePrice`, `instructorId`, `venueId`, `numSlots`, `remainingSlots`, `fromDate`, `toDate`, `status`) VALUES
-(2, 1, '20000', 111, 1, 12, 11, '2020-04-23', '2020-04-27', 'Active'),
-(3, 2, '20000', 111, 2, 50, 49, '2020-04-23', '2020-04-27', 'Active'),
-(4, 1, '20000', 110, 1, 50, 50, '2020-04-28', '2020-04-29', 'Active'),
-(5, 4, '20000', 111, 2, 50, 50, '2020-04-07', '2020-04-07', 'Inactive'),
-(6, 12, '20000', 111, 1, 49, 49, '2020-04-14', '2020-04-18', 'Active'),
-(25, 12, '20000', 110, 1, 1, 1, '2020-03-09', '2020-03-10', 'Active'),
-(26, 12, '20000', 110, 1, 1, 1, '2020-04-07', '2020-04-08', 'Inactive'),
-(27, 10, '20000', 110, 1, 1, 1, '2020-04-07', '2020-04-09', 'Inactive'),
-(28, 7, '12345', 110, 2, 25, 25, '2020-04-07', '2020-04-09', 'Active');
+INSERT INTO `tbl_schedules` (`id`, `courseId`, `coursePrice`, `instructorId`, `venueId`, `numSlots`, `remainingSlots`, `fromDate`, `toDate`, `recurrence`, `numRepetitions`, `status`) VALUES
+(2, 1, '20000', 111, 1, 12, 11, '2020-04-20', '2020-04-24', 'none', '1', 'Active'),
+(3, 2, '20000', 111, 2, 50, 49, '2020-05-04', '2020-05-08', 'none', '1', 'Active'),
+(4, 1, '20000', 110, 1, 50, 50, '2020-04-30', '2020-05-01', 'none', '1', 'Active'),
+(5, 4, '20000', 111, 2, 50, 50, '2020-04-07', '2020-04-07', 'none', '1', 'Inactive'),
+(6, 12, '20000', 111, 1, 49, 49, '2020-04-13', '2020-04-17', 'none', '1', 'Active'),
+(25, 12, '20000', 110, 1, 1, 1, '2020-03-09', '2020-03-10', 'none', '1', 'Active'),
+(26, 12, '20000', 110, 1, 1, 1, '2020-04-07', '2020-04-08', 'none', '1', 'Inactive'),
+(27, 10, '20000', 110, 1, 1, 1, '2020-04-07', '2020-04-09', 'none', '1', 'Inactive'),
+(28, 7, '10000', 110, 2, 25, 25, '2020-04-08', '2020-04-10', 'none', '1', 'Active'),
+(29, 10, '8000', 110, 2, 1, 0, '2020-05-12', '2020-05-13', 'none', '1', 'Active'),
+(32, 7, '9999', 110, 2, 99, 99, '2020-05-25', '2020-05-29', 'none', '1', 'Active'),
+(42, 12, '2000', 110, 1, 10, 10, '2020-04-11', '2020-04-18', 'weekly', '2', 'Active'),
+(43, 7, '41241', 111, 1, 1, 0, '2020-04-12', '2020-04-19', 'weekly', '2', 'Active');
 
 -- --------------------------------------------------------
 
@@ -287,7 +295,9 @@ CREATE TABLE `tbl_training` (
 
 INSERT INTO `tbl_training` (`id`, `studentId`, `scheduleId`, `isDone`, `certificateIssued`) VALUES
 (2, 7, 2, 0, 0),
-(3, 7, 3, 0, 0);
+(3, 7, 3, 0, 0),
+(9, 7, 29, 0, 0),
+(10, 7, 43, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -457,7 +467,7 @@ ALTER TABLE `tbl_inclusions`
 -- AUTO_INCREMENT for table `tbl_payments`
 --
 ALTER TABLE `tbl_payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_payment_methods`
@@ -481,7 +491,7 @@ ALTER TABLE `tbl_quotation_senders`
 -- AUTO_INCREMENT for table `tbl_schedules`
 --
 ALTER TABLE `tbl_schedules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `tbl_sent_quotations`
@@ -493,7 +503,7 @@ ALTER TABLE `tbl_sent_quotations`
 -- AUTO_INCREMENT for table `tbl_training`
 --
 ALTER TABLE `tbl_training`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`

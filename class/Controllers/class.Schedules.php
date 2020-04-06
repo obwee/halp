@@ -224,7 +224,8 @@ class Schedules extends BaseController
             Utils::sanitizeData($this->aParams);
             $this->aParams['remainingSlots'] = $this->aParams['numSlots'];
             $this->aParams['toDate'] = $this->changeEndDateIfRecurring($this->aParams);
-
+            $this->aParams['recurrence'] = $this->aParams['recurrence'] ?? 'none';
+            $this->aParams['numRepetitions'] = $this->aParams['numRepetitions'] ?? 1;
             // Perform insert.
             $iQuery = $this->oScheduleModel->addSchedule($this->aParams);
 

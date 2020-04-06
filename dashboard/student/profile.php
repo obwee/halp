@@ -7,8 +7,9 @@
     		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     			<p class="h2">My Profile</p>
     		</div>
-            <div class="row" style="background-color: white;margin-right:8px;margin-left:8px;padding:10px 10px;border-top:4px solid purple;">
-                <div class="col-sm-6" >
+            <div class="row">
+                <div class="col-sm-6">
+                <div style="background-color: white;margin-right:8px;margin-left:8px;padding:10px 10px;box-shadow:8px 8px #605ca8">
                     <form>
                         <div class="form-group row">
                         <label for="firstName" class="col-sm-3 col-form-label"><span class="fas fa-user"></span> First Name</label>
@@ -46,43 +47,44 @@
                                 <input type="text" class="form-control" id="company">
                             </div>
                         </div>
-                    </form>
-                </div>
-
-                <div class="col-sm-6">
-                    <form>
-
-                        <div class="credentials" style="border-style:solid;border-width:1px;border-color:purple;padding:10px 10px;margin-top:50px;">
-                            <div class="form-group row">
-                                <label for="username" class="col-sm-4 col-form-label"><span class="fas fa-user"></span> Username</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="username">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="password" class="col-sm-4 col-form-label"><span class="fas fa-user-lock"></span> Password</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="password">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="confirmPassword" class="col-sm-4 col-form-label"><span class="fas fa-user-lock"></span> Confirm Password</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="confirmPassword">
-                                </div>
-                            </div>
-                        </div> <br>
+                        <div align="center">
+                            <button type="submit" class="btn btn-dark">&nbsp&nbsp&nbspEdit&nbsp&nbsp</button>&nbsp&nbsp
+                            <button type="submit" class="btn btn-success">Update</button>    
+                        </div>
                     </form>
                 </div> 
             </div>
-                
-            <div align="center" style="margin-top:10px;">
-                <button type="submit" class="btn btn-dark">&nbsp&nbsp&nbspEdit&nbsp&nbsp</button>&nbsp&nbsp
-                <button type="submit" class="btn btn-success">Update</button>
+            
+            <div class="col-sm-6">
+                <form>
+                    <div class="credentials" style="background-color:white;padding:10px 10px;margin-top:50px;margin-right:10px;box-shadow:8px 8px #605ca8">
+                        <div class="form-group row">
+                            <label for="username" class="col-sm-4 col-form-label"><span class="fas fa-user"></span> Username</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="username">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="password" class="col-sm-4 col-form-label"><span class="fas fa-user-lock"></span> Password</label>
+                            <div class="col-sm-8">
+                                <input type="password" class="form-control" id="password">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="confirmPassword" class="col-sm-4 col-form-label"><span class="fas fa-user-lock"></span> Confirm Password</label>
+                            <div class="col-sm-8">
+                                <input type="password" class="form-control" id="confirmPassword">
+                            </div>
+                        </div>
+                        <div align="center">
+                            <button type="submit" class="btn btn-dark">&nbsp&nbsp&nbspEdit&nbsp&nbsp</button>&nbsp&nbsp
+                            <button type="submit" class="btn btn-success">Update</button>    
+                        </div>
+                    </div>
+                </form> 
             </div>
-
-
-
+        </div>
+                           
 
                 <?php
                 require_once "template/scripts.php";

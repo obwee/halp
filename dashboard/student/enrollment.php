@@ -11,9 +11,11 @@ require_once "template/studentHeader.php";
         <button type="button" id="enrollBtn" class="btn btn-primary btn-lg">Enroll</button>
     </div>
 
-    <br>
-
     <div class="container">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h5>Reserved Trainings</h5>
+        </div>
+
         <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
             <table id="tbl_enrollment" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
                 <thead></thead>
@@ -22,11 +24,14 @@ require_once "template/studentHeader.php";
         </div>
     </div>
 
-    <div class="modal fade" id="enrollModal" role="dialog">
-        <div class="modal-dialog enrollModal">
+    <div class="modal fade" id="enrollModal" role="dialog" data-backdrop="static">
+        <div class="modal-dialog enrollModal modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #605ca8;">
-                    <h5 align="center" style="color:white;">Enrollment</h5>
+                    <h5 align="center" style="color: white;"><i class="fas fa-university"></i> Enrollment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color:white">&times;</span>
+                    </button>
                 </div>
                 <form action="POST" id="enrollForm">
                     <div class="modal-body">
@@ -66,7 +71,7 @@ require_once "template/studentHeader.php";
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Enroll</button>
+                        <button type="submit" class="btn btn-success">Submit</button>
                         <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
@@ -74,11 +79,14 @@ require_once "template/studentHeader.php";
         </div>
     </div>
 
-    <div class="modal fade" id="cancelReservationModal" role="dialog">
-        <div class="modal-dialog cancelReservationModal">
+    <div class="modal fade" id="cancelReservationModal" role="dialog" data-backdrop="static">
+        <div class="modal-dialog cancelReservationModal modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #605ca8;">
                     <h5 align="center" style="color:white;">Cancel Reservation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color:white">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
@@ -88,7 +96,8 @@ require_once "template/studentHeader.php";
                         <p><i class="fas fa-exclamation-circle" style="color:red;"></i> Refunds are not allowed if the student decides to backout on the first day of class.</p>
                         <p><i class="fas fa-exclamation-circle" style="color:red;"></i> Upon receiving your request, an admin will contact you regarding your refund.</p>
                         <p><i class="fas fa-exclamation-circle" style="color:red;"></i> Please give us one (1) week to process your request.</p>
-                    </div> <br>
+                    </div>
+                    <p>To view the complete terms and conditions, click <a href="">here</a>.</p>
                     <div class="form-group">
                         <label for="refundReason"><i class="fas fa-comments"></i> Refund reason:</label>
                         <textarea class="form-control" id="refundReason" rows="4"></textarea>
@@ -114,11 +123,14 @@ require_once "template/studentHeader.php";
         </div>
     </div>
 
-    <div class="modal fade" id="viewPaymentModal" role="dialog">
-        <div class="modal-dialog modal-lg viewPaymentModal">
+    <div class="modal fade" id="viewPaymentModal" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-lg viewPaymentModal modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #605ca8;">
-                    <h5 align="center" style="color:white;">View Payment History</h5>
+                    <h5 align="center" style="color:white;">Payment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color:white">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div style="border: 3px solid #d5d5d5;padding-top:5px;padding-left:5px;padding-right:5px;padding-bottom:0;border-radius: 4px 4px;margin-bottom:5px;">
@@ -178,20 +190,34 @@ require_once "template/studentHeader.php";
         </div>
     </div>
 
-    <div class="modal fade" id="addPaymentModal" role="dialog">
-        <div class="modal-dialog modal-lg addPaymentModal">
+    <div class="modal fade" id="addPaymentModal" data-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered addPaymentModal">
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #605ca8;">
-                    <h5 align="center" style="color: white;">Upload Payment</h5>
+                    <h5 align="center" style="color: white;"><i class="fas fa-upload"></i> Add Payment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color:white">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
+                    <div>
+                        <ol>
+                            <li>We accept CASH, BDO DEPOSIT, BDO BANK TRANSFER and CHEQUE payments.</li>
+                            <li>Pay the training fee by depositing at any BDO branch.</li>
+                            <ul>
+                                <li>Account Name: Nexus IT Training Center</li>
+                                <li>BDO Account Number: 002810078994</li>
+                            </ul>
+                            <li>Upload a picture or PDF file of the proof of payment below.</li>
+                        </ol>
+                    </div>
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="customFile">
                         <label class="custom-file-label" for="customFile">Upload File</label>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Upload</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
                     <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
