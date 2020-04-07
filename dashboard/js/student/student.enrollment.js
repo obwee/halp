@@ -33,11 +33,11 @@ var oEnrollment = (() => {
             },
             {
                 title: 'Amount', className: 'text-center', render: (aData, oType, oRow) =>
-                    'P' + parseInt(oRow.coursePrice, 10).toLocaleString()
+                    'P' + parseInt(oRow.coursePrice, 10).toLocaleString(undefined, {minimumFractionDigits: 2})
             },
             {
                 title: 'Balance', className: 'text-center', render: (aData, oType, oRow) =>
-                    'P' + parseInt(oRow.paymentBalance, 10).toLocaleString()
+                    'P' + parseInt(oRow.paymentBalance, 10).toLocaleString(undefined, {minimumFractionDigits: 2})
             },
             {
                 title: 'Status', className: 'text-center', data: 'paymentStatus'
@@ -60,23 +60,32 @@ var oEnrollment = (() => {
                 title: 'Date Paid', className: 'text-center', data: 'paymentDate'
             },
             {
-                title: 'MOP', className: 'text-center', data: 'paymentMethod'
+                title: 'MOP', className: 'text-center', render: (aData, oType, oRow) =>
+                    (oRow.paymentMethod === null) ? 'N/A' : oRow.paymentMethod
             },
             {
                 title: 'Training Fee', className: 'text-center', render: (aData, oType, oRow) =>
-                    'P' + parseInt(oRow.coursePrice, 10).toLocaleString()
+                    'P' + parseInt(oRow.coursePrice, 10).toLocaleString(undefined, {minimumFractionDigits: 2})
             },
             {
                 title: 'Amount Paid', className: 'text-center', render: (aData, oType, oRow) =>
-                    'P' + parseInt(oRow.paymentAmount, 10).toLocaleString()
+                    'P' + parseInt(oRow.paymentAmount, 10).toLocaleString(undefined, {minimumFractionDigits: 2})
             },
             {
                 title: 'Remaining Balance', className: 'text-center', render: (aData, oType, oRow) =>
-                    'P' + parseInt(oRow.remainingBalance, 10).toLocaleString()
+                    'P' + parseInt(oRow.remainingBalance, 10).toLocaleString(undefined, {minimumFractionDigits: 2})
             },
             {
                 title: 'Status', className: 'text-center', data: 'paymentStatus'
-            }
+            },
+            {
+                title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
+                    `<a href="${oRow.paymentImage}" data-lightbox="payment-image">
+                        <button class="btn btn-primary btn-sm" id="viewPaymentImage" data-id="${oRow.paymentId}">
+                            <i class="fa fa-eye"></i>
+                        </button>
+                    </a>`
+            },
         ]
     };
 
@@ -186,21 +195,24 @@ var oEnrollment = (() => {
         $('.viewPaymentModal').find('#venue').val(oEnrollmentDetails.venue);
         $('.viewPaymentModal').find('#instructor').val(oEnrollmentDetails.instructorName);
 
-        let aPaymentDetails = $.ajax({
+        loadPaymentDetailsTable();
+    }
+
+    function loadPaymentDetailsTable() {
+        $.ajax({
             url: '/Nexus/utils/ajax.php?class=Payment&action=fetchPaymentDetails',
             type: 'POST',
             data: { trainingId: oEnrollmentDetails.trainingId },
             dataType: 'json',
-            success: function (oResponse) {
-                return oResponse;
-            }
+            async: 'false',
+            success: function (oData) {
+                let aColumnDefs = [
+                    { orderable: false, targets: [1, 2, 3] }
+                ];
+
+                loadTable(oTblPaymentDetails.attr('id'), oData, oColumns.aPaymentDetails, aColumnDefs, false);
+            },
         });
-
-        let aColumnDefs = [
-            { orderable: false, targets: [1, 2, 3] }
-        ];
-
-        loadTable(oTblPaymentDetails.attr('id'), aPaymentDetails, oColumns.aPaymentDetails, aColumnDefs, false);
     }
 
     function populateCourseDropdown() {

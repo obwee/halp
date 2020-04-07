@@ -1,6 +1,7 @@
 <?php
 require_once "template/studentHeader.php";
 ?>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/css/lightbox.min.css">
 
 <div class="container">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -191,6 +192,7 @@ require_once "template/studentHeader.php";
 <?php
 require_once "template/scripts.php";
 ?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/js/lightbox.min.js"></script>
 
 <script src="/Nexus/utils/js/utils.Libraries.js"></script>
 <script src="/Nexus/utils/js/utils.Validations.js"></script>

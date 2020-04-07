@@ -105,7 +105,7 @@ class PaymentModel
                 tt.id AS trainingId, ts.coursePrice,
                 tt.scheduleId, tp.paymentDate, tp.id AS paymentId,
                 tp.paymentAmount AS paymentAmount, tp.paymentMethod,
-                tp.isPaid AS paymentStatus
+                tp.isApproved, tp.paymentFile, tp.isPaid AS paymentStatus
             FROM tbl_training tt
             INNER JOIN tbl_schedules ts
             ON tt.scheduleId = ts.id
@@ -120,5 +120,19 @@ class PaymentModel
 
         // Return the number of rows returned by the executed query.
         return $statement->fetchAll();
+    }
+
+    public function addPayment($aData)
+    {
+        // Prepare an update query to the schedules table.
+        $statement = $this->oConnection->prepare("
+            INSERT INTO tbl_payments
+                (trainingId, paymentDate, paymentFile)
+            VALUES
+                (:trainingId, :paymentDate, :paymentFile)
+        ");
+
+        // Return the result of the execution of the above statement.
+        return $statement->execute($aData);
     }
 }
