@@ -228,4 +228,24 @@ class AdminsModel
         // Return the result of the execution of the above statement.
         return $oStatement->execute([$sPassword, $iUserId]);
     }
+
+    public function fetchAdminsByInstructorIds($aInstructorIds)
+    {
+        $sPlaceHolders = str_repeat ('?, ',  count ($aInstructorIds) - 1) . '?';
+
+        // Query the tbl_quotation_details.
+        $statement = $this->oConnection->prepare("
+            SELECT
+                userId AS instructorId,
+                CONCAT(firstName, ' ', lastName) AS instructorName
+            FROM tbl_users
+            WHERE userId IN ($sPlaceHolders)
+        ");
+
+        // Execute the above statement along with the needed where clauses.
+        $statement->execute($aInstructorIds);
+
+        // Return the result of the execution of the above statement.
+        return $statement->fetchAll();
+    }
 }

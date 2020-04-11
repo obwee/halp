@@ -9,6 +9,12 @@ class Payment extends BaseController
     private $oPaymentModel;
 
     /**
+     * @var $aPaymentMethods
+     * Holder of payment methods.
+     */
+    private $aPaymentMethods;
+
+    /**
      * Admins constructor.
      * @param array $aPostVariables
      */
@@ -18,6 +24,8 @@ class Payment extends BaseController
         $this->aParams = $aPostVariables;
         // Instantiate the UsersModel class and store it inside $this->oVenueModel.
         $this->oPaymentModel = new PaymentModel();
+
+        $this->aPaymentMethods = $this->oPaymentModel->fetchModeOfPayments();
 
         parent::__construct();
     }
@@ -135,22 +143,35 @@ class Payment extends BaseController
     {
         Utils::sanitizeData($this->aParams);
         $aPaymentDetails = $this->oPaymentModel->getPaymentDetails($this->aParams);
-        $aResult = array();
+
+        if (empty($aPaymentDetails) === true) {
+            echo json_encode([]);
+            exit();
+        }
+
+        $iTotalPayment = 0;
+        foreach ($aPaymentDetails as $iKey => $aPaymentData) {
+            $iTotalPayment += $aPaymentData['paymentAmount'];
+        }
 
         foreach ($aPaymentDetails as $iKey => $aPaymentData) {
-            if (empty($aPaymentData['paymentId']) === true) {
-                echo json_encode([]);
-                exit();
+            if ($aPaymentData['paymentMethod'] === null) {
+                $aResult[$iKey]['paymentMethod'] = 'N/A';
+            } else {
+                // Get payment method index.
+                $iMopIndex = Utils::searchKeyByValueInMultiDimensionalArray($aPaymentData['paymentMethod'], $this->aPaymentMethods, 'id');
+                $aResult[$iKey]['paymentMethod'] = $this->aPaymentMethods[$iMopIndex]['methodName'];
             }
 
-            $aResult[$iKey]['paymentId'] = $aPaymentData['paymentId'];
-            $aResult[$iKey]['paymentDate'] = $aPaymentData['paymentDate'];
-            $aResult[$iKey]['paymentMethod'] = $aPaymentData['paymentMethod'];
-            $aResult[$iKey]['coursePrice'] = $aPaymentData['coursePrice'];
-            $aResult[$iKey]['paymentAmount'] = $aPaymentData['paymentAmount'];
-            $aResult[$iKey]['remainingBalance'] = $aPaymentData['coursePrice'] - $aPaymentData['paymentAmount'];
-            $aResult[$iKey]['paymentImage'] = '..' . DS . 'payments' . DS . $aPaymentData['paymentFile'];
-            $aResult[$iKey]['paymentStatus'] = $this->aPaymentApprovalStatus[$aPaymentData['isApproved']];
+            $aResult[$iKey]['paymentId']        = $aPaymentData['paymentId'];
+            $aResult[$iKey]['paymentDate']      = Utils::formatDate($aPaymentData['paymentDate']);
+            $aResult[$iKey]['coursePrice']      = Utils::toCurrencyFormat($aPaymentData['coursePrice']);
+            $aResult[$iKey]['paymentAmount']    = Utils::toCurrencyFormat($aPaymentData['paymentAmount']);
+            $aResult[$iKey]['remainingBalance'] = Utils::getRemainingBalance($aPaymentData);
+            $aResult[$iKey]['paymentImage']     = '..' . DS . 'payments' . DS . $aPaymentData['paymentFile'];
+            $aResult[$iKey]['paymentApproval']  = $this->aPaymentApprovalStatus[$aPaymentData['isApproved']];
+            $aResult[$iKey]['paymentStatus']    = $this->aPaymentStatus[$aPaymentData['paymentStatus']];
+            $aResult[$iKey]['totalBalance']     = Utils::toCurrencyFormat($aPaymentData['coursePrice'] - $iTotalPayment);
         }
 
         echo json_encode(array_values($aResult));
@@ -192,5 +213,60 @@ class Payment extends BaseController
         }
 
         echo json_encode($aResult);
+    }
+
+    public function fetchStudentsThatHasPaid()
+    {
+        $aPaymentDetails = $this->oPaymentModel->fetchStudentsThatHasPaid();
+        echo json_encode($aPaymentDetails);
+    }
+
+    public function approvePayment()
+    {
+        $aValidationResult = Validations::validateApprovePaymentInputs($this->aParams);
+        if ($aValidationResult['bResult'] === false) {
+            echo json_encode($aValidationResult);
+            exit();
+        }
+
+        Utils::renameKeys($this->aParams, ['paymentId' => 'id', 'modeOfPayment' => 'paymentMethod']);
+
+        // Get the training ID associated with the payment ID.
+        $aTrainingData = $this->oPaymentModel->fetchTrainingIdsByPaymentId($this->aParams['id']);
+        $aPaymentDetails = $this->oPaymentModel->fetchPaymentsByTrainingId([$aTrainingData['trainingId']])[0];
+
+        $iOverallPayment = $this->aParams['paymentAmount'] + $aPaymentDetails['paymentAmount'];
+
+        if ($iOverallPayment > $aTrainingData['coursePrice']) {
+            echo json_encode(array(
+                'bResult'  => false,
+                'sElement' => '.paymentAmount',
+                'sMsg'     => 'Invalid payment amount.'
+            ));
+        }
+
+        if (($iOverallPayment - $aTrainingData['coursePrice']) == 0) {
+            $this->aParams['isPaid'] = 2;
+            $this->aParams['isApproved'] = 1;
+            $iApproveQuery = $this->oPaymentModel->approvePayment($this->aParams);
+            $iUpdateStatusQuery = $this->oPaymentModel->updatePaymentStatuses($aTrainingData['trainingId']);
+            $iCancelRemainingPaymentsQuery = $this->oPaymentModel->cancelRemainingPayments($aTrainingData['trainingId']);
+        } else {
+            $this->aParams['isPaid'] = 1;
+            $this->aParams['isApproved'] = 1;
+            $iApproveQuery = $this->oPaymentModel->approvePayment($this->aParams);
+        }
+
+        if ($iApproveQuery > 0) {
+            echo json_encode(array(
+                'bResult'  => true,
+                'sMsg'     => 'Payment approved!'
+            ));
+        } else {
+            echo json_encode(array(
+                'bResult'  => false,
+                'sMsg'     => 'An error has occurred.'
+            ));
+        }
     }
 }

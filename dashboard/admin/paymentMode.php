@@ -83,7 +83,7 @@ require_once "template/scripts.php";
 <script src="/Nexus/utils/js/utils.Validations.js"></script>
 <script src="/Nexus/utils/js/utils.Forms.js"></script>
 
-<script src="/Nexus/dashboard/js/admin/dashboard.payment.js"></script>
+<script src="/Nexus/dashboard/js/admin/dashboard.paymentModes.js"></script>
 
 <?php
 require_once "template/footer.php";

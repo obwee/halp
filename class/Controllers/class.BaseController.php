@@ -17,6 +17,7 @@ class BaseController
     protected $aPaymentApprovalStatus = array(
         'Not Yet Approved',
         'Approved',
+        'Rejected'
     );
 
     /**
