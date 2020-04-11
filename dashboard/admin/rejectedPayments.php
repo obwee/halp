@@ -70,90 +70,12 @@ require_once "Template/header.php";
 					<table id="tbl_paymentDetails" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
 						<thead></thead>
 						<tbody></tbody>
-						<tfoot>
-							<tr>
-								<th></th>
-								<th></th>
-								<th style="text-align:right">Remaining Balance:</th>
-								<th></th>
-								<th></th>
-								<th></th>
-							</tr>
-						</tfoot>
 					</table>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 			</div>
-		</div>
-	</div>
-</div>
-
-<div class="modal fade" id="approvePaymentModal" role="dialog" data-backdrop="static" data-keyboard="false">
-	<div class="modal-dialog modal-xl approvePaymentModal">
-		<div class="modal-content">
-			<div class="modal-header" style="background-color: #3c8dbc;">
-				<h5 align="center" style="color:white;"><i class="fas fa-eye"></i> Approve Payment</h5>
-			</div>
-			<form action="POST" id="approvePaymentForm">
-				<div class="modal-body">
-					<div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
-					<input type="hidden" name="paymentId" class="form-control paymentId">
-					<div class="row">
-						<div class="col-6">
-							<div class="paymentImage" style="border-style:solid;border-width:1px;height:100%;width:100%">
-								<a href="" data-lightbox="payment-image">
-									<img src="" style="width: 100%; height: 100%">
-								</a>
-							</div>
-						</div>
-						<div class="col-6" style="border-radius:10px 10px;border-style:solid;border-color:#d5d5d5;padding:10px 10px;width:50%;border-width:2px;">
-							<div class="form-group">
-								<label><i class="fas fa-money"></i><b> MOP</b></label>
-								<select class="form-control modeOfPayment" name="modeOfPayment"></select>
-							</div>
-							<div class="form-group">
-								<label><i class="fas fa-money"></i><b> Amount Paid</b></label>
-								<div class="input-group mb-3">
-									<div class="input-group-prepend">
-										<span class="input-group-text">₱</span>
-									</div>
-									<input type="text" name="paymentAmount" class="form-control paymentAmount">
-								</div>
-							</div>
-							<div class="form-group">
-								<label><i class="fas fa-money"></i><b> Old Balance</b></label>
-								<div class="input-group mb-3">
-									<div class="input-group-prepend">
-										<span class="input-group-text">₱</span>
-									</div>
-									<input type="text" class="form-control oldBalance" readonly>
-								</div>
-							</div>
-							<div class="form-group">
-								<label><i class="fas fa-money"></i><b> New Balance</b></label>
-								<div class="input-group mb-3">
-									<div class="input-group-prepend">
-										<span class="input-group-text">₱</span>
-									</div>
-									<input type="text" class="form-control newBalance" readonly>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="d-flex justify-content-center">
-					<div class="spinner-border spinner" role="status" style="display:none;">
-						<span class="sr-only">Loading...</span>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-success">Accept</button>
-					<button type="button" class="btn btn-danger">Reject</button>
-					<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-				</div>
-			</form>
 		</div>
 	</div>
 </div>

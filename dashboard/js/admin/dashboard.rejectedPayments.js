@@ -41,12 +41,6 @@ var oRejectedPayments = (() => {
                 title: 'Amount', className: 'text-center', data: 'coursePrice'
             },
             {
-                title: 'Balance', className: 'text-center', data: 'remainingBalance'
-            },
-            {
-                title: 'Status', className: 'text-center', data: 'paymentStatus'
-            },
-            {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
                     `<button class="btn btn-primary btn-sm" data-toggle="modal" id="viewPaymentDetails" data-id="${oRow.trainingId}">
                         <i class="fa fa-money"></i>
@@ -71,25 +65,15 @@ var oRejectedPayments = (() => {
                 title: 'Amount Paid', className: 'text-center sum', data: 'paymentAmount',
             },
             {
-                title: 'Status', className: 'text-center', data: 'paymentApproval'
+                title: 'Reject Reason', className: 'text-center', data: 'rejectReason'
             },
             {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
-                    (oRow.paymentApproval !== 'Approved') ?
-                        `<button class="btn btn-success btn-sm" data-toggle="modal" id="approvePayment" data-id="${oRow.paymentId}">
-                        <i class="fa fa-check-circle"></i>
-                    </button>
-                    <a href="${oRow.paymentImage}" data-lightbox="payment-image">
+                    `<a href="${oRow.paymentImage}" data-lightbox="payment-image">
                         <button class="btn btn-primary btn-sm" id="viewPaymentImage" data-id="${oRow.paymentId}">
                             <i class="fa fa-eye"></i>
                         </button>
-                    </a>` :
-                        `<a href="${oRow.paymentImage}" data-lightbox="payment-image">
-                        <button class="btn btn-primary btn-sm" id="viewPaymentImage" data-id="${oRow.paymentId}">
-                            <i class="fa fa-eye"></i>
-                        </button>
-                    </a>
-                    `
+                    </a>`
             },
         ]
     };
@@ -104,7 +88,6 @@ var oRejectedPayments = (() => {
 
     function init() {
         fetchStudentsWithRejectedPayments();
-        fetchPaymentMethods();
         setEvents();
     }
 
@@ -112,7 +95,7 @@ var oRejectedPayments = (() => {
         oForms.preparePaymentEvents();
 
         $(document).on('click', '#viewDetails', function () {
-            fetchTrainingDataOfSelectedStudent($(this).attr('data-id'));
+            fetchTrainingDataOfSelectedStudentWithRejectedPayment($(this).attr('data-id'));
             $('#viewDetailsModal').modal('show');
         });
 
@@ -244,20 +227,6 @@ var oRejectedPayments = (() => {
         });
     }
 
-    function fetchPaymentMethods() {
-        $.ajax({
-            url: `/Nexus/utils/ajax.php?class=Payment&action=fetchModeOfPayments`,
-            type: 'GET',
-            dataType: 'json',
-            success: function (oResponse) {
-                aPaymentModes = oResponse.filter(oMode => oMode.status === 'Active');
-            },
-            error: function () {
-                oLibraries.displayAlertMessage('error', 'An error has occured. Please try again.');
-            }
-        });
-    }
-
     // Populate the payment mode dropdown select.
     function populateModeOfPayments(aCourses) {
         let oPaymentModeDropdown = $('#approvePaymentForm').find('.modeOfPayment');
@@ -268,9 +237,9 @@ var oRejectedPayments = (() => {
         });
     }
 
-    function fetchTrainingDataOfSelectedStudent(iStudentId) {
+    function fetchTrainingDataOfSelectedStudentWithRejectedPayment(iStudentId) {
         $.ajax({
-            url: `/Nexus/utils/ajax.php?class=Training&action=fetchTrainingDataOfSelectedStudent`,
+            url: `/Nexus/utils/ajax.php?class=Training&action=fetchTrainingDataOfSelectedStudentWithRejectedPayment`,
             type: 'POST',
             data: { iStudentId },
             dataType: 'json',
@@ -304,40 +273,16 @@ var oRejectedPayments = (() => {
             data: { trainingId: iTrainingId },
             dataType: 'json',
             async: 'false',
-            success: function (oData) {
-                aPaymentDetails = oData;
+            success: function (aResponse) {
+                aPaymentDetails = aResponse;
 
                 let aColumnDefs = [
                     { orderable: false, targets: [1, 2, 3] }
                 ];
 
-                let oFooterCallback = function () {
-                    let oApi = this.api();
+                const aRejectedPayments = aResponse.filter(oData => oData.paymentApproval == 'Rejected');
 
-                    // Remove the formatting to get integer data for summation.
-                    let intVal = (mValue) => {
-                        return typeof mValue === 'string' ?
-                            mValue.replace(/[P,]/g, '') * 1 :
-                            typeof mValue === 'number' ?
-                                mValue : 0;
-                    };
-
-                    // Get the sum of all the columns with a class named 'sum'.
-                    oApi.columns('.sum').every(function () {
-                        let iTotalPaid = oApi
-                            .cells(null, this.index())
-                            .render('display')
-                            .reduce((iAccumulator, iCurrentValue) => {
-                                return intVal(iAccumulator) + intVal(iCurrentValue);
-                            }, 0);
-
-                        const iBalance = aPaymentDetails[0].coursePrice.replace(/[P,]/g, '') - iTotalPaid;
-
-                        $(this.footer()).text(`P${iBalance.toLocaleString()}`);
-                    });
-                };
-
-                loadTable(oTblPaymentDetails.attr('id'), oData, oColumns.aPaymentDetails, aColumnDefs, false, oFooterCallback);
+                loadTable(oTblPaymentDetails.attr('id'), aRejectedPayments, oColumns.aPaymentDetails, aColumnDefs, false);
             },
         });
     }

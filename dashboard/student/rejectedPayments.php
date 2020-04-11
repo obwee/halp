@@ -9,7 +9,7 @@ require_once "Template/studentHeader.php";
 	</div>
 
 	<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
-		<table id="tbl_students" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
+		<table id="tbl_rejectedPayments" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
 			<thead></thead>
 			<tbody></tbody>
 		</table>
@@ -70,16 +70,6 @@ require_once "Template/studentHeader.php";
 					<table id="tbl_paymentDetails" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
 						<thead></thead>
 						<tbody></tbody>
-						<tfoot>
-							<tr>
-								<th></th>
-								<th></th>
-								<th style="text-align:right">Remaining Balance:</th>
-								<th></th>
-								<th></th>
-								<th></th>
-							</tr>
-						</tfoot>
 					</table>
 				</div>
 			</div>
@@ -201,7 +191,7 @@ require_once "template/scripts.php";
 <script src="/Nexus/utils/js/utils.Validations.js"></script>
 <script src="/Nexus/utils/js/utils.Forms.js"></script>
 
-<script src="/Nexus/dashboard/js/admin/dashboard.rejectedPayments.js"></script>
+<script src="/Nexus/dashboard/js/student/student.rejectedPayments.js"></script>
 
 <?php
 require_once "template/studentFooter.php";

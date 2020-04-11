@@ -150,7 +150,7 @@ require_once "Template/header.php";
 				</div>
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-success">Accept</button>
-					<button type="button" class="btn btn-danger">Reject</button>
+					<button type="button" class="btn btn-danger rejectPayment">Reject</button>
 					<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
 				</div>
 			</form>
