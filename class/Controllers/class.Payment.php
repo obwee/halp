@@ -144,7 +144,7 @@ class Payment extends BaseController
         Utils::sanitizeData($this->aParams);
         $aPaymentDetails = $this->oPaymentModel->getPaymentDetails($this->aParams);
 
-        if (empty($aPaymentDetails) === true) {
+        if (empty($aPaymentDetails[0]['paymentId']) === true) {
             echo json_encode([]);
             exit();
         }
