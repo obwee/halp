@@ -17,7 +17,7 @@ class Validations
             'sColumnName' => ':firstName',
             'iMinLength'  => 2,
             'iMaxLength'  => 30,
-            'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+            'sPattern'    => '/^[a-zA-Z\s\.]+$/'
         ),
         array(
             'sName'       => 'Last name',
@@ -25,7 +25,7 @@ class Validations
             'sColumnName' => ':lastName',
             'iMinLength'  => 2,
             'iMaxLength'  => 30,
-            'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+            'sPattern'    => '/^[a-zA-Z\s\.]+$/'
         ),
         array(
             'sName'       => 'Contact number',
@@ -33,7 +33,7 @@ class Validations
             'sColumnName' => ':contactNum',
             'iMinLength'  => 7,
             'iMaxLength'  => 12,
-            'oPattern'    => '/^[0-9]+$/'
+            'sPattern'    => '/^[0-9]+$/'
         ),
         array(
             'sName'       => 'Email address',
@@ -41,7 +41,7 @@ class Validations
             'sColumnName' => ':email',
             'iMinLength'  => 4,
             'iMaxLength'  => 50,
-            'oPattern'    => '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD'
+            'sPattern'    => '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD'
         ),
         array(
             'sName'       => 'Username',
@@ -49,7 +49,7 @@ class Validations
             'sColumnName' => ':username',
             'iMinLength'  => 4,
             'iMaxLength'  => 15,
-            'oPattern'    => '/^(?![0-9_])\w+$/'
+            'sPattern'    => '/^(?![0-9_])\w+$/'
         ),
         array(
             'sName'       => 'Password',
@@ -57,7 +57,7 @@ class Validations
             'sColumnName' => ':password',
             'iMinLength'  => 4,
             'iMaxLength'  => 30,
-            'oPattern'    => '/.+/'
+            'sPattern'    => '/.+/'
         )
     );
 
@@ -72,7 +72,7 @@ class Validations
             'sColumnName' => ':firstName',
             'iMinLength'  => 2,
             'iMaxLength'  => 30,
-            'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+            'sPattern'    => '/^[a-zA-Z\s\.]+$/'
         ),
         array(
             'sName'       => 'Last name',
@@ -80,7 +80,7 @@ class Validations
             'sColumnName' => ':lastName',
             'iMinLength'  => 2,
             'iMaxLength'  => 30,
-            'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+            'sPattern'    => '/^[a-zA-Z\s\.]+$/'
         ),
         array(
             'sName'       => 'Email address',
@@ -88,7 +88,7 @@ class Validations
             'sColumnName' => ':email',
             'iMinLength'  => 4,
             'iMaxLength'  => 50,
-            'oPattern'    => '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD'
+            'sPattern'    => '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD'
         ),
         array(
             'sName'       => 'Email title',
@@ -96,7 +96,7 @@ class Validations
             'sColumnName' => ':title',
             'iMinLength'  => 4,
             'iMaxLength'  => 30,
-            'oPattern'    => '/.+/'
+            'sPattern'    => '/.+/'
         ),
         array(
             'sName'       => 'Email message',
@@ -104,7 +104,7 @@ class Validations
             'sColumnName' => ':message',
             'iMinLength'  => 4,
             'iMaxLength'  => 255,
-            'oPattern'    => '/.+/'
+            'sPattern'    => '/.+/'
         )
     );
 
@@ -120,7 +120,7 @@ class Validations
             'sColumnName' => ':firstName',
             'iMinLength'  => 2,
             'iMaxLength'  => 30,
-            'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+            'sPattern'    => '/^[a-zA-Z\s\.]+$/'
         ),
         array(
             'sName'       => 'Last name',
@@ -128,7 +128,7 @@ class Validations
             'sColumnName' => ':lastName',
             'iMinLength'  => 2,
             'iMaxLength'  => 30,
-            'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+            'sPattern'    => '/^[a-zA-Z\s\.]+$/'
         ),
         array(
             'sName'       => 'Contact number',
@@ -136,7 +136,7 @@ class Validations
             'sColumnName' => ':contactNum',
             'iMinLength'  => 7,
             'iMaxLength'  => 12,
-            'oPattern'    => '/^[0-9]+$/'
+            'sPattern'    => '/^[0-9]+$/'
         ),
         array(
             'sName'       => 'Email address',
@@ -144,7 +144,7 @@ class Validations
             'sColumnName' => ':email',
             'iMinLength'  => 4,
             'iMaxLength'  => 50,
-            'oPattern'    => '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD'
+            'sPattern'    => '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD'
         ),
         array(
             'sName'       => 'Course',
@@ -152,7 +152,7 @@ class Validations
             'sColumnName' => ':quoteCourses',
             'iMinLength'  => 0,
             'iMaxLength'  => PHP_INT_MAX,
-            'oPattern'    => '/.+/'
+            'sPattern'    => '/.+/'
         )
     );
 
@@ -167,7 +167,7 @@ class Validations
             'sColumnName' => ':quoteCourses',
             'iMinLength'  => 0,
             'iMaxLength'  => PHP_INT_MAX,
-            'oPattern'    => '/.+/'
+            'sPattern'    => '/.+/'
         )
     );
 
@@ -182,7 +182,7 @@ class Validations
             'sColumnName' => ':courseCode',
             'iMinLength'  => 2,
             'iMaxLength'  => 10,
-            'oPattern'    => '/^[a-zA-Z0-9&\-\s\.]+$/'
+            'sPattern'    => '/^[a-zA-Z0-9&\-\s\.]+$/'
         ),
         array(
             'sName'       => 'Course title',
@@ -190,7 +190,7 @@ class Validations
             'sColumnName' => ':courseName',
             'iMinLength'  => 2,
             'iMaxLength'  => 50,
-            'oPattern'    => '/^[a-zA-Z0-9&\-\s\.]+$/'
+            'sPattern'    => '/^[a-zA-Z0-9&\-\s\.]+$/'
         ),
         array(
             'sName'       => 'Course details',
@@ -198,7 +198,7 @@ class Validations
             'sColumnName' => ':courseDescription',
             'iMinLength'  => 0,
             'iMaxLength'  => 50,
-            'oPattern'    => '/^[a-zA-Z0-9&\-\s\.]+$/'
+            'sPattern'    => '/^[a-zA-Z0-9&\-\s\.]+$/'
         ),
     );
 
@@ -206,32 +206,32 @@ class Validations
         array(
             'sName'       => 'Schedule',
             'sElement'    => 'iScheduleId',
-            'oPattern'    => '/^[0-9]+$/'
+            'sPattern'    => '/^[0-9]+$/'
         ),
         array(
             'sName'       => 'Course title',
             'sElement'    => 'iCourseId',
-            'oPattern'    => '/^[0-9]+$/'
+            'sPattern'    => '/^[0-9]+$/'
         ),
         array(
             'sName'       => 'Venue',
             'sElement'    => 'iVenueId',
-            'oPattern'    => '/^[0-9]+$/'
+            'sPattern'    => '/^[0-9]+$/'
         ),
         array(
             'sName'       => 'Start date',
             'sElement'    => 'sStart',
-            'oPattern'    => '/^\d{4}-\d{2}-\d{2}/'
+            'sPattern'    => '/^\d{4}-\d{2}-\d{2}/'
         ),
         array(
             'sName'       => 'End date',
             'sElement'    => 'sEnd',
-            'oPattern'    => '/^\d{4}-\d{2}-\d{2}/'
+            'sPattern'    => '/^\d{4}-\d{2}-\d{2}/'
         ),
         array(
             'sName'       => 'Instructor name',
             'sElement'    => 'iInstructorId',
-            'oPattern'    => '/^[0-9]+$/'
+            'sPattern'    => '/^[0-9]+$/'
         )
     );
 
@@ -241,28 +241,28 @@ class Validations
             'sElement'    => 'firstName',
             'iMinLength'  => 2,
             'iMaxLength'  => 30,
-            'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+            'sPattern'    => '/^[a-zA-Z\s\.]+$/'
         ),
         array(
             'sName'       => 'Last name',
             'sElement'    => 'lastName',
             'iMinLength'  => 2,
             'iMaxLength'  => 30,
-            'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+            'sPattern'    => '/^[a-zA-Z\s\.]+$/'
         ),
         array(
             'sName'       => 'Contact number',
             'sElement'    => 'contactNum',
             'iMinLength'  => 7,
             'iMaxLength'  => 12,
-            'oPattern'    => '/^[0-9]+$/'
+            'sPattern'    => '/^[0-9]+$/'
         ),
         array(
             'sName'       => 'Email address',
             'sElement'    => 'email',
             'iMinLength'  => 4,
             'iMaxLength'  => 50,
-            'oPattern'    => '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD'
+            'sPattern'    => '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD'
         )
     );
 
@@ -272,14 +272,14 @@ class Validations
             'sElement'    => 'title',
             'iMinLength'  => 2,
             'iMaxLength'  => 30,
-            'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+            'sPattern'    => '/^[a-zA-Z\s\.]+$/'
         ),
         array(
             'sName'       => 'Email message',
             'sElement'    => 'msg',
             'iMinLength'  => 4,
             'iMaxLength'  => 255,
-            'oPattern'    => '/.+/'
+            'sPattern'    => '/.+/'
         )
     );
 
@@ -293,35 +293,35 @@ class Validations
             'sElement'    => 'adminFirstName',
             'iMinLength'  => 2,
             'iMaxLength'  => 30,
-            'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+            'sPattern'    => '/^[a-zA-Z\s\.]+$/'
         ),
         array(
             'sName'       => 'Last name',
             'sElement'    => 'adminLastName',
             'iMinLength'  => 2,
             'iMaxLength'  => 30,
-            'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+            'sPattern'    => '/^[a-zA-Z\s\.]+$/'
         ),
         array(
             'sName'       => 'Contact number',
             'sElement'    => 'adminContact',
             'iMinLength'  => 7,
             'iMaxLength'  => 12,
-            'oPattern'    => '/^[0-9]+$/'
+            'sPattern'    => '/^[0-9]+$/'
         ),
         array(
             'sName'       => 'Email address',
             'sElement'    => 'adminEmail',
             'iMinLength'  => 4,
             'iMaxLength'  => 50,
-            'oPattern'    => '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD'
+            'sPattern'    => '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD'
         ),
         array(
             'sName'       => 'Username',
             'sElement'    => 'adminUsername',
             'iMinLength'  => 4,
             'iMaxLength'  => 15,
-            'oPattern'    => '/^(?![0-9_])\w+$/'
+            'sPattern'    => '/^(?![0-9_])\w+$/'
         )
     );
 
@@ -335,42 +335,42 @@ class Validations
             'sElement'    => 'adminFirstName',
             'iMinLength'  => 2,
             'iMaxLength'  => 30,
-            'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+            'sPattern'    => '/^[a-zA-Z\s\.]+$/'
         ),
         array(
             'sName'       => 'Last name',
             'sElement'    => 'adminLastName',
             'iMinLength'  => 2,
             'iMaxLength'  => 30,
-            'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+            'sPattern'    => '/^[a-zA-Z\s\.]+$/'
         ),
         array(
             'sName'       => 'Contact number',
             'sElement'    => 'adminContact',
             'iMinLength'  => 7,
             'iMaxLength'  => 12,
-            'oPattern'    => '/^[0-9]+$/'
+            'sPattern'    => '/^[0-9]+$/'
         ),
         array(
             'sName'       => 'Email address',
             'sElement'    => 'adminEmail',
             'iMinLength'  => 4,
             'iMaxLength'  => 50,
-            'oPattern'    => '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD'
+            'sPattern'    => '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD'
         ),
         array(
             'sName'       => 'Username',
             'sElement'    => 'adminUsername',
             'iMinLength'  => 4,
             'iMaxLength'  => 15,
-            'oPattern'    => '/^(?![0-9_])\w+$/'
+            'sPattern'    => '/^(?![0-9_])\w+$/'
         ),
         array(
             'sName'       => 'Password',
             'sElement'    => 'adminPassword',
             'iMinLength'  => 4,
             'iMaxLength'  => 30,
-            'oPattern'    => '/.+/'
+            'sPattern'    => '/.+/'
         )
     );
 
@@ -384,28 +384,28 @@ class Validations
             'sElement'    => 'adminFirstName',
             'iMinLength'  => 2,
             'iMaxLength'  => 30,
-            'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+            'sPattern'    => '/^[a-zA-Z\s\.]+$/'
         ),
         array(
             'sName'       => 'Last name',
             'sElement'    => 'adminLastName',
             'iMinLength'  => 2,
             'iMaxLength'  => 30,
-            'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+            'sPattern'    => '/^[a-zA-Z\s\.]+$/'
         ),
         array(
             'sName'       => 'Contact number',
             'sElement'    => 'adminContact',
             'iMinLength'  => 7,
             'iMaxLength'  => 12,
-            'oPattern'    => '/^[0-9]+$/'
+            'sPattern'    => '/^[0-9]+$/'
         ),
         array(
             'sName'       => 'Email address',
             'sElement'    => 'adminEmail',
             'iMinLength'  => 4,
             'iMaxLength'  => 50,
-            'oPattern'    => '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD'
+            'sPattern'    => '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD'
         )
     );
 
@@ -419,14 +419,14 @@ class Validations
             'sElement'    => 'adminUsername',
             'iMinLength'  => 4,
             'iMaxLength'  => 15,
-            'oPattern'    => '/^(?![0-9_])\w+$/'
+            'sPattern'    => '/^(?![0-9_])\w+$/'
         ),
         array(
             'sName'       => 'Password',
             'sElement'    => 'adminPassword',
             'iMinLength'  => 4,
             'iMaxLength'  => 30,
-            'oPattern'    => '/.+/'
+            'sPattern'    => '/.+/'
         )
     );
 
@@ -434,7 +434,7 @@ class Validations
         array(
             'sName'       => 'Admin',
             'sElement'    => 'adminId',
-            'oPattern'    => '/^[0-9]+$/'
+            'sPattern'    => '/^[0-9]+$/'
         )
     );
 
@@ -448,7 +448,28 @@ class Validations
             'sElement'    => 'paymentMode',
             'iMinLength'  => 2,
             'iMaxLength'  => 20,
-            'oPattern'    => '/^[a-zA-Z\s\.\-]+$/'
+            'sPattern'    => '/^[a-zA-Z\s\.\-]+$/'
+        )
+    );
+
+    /**
+     * @var array $aApprovePaymentRules
+     * Array of rules for validating payments inputs for approval sent by AJAX.
+     */
+    public static $aApprovePaymentRules = array(
+        array(
+            'sName'       => 'Mode of payment',
+            'sElement'    => 'modeOfPayment',
+            'iMinLength'  => 1,
+            'iMaxLength'  => PHP_INT_MAX,
+            'sPattern'    => '/^[0-9]+$/'
+        ),
+        array(
+            'sName'       => 'Payment amount',
+            'sElement'    => 'paymentAmount',
+            'iMinLength'  => 1,
+            'iMaxLength'  => PHP_INT_MAX,
+            'sPattern'    => '/^[0-9]+$/'
         )
     );
 
@@ -469,7 +490,7 @@ class Validations
                     'sColumnName' => ':middleName',
                     'iMinLength'  => 2,
                     'iMaxLength'  => 30,
-                    'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+                    'sPattern'    => '/^[a-zA-Z\s\.]+$/'
                 )
             ));
         }
@@ -481,7 +502,7 @@ class Validations
                     'sColumnName' => ':companyName',
                     'iMinLength'  => 4,
                     'iMaxLength'  => 50,
-                    'oPattern'    => '/^[a-zA-Z0-9\s\.]+$/'
+                    'sPattern'    => '/^[a-zA-Z0-9\s\.]+$/'
                 )
             ));
         }
@@ -519,7 +540,7 @@ class Validations
                     'sColumnName' => ':middleName',
                     'iMinLength'  => 2,
                     'iMaxLength'  => 30,
-                    'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+                    'sPattern'    => '/^[a-zA-Z\s\.]+$/'
                 )
             ));
         }
@@ -548,7 +569,7 @@ class Validations
                     'sColumnName' => ':middleName',
                     'iMinLength'  => 2,
                     'iMaxLength'  => 30,
-                    'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+                    'sPattern'    => '/^[a-zA-Z\s\.]+$/'
                 )
             ));
         }
@@ -560,7 +581,7 @@ class Validations
                     'sColumnName' => ':companyName',
                     'iMinLength'  => 4,
                     'iMaxLength'  => 50,
-                    'oPattern'    => '/^[a-zA-Z0-9\s\.]+$/'
+                    'sPattern'    => '/^[a-zA-Z0-9\s\.]+$/'
                 )
             ));
         }
@@ -629,7 +650,7 @@ class Validations
                     'sColumnName' => ':companyName',
                     'iMinLength'  => 4,
                     'iMaxLength'  => 50,
-                    'oPattern'    => '/^[a-zA-Z0-9\s\.]+$/'
+                    'sPattern'    => '/^[a-zA-Z0-9\s\.]+$/'
                 )
             ));
         }
@@ -703,7 +724,7 @@ class Validations
         foreach (self::$aScheduleRules as $aInputRule) {
             $sInput = trim($aParams[$aInputRule['sElement']]);
 
-            if (!preg_match($aInputRule['oPattern'], $sInput)) {
+            if (!preg_match($aInputRule['sPattern'], $sInput)) {
                 $aValidationResult = array(
                     'bResult'  => false,
                     'sElement' => '.' . $aInputRule['sElement'],
@@ -753,7 +774,7 @@ class Validations
                     'sElement'    => 'instructorId',
                     'iMinLength'  => 0,
                     'iMaxLength'  => PHP_INT_MAX,
-                    'oPattern'    => '/^[0-9]+$/'
+                    'sPattern'    => '/^[0-9]+$/'
                 ),
             ));
         }
@@ -764,7 +785,7 @@ class Validations
                     'sElement'    => 'middleName',
                     'iMinLength'  => 2,
                     'iMaxLength'  => 30,
-                    'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+                    'sPattern'    => '/^[a-zA-Z\s\.]+$/'
                 )
             ));
         }
@@ -775,7 +796,7 @@ class Validations
                     'sElement'    => 'certificationTitle',
                     'iMinLength'  => 2,
                     'iMaxLength'  => 30,
-                    'oPattern'    => '/^[a-zA-Z0-9,\-\s]+$/'
+                    'sPattern'    => '/^[a-zA-Z0-9,\-\s]+$/'
                 )
             ));
         }
@@ -853,7 +874,7 @@ class Validations
                     'sElement'    => 'adminMiddleName',
                     'iMinLength'  => 2,
                     'iMaxLength'  => 30,
-                    'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+                    'sPattern'    => '/^[a-zA-Z\s\.]+$/'
                 )
             ));
         }
@@ -881,7 +902,7 @@ class Validations
                     'sElement'    => 'adminMiddleName',
                     'iMinLength'  => 2,
                     'iMaxLength'  => 30,
-                    'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+                    'sPattern'    => '/^[a-zA-Z\s\.]+$/'
                 )
             ));
         }
@@ -918,7 +939,7 @@ class Validations
                     'sElement'    => 'adminMiddleName',
                     'iMinLength'  => 2,
                     'iMaxLength'  => 30,
-                    'oPattern'    => '/^[a-zA-Z\s\.]+$/'
+                    'sPattern'    => '/^[a-zA-Z\s\.]+$/'
                 )
             ));
         }
@@ -969,7 +990,7 @@ class Validations
         // Loop thru each inputRules and if there are rules violated, return false and the error message.
         foreach (self::$aResetPasswordIdRules as $aInputRule) {
             $sInput = trim($aParams[$aInputRule['sElement']]);
-            if (!preg_match($aInputRule['oPattern'], $sInput)) {
+            if (!preg_match($aInputRule['sPattern'], $sInput)) {
                 $aValidationResult = array(
                     'bResult'  => false,
                     'sMsg'     => $aInputRule['sName'] . ' input is invalid.'
@@ -997,7 +1018,7 @@ class Validations
                     'sElement'    => 'methodId',
                     'iMinLength'  => 1,
                     'iMaxLength'  => PHP_INT_MAX,
-                    'oPattern'    => '/^[\d]+$/'
+                    'sPattern'    => '/^[\d]+$/'
                 )
             ));
         }
@@ -1129,9 +1150,9 @@ class Validations
 
     /**
      * validateFileForPayment
-     * Method for validating instruction inputs to be changed sent by AJAX.
-     * @param array $aParams
-     * @return array $aValidationResult
+     * Method for validating file input for payment sent by AJAX.
+     * @param array $aFile
+     * @return array $aFileValidation
      */
     public static function validateFileForPayment($aFile)
     {
@@ -1140,7 +1161,6 @@ class Validations
         );
 
         $aAcceptedMimeTypes = array(
-            'application/pdf',
             'image/jpeg',
             'image/png'
         );
@@ -1149,7 +1169,7 @@ class Validations
             $aFileValidation = array(
                 'bResult'  => false,
                 'sElement' => '.file',
-                'sMsg'     => 'File must be PDF, JPEG/JPG, or PNG.'
+                'sMsg'     => 'File must be JPEG/JPG, or PNG.'
             );
         }
         if ($aFile['size'] > 10485760) {
@@ -1161,6 +1181,17 @@ class Validations
         }
 
         return $aFileValidation;
+    }
+
+    /**
+     * validateApprovePaymentInputs
+     * Validates the payment inputs before approval sent by AJAX.
+     * @param array $aParams
+     * @return array $aFileValidation
+     */
+    public static function validateApprovePaymentInputs($aParams)
+    {
+        return self::loopThruRulesForErrors($aParams, self::$aApprovePaymentRules, '.');;
     }
 
     /**
@@ -1194,7 +1225,7 @@ class Validations
                 );
                 break;
             }
-            if (!preg_match($aInputRule['oPattern'], $sInput)) {
+            if (!preg_match($aInputRule['sPattern'], $sInput)) {
                 $aValidationResult = array(
                     'bResult'  => false,
                     'sElement' => $sSelector . $aInputRule['sElement'],

@@ -22,8 +22,7 @@ var oEnrollment = (() => {
                 title: 'Course Code', className: 'text-center', data: 'courseCode'
             },
             {
-                title: 'Schedule', className: 'text-center', render: (aData, oType, oRow) =>
-                    oRow.fromDate + ' - ' + oRow.toDate
+                title: 'Schedule', className: 'text-center', data: 'schedule'
             },
             {
                 title: 'Venue', className: 'text-center', data: 'venue'
@@ -33,11 +32,11 @@ var oEnrollment = (() => {
             },
             {
                 title: 'Amount', className: 'text-center', render: (aData, oType, oRow) =>
-                    'P' + parseInt(oRow.coursePrice, 10).toLocaleString(undefined, {minimumFractionDigits: 2})
+                    'P' + parseInt(oRow.coursePrice, 10).toLocaleString(undefined, { minimumFractionDigits: 2 })
             },
             {
                 title: 'Balance', className: 'text-center', render: (aData, oType, oRow) =>
-                    'P' + parseInt(oRow.paymentBalance, 10).toLocaleString(undefined, {minimumFractionDigits: 2})
+                    'P' + parseInt(oRow.paymentBalance, 10).toLocaleString(undefined, { minimumFractionDigits: 2 })
             },
             {
                 title: 'Status', className: 'text-center', data: 'paymentStatus'
@@ -60,23 +59,16 @@ var oEnrollment = (() => {
                 title: 'Date Paid', className: 'text-center', data: 'paymentDate'
             },
             {
-                title: 'MOP', className: 'text-center', render: (aData, oType, oRow) =>
-                    (oRow.paymentMethod === null) ? 'N/A' : oRow.paymentMethod
+                title: 'MOP', className: 'text-center', data: 'paymentMethod'
             },
             {
-                title: 'Training Fee', className: 'text-center', render: (aData, oType, oRow) =>
-                    'P' + parseInt(oRow.coursePrice, 10).toLocaleString(undefined, {minimumFractionDigits: 2})
+                title: 'Training Fee', className: 'text-center', data: 'coursePrice'
             },
             {
-                title: 'Amount Paid', className: 'text-center', render: (aData, oType, oRow) =>
-                    'P' + parseInt(oRow.paymentAmount, 10).toLocaleString(undefined, {minimumFractionDigits: 2})
+                title: 'Amount Paid', className: 'text-center sum', data: 'paymentAmount'
             },
             {
-                title: 'Remaining Balance', className: 'text-center', render: (aData, oType, oRow) =>
-                    'P' + parseInt(oRow.remainingBalance, 10).toLocaleString(undefined, {minimumFractionDigits: 2})
-            },
-            {
-                title: 'Status', className: 'text-center', data: 'paymentStatus'
+                title: 'Status', className: 'text-center', data: 'paymentApproval'
             },
             {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
@@ -143,7 +135,7 @@ var oEnrollment = (() => {
             const sFormId = `#${$(this).attr('id')}`;
 
             // Disable the form.
-            // oForms.disableFormState(sFormId, true);
+            oForms.disableFormState(sFormId, true);
 
             // Invoke the resetInputBorders method inside oForms utils for that form.
             oForms.resetInputBorders(sFormId);
@@ -205,12 +197,42 @@ var oEnrollment = (() => {
             data: { trainingId: oEnrollmentDetails.trainingId },
             dataType: 'json',
             async: 'false',
-            success: function (oData) {
+            success: function (aResponse) {
                 let aColumnDefs = [
                     { orderable: false, targets: [1, 2, 3] }
                 ];
 
-                loadTable(oTblPaymentDetails.attr('id'), oData, oColumns.aPaymentDetails, aColumnDefs, false);
+                let oFooterCallback = function () {
+                    let oApi = this.api();
+
+                    // Remove the formatting to get integer data for summation.
+                    let intVal = (mValue) => {
+                        return typeof mValue === 'string' ?
+                            mValue.replace(/[P,]/g, '') * 1 :
+                            typeof mValue === 'number' ?
+                                mValue : 0;
+                    };
+
+                    // Get the sum of all the columns with a class named 'sum'.
+                    oApi.columns('.sum').every(function () {
+                        let iTotalPaid = oApi
+                            .cells(null, this.index())
+                            .render('display')
+                            .reduce((iAccumulator, iCurrentValue) => {
+                                return intVal(iAccumulator) + intVal(iCurrentValue);
+                            }, 0);
+                        
+                            // const iCoursePrice = aEnrolledCourses.filter(oCourse => oCourse.trainingId = oEr)
+
+                        const iBalance = oEnrollmentDetails.coursePrice.replace(/[P,]/g, '') - iTotalPaid;
+
+                        $(this.footer()).text(`P${iBalance.toLocaleString()}`);
+                    });
+                };
+
+                const aDetails = aResponse.filter(oData => oData.paymentStatus != 'Fully Paid');
+
+                loadTable(oTblPaymentDetails.attr('id'), aDetails, oColumns.aPaymentDetails, aColumnDefs, false, oFooterCallback);
             },
         });
     }
@@ -312,7 +334,7 @@ var oEnrollment = (() => {
         });
     }
 
-    function loadTable(sTableName, aData, aColumns, aColumnDefs, bSearching = true) {
+    function loadTable(sTableName, aData, aColumns, aColumnDefs, bSearching = true, oFooterCallback = () => { }) {
         $(`#${sTableName} > tbody`).empty().parent().DataTable({
             destroy: true,
             deferRender: true,
@@ -327,7 +349,8 @@ var oEnrollment = (() => {
             lengthMenu: [[4, 8, 12, 16, 20, 24, -1], [4, 8, 12, 16, 20, 24, 'All']],
             info: true,
             columns: aColumns,
-            columnDefs: aColumnDefs
+            columnDefs: aColumnDefs,
+            footerCallback: oFooterCallback
         });
     }
 

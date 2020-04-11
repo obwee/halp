@@ -1144,7 +1144,7 @@ class Validations {
                 name: 'File',
                 element: '.paymentFile',
                 maxSize: 10485760,
-                pattern: /(\.pdf)|(\.jpg)|(\.jpeg)|(\.png)$/i
+                pattern: /(\.jpg)|(\.jpeg)|(\.png)$/i
             },
         ];
 
@@ -1154,7 +1154,7 @@ class Validations {
                 oFileValidation = {
                     result: false,
                     element: oInputRule.element,
-                    msg: 'File must be PDF, JPEG/JPG, or PNG.'
+                    msg: 'File must be JPEG/JPG, or PNG.'
                 };
                 return false;
             }
@@ -1171,6 +1171,89 @@ class Validations {
         });
 
         return oFileValidation;
+    }
+
+    /**
+     * validateApprovePaymentInputs
+     * Validates the payment inputs before approval.
+     * @param {string} sFormId (The form id.)
+     * @return {object} oValidation (Result of the validation.)
+     */
+    validateApprovePaymentInputs(sFormId) {
+        // Declare initially the validation result to be returned by the function.
+        let oValidationResult = {
+            result: true
+        }
+
+        let aApprovePaymentRules = [
+            {
+                name: 'mode of payment',
+                element: '.modeOfPayment',
+                value: $(sFormId).find('.modeOfPayment').val(),
+                pattern: /^[0-9]+$/
+            },
+            {
+                name: 'payment amount',
+                element: '.paymentAmount',
+                value: $(sFormId).find('.paymentAmount').val(),
+                pattern: /^[0-9]+$/
+            },
+            {
+                name: 'old balance',
+                element: '.oldBalance',
+                value: $(sFormId).find('.oldBalance').val().replace(',', ''),
+                pattern: /^[0-9]+$/
+            },
+            {
+                name: 'new balance',
+                element: '.newBalance',
+                value: $(sFormId).find('.newBalance').val().replace(',', ''),
+                pattern: /^[0-9]+$/
+            },
+        ];
+
+        if (/^[0-9]+$/.test($(sFormId).find('.paymentId').val()) === false) {
+            return {
+                result: false,
+                element: '.paymentId',
+                msg: `Invalid payment.`
+            }
+        }
+
+        const aNotAllowedValues = [null, '', 0];
+
+        $.each(aApprovePaymentRules, function (key, inputRule) {
+            // Check if payment amount is greater than the original balance.
+            if (key === 1) {
+                if (parseInt(inputRule.value, 10) > parseInt(aApprovePaymentRules[key + 1].value, 10)) {
+                    oValidationResult = {
+                        result: false,
+                        element: inputRule.element,
+                        msg: `Invalid payment amount.`
+                    };
+                    return false;
+                }
+            }
+
+            if (aNotAllowedValues.includes(inputRule.value) === true) {
+                oValidationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: `Please indicate the ${inputRule.name}.`
+                };
+                return false;
+            }
+            if (inputRule.pattern.test(inputRule.value) === false) {
+                oValidationResult = {
+                    result: false,
+                    element: inputRule.element,
+                    msg: `Invalid value for ${inputRule.name}.`
+                };
+                return false;
+            }
+        });
+
+        return oValidationResult;
     }
 
     /**

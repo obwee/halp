@@ -113,6 +113,8 @@ class PaymentModel
             ON tp.trainingId = tt.id
             WHERE 1 = 1
                 AND tt.id = :trainingId
+               -- AND tp.isPaid IN (0, 1)
+               -- AND tp.isApproved != 2
         ");
 
         // Execute the above statement.
@@ -135,4 +137,131 @@ class PaymentModel
         // Return the result of the execution of the above statement.
         return $statement->execute($aData);
     }
+
+    public function fetchStudentsThatHasPaid()
+    {
+        // Prepare a select query.
+        $statement = $this->oConnection->prepare("
+            SELECT
+                tu.userId AS studentId,
+                CONCAT(tu.firstName, ' ', tu.lastName) AS studentName,
+                tu.contactNum, tu.email
+            FROM tbl_training       tt
+            INNER JOIN tbl_users    tu
+                ON tt.studentId = tu.userId
+            INNER JOIN tbl_payments tp
+                ON tp.trainingId = tt.id
+            WHERE tp.isPaid = 0
+            GROUP BY tu.userId
+        ");
+
+        // Execute the above statement.
+        $statement->execute();
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetchAll();
+    }
+
+    public function fetchPaymentsByTrainingId($aTrainingIds)
+    {
+        $sPlaceHolders = str_repeat('?, ',  count($aTrainingIds) - 1) . '?';
+
+        // Prepare a select query.
+        $statement = $this->oConnection->prepare("
+            SELECT tp.trainingId, SUM(tp.paymentAmount) AS paymentAmount
+            FROM tbl_payments tp
+            WHERE tp.trainingId IN ($sPlaceHolders)
+            GROUP BY tp.trainingId
+        ");
+
+        // Execute the above statement.
+        $statement->execute($aTrainingIds);
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetchAll();
+    }
+
+    public function fetchTrainingIdsByPaymentId($iPaymentId)
+    {
+        // Prepare a select query.
+        $statement = $this->oConnection->prepare("
+            SELECT tp.trainingId, ts.coursePrice
+            FROM tbl_payments tp
+            INNER JOIN tbl_training tt
+            ON tp.trainingId = tt.id
+            INNER JOIN tbl_schedules ts
+            ON ts.id = tt.scheduleId
+            WHERE tp.id = ?
+        ");
+
+        // Execute the above statement.
+        $statement->execute([$iPaymentId]);
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetch();
+    }
+
+    /**
+     * approvePayment
+     * Queries the payment table in approving payment.
+     * @param array $aData
+     * @return int
+     */
+    public function approvePayment($aData)
+    {
+        // Prepare a delete query for the tbl_venue table.
+        $statement = $this->oConnection->prepare("
+            UPDATE tbl_payments
+            SET
+                paymentMethod = :paymentMethod, paymentAmount = :paymentAmount,
+                isApproved = :isApproved, isPaid = :isPaid
+            WHERE id = :id
+        ");
+
+        // Execute the above statement along with the needed where clauses then return.
+        return $statement->execute($aData);
+    }
+
+    /**
+     * updatePaymentStatuses
+     * Queries the payment table in updating payment status.
+     * @param array $iTrainingId
+     * @return int
+     */
+    public function updatePaymentStatuses($iTrainingId)
+    {
+        // Prepare a delete query for the tbl_venue table.
+        $statement = $this->oConnection->prepare("
+            UPDATE tbl_payments
+            SET
+                isPaid = 2
+            WHERE trainingId = ?
+            AND isApproved = 1
+        ");
+
+        // Execute the above statement along with the needed where clauses then return.
+        return $statement->execute([$iTrainingId]);
+    }
+
+    /**
+     * cancelRemainingPayments
+     * Queries the payment table in updating payment status.
+     * @param array $iTrainingId
+     * @return int
+     */
+    public function cancelRemainingPayments($iTrainingId)
+    {
+        // Prepare a delete query for the tbl_venue table.
+        $statement = $this->oConnection->prepare("
+            UPDATE tbl_payments
+            SET
+                isApproved = 2
+            WHERE trainingId = ?
+            AND isApproved = 0
+        ");
+
+        // Execute the above statement along with the needed where clauses then return.
+        return $statement->execute([$iTrainingId]);
+    }
+    
 }

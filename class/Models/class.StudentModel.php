@@ -156,4 +156,31 @@ class StudentModel
         return $statement->fetch();
     }
 
+    public function fetchEnrollees()
+    {
+        // Query the tbl_users for a username equal to $username.
+        $statement = $this->oConnection->prepare("
+            SELECT tt.id AS trainingId, CONCAT(tu.firstName, ' ', tu.lastName) AS studentName,
+                   tc.courseCode, ts.coursePrice, tv.venue, CONCAT(ts.fromDate, ' - ', ts.toDate) AS schedule,
+                   ts.instructorId, tp.id AS paymentId, tp.paymentMethod, tp.paymentDate, tp.paymentAmount,
+                   tp.paymentFile, tp.isPaid AS paymentStatus
+            FROM tbl_users           tu
+            INNER JOIN tbl_training  tt
+                ON tt.studentId  = tu.userId
+            INNER JOIN tbl_schedules ts
+                ON ts.id         = tt.scheduleId
+            INNER JOIN tbl_courses   tc
+                ON tc.id         = ts.courseId
+            INNER JOIN tbl_venue     tv
+                ON tv.id         = ts.venueId
+            LEFT JOIN tbl_payments   tp
+                ON tp.trainingId = tt.id
+        ");
+
+        // Execute the above statement.
+        $statement->execute();
+
+        // Return the result of the execution of the above statement.
+        return $statement->fetchAll();
+    }
 }

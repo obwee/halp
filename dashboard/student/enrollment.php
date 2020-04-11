@@ -5,7 +5,7 @@ require_once "template/studentHeader.php";
 
 <div class="container">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <p class="h3">Enrollment</p>
+		<h2><span class="fab fa-leanpub"></span> Enrollment</h2>
     </div>
 
     <div align="right">
@@ -160,6 +160,16 @@ require_once "template/studentHeader.php";
                         <table id="tbl_paymentDetails" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
                             <thead></thead>
                             <tbody></tbody>
+                            <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th style="text-align:right">Remaining Balance:</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
