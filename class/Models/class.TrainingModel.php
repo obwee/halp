@@ -61,7 +61,7 @@ class TrainingModel
                 tt.id AS trainingId,
                 tt.scheduleId, tp.id AS paymentId,
                 tp.paymentAmount AS paymentAmount,
-                tp.isPaid AS paymentStatus
+                tp.isPaid AS paymentStatus, tp.paymentFile
             FROM tbl_training tt
             LEFT JOIN tbl_payments tp
             ON tp.trainingId = tt.id
@@ -164,5 +164,73 @@ class TrainingModel
 
         // Return the number of rows returned by the executed query.
         return $statement->fetch();
+    }
+
+    public function fetchTrainingDataOfSelectedStudent($iStudentId)
+    {
+        // Query the tbl_courses.
+        $statement = $this->oConnection->prepare("
+            SELECT tt.id AS trainingId, tc.courseName, tc.courseDescription, tc.courseCode, ts.coursePrice,
+                    ts.fromDate, ts.toDate, tv.venue, ts.recurrence, ts.numRepetitions,
+                    ts.instructorId, tp.id AS paymentId, tp.paymentMethod, tp.paymentDate,
+                    -- tp.isPaid AS paymentStatus
+                    SUM(tp.paymentAmount) AS paymentAmount, tp.paymentFile, tp.isPaid AS paymentStatus
+            FROM       tbl_courses   tc
+            INNER JOIN tbl_schedules ts
+                ON tc.id = ts.courseId
+            INNER JOIN tbl_venue     tv
+                ON tv.id = ts.venueId
+            INNER JOIN tbl_training  tt
+                ON tt.scheduleId = ts.id
+            INNER JOIN tbl_payments  tp
+                ON tp.trainingId = tt.id
+            WHERE 1 = 1
+                AND ts.fromDate > CURDATE()
+                AND ts.toDate > CURDATE()
+                AND tt.studentId = ?
+                AND tp.isPaid IN (0, 1)
+                AND tp.isApproved != 2
+            GROUP BY tt.id
+        ");
+
+        // Execute the above statement.
+        $statement->execute([$iStudentId]);
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetchAll();
+    }
+
+    public function fetchPaidReservations($iStudentId)
+    {
+        // Query the tbl_courses.
+        $statement = $this->oConnection->prepare("
+            SELECT  tt.id AS trainingId, tc.courseName, tc.courseCode, ts.coursePrice,
+                    ts.fromDate, ts.toDate, tv.venue, ts.recurrence, ts.numRepetitions,
+                    CONCAT(tu.firstName, ' ', tu.lastName) AS instructorName
+            FROM       tbl_courses   tc
+            INNER JOIN tbl_schedules ts
+            ON tc.id = ts.courseId
+            INNER JOIN tbl_venue     tv
+            ON tv.id = ts.venueId
+            INNER JOIN tbl_training  tt
+            ON tt.scheduleId = ts.id
+            INNER JOIN tbl_users     tu
+            ON ts.instructorId = tu.userId
+            INNER JOIN tbl_payments  tp
+            ON tp.trainingId  = tt.id
+            WHERE 1 = 1
+                AND ts.fromDate > CURDATE()
+                AND ts.toDate > CURDATE()
+                AND tt.studentId = ?
+                AND tp.isPaid = 2
+            GROUP BY tt.id
+            ORDER BY ts.fromDate, tc.courseName ASC
+        ");
+
+        // Execute the above statement.
+        $statement->execute([$iStudentId]);
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetchAll();
     }
 }

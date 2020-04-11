@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 07, 2020 at 05:38 PM
+-- Generation Time: Apr 11, 2020 at 11:19 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -123,15 +123,22 @@ CREATE TABLE `tbl_payments` (
   `paymentAmount` int(11) DEFAULT 0,
   `paymentFile` varchar(255) NOT NULL,
   `isApproved` varchar(255) NOT NULL DEFAULT '0',
-  `isPaid` tinyint(1) NOT NULL DEFAULT 0
+  `isPaid` tinyint(1) NOT NULL DEFAULT 0,
+  `rejectReason` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tbl_payments`
 --
 
-INSERT INTO `tbl_payments` (`id`, `trainingId`, `paymentDate`, `paymentMethod`, `paymentAmount`, `paymentFile`, `isApproved`, `isPaid`) VALUES
-(12, 12, '2020-04-07 22:08:23', NULL, 0, '2020-04-07_22-08-23_Mark Exequiel-Sale.jpg', '0', 0);
+INSERT INTO `tbl_payments` (`id`, `trainingId`, `paymentDate`, `paymentMethod`, `paymentAmount`, `paymentFile`, `isApproved`, `isPaid`, `rejectReason`) VALUES
+(12, 12, '2020-04-07 22:08:23', '2', 9500, '2020-04-07_22-08-23_Mark Exequiel-Sale.jpg', '1', 2, NULL),
+(13, 12, '2020-04-09 13:54:10', '2', 500, '2020-04-09_13-54-10_Mark Exequiel-Sale.JPG', '1', 2, NULL),
+(14, 11, '2020-04-10 12:59:41', '2', 2999, '2020-04-10_12-59-41_Mark Exequiel-Sale.JPG', '1', 1, NULL),
+(125, 13, '2020-04-10 14:58:20', NULL, 0, '2020-04-10_14-58-20_Mark Exequiel-Sale.jpg', '0', 0, NULL),
+(127, 12, '2020-04-11 13:31:10', '2', 10000, '2020-04-11_13-31-10_Mark Exequiel-Sale.jpg', '1', 2, NULL),
+(129, 12, '2020-04-11 13:31:10', '2', 0, '2020-04-11_13-31-10_Mark Exequiel-Sale.jpg', '2', 0, NULL),
+(130, 11, '2020-04-11 16:04:16', NULL, 0, '2020-04-11_16-04-16_Mark Exequiel-Sale.jpg', '0', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -272,7 +279,7 @@ INSERT INTO `tbl_schedules` (`id`, `courseId`, `coursePrice`, `instructorId`, `v
 (28, 7, '10000', 110, 2, 25, 25, '2020-04-08', '2020-04-10', 'none', '1', 'Active'),
 (29, 10, '8000', 110, 2, 1, 0, '2020-05-14', '2020-05-15', 'none', '1', 'Active'),
 (32, 7, '9999', 110, 2, 99, 98, '2020-05-25', '2020-05-29', 'none', '1', 'Active'),
-(42, 12, '2000', 110, 1, 10, 10, '2020-05-03', '2020-05-10', 'weekly', '2', 'Active'),
+(42, 12, '2000', 110, 1, 10, 9, '2020-05-03', '2020-05-10', 'weekly', '2', 'Active'),
 (43, 7, '41241', 111, 1, 1, 0, '2020-04-12', '2020-04-19', 'weekly', '2', 'Active');
 
 -- --------------------------------------------------------
@@ -298,6 +305,7 @@ CREATE TABLE `tbl_training` (
   `studentId` int(11) NOT NULL,
   `scheduleId` int(11) NOT NULL,
   `isDone` tinyint(1) NOT NULL DEFAULT 0,
+  `isCancelled` int(11) NOT NULL DEFAULT 0,
   `certificateIssued` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -305,9 +313,10 @@ CREATE TABLE `tbl_training` (
 -- Dumping data for table `tbl_training`
 --
 
-INSERT INTO `tbl_training` (`id`, `studentId`, `scheduleId`, `isDone`, `certificateIssued`) VALUES
-(11, 7, 32, 0, 0),
-(12, 7, 2, 0, 0);
+INSERT INTO `tbl_training` (`id`, `studentId`, `scheduleId`, `isDone`, `isCancelled`, `certificateIssued`) VALUES
+(11, 7, 32, 0, 0, 0),
+(12, 7, 2, 0, 0, 0),
+(13, 7, 42, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -489,7 +498,7 @@ ALTER TABLE `tbl_inclusions`
 -- AUTO_INCREMENT for table `tbl_payments`
 --
 ALTER TABLE `tbl_payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 
 --
 -- AUTO_INCREMENT for table `tbl_payment_methods`
@@ -525,7 +534,7 @@ ALTER TABLE `tbl_sent_quotations`
 -- AUTO_INCREMENT for table `tbl_training`
 --
 ALTER TABLE `tbl_training`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`

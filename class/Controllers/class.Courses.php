@@ -199,26 +199,21 @@ class Courses extends BaseController
 
         // Get schedules, venues, instructors, and slots for each courses available and remove duplicates.
         foreach ($aCoursesAvailable as $aCourse) {
-            $aSchedules[$aCourse['courseId']][$aCourse['scheduleId']] = $aCourse['fromDate'] . ' - ' . $aCourse['toDate'] . ' (' . $this->getInterval($aCourse) . ')';
+            $aSchedules[$aCourse['courseId']][$aCourse['scheduleId']]   = Utils::formatDate($aCourse['fromDate']) . ' - ' . Utils::formatDate($aCourse['toDate']) . ' (' . $this->getInterval($aCourse) . ')';
             $aCoursePrice[$aCourse['courseId']][$aCourse['scheduleId']] = $aCourse['coursePrice'];
-            $aVenues[$aCourse['courseId']][$aCourse['scheduleId']] = $aCourse['venue'];
+            $aVenues[$aCourse['courseId']][$aCourse['scheduleId']]      = $aCourse['venue'];
             $aInstructors[$aCourse['courseId']][$aCourse['scheduleId']] = $aCourse['instructorId'];
-            $aSlots[$aCourse['courseId']][$aCourse['scheduleId']] = $aCourse['remainingSlots'];
-            $aCoursesToEnroll[$aCourse['courseId']] = $aCourse;
+            $aSlots[$aCourse['courseId']][$aCourse['scheduleId']]       = $aCourse['remainingSlots'];
+            $aCoursesToEnroll[$aCourse['courseId']]                     = $aCourse;
         }
 
         // Add the schedules, venues, instructors, and slots to its respective course.
         foreach ($aCoursesToEnroll as $aCourse) {
-            $aCoursesToEnroll[$aCourse['courseId']]['schedules'] = $aSchedules[$aCourse['courseId']];
-            $aCoursesToEnroll[$aCourse['courseId']]['prices'] = $aCoursePrice[$aCourse['courseId']];
-            $aCoursesToEnroll[$aCourse['courseId']]['venues'] = $aVenues[$aCourse['courseId']];
+            $aCoursesToEnroll[$aCourse['courseId']]['schedules']   = $aSchedules[$aCourse['courseId']];
+            $aCoursesToEnroll[$aCourse['courseId']]['prices']      = $aCoursePrice[$aCourse['courseId']];
+            $aCoursesToEnroll[$aCourse['courseId']]['venues']      = $aVenues[$aCourse['courseId']];
             $aCoursesToEnroll[$aCourse['courseId']]['instructors'] = $aInstructors[$aCourse['courseId']];
-            $aCoursesToEnroll[$aCourse['courseId']]['slots'] = $aSlots[$aCourse['courseId']];
-        }
-
-        // Extract schedule IDs of enrolled courses in getting training data.
-        foreach ($aEnrolledCourses as $aEnrolledCourse) {
-            array_push($aScheduleIds, $aEnrolledCourse['scheduleId']);
+            $aCoursesToEnroll[$aCourse['courseId']]['slots']       = $aSlots[$aCourse['courseId']];
         }
 
         // Unset unnecessary data to be returned to the front-end.
@@ -228,25 +223,45 @@ class Courses extends BaseController
             'instructorName',
             'remainingSlots'
         );
-
         Utils::unsetUnnecessaryData($aCoursesToEnroll, $aUnnecessaryData);
+
+        // Extract schedule IDs of enrolled courses in getting training data.
+        foreach ($aEnrolledCourses as $aEnrolledCourse) {
+            array_push($aScheduleIds, $aEnrolledCourse['scheduleId']);
+        }
 
         if (sizeof($aEnrolledCourses) !== 0) {
             // Get training data.
             $aTrainingData = $this->oTrainingModel->getTrainingData($iStudentId, $aScheduleIds);
 
-            // Insert training data to each of the enrolled courses.
+            $aTotalPaymentAmount = array();
+            // Get total amount paid per schedule.
+            foreach ($aTrainingData as $iKey => $aValue) {
+                if (array_key_exists($aValue['scheduleId'], $aTotalPaymentAmount) === true) {
+                    $aTotalPaymentAmount[$aValue['scheduleId']] += $aValue['paymentAmount'];
+                    continue;
+                }
+                $aTotalPaymentAmount[$aValue['scheduleId']] = $aValue['paymentAmount'];
+            }
+
+            // Insert training data and total amount paid per schedule to each of the enrolled courses.
             foreach ($aEnrolledCourses as $iKey => $aEnrolledCourse) {
                 // Search schedule ID index inside the training data.
                 $iIndex = Utils::searchKeyByValueInMultiDimensionalArray($aEnrolledCourse['scheduleId'], $aTrainingData, 'scheduleId');
+                $aEnrolledCourses[$iKey]['schedule'] = Utils::formatDate($aEnrolledCourse['fromDate']) . ' - ' . Utils::formatDate($aEnrolledCourse['toDate']) . ' (' . $this->getInterval($aEnrolledCourse) . ')';;
                 $aEnrolledCourses[$iKey]['trainingId'] = $aTrainingData[$iIndex]['trainingId'];
+                $aEnrolledCourses[$iKey]['paymentBalance'] = $aEnrolledCourse['coursePrice'] - $aTotalPaymentAmount[$aEnrolledCourse['scheduleId']] ?? $aEnrolledCourse['coursePrice'];
                 $aEnrolledCourses[$iKey]['paymentStatus'] = $this->aPaymentStatus[$aTrainingData[$iIndex]['paymentStatus'] ?? 0];
-                $aEnrolledCourses[$iKey]['paymentBalance'] = $aEnrolledCourse['coursePrice'] - $aTrainingData[$iIndex]['paymentAmount'] ?? $aEnrolledCourse['coursePrice'];
+                
+                // If payment is already fully paid, unset.
+                if ($aEnrolledCourses[$iKey]['paymentStatus'] === 'Fully Paid') {
+                    unset($aEnrolledCourses[$iKey]);
+                }
             }
         }
 
         echo json_encode(array(
-            'aEnrolledCourses'  => $aEnrolledCourses,
+            'aEnrolledCourses'  => array_values($aEnrolledCourses),
             'aCoursesAvailable' => array_values($aCoursesToEnroll),
             'aInstructors'      => array_values(array_filter($this->oInstructorsModel->fetchInstructors(), fn ($aInstructors) => $aInstructors['status'] === 'Active'))
         ));

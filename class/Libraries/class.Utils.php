@@ -190,4 +190,28 @@ class Utils
         move_uploaded_file($aFile['tmp_name'], PAYMENT_DIR . $sFileName);
     }
 
+    /**
+     * getRemainingBalance
+     */
+    public static function getRemainingBalance($aData)
+    {
+        $sBalance = $aData['coursePrice'] - $aData['paymentAmount'];
+        return self::toCurrencyFormat($sBalance);
+    }
+
+    /**
+     * getRemainingBalance
+     */
+    public static function toCurrencyFormat($sAmount)
+    {
+        return 'P' . number_format($sAmount);
+    }
+
+    /**
+     * formatDate
+     */
+    public static function formatDate($sDate)
+    {
+        return date("M. d, Y", strtotime($sDate));
+    }
 }

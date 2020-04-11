@@ -45,10 +45,15 @@ var oLibraries = (() => {
         }, 3000);
     }
 
+    function formatCurrency(iValue) {
+        return parseInt(iValue, 10).toLocaleString();
+    }
+
     // Return public pointers.
     return {
         displayAlertMessage : displayAlertMessage,
-        displayErrorMessage : displayErrorMessage
+        displayErrorMessage : displayErrorMessage,
+        formatCurrency      : formatCurrency
     }
 
 })();

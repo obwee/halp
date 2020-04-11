@@ -204,6 +204,37 @@ var oForms = (() => {
         });
     }
 
+    function preparePaymentEvents() {
+        removeRedBorderOnFocus();
+
+        $(document).on('keyup keydown', '.paymentAmount', function () {
+            if (this.value.length === 1 && this.value.match(/[^1-9]/)) {
+                return this.value = this.value.replace(this.value, '');
+            }
+            this.value = this.value.replace(/[^0-9]/g, '');
+
+            let iOldBalance = parseInt($('.oldBalance').val().replace(',', ''), 10);
+            let iValue = parseInt($(this).val(), 10);
+            let iNewBalance = iOldBalance - iValue;
+
+            if (isNaN(iNewBalance) === true) {
+                iNewBalance = iOldBalance;
+            }
+            if (iNewBalance < 0) {
+                return this.value = this.value.slice(0, -1);
+            }
+
+            $('.newBalance').val(oLibraries.formatCurrency(iNewBalance));
+        });
+    }
+
+    function removeRedBorderOnFocus() {
+        // Remove red border on focus event on any input.
+        $(document).on('focus', 'input, select, textarea', function () {
+            $(this).css('border', '1px solid #ccc');
+        });
+    }
+
     // Toggle disabled state of the form.
     function disableFormState(formName, state) {
         $(formName).find('div[class="modal-footer"] button').prop('disabled', state);
@@ -231,7 +262,8 @@ var oForms = (() => {
         prepareDomEvents,
         disableFormState,
         resetInputBorders,
-        cloneDivElements
+        cloneDivElements,
+        preparePaymentEvents
     };
 
 })();

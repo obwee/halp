@@ -13,6 +13,12 @@ class Student extends BaseController
     private $oTrainingModel;
 
     /**
+     * @var AdminsModel $AdminsModel
+     * Class instance for admins' model.
+     */
+    private $AdminsModel;
+
+    /**
      * Student constructor.
      * @param array $aPostVariables
      */
@@ -22,6 +28,8 @@ class Student extends BaseController
         $this->aParams = $aPostVariables;
         // Instantiate the TrainingModel.
         $this->oTrainingModel = new TrainingModel();
+        // Instantiate the AdminsModel.
+        $this->AdminsModel = new AdminsModel();
         parent::__construct();
     }
 
@@ -196,5 +204,33 @@ class Student extends BaseController
 
         $oPrintRegiForm = new PdfRegiForm($aStudentDetails, $aCourseDetails);
         $oPrintRegiForm->Output('I', 'Registration-Form.pdf');
+    }
+
+    public function fetchEnrollmentData()
+    {
+        $aEnrollees = $this->oStudentModel->fetchEnrollees();
+        $aInstructorIds = array();
+
+        // Get instructor IDs.
+        foreach ($aEnrollees as $iKey => $aData) {
+            $aInstructorIds[$iKey] = $aData['instructorId'];
+        }
+
+        // Get instructor names.
+        if (count($aInstructorIds) > 0) {
+            $aInstructors = $this->AdminsModel->fetchAdminsByInstructorIds($aInstructorIds);
+        }
+
+        // Append instructor name to the data to be returned.
+        foreach ($aEnrollees as $iKey => $aEnrollee) {
+            $iInstructorKey = Utils::searchKeyByValueInMultiDimensionalArray($aEnrollee['instructorId'], $aInstructors, 'instructorId');
+            $aEnrollees[$iKey]['instructor'] = $aInstructors[$iInstructorKey]['instructorName'];
+            $aEnrollees[$iKey]['paymentStatus'] = $this->aPaymentStatus[$aEnrollee['paymentStatus'] ?? 0];
+            if ($aEnrollees[$iKey]['paymentStatus'] !== 'Fully Paid' && $aEnrollees[$iKey]['paymentFile'] !== null) {
+                $aEnrollees[$iKey]['paymentStatus'] = 'Payment Submitted';
+            }
+        }
+
+        echo json_encode($aEnrollees);
     }
 }
