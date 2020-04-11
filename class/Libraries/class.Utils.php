@@ -181,4 +181,13 @@ class Utils
     {
         return date('l', strtotime($sDate));
     }
+
+    /**
+     * moveUploadedFile
+     */
+    public static function moveUploadedFile($aFile, $sFileName)
+    {
+        move_uploaded_file($aFile['tmp_name'], PAYMENT_DIR . $sFileName);
+    }
+
 }

@@ -18,6 +18,8 @@ class Payment extends BaseController
         $this->aParams = $aPostVariables;
         // Instantiate the UsersModel class and store it inside $this->oVenueModel.
         $this->oPaymentModel = new PaymentModel();
+
+        parent::__construct();
     }
 
     /**
@@ -133,27 +135,62 @@ class Payment extends BaseController
     {
         Utils::sanitizeData($this->aParams);
         $aPaymentDetails = $this->oPaymentModel->getPaymentDetails($this->aParams);
+        $aResult = array();
 
-        foreach ($aPaymentDetails as $aPaymentData) {
+        foreach ($aPaymentDetails as $iKey => $aPaymentData) {
             if (empty($aPaymentData['paymentId']) === true) {
                 echo json_encode([]);
                 exit();
             }
+
+            $aResult[$iKey]['paymentId'] = $aPaymentData['paymentId'];
+            $aResult[$iKey]['paymentDate'] = $aPaymentData['paymentDate'];
+            $aResult[$iKey]['paymentMethod'] = $aPaymentData['paymentMethod'];
+            $aResult[$iKey]['coursePrice'] = $aPaymentData['coursePrice'];
+            $aResult[$iKey]['paymentAmount'] = $aPaymentData['paymentAmount'];
+            $aResult[$iKey]['remainingBalance'] = $aPaymentData['coursePrice'] - $aPaymentData['paymentAmount'];
+            $aResult[$iKey]['paymentImage'] = '..' . DS . 'payments' . DS . $aPaymentData['paymentFile'];
+            $aResult[$iKey]['paymentStatus'] = $this->aPaymentApprovalStatus[$aPaymentData['isApproved']];
         }
+
+        echo json_encode(array_values($aResult));
     }
 
     public function addPayment()
     {
-        $aIds = array(
-            'trainingId' => $this->aParams['trainingId'],
-            'scheduleId' => $this->aParams['scheduleId']
-        );
-        $aPaymentFile = $this->aParams['paymentFile'];
+        $aValidationResult = Validations::validateFileForPayment($this->aParams['paymentFile']);
+        if ($aValidationResult['bResult'] === false) {
+            echo json_encode($aValidationResult);
+            exit();
+        }
 
-        $aValidationResult = Validations::validateFileForPayment($aPaymentFile);
-        print_r($aIds);
-        print_r($aPaymentFile);
-        print_r($aValidationResult);
-        // Proceed with saving file to DB.
+        $aPaymentFile = array_merge($this->aParams['paymentFile'], pathinfo($this->aParams['paymentFile']['name']));
+        $aStudentDetails = $this->oStudentModel->getUserDetails(['userId' => $this->getUserId()]);
+
+        $sDateNow = date('Y-m-d H:i:s');
+        $sFileName = str_replace(' ', '_', str_replace(':', '-', $sDateNow)) . '_' . $aStudentDetails['firstName'] . '-' . $aStudentDetails['lastName'] . '.' . $aPaymentFile['extension'];
+
+        $aData = array(
+            'trainingId'  => $this->aParams['trainingId'],
+            'paymentDate' => $sDateNow,
+            'paymentFile' => $sFileName,
+        );
+
+        $aSavePayment = $this->oPaymentModel->addPayment($aData);
+
+        if ($aSavePayment === 0) {
+            $aResult = array(
+                'bResult' => false,
+                'sMsg'    => 'An error has occurred.'
+            );
+        } else {
+            Utils::moveUploadedFile($aPaymentFile, $sFileName);
+            $aResult = array(
+                'bResult' => true,
+                'sMsg'    => 'Payment added!'
+            );
+        }
+
+        echo json_encode($aResult);
     }
 }

@@ -14,6 +14,11 @@ class BaseController
         'Fully Paid'
     );
 
+    protected $aPaymentApprovalStatus = array(
+        'Not Yet Approved',
+        'Approved',
+    );
+
     /**
      * @var array $aParams
      * Holder of request parameters sent by AJAX.

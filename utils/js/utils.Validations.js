@@ -1125,7 +1125,15 @@ class Validations {
      * @return {object} oFileValidation (Result of the validation.)
      */
     validateFileForPayment(sFormId) {
-        let oFile = $(sFormId).find('.paymentFile').prop('files')[0];
+        let oFile = $('.paymentFile').prop('files')[0];
+
+        if (oFile === undefined) {
+            return {
+                result: false,
+                element: '.paymentFile',
+                msg: 'Please select a file as proof of payment.'
+            }
+        }
 
         let oFileValidation = {
             result: true

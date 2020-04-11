@@ -3,7 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
+<<<<<<< HEAD
 -- Generation Time: Apr 05, 2020 at 02:49 PM
+=======
+-- Generation Time: Apr 07, 2020 at 05:38 PM
+>>>>>>> e6e0fae2c93a618b450a1d9580f3745a19ed4427
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -23,6 +27,19 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `nexus` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `nexus`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_cancellations`
+--
+
+CREATE TABLE `tbl_cancellations` (
+  `id` int(11) NOT NULL,
+  `paymentId` int(11) NOT NULL,
+  `isApproved` int(11) NOT NULL DEFAULT 0,
+  `reason` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -106,8 +123,10 @@ CREATE TABLE `tbl_payments` (
   `id` int(11) NOT NULL,
   `trainingId` int(11) NOT NULL,
   `paymentDate` datetime NOT NULL,
-  `paymentMethod` varchar(255) NOT NULL,
-  `paymentAmount` int(11) NOT NULL,
+  `paymentMethod` varchar(255) DEFAULT NULL,
+  `paymentAmount` int(11) DEFAULT 0,
+  `paymentFile` varchar(255) NOT NULL,
+  `isApproved` varchar(255) NOT NULL DEFAULT '0',
   `isPaid` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -115,11 +134,16 @@ CREATE TABLE `tbl_payments` (
 -- Dumping data for table `tbl_payments`
 --
 
+<<<<<<< HEAD
 INSERT INTO `tbl_payments` (`id`, `trainingId`, `paymentDate`, `paymentMethod`, `paymentAmount`, `isPaid`) VALUES
 (1, 2, '0000-00-00 00:00:00', '', 0, 0),
 (2, 3, '0000-00-00 00:00:00', '', 0, 0),
 (7, 9, '2020-04-02 22:43:09', '', 0, 0),
 (8, 10, '2020-04-05 18:18:47', '', 0, 0);
+=======
+INSERT INTO `tbl_payments` (`id`, `trainingId`, `paymentDate`, `paymentMethod`, `paymentAmount`, `paymentFile`, `isApproved`, `isPaid`) VALUES
+(12, 12, '2020-04-07 22:08:23', NULL, 0, '2020-04-07_22-08-23_Mark Exequiel-Sale.jpg', '0', 0);
+>>>>>>> e6e0fae2c93a618b450a1d9580f3745a19ed4427
 
 -- --------------------------------------------------------
 
@@ -249,7 +273,11 @@ CREATE TABLE `tbl_schedules` (
 --
 
 INSERT INTO `tbl_schedules` (`id`, `courseId`, `coursePrice`, `instructorId`, `venueId`, `numSlots`, `remainingSlots`, `fromDate`, `toDate`, `recurrence`, `numRepetitions`, `status`) VALUES
+<<<<<<< HEAD
 (2, 1, '20000', 111, 1, 12, 11, '2020-04-20', '2020-04-24', 'none', '1', 'Active'),
+=======
+(2, 1, '20000', 111, 1, 12, 10, '2020-04-20', '2020-04-24', 'none', '1', 'Active'),
+>>>>>>> e6e0fae2c93a618b450a1d9580f3745a19ed4427
 (3, 2, '20000', 111, 2, 50, 49, '2020-05-04', '2020-05-08', 'none', '1', 'Active'),
 (4, 1, '20000', 110, 1, 50, 50, '2020-04-30', '2020-05-01', 'none', '1', 'Active'),
 (5, 4, '20000', 111, 2, 50, 50, '2020-04-07', '2020-04-07', 'none', '1', 'Inactive'),
@@ -258,9 +286,15 @@ INSERT INTO `tbl_schedules` (`id`, `courseId`, `coursePrice`, `instructorId`, `v
 (26, 12, '20000', 110, 1, 1, 1, '2020-04-07', '2020-04-08', 'none', '1', 'Inactive'),
 (27, 10, '20000', 110, 1, 1, 1, '2020-04-07', '2020-04-09', 'none', '1', 'Inactive'),
 (28, 7, '10000', 110, 2, 25, 25, '2020-04-08', '2020-04-10', 'none', '1', 'Active'),
+<<<<<<< HEAD
 (29, 10, '8000', 110, 2, 1, 0, '2020-05-12', '2020-05-13', 'none', '1', 'Active'),
 (32, 7, '9999', 110, 2, 99, 99, '2020-05-25', '2020-05-29', 'none', '1', 'Active'),
 (42, 12, '2000', 110, 1, 10, 10, '2020-04-11', '2020-04-18', 'weekly', '2', 'Active'),
+=======
+(29, 10, '8000', 110, 2, 1, 0, '2020-05-14', '2020-05-15', 'none', '1', 'Active'),
+(32, 7, '9999', 110, 2, 99, 98, '2020-05-25', '2020-05-29', 'none', '1', 'Active'),
+(42, 12, '2000', 110, 1, 10, 10, '2020-05-03', '2020-05-10', 'weekly', '2', 'Active'),
+>>>>>>> e6e0fae2c93a618b450a1d9580f3745a19ed4427
 (43, 7, '41241', 111, 1, 1, 0, '2020-04-12', '2020-04-19', 'weekly', '2', 'Active');
 
 -- --------------------------------------------------------
@@ -294,10 +328,15 @@ CREATE TABLE `tbl_training` (
 --
 
 INSERT INTO `tbl_training` (`id`, `studentId`, `scheduleId`, `isDone`, `certificateIssued`) VALUES
+<<<<<<< HEAD
 (2, 7, 2, 0, 0),
 (3, 7, 3, 0, 0),
 (9, 7, 29, 0, 0),
 (10, 7, 43, 0, 0);
+=======
+(11, 7, 32, 0, 0),
+(12, 7, 2, 0, 0);
+>>>>>>> e6e0fae2c93a618b450a1d9580f3745a19ed4427
 
 -- --------------------------------------------------------
 
@@ -368,6 +407,12 @@ INSERT INTO `tbl_venue` (`id`, `venue`, `address`, `contactNum`, `status`) VALUE
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `tbl_cancellations`
+--
+ALTER TABLE `tbl_cancellations`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `tbl_courses`
@@ -446,6 +491,12 @@ ALTER TABLE `tbl_venue`
 --
 
 --
+-- AUTO_INCREMENT for table `tbl_cancellations`
+--
+ALTER TABLE `tbl_cancellations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tbl_courses`
 --
 ALTER TABLE `tbl_courses`
@@ -467,7 +518,11 @@ ALTER TABLE `tbl_inclusions`
 -- AUTO_INCREMENT for table `tbl_payments`
 --
 ALTER TABLE `tbl_payments`
+<<<<<<< HEAD
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+=======
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+>>>>>>> e6e0fae2c93a618b450a1d9580f3745a19ed4427
 
 --
 -- AUTO_INCREMENT for table `tbl_payment_methods`
@@ -503,7 +558,11 @@ ALTER TABLE `tbl_sent_quotations`
 -- AUTO_INCREMENT for table `tbl_training`
 --
 ALTER TABLE `tbl_training`
+<<<<<<< HEAD
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+=======
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+>>>>>>> e6e0fae2c93a618b450a1d9580f3745a19ed4427
 
 --
 -- AUTO_INCREMENT for table `tbl_users`
