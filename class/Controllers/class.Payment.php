@@ -164,6 +164,7 @@ class Payment extends BaseController
             }
 
             $aResult[$iKey]['paymentId']        = $aPaymentData['paymentId'];
+            $aResult[$iKey]['rejectReason']     = $aPaymentData['rejectReason'];
             $aResult[$iKey]['paymentDate']      = Utils::formatDate($aPaymentData['paymentDate']);
             $aResult[$iKey]['coursePrice']      = Utils::toCurrencyFormat($aPaymentData['coursePrice']);
             $aResult[$iKey]['paymentAmount']    = Utils::toCurrencyFormat($aPaymentData['paymentAmount']);
@@ -248,14 +249,13 @@ class Payment extends BaseController
         if (($iOverallPayment - $aTrainingData['coursePrice']) == 0) {
             $this->aParams['isPaid'] = 2;
             $this->aParams['isApproved'] = 1;
-            $iApproveQuery = $this->oPaymentModel->approvePayment($this->aParams);
             $iUpdateStatusQuery = $this->oPaymentModel->updatePaymentStatuses($aTrainingData['trainingId']);
             $iCancelRemainingPaymentsQuery = $this->oPaymentModel->cancelRemainingPayments($aTrainingData['trainingId']);
         } else {
             $this->aParams['isPaid'] = 1;
             $this->aParams['isApproved'] = 1;
-            $iApproveQuery = $this->oPaymentModel->approvePayment($this->aParams);
         }
+        $iApproveQuery = $this->oPaymentModel->approvePayment($this->aParams);
 
         if ($iApproveQuery > 0) {
             echo json_encode(array(
@@ -268,5 +268,39 @@ class Payment extends BaseController
                 'sMsg'     => 'An error has occurred.'
             ));
         }
+    }
+
+    public function fetchStudentsWithRejectedPayments()
+    {
+        $aPaymentDetails = $this->oPaymentModel->fetchStudentsWithRejectedPayments();
+        echo json_encode($aPaymentDetails);
+    }
+
+    public function rejectPayment()
+    {
+        $aDatabaseColumns = array(
+            'iPaymentId'    => ':id',
+            'sRejectReason' => ':rejectReason'
+        );
+
+        Utils::renameKeys($this->aParams, $aDatabaseColumns);
+        Utils::sanitizeData($this->aParams);
+
+        // Perform update.
+        $iQuery = $this->oPaymentModel->rejectPayment($this->aParams);
+
+        if ($iQuery > 0) {
+            $aResult = array(
+                'bResult' => true,
+                'sMsg'    => 'Payment rejected!'
+            );
+        } else {
+            $aResult = array(
+                'bResult' => false,
+                'sMsg'    => 'An error has occured.'
+            );
+        }
+
+        echo json_encode($aResult);
     }
 }

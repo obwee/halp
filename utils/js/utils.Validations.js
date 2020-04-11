@@ -1257,6 +1257,30 @@ class Validations {
     }
 
     /**
+     * validateCancelReservationForm
+     * Validates the cancel reservation inputs before submission.
+     * @param {string} sFormId (The form id.)
+     * @return {object} oValidation (Result of the validation.)
+     */
+    validateCancelReservationForm(sFormId) {
+        if ($(sFormId).find('.refundReason').val() === '') {
+            return {
+                result: false,
+                element: '.refundReason',
+                msg: `Please state your reason for refunding.`
+            };
+        }
+        if ($(sFormId).find('.agreementCheckbox').is(':checked') === false) {
+            return {
+                result: false,
+                element: '.agreementCheckbox',
+                msg: `Please confirm if you agree to the terms and conditions.`
+            };
+        }
+        return { result: true };
+    }
+
+    /**
      * loopThruRulesForErrors
      * @param {array} aRules (Array of rules.)
      * @param {string} sFormId (The id of the form.)
