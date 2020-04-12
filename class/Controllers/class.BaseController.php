@@ -14,7 +14,7 @@ class BaseController
         'Fully Paid'
     );
 
-    protected $aPaymentApprovalStatus = array(
+    protected $aApprovalStatus = array(
         'Not Yet Approved',
         'Approved',
         'Rejected'
@@ -32,11 +32,13 @@ class BaseController
         $this->oStudentModel = new StudentModel();
     }
 
-    protected function getUserId() {
+    protected function getUserId()
+    {
         return $this->oStudentModel->getUserIdByUsername(Session::get('username'));
     }
 
-    protected function getUserIdOfQuoteRequester($sFirstName, $sLastName) {
+    protected function getUserIdOfQuoteRequester($sFirstName, $sLastName)
+    {
         return $this->oStudentModel->getUserIdByFirstAndLastName($sFirstName, $sLastName);
     }
 

@@ -225,4 +225,40 @@ class Training extends BaseController
 
         echo json_encode($aCancelledReservations);
     }
+
+    public function fetchTrainingDataOfSelectedStudentWithRefunds()
+    {
+        $aTrainingData = $this->oTrainingModel->fetchTrainingDataOfSelectedStudentWithRefunds($this->aParams['iStudentId']);
+
+        foreach ($aTrainingData as $iKey => $aData) {
+            $aTrainingData[$iKey]['schedule'] = Utils::formatDate($aData['fromDate']) . ' - ' . Utils::formatDate($aData['toDate']) . ' (' . $this->getInterval($aData) . ')';
+            $aInstructorIds[$iKey] = $aData['instructorId'];
+            $aTrainingIds[$iKey] = $aData['trainingId'];
+        }
+
+        // Get instructor names.
+        if (count($aInstructorIds) > 0) {
+            $aInstructors = $this->oAdminsModel->fetchAdminsByInstructorIds($aInstructorIds);
+        }
+
+        // Append instructor name and other details to the data to be returned.
+        foreach ($aTrainingData as $iKey => $aData) {
+            $iInstructorKey = Utils::searchKeyByValueInMultiDimensionalArray($aData['instructorId'], $aInstructors, 'instructorId');
+            $aTrainingData[$iKey]['instructor']   = $aInstructors[$iInstructorKey]['instructorName'];
+            $aTrainingData[$iKey]['refundStatus'] = $this->aApprovalStatus[$aData['refundStatus']];
+            $aTrainingData[$iKey]['coursePrice']  = Utils::toCurrencyFormat($aData['coursePrice']);
+        }
+
+        $aUnnecessaryKeys = array(
+            'fromDate',
+            'toDate',
+            'recurrence',
+            'numRepetitions',
+            'instructorId'
+        );
+
+        Utils::unsetUnnecessaryData($aTrainingData, $aUnnecessaryKeys);
+
+        echo json_encode($aTrainingData);
+    }
 }

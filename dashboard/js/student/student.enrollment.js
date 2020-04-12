@@ -137,10 +137,18 @@ var oEnrollment = (() => {
                     },
                 }).then((oResponse) => {
                     oLibraries.displayAlertMessage((oResponse.value.bResult === true) ? 'success' : 'error', oResponse.value.sMsg);
+                    fetchCourses();
+                    $('.modal').modal('hide');
                 })
             } else {
-                $('#cancelReservationModal').find('.trainingId').val(oCourseDetails.trainingId);
-                $('#cancelReservationModal').modal('show');
+                checkIfAlreadyRequestedForRefund(oCourseDetails.trainingId)
+                    .then((oResponse) => {
+                        if (oResponse.bResult === false) {
+                            return oLibraries.displayAlertMessage('error', oResponse.sMsg);
+                        }
+                        $('#cancelReservationModal').find('.trainingId').val(oCourseDetails.trainingId);
+                        $('#cancelReservationModal').modal('show');
+                    });
             }
         });
 
@@ -219,6 +227,11 @@ var oEnrollment = (() => {
             oForms.disableFormState(sFormId, false);
         });
 
+    }
+
+    async function checkIfAlreadyRequestedForRefund(iTrainingId) {
+        const oRequest = await axios.post('/Nexus/utils/ajax.php?class=Refunds&action=checkIfAlreadyRequestedForRefund', { iTrainingId });
+        return oRequest.data;
     }
 
     function preparePaymentDetails() {

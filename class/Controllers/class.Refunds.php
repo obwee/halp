@@ -15,7 +15,19 @@ class Refunds extends BaseController
     private $oTrainingModel;
 
     /**
-     * Venue constructor.
+     * @var PaymentModel $oPaymentModel
+     * Class instance for Payment model.
+     */
+    private $oPaymentModel;
+
+    /**
+     * @var $aPaymentMethods
+     * Holder of payment methods.
+     */
+    private $aPaymentMethods;
+
+    /**
+     * Refunds constructor.
      * @param array $aPostVariables
      */
     public function __construct($aPostVariables)
@@ -26,6 +38,12 @@ class Refunds extends BaseController
         $this->oRefundsModel = new RefundsModel();
         // Instantiate the VenueModel class and store it inside $this->oVenueModel.
         $this->oTrainingModel = new TrainingModel();
+        // Instantiate the VenueModel class and store it inside $this->oVenueModel.
+        $this->oPaymentModel = new PaymentModel();
+
+        $this->aPaymentMethods = $this->oPaymentModel->fetchModeOfPayments();
+
+        parent::__construct();
     }
 
     /**
@@ -34,6 +52,157 @@ class Refunds extends BaseController
      */
     public function requestRefund()
     {
-        print_r($this->aParams);
+        Utils::unsetKeys($this->aParams, ['agreementCheckbox']);
+        Utils::sanitizeData($this->aParams);
+
+        $iQuery = $this->oRefundsModel->requestRefund($this->aParams);
+
+        if ($iQuery > 0) {
+            $aResult = array(
+                'bResult' => true,
+                'sMsg'    => 'Refund requested!'
+            );
+        } else {
+            $aResult = array(
+                'bResult' => false,
+                'sMsg'    => 'An error has occured.'
+            );
+        }
+
+        echo json_encode($aResult);
+    }
+
+    /**
+     * checkIfAlreadyRequestedForRefund
+     */
+    public function checkIfAlreadyRequestedForRefund()
+    {
+        Utils::sanitizeData($this->aParams);
+
+        $iQuery = $this->oRefundsModel->checkIfAlreadyRequestedForRefund($this->aParams['iTrainingId']);
+
+        if ($iQuery == 0) {
+            $aResult = array(
+                'bResult' => true
+            );
+        } else {
+            $aResult = array(
+                'bResult' => false,
+                'sMsg'    => 'Refund for this reservation has been already requested.'
+            );
+        }
+
+        echo json_encode($aResult);
+    }
+
+    /**
+     * fetchAllRefundRequests
+     */
+    public function fetchAllRefundRequests()
+    {
+        $aRefundRequests = $this->oRefundsModel->fetchAllRefundRequests();
+
+        foreach ($aRefundRequests as $iKey => $aDetails) {
+            $aRefundRequests[$iKey]['refundStatus'] = $this->aApprovalStatus[$aDetails['refundStatus']];
+        }
+
+        echo json_encode($aRefundRequests);
+    }
+
+    /**
+     * fetchRefundDetails
+     */
+    public function fetchRefundDetails()
+    {
+        Utils::sanitizeData($this->aParams);
+        $aRefundDetails = $this->oRefundsModel->fetchRefundDetails($this->aParams);
+
+        $iTotalPayment = 0;
+        foreach ($aRefundDetails as $iKey => $aRefundData) {
+            $iTotalPayment += $aRefundData['paymentAmount'];
+        }
+
+        foreach ($aRefundDetails as $iKey => $aRefundData) {
+            if ($aRefundData['paymentMethod'] === null) {
+                $aResult[$iKey]['paymentMethod'] = 'N/A';
+            } else {
+                // Get payment method index.
+                $iMopIndex = Utils::searchKeyByValueInMultiDimensionalArray($aRefundData['paymentMethod'], $this->aPaymentMethods, 'id');
+                $aResult[$iKey]['paymentMethod'] = $this->aPaymentMethods[$iMopIndex]['methodName'];
+            }
+
+            $aResult[$iKey]['paymentId']        = $aRefundData['paymentId'];
+            $aResult[$iKey]['refundId']         = $aRefundData['refundId'];
+            $aResult[$iKey]['refundReason']     = $aRefundData['refundReason'];
+            $aResult[$iKey]['dateRequested']    = Utils::formatDate($aRefundData['dateRequested']);
+            $aResult[$iKey]['coursePrice']      = Utils::toCurrencyFormat($aRefundData['coursePrice']);
+            $aResult[$iKey]['paymentAmount']    = Utils::toCurrencyFormat($aRefundData['paymentAmount']);
+            $aResult[$iKey]['remainingBalance'] = Utils::getRemainingBalance($aRefundData);
+            $aResult[$iKey]['paymentImage']     = '..' . DS . 'payments' . DS . $aRefundData['paymentFile'];
+            $aResult[$iKey]['paymentApproval']  = $this->aApprovalStatus[$aRefundData['isApproved']];
+            $aResult[$iKey]['paymentStatus']    = $this->aPaymentStatus[$aRefundData['paymentStatus']];
+            $aResult[$iKey]['totalBalance']     = Utils::toCurrencyFormat($aRefundData['coursePrice'] - $iTotalPayment);
+            $aResult[$iKey]['approvedBy']       = $aRefundData['approvedBy'] ?? 'N/A';
+        }
+
+        echo json_encode(array_values($aResult));
+    }
+
+    public function rejectRefund()
+    {
+        $aDatabaseColumns = array(
+            'iRefundId' => ':id',
+        );
+
+        Utils::renameKeys($this->aParams, $aDatabaseColumns);
+        Utils::sanitizeData($this->aParams);
+
+        $this->aParams[':executor'] = Session::get('fullName');
+
+        // Perform update.
+        $iQuery = $this->oRefundsModel->rejectRefund($this->aParams);
+
+        if ($iQuery > 0) {
+            $aResult = array(
+                'bResult' => true,
+                'sMsg'    => 'Refund rejected!'
+            );
+        } else {
+            $aResult = array(
+                'bResult' => false,
+                'sMsg'    => 'An error has occured.'
+            );
+        }
+
+        echo json_encode($aResult);
+    }
+
+    public function approveRefund()
+    {
+        $aDatabaseColumns = array(
+            'iRefundId' => ':id',
+        );
+
+        Utils::renameKeys($this->aParams, $aDatabaseColumns);
+        Utils::sanitizeData($this->aParams);
+
+        $this->aParams[':executor'] = Session::get('fullName');
+
+        // Perform update.
+        $iQuery = $this->oRefundsModel->approveRefund($this->aParams);
+
+        if ($iQuery > 0) {
+            $aResult = array(
+                'bResult' => true,
+                'sMsg'    => 'Refund approved!'
+            );
+        } else {
+            $aResult = array(
+                'bResult' => false,
+                'sMsg'    => 'An error has occured.'
+            );
+        }
+
+        echo json_encode($aResult);
     }
 }
