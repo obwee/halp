@@ -170,7 +170,7 @@ class Payment extends BaseController
             $aResult[$iKey]['paymentAmount']    = Utils::toCurrencyFormat($aPaymentData['paymentAmount']);
             $aResult[$iKey]['remainingBalance'] = Utils::getRemainingBalance($aPaymentData);
             $aResult[$iKey]['paymentImage']     = '..' . DS . 'payments' . DS . $aPaymentData['paymentFile'];
-            $aResult[$iKey]['paymentApproval']  = $this->aPaymentApprovalStatus[$aPaymentData['isApproved']];
+            $aResult[$iKey]['paymentApproval']  = $this->aApprovalStatus[$aPaymentData['isApproved']];
             $aResult[$iKey]['paymentStatus']    = $this->aPaymentStatus[$aPaymentData['paymentStatus']];
             $aResult[$iKey]['totalBalance']     = Utils::toCurrencyFormat($aPaymentData['coursePrice'] - $iTotalPayment);
         }
@@ -249,13 +249,14 @@ class Payment extends BaseController
         if (($iOverallPayment - $aTrainingData['coursePrice']) == 0) {
             $this->aParams['isPaid'] = 2;
             $this->aParams['isApproved'] = 1;
+            $iApproveQuery = $this->oPaymentModel->approvePayment($this->aParams);
             $iUpdateStatusQuery = $this->oPaymentModel->updatePaymentStatuses($aTrainingData['trainingId']);
             $iCancelRemainingPaymentsQuery = $this->oPaymentModel->cancelRemainingPayments($aTrainingData['trainingId']);
         } else {
+            $iApproveQuery = $this->oPaymentModel->approvePayment($this->aParams);
             $this->aParams['isPaid'] = 1;
             $this->aParams['isApproved'] = 1;
         }
-        $iApproveQuery = $this->oPaymentModel->approvePayment($this->aParams);
 
         if ($iApproveQuery > 0) {
             echo json_encode(array(

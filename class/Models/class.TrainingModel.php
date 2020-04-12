@@ -348,4 +348,37 @@ class TrainingModel
         // Return the number of rows returned by the executed query.
         return $statement->fetchAll();
     }
+
+    public function fetchTrainingDataOfSelectedStudentWithRefunds($iStudentId)
+    {
+        // Query the tbl_courses.
+        $statement = $this->oConnection->prepare("
+            SELECT tt.id AS trainingId, tc.courseName, tc.courseCode, ts.coursePrice,
+                    ts.fromDate, ts.toDate, tv.venue, ts.recurrence, ts.numRepetitions,
+                    ts.instructorId, CONCAT(tu.firstName, ' ', tu.lastName) AS studentName,
+                    tu.contactNum, tu.email, tr.isApproved AS refundStatus
+            FROM       tbl_courses   tc
+            INNER JOIN tbl_schedules ts
+                ON tc.id = ts.courseId
+            INNER JOIN tbl_venue     tv
+                ON tv.id = ts.venueId
+            INNER JOIN tbl_training  tt
+                ON tt.scheduleId = ts.id
+            INNER JOIN tbl_refunds   tr
+                ON tr.trainingId = tt.id
+            INNER JOIN tbl_users     tu
+                ON tu.userId = tt.studentId
+            WHERE 1 = 1
+                AND ts.fromDate > CURDATE()
+                AND ts.toDate > CURDATE()
+                AND tt.studentId = ?
+            GROUP BY tt.id
+        ");
+
+        // Execute the above statement.
+        $statement->execute([$iStudentId]);
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetchAll();
+    }
 }
