@@ -18,7 +18,7 @@ require_once "template/studentHeader.php";
         </div>
 
         <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
-            <table id="tbl_enrollment" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
+            <table id="tbl_enrollment" style="width:100%;padding:0;" class="table table-striped table-bordered table-hover table-responsive-sm">
                 <thead></thead>
                 <tbody></tbody>
             </table>
