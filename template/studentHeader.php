@@ -98,6 +98,7 @@
                             <span>&emsp;Dashboard</span>
                         </a>
                     </li>
+                    <li><a href="terms.php"><i class="fas fa-handshake"></i>&emsp;Terms and Conditions</a></li>
                     <li><a href="quotationRequest.php"><i class="fas fa-mail-bulk"></i>&emsp;Quotation Requests</a></li>
                     <li><a href="enrollment.php"><i class="fas fa-university"></i>&emsp;Enrollment</a></li>
                     <li class="treeview">

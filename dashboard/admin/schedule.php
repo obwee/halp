@@ -61,7 +61,7 @@ require_once "Template/header.php";
                         </div>
                         <div class="form-group" hidden>
                             <label for="numRepetitions"><span class="fas fa-clock"></span> No. of Repetitions</label>
-                            <input type="number" name="numRepetitions" class="form-control numRepetitions" min="1" max="4" value="1" disabled>
+                            <input type="number" name="numRepetitions" class="form-control numRepetitions" min="1" max="5" value="1" disabled>
                         </div>
                     </div>
                     <div class="modal-footer">

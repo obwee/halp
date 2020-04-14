@@ -2,7 +2,6 @@ var oFullyPaidStudents = (() => {
 
     function init() {
         $('#tbl_partialPayment').DataTable()
-        $('#tbl_paymentDetails').DataTable()
     }
 
     return {
