@@ -21,6 +21,12 @@ class Training extends BaseController
     private $oPaymentModel;
 
     /**
+     * @var RefundsModel $oPaymentModel
+     * Class instance for Payment model.
+     */
+    private $oRefundsModel;
+
+    /**
      * Training constructor.
      * @param array $aPostVariables
      */
@@ -38,12 +44,16 @@ class Training extends BaseController
         // Instantiate the PaymentModel class and store it inside $this->oPaymentModel.
         $this->oPaymentModel = new PaymentModel();
 
+        // Instantiate the RefundsModel class and store it inside $this->oRefundsModel.
+        $this->oRefundsModel = new RefundsModel();
+
         parent::__construct();
     }
 
     public function fetchTrainingDataOfSelectedStudent()
     {
         $aTrainingData = $this->oTrainingModel->fetchTrainingDataOfSelectedStudent($this->aParams['iStudentId']);
+        // print_r($aTrainingData);
 
         foreach ($aTrainingData as $iKey => $aData) {
             $aTrainingData[$iKey]['schedule'] = Utils::formatDate($aData['fromDate']) . ' - ' . Utils::formatDate($aData['toDate']) . ' (' . $this->getInterval($aData) . ')';
@@ -54,42 +64,56 @@ class Training extends BaseController
         if (count($aTrainingIds) > 0) {
             // Get other payments, if any.
             $aOtherPaymentData = $this->oPaymentModel->fetchPaymentsByTrainingId($aTrainingIds);
-        }
 
-        $aTotalAmountAndStatus = array();
-        foreach ($aOtherPaymentData as $iKey => $aPaymentData) {
-            if (array_key_exists($aPaymentData['trainingId'], $aTotalAmountAndStatus) === true) {
-                $aTotalAmountAndStatus[$aPaymentData['trainingId']]['paymentAmount'] += $aPaymentData['paymentAmount'];
-                if ($aPaymentData['paymentStatus'] > $aTotalAmountAndStatus[$aPaymentData['trainingId']]['paymentStatus']) {
-                    $aTotalAmountAndStatus[$aPaymentData['trainingId']]['paymentStatus'] = $aPaymentData['paymentStatus'];
+            $aTotalAmountAndStatus = array();
+            foreach ($aOtherPaymentData as $iKey => $aPaymentData) {
+                if (array_key_exists($aPaymentData['trainingId'], $aTotalAmountAndStatus) === true) {
+                    $aTotalAmountAndStatus[$aPaymentData['trainingId']]['paymentAmount'] += $aPaymentData['paymentAmount'];
+                    if ($aPaymentData['paymentStatus'] > $aTotalAmountAndStatus[$aPaymentData['trainingId']]['paymentStatus']) {
+                        $aTotalAmountAndStatus[$aPaymentData['trainingId']]['paymentStatus'] = $aPaymentData['paymentStatus'];
+                    }
+                    continue;
                 }
-                continue;
+                $aTotalAmountAndStatus[$aPaymentData['trainingId']]['paymentStatus'] = $aPaymentData['paymentStatus'];
+                $aTotalAmountAndStatus[$aPaymentData['trainingId']]['paymentAmount'] = $aPaymentData['paymentAmount'];
             }
-            $aTotalAmountAndStatus[$aPaymentData['trainingId']]['paymentStatus'] = $aPaymentData['paymentStatus'];
-            $aTotalAmountAndStatus[$aPaymentData['trainingId']]['paymentAmount'] = $aPaymentData['paymentAmount'];
-        }
 
-        // Change the payment amount.
-        foreach ($aTotalAmountAndStatus as $iKey => $aPaymentData) {
-            $iTrainingIdKey = Utils::searchKeyByValueInMultiDimensionalArray($iKey, $aTrainingData, 'trainingId');
-            $aTrainingData[$iTrainingIdKey]['paymentAmount'] = $aPaymentData['paymentAmount'];
-            $aTrainingData[$iTrainingIdKey]['paymentStatus'] = $aPaymentData['paymentStatus'];
+            // Change the payment amount.
+            foreach ($aTotalAmountAndStatus as $iKey => $aPaymentData) {
+                $iTrainingIdKey = Utils::searchKeyByValueInMultiDimensionalArray($iKey, $aTrainingData, 'trainingId');
+                $aTrainingData[$iTrainingIdKey]['paymentAmount'] = $aPaymentData['paymentAmount'];
+                $aTrainingData[$iTrainingIdKey]['paymentStatus'] = $aPaymentData['paymentStatus'];
+            }
         }
 
         // Get instructor names.
         if (count($aInstructorIds) > 0) {
             $aInstructors = $this->oAdminsModel->fetchAdminsByInstructorIds($aInstructorIds);
+
+            // Append instructor name and other detaisl to the data to be returned.
+            foreach ($aTrainingData as $iKey => $aData) {
+                $iInstructorKey = Utils::searchKeyByValueInMultiDimensionalArray($aData['instructorId'], $aInstructors, 'instructorId');
+                $aTrainingData[$iKey]['instructor']       = $aInstructors[$iInstructorKey]['instructorName'];
+                $aTrainingData[$iKey]['paymentStatus']    = $this->aPaymentStatus[$aData['paymentStatus'] ?? 0];
+                $aTrainingData[$iKey]['remainingBalance'] = Utils::getRemainingBalance($aData);
+                $aTrainingData[$iKey]['coursePrice']      = Utils::toCurrencyFormat($aData['coursePrice']);
+                $aTrainingData[$iKey]['paymentAmount']    = Utils::toCurrencyFormat($aData['paymentAmount']);
+                $aTrainingData[$iKey]['paymentDate']      = Utils::formatDate($aData['paymentDate']);
+            }
         }
 
-        // Append instructor name and other detaisl to the data to be returned.
-        foreach ($aTrainingData as $iKey => $aData) {
-            $iInstructorKey = Utils::searchKeyByValueInMultiDimensionalArray($aData['instructorId'], $aInstructors, 'instructorId');
-            $aTrainingData[$iKey]['instructor']       = $aInstructors[$iInstructorKey]['instructorName'];
-            $aTrainingData[$iKey]['paymentStatus']    = $this->aPaymentStatus[$aData['paymentStatus'] ?? 0];
-            $aTrainingData[$iKey]['remainingBalance'] = Utils::getRemainingBalance($aData);
-            $aTrainingData[$iKey]['coursePrice']      = Utils::toCurrencyFormat($aData['coursePrice']);
-            $aTrainingData[$iKey]['paymentAmount']    = Utils::toCurrencyFormat($aData['paymentAmount']);
-            $aTrainingData[$iKey]['paymentDate']      = Utils::formatDate($aData['paymentDate']);
+        // Unset if refund approved.
+        $aRefundDetails = $this->oRefundsModel->getRefundsByTrainingId($aTrainingIds);
+
+        if (count($aTrainingIds) > 0) {
+            $aRefundDetails = $this->oRefundsModel->getRefundsByTrainingId($aTrainingIds);
+
+            if (count($aRefundDetails) > 0) {
+                foreach ($aRefundDetails as $iKey => $aData) {
+                    $iIndex = Utils::searchKeyByValueInMultiDimensionalArray($aData['trainingId'], $aTrainingData, 'trainingId');
+                    unset($aTrainingData[$iIndex]);
+                }
+            }
         }
 
         $aUnnecessaryKeys = array(
@@ -171,7 +195,7 @@ class Training extends BaseController
 
     public function fetchRejectedPayments()
     {
-        $aPaidReservations = $this->oTrainingModel->fetchPaidReservations($this->getUserId());
+        $aPaidReservations = $this->oTrainingModel->fetchRejectedReservations($this->getUserId());
 
         foreach ($aPaidReservations as $iKey => $aData) {
             $aPaidReservations[$iKey]['schedule'] = Utils::formatDate($aData['fromDate']) . ' - ' . Utils::formatDate($aData['toDate']) . ' (' . $this->getInterval($aData) . ')';

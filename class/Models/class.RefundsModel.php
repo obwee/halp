@@ -32,9 +32,9 @@ class RefundsModel
         // Prepare an update query to the schedules table.
         $statement = $this->oConnection->prepare("
             INSERT INTO tbl_refunds
-                (trainingId, refundReason)
+                (trainingId, refundReason, dateRequested)
             VALUES
-                (:trainingId, :refundReason)
+                (:trainingId, :refundReason, :dateRequested)
         ");
 
         // Return the result of the execution of the above statement.
@@ -72,14 +72,15 @@ class RefundsModel
             SELECT
                 tu.userId AS studentId,
                 CONCAT(tu.firstName, ' ', tu.lastName) AS studentName,
-                tu.contactNum, tu.email, tr.isApproved AS refundStatus
+                tu.contactNum, tu.email, tr.isApproved AS refundStatus,
+                tt.id AS trainingId
             FROM tbl_training      tt
             INNER JOIN tbl_users   tu
                 ON tt.studentId = tu.userId
             INNER JOIN tbl_refunds tr
                 ON tr.trainingId = tt.id
             WHERE 1 = 1
-            GROUP BY tu.userId
+            GROUP BY tt.id
         ");
 
         // Execute the above statement.
@@ -160,5 +161,28 @@ class RefundsModel
 
         // Execute the above statement along with the needed where clauses then return.
         return $statement->execute($aData);
+    }
+
+    public function getRefundsByTrainingId($aTrainingIds)
+    {
+        $sPlaceHolders = str_repeat('?, ',  count($aTrainingIds) - 1) . '?';
+
+        // Prepare a select query.
+        $statement = $this->oConnection->prepare("
+            SELECT tr.trainingId, tu.userId AS studentId, tr.isApproved AS refundStatus
+            FROM tbl_refunds tr
+            INNER JOIN tbl_training tt
+            ON tt.id = tr.trainingId
+            INNER JOIN tbl_users tu
+            ON tu.userId = tt.studentId
+            WHERE tr.trainingId IN ($sPlaceHolders) AND tr.isApproved = 1
+            GROUP BY tr.trainingId
+        ");
+
+        // Execute the above statement.
+        $statement->execute($aTrainingIds);
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetchAll();
     }
 }

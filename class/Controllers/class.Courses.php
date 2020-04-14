@@ -192,13 +192,23 @@ class Courses extends BaseController
         $aEnrolledCourses = $this->oCourseModel->fetchEnrolledCourses($iStudentId);
         $aCourses = $this->oCourseModel->fetchAvailableCoursesAndSchedules();
 
-        // Get the difference of the aCourses array and aEnrolledCourses array
-        // by serializing the arrays and performing an array_diff.
-        // Afterwards, unserialize the difference.
-        $aCoursesAvailable = array_map('unserialize', (array_diff(array_map('serialize', $aCourses), array_map('serialize', $aEnrolledCourses))));
+        // // Get the difference of the aCourses array and aEnrolledCourses array
+        // // by serializing the arrays and performing an array_diff.
+        // // Afterwards, unserialize the difference.
+        // $aCoursesAvailable = array_map('unserialize', (array_diff(array_map('serialize', $aCourses), array_map('serialize', $aEnrolledCourses))));
+
+        // Remove all enrolled courses to the courses available.
+        foreach ($aEnrolledCourses as $iKey => $aEnrolledCourse) {
+            foreach ($aCourses as $mKey => $aCourse) {
+                if ($aEnrolledCourse['courseId'] === $aCourse['courseId']) {
+                    unset($aCourses[$mKey]);
+                }
+            }
+        }
+        // print_r($aCoursesAvailable);
 
         // Get schedules, venues, instructors, and slots for each courses available and remove duplicates.
-        foreach ($aCoursesAvailable as $aCourse) {
+        foreach ($aCourses as $aCourse) {
             $aSchedules[$aCourse['courseId']][$aCourse['scheduleId']]   = Utils::formatDate($aCourse['fromDate']) . ' - ' . Utils::formatDate($aCourse['toDate']) . ' (' . $this->getInterval($aCourse) . ')';
             $aCoursePrice[$aCourse['courseId']][$aCourse['scheduleId']] = $aCourse['coursePrice'];
             $aVenues[$aCourse['courseId']][$aCourse['scheduleId']]      = $aCourse['venue'];
@@ -252,10 +262,14 @@ class Courses extends BaseController
                 $aEnrolledCourses[$iKey]['trainingId'] = $aTrainingData[$iIndex]['trainingId'];
                 $aEnrolledCourses[$iKey]['paymentBalance'] = $aEnrolledCourse['coursePrice'] - $aTotalPaymentAmount[$aEnrolledCourse['scheduleId']] ?? $aEnrolledCourse['coursePrice'];
                 $aEnrolledCourses[$iKey]['paymentStatus'] = $this->aPaymentStatus[$aTrainingData[$iIndex]['paymentStatus'] ?? 0];
-                
+
                 // If payment is already fully paid, unset.
                 if ($aEnrolledCourses[$iKey]['paymentStatus'] === 'Fully Paid') {
                     unset($aEnrolledCourses[$iKey]);
+                } else {
+                    if ($aEnrolledCourses[$iKey]['paymentBalance'] != $aEnrolledCourses[$iKey]['coursePrice']) {
+                        $aEnrolledCourses[$iKey]['paymentStatus'] = 'Partially Paid';
+                    }
                 }
             }
         }

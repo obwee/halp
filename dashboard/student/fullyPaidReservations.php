@@ -62,6 +62,57 @@ require_once "template/studentHeader.php";
     </div>
 </div>
 
+<div class="modal fade" id="cancelReservationModal" role="dialog">
+    <div class="modal-dialog cancelReservationModal">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #605ca8;">
+                <h5 align="center" style="color:white;">Cancel Reservation</h5>
+            </div>
+            <form action="POST" id="cancelReservationForm">
+                <div class="modal-body">
+                    <input type="hidden" class="trainingId" name="trainingId">
+                    <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">
+                            <span><i class="fas fa-exclamation-circle" style="color:red;"></i> To RESCHEDULE your training, please contact us immediately.</span>
+                        </li>
+                        <li class="list-group-item">
+                            <span><i class="fas fa-exclamation-circle" style="color:red;"></i> Refunds requests should be submitted atleast three (3) days before your reserved schedule.</span>
+                        </li>
+                        <li class="list-group-item">
+                            <span><i class="fas fa-exclamation-circle" style="color:red;"></i> Refunds are not allowed if the student decides to backout on the first day of class.</span>
+                        </li>
+                        <li class="list-group-item">
+                            <span><i class="fas fa-exclamation-circle" style="color:red;"></i> Upon receiving your request, an admin will contact you regarding your refund.</span>
+                        </li>
+                        <li class="list-group-item">
+                            <span><i class="fas fa-exclamation-circle" style="color:red;"></i> Please give us one (1) week to process your request.</span>
+                        </li>
+                    </ul>
+                    <div class="form-group">
+                        <label for="refundReason"><i class="fas fa-comments"></i> Refund reason:</label>
+                        <textarea class="form-control refundReason" name="refundReason" rows="4"></textarea>
+                    </div>
+                    <div>
+                        <div class="custom-control custom-checkbox mr-sm-2">
+                            <input type="checkbox" class="custom-control-input agreementCheckbox" name="agreementCheckbox" id="customControlAutosizing">
+                            <label class="custom-control-label" for="customControlAutosizing" style="text-align:justify;">I have read, understood and agreed to the terms and conditions stated above. I understand that submitting this request does not guarantee the request to be accepted and processed immediately.</label>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border spinner" role="status" style="display:none;">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <?php
 require_once "template/scripts.php";
