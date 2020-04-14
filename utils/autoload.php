@@ -5,6 +5,9 @@ define('DS', DIRECTORY_SEPARATOR);
 define('PAYMENT_DIR', ROOT . DS . 'Nexus' . DS . 'dashboard' . DS . 'payments' . DS);
 define('SERVER_NAME', $_SERVER['SERVER_NAME'] . DS . 'Nexus');
 
+function dateNow() {
+    return date('Y-m-d H:i:s');
+}
 
 spl_autoload_register('classAutoloader');
 

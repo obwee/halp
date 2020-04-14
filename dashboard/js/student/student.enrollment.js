@@ -49,6 +49,9 @@ var oEnrollment = (() => {
                     <button class="btn btn-primary btn-sm" data-toggle="modal" id="printRegiForm" data-id="${oRow.trainingId}">
                         <i class="fa fa-print"></i>
                     </button>
+                    <button class="btn btn-warning btn-sm" data-toggle="modal" id="reschedule" data-id="${oRow.trainingId}">
+                        <i class="fa fa-calendar"></i>
+                    </button>
                     <button class="btn btn-danger btn-sm" data-toggle="modal" id="cancelReservation" data-id="${oRow.trainingId}">
                         <i class="fa fa-times-circle"></i>
                     </button>`
@@ -90,7 +93,7 @@ var oEnrollment = (() => {
 
         oForms.prepareDomEvents();
 
-        $('.modal').on('hidden.bs.modal', function () {
+        $('#enrollModal, #cancelReservationModal, #addPaymentModal').on('hidden.bs.modal', function () {
             let sFormId = `#${$(this).find('form').attr('id')}`;
             $(sFormId)[0].reset();
             $(sFormId).find('.custom-file-label').text('Select File');
@@ -107,8 +110,46 @@ var oEnrollment = (() => {
             $('#addPaymentModal').modal('show');
         });
 
+        $(document).on('click', '#reschedule', function () {
+            $('#rescheduleModal').modal('show');
+        });
+
         $(document).on('click', '#cancelReservation', function () {
-            $('#cancelReservationModal').modal('show');
+            const oCourseDetails = aEnrolledCourses.filter(oCourse => oCourse.trainingId == $(this).attr('data-id'))[0];
+            if (oCourseDetails.paymentStatus === 'Not Yet Paid') {
+                Swal.fire({
+                    title: 'Cancel Reservation?',
+                    text: 'Please state cancellation reason.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    input: 'text',
+                    inputAttributes: {
+                        autocapitalize: 'off'
+                    },
+                    allowOutsideClick: () => !Swal.isLoading(),
+                    preConfirm: (sCancellationReason) => {
+                        if (sCancellationReason === '') {
+                            Swal.showValidationMessage('Cancellation reason cannot be empty.');
+                        } else {
+                            return cancelReservation(oCourseDetails.trainingId, sCancellationReason);
+                        }
+                    },
+                }).then((oResponse) => {
+                    oLibraries.displayAlertMessage((oResponse.value.bResult === true) ? 'success' : 'error', oResponse.value.sMsg);
+                    fetchCourses();
+                    $('.modal').modal('hide');
+                })
+            } else {
+                checkIfAlreadyRequestedForRefund(oCourseDetails.trainingId)
+                    .then((oResponse) => {
+                        if (oResponse.bResult === false) {
+                            return oLibraries.displayAlertMessage('error', oResponse.sMsg);
+                        }
+                        $('#cancelReservationModal').find('.trainingId').val(oCourseDetails.trainingId);
+                        $('#cancelReservationModal').modal('show');
+                    });
+            }
         });
 
         $(document).on('click', '#enrollBtn', function () {
@@ -154,6 +195,13 @@ var oEnrollment = (() => {
                     'requestAction': 'addPayment',
                     'alertTitle': 'Add Payment?',
                     'alertText': 'This will add a new payment to the selected reservation.'
+                },
+                '#cancelReservationForm': {
+                    'validationMethod': oValidations.validateCancelReservationForm(sFormId),
+                    'requestClass': 'Refunds',
+                    'requestAction': 'requestRefund',
+                    'alertTitle': 'Request Refund?',
+                    'alertText': 'This will request a refund before cancelling the reservation.'
                 }
             }
 
@@ -179,6 +227,11 @@ var oEnrollment = (() => {
             oForms.disableFormState(sFormId, false);
         });
 
+    }
+
+    async function checkIfAlreadyRequestedForRefund(iTrainingId) {
+        const oRequest = await axios.post('/Nexus/utils/ajax.php?class=Refunds&action=checkIfAlreadyRequestedForRefund', { iTrainingId });
+        return oRequest.data;
     }
 
     function preparePaymentDetails() {
@@ -221,8 +274,8 @@ var oEnrollment = (() => {
                             .reduce((iAccumulator, iCurrentValue) => {
                                 return intVal(iAccumulator) + intVal(iCurrentValue);
                             }, 0);
-                        
-                            // const iCoursePrice = aEnrolledCourses.filter(oCourse => oCourse.trainingId = oEr)
+
+                        // const iCoursePrice = aEnrolledCourses.filter(oCourse => oCourse.trainingId = oEr)
 
                         const iBalance = oEnrollmentDetails.coursePrice.replace(/[P,]/g, '') - iTotalPaid;
 
@@ -230,7 +283,7 @@ var oEnrollment = (() => {
                     });
                 };
 
-                const aDetails = aResponse.filter(oData => oData.paymentStatus != 'Fully Paid');
+                const aDetails = aResponse.filter(oData => oData.paymentStatus != 'Fully Paid' && oData.paymentApproval != 'Rejected');
 
                 loadTable(oTblPaymentDetails.attr('id'), aDetails, oColumns.aPaymentDetails, aColumnDefs, false, oFooterCallback);
             },
@@ -306,6 +359,21 @@ var oEnrollment = (() => {
                 $('.spinner').css('display', 'none');
             }
         });
+    }
+
+    function cancelReservation(iTrainingId, sCancellationReason) {
+        const oData = {
+            iTrainingId,
+            sCancellationReason
+        }
+
+        return axios.post('/Nexus/utils/ajax.php?class=Training&action=cancelReservation', oData)
+            .then(function (oResponse) {
+                return oResponse.data;
+            })
+            .catch(function (oError) {
+                return oError;
+            });
     }
 
     function printRegiForm(oDetails) {

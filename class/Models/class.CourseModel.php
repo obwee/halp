@@ -129,7 +129,8 @@ class CourseModel
             WHERE 1 = 1
                 AND ts.fromDate > CURDATE()
                 AND ts.toDate > CURDATE()
-                AND tt.studentId = ?
+                AND tt.studentId    = ?
+                AND tt.isCancelled != 1
             ORDER BY ts.fromDate, tc.courseName ASC
         ");
 

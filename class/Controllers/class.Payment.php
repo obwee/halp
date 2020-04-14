@@ -9,6 +9,12 @@ class Payment extends BaseController
     private $oPaymentModel;
 
     /**
+     * @var RefundsModel $oRefundsModel
+     * Class instance for Refunds model.
+     */
+    private $oRefundsModel;
+
+    /**
      * @var $aPaymentMethods
      * Holder of payment methods.
      */
@@ -22,8 +28,10 @@ class Payment extends BaseController
     {
         // Store the $_POST variables inside $this->aParams variable.
         $this->aParams = $aPostVariables;
-        // Instantiate the UsersModel class and store it inside $this->oVenueModel.
+        // Instantiate the PaymentModel class and store it inside $this->oPaymentModel.
         $this->oPaymentModel = new PaymentModel();
+        // Instantiate the RefundsModel class and store it inside $this->oRefundsModel.
+        $this->oRefundsModel = new RefundsModel();
 
         $this->aPaymentMethods = $this->oPaymentModel->fetchModeOfPayments();
 
@@ -163,13 +171,15 @@ class Payment extends BaseController
                 $aResult[$iKey]['paymentMethod'] = $this->aPaymentMethods[$iMopIndex]['methodName'];
             }
 
+            $aResult[$iKey]['trainingId']       = $aPaymentData['trainingId'];
             $aResult[$iKey]['paymentId']        = $aPaymentData['paymentId'];
+            $aResult[$iKey]['rejectReason']     = $aPaymentData['rejectReason'];
             $aResult[$iKey]['paymentDate']      = Utils::formatDate($aPaymentData['paymentDate']);
             $aResult[$iKey]['coursePrice']      = Utils::toCurrencyFormat($aPaymentData['coursePrice']);
             $aResult[$iKey]['paymentAmount']    = Utils::toCurrencyFormat($aPaymentData['paymentAmount']);
             $aResult[$iKey]['remainingBalance'] = Utils::getRemainingBalance($aPaymentData);
             $aResult[$iKey]['paymentImage']     = '..' . DS . 'payments' . DS . $aPaymentData['paymentFile'];
-            $aResult[$iKey]['paymentApproval']  = $this->aPaymentApprovalStatus[$aPaymentData['isApproved']];
+            $aResult[$iKey]['paymentApproval']  = $this->aApprovalStatus[$aPaymentData['isApproved']];
             $aResult[$iKey]['paymentStatus']    = $this->aPaymentStatus[$aPaymentData['paymentStatus']];
             $aResult[$iKey]['totalBalance']     = Utils::toCurrencyFormat($aPaymentData['coursePrice'] - $iTotalPayment);
         }
@@ -218,7 +228,32 @@ class Payment extends BaseController
     public function fetchStudentsThatHasPaid()
     {
         $aPaymentDetails = $this->oPaymentModel->fetchStudentsThatHasPaid();
-        echo json_encode($aPaymentDetails);
+
+        if (count($aPaymentDetails) > 0) {
+            foreach ($aPaymentDetails as $iKey => $aData) {
+                $aTrainingIds[$iKey] = $aData['trainingId'];
+            }
+
+            $aRefundDetails = $this->oRefundsModel->getRefundsByTrainingId($aTrainingIds);
+            if (count($aRefundDetails) > 0) {
+                foreach ($aRefundDetails as $iKey => $aData) {
+                    $iIndex = Utils::searchKeyByValueInMultiDimensionalArray($aData['trainingId'], $aPaymentDetails, 'trainingId');
+                    unset($aPaymentDetails[$iIndex]);
+                }
+            }
+        }
+
+
+        // Remove duplicate students.
+        $aReturnData = array();
+        foreach ($aPaymentDetails as $iKey => $aData) {
+            $aReturnData[$aData['studentId']]['studentId'] = $aData['studentId'];
+            $aReturnData[$aData['studentId']]['studentName'] = $aData['studentName'];
+            $aReturnData[$aData['studentId']]['contactNum'] = $aData['contactNum'];
+            $aReturnData[$aData['studentId']]['email'] = $aData['email'];
+        }
+
+        echo json_encode(array_values($aReturnData));
     }
 
     public function approvePayment()
@@ -268,5 +303,39 @@ class Payment extends BaseController
                 'sMsg'     => 'An error has occurred.'
             ));
         }
+    }
+
+    public function fetchStudentsWithRejectedPayments()
+    {
+        $aPaymentDetails = $this->oPaymentModel->fetchStudentsWithRejectedPayments();
+        echo json_encode($aPaymentDetails);
+    }
+
+    public function rejectPayment()
+    {
+        $aDatabaseColumns = array(
+            'iPaymentId'    => ':id',
+            'sRejectReason' => ':rejectReason'
+        );
+
+        Utils::renameKeys($this->aParams, $aDatabaseColumns);
+        Utils::sanitizeData($this->aParams);
+
+        // Perform update.
+        $iQuery = $this->oPaymentModel->rejectPayment($this->aParams);
+
+        if ($iQuery > 0) {
+            $aResult = array(
+                'bResult' => true,
+                'sMsg'    => 'Payment rejected!'
+            );
+        } else {
+            $aResult = array(
+                'bResult' => false,
+                'sMsg'    => 'An error has occured.'
+            );
+        }
+
+        echo json_encode($aResult);
     }
 }

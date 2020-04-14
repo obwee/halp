@@ -105,7 +105,8 @@ class PaymentModel
                 tt.id AS trainingId, ts.coursePrice,
                 tt.scheduleId, tp.paymentDate, tp.id AS paymentId,
                 tp.paymentAmount AS paymentAmount, tp.paymentMethod,
-                tp.isApproved, tp.paymentFile, tp.isPaid AS paymentStatus
+                tp.isApproved, tp.paymentFile, tp.isPaid AS paymentStatus,
+                tp.rejectReason
             FROM tbl_training tt
             INNER JOIN tbl_schedules ts
             ON tt.scheduleId = ts.id
@@ -145,14 +146,13 @@ class PaymentModel
             SELECT
                 tu.userId AS studentId,
                 CONCAT(tu.firstName, ' ', tu.lastName) AS studentName,
-                tu.contactNum, tu.email
+                tu.contactNum, tu.email, tt.id AS trainingId
             FROM tbl_training       tt
             INNER JOIN tbl_users    tu
                 ON tt.studentId = tu.userId
             INNER JOIN tbl_payments tp
                 ON tp.trainingId = tt.id
-            WHERE tp.isPaid = 0
-            GROUP BY tu.userId
+            WHERE tp.isPaid = 0 AND tp.isApproved != 2 AND tt.isCancelled = 0
         ");
 
         // Execute the above statement.
@@ -168,10 +168,10 @@ class PaymentModel
 
         // Prepare a select query.
         $statement = $this->oConnection->prepare("
-            SELECT tp.trainingId, SUM(tp.paymentAmount) AS paymentAmount
+            SELECT tp.trainingId, SUM(tp.paymentAmount) AS paymentAmount, tp.isPaid AS paymentStatus
             FROM tbl_payments tp
             WHERE tp.trainingId IN ($sPlaceHolders)
-            GROUP BY tp.trainingId
+            GROUP BY tp.id
         ");
 
         // Execute the above statement.
@@ -255,7 +255,8 @@ class PaymentModel
         $statement = $this->oConnection->prepare("
             UPDATE tbl_payments
             SET
-                isApproved = 2
+                isApproved = 2,
+                rejectReason = 'Fully paid already.'
             WHERE trainingId = ?
             AND isApproved = 0
         ");
@@ -263,5 +264,52 @@ class PaymentModel
         // Execute the above statement along with the needed where clauses then return.
         return $statement->execute([$iTrainingId]);
     }
-    
+
+    public function fetchStudentsWithRejectedPayments()
+    {
+        // Prepare a select query.
+        $statement = $this->oConnection->prepare("
+            SELECT
+                tu.userId AS studentId,
+                CONCAT(tu.firstName, ' ', tu.lastName) AS studentName,
+                tu.contactNum, tu.email
+            FROM tbl_training       tt
+            INNER JOIN tbl_users    tu
+                ON tt.studentId = tu.userId
+            INNER JOIN tbl_payments tp
+                ON tp.trainingId = tt.id
+            WHERE 1 = 1
+                AND tp.isApproved = 2
+                AND tp.rejectReason IS NOT NULL
+            GROUP BY tu.userId
+        ");
+
+        // Execute the above statement.
+        $statement->execute();
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetchAll();
+    }
+
+    /**
+     * rejectPayment
+     * Queries the payment table in rejecting payment.
+     * @param array $iTrainingId
+     * @return int
+     */
+    public function rejectPayment($aData)
+    {
+        // Prepare a delete query for the tbl_venue table.
+        $statement = $this->oConnection->prepare("
+            UPDATE tbl_payments
+            SET
+                isApproved = 2,
+                rejectReason = :rejectReason
+            WHERE id = :id
+            AND isApproved = 0
+        ");
+
+        // Execute the above statement along with the needed where clauses then return.
+        return $statement->execute($aData);
+    }
 }

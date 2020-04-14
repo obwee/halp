@@ -50,9 +50,6 @@ var oPayments = (() => {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
                     `<button class="btn btn-primary btn-sm" data-toggle="modal" id="viewPaymentDetails" data-id="${oRow.trainingId}">
                         <i class="fa fa-money"></i>
-                    </button>
-                    <button class="btn btn-danger btn-sm" data-toggle="modal" id="refundPayment" data-id="${oRow.trainingId}">
-                        <i class="fa fa-times-circle"></i>
                     </button>`
             },
         ],
@@ -77,19 +74,21 @@ var oPayments = (() => {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
                     (oRow.paymentApproval !== 'Approved') ?
                         `<button class="btn btn-success btn-sm" data-toggle="modal" id="approvePayment" data-id="${oRow.paymentId}">
-                        <i class="fa fa-check-circle"></i>
-                    </button>
-                    <a href="${oRow.paymentImage}" data-lightbox="payment-image">
-                        <button class="btn btn-primary btn-sm" id="viewPaymentImage" data-id="${oRow.paymentId}">
-                            <i class="fa fa-eye"></i>
+                            <i class="fa fa-check-circle"></i>
                         </button>
-                    </a>` :
+                        <button class="btn btn-danger btn-sm" data-toggle="modal" id="rejectPayment" data-id="${oRow.paymentId}">
+                            <i class="fa fa-times-circle"></i>
+                        </button>
+                        <a href="${oRow.paymentImage}" data-lightbox="payment-image">
+                            <button class="btn btn-primary btn-sm" id="viewPaymentImage" data-id="${oRow.paymentId}">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        </a>` :
                         `<a href="${oRow.paymentImage}" data-lightbox="payment-image">
-                        <button class="btn btn-primary btn-sm" id="viewPaymentImage" data-id="${oRow.paymentId}">
-                            <i class="fa fa-eye"></i>
-                        </button>
-                    </a>
-                    `
+                            <button class="btn btn-primary btn-sm" id="viewPaymentImage" data-id="${oRow.paymentId}">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        </a>`
             },
         ]
     };
@@ -140,6 +139,31 @@ var oPayments = (() => {
             $('#approvePaymentModal').modal('show');
         });
 
+        $(document).on('click', '#rejectPayment', function () {
+            Swal.fire({
+                title: 'Reject payment?',
+                text: 'Please state reason for rejecting payment.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                input: 'text',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                allowOutsideClick: () => !Swal.isLoading(),
+                preConfirm: (sRejectReason) => {
+                    if (sRejectReason === '') {
+                        Swal.showValidationMessage('Payment reject reason cannot be empty.');
+                    } else {
+                        return rejectPayment($(this).attr('data-id'), sRejectReason);
+                    }
+                },
+            }).then((oResponse) => {
+                oLibraries.displayAlertMessage((oResponse.value.bResult === true) ? 'success' : 'error', oResponse.value.sMsg);
+                $('.modal').modal('hide');
+            })
+        });
+
         $(document).on('hidden.bs.modal', '#approvePaymentModal', function () {
             $(this).find('form')[0].reset();
         });
@@ -187,6 +211,21 @@ var oPayments = (() => {
             oForms.disableFormState(sFormId, false);
         });
 
+    }
+
+    function rejectPayment(iPaymentId, sRejectReason) {
+        const oData = {
+            iPaymentId,
+            sRejectReason
+        }
+
+        return axios.post('/Nexus/utils/ajax.php?class=Payment&action=rejectPayment', oData)
+            .then(function (oResponse) {
+                return oResponse.data;
+            })
+            .catch(function (oError) {
+                return oError;
+            });
     }
 
     /**
@@ -304,8 +343,8 @@ var oPayments = (() => {
             data: { trainingId: iTrainingId },
             dataType: 'json',
             async: 'false',
-            success: function (oData) {
-                aPaymentDetails = oData;
+            success: function (aResponse) {
+                aPaymentDetails = aResponse;
 
                 let aColumnDefs = [
                     { orderable: false, targets: [1, 2, 3] }
@@ -337,7 +376,9 @@ var oPayments = (() => {
                     });
                 };
 
-                loadTable(oTblPaymentDetails.attr('id'), oData, oColumns.aPaymentDetails, aColumnDefs, false, oFooterCallback);
+                const aData = aPaymentDetails.filter(oData => oData.paymentApproval != 'Rejected');
+
+                loadTable(oTblPaymentDetails.attr('id'), aData, oColumns.aPaymentDetails, aColumnDefs, false, oFooterCallback);
             },
         });
     }
