@@ -188,8 +188,9 @@ class TrainingModel
                 AND ts.fromDate > CURDATE()
                 AND ts.toDate > CURDATE()
                 AND tt.studentId = ?
-                AND tp.isPaid IN (0)
+                AND tp.isPaid = 0
                 AND tp.isApproved != 2
+                AND tt.isCancelled = 0
             GROUP BY tt.id
         ");
 
@@ -223,6 +224,40 @@ class TrainingModel
                 AND ts.toDate > CURDATE()
                 AND tt.studentId = ?
                 AND tp.isPaid = 2
+            GROUP BY tt.id
+            ORDER BY ts.fromDate, tc.courseName ASC
+        ");
+
+        // Execute the above statement.
+        $statement->execute([$iStudentId]);
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetchAll();
+    }
+
+    public function fetchRejectedReservations($iStudentId)
+    {
+        // Query the tbl_courses.
+        $statement = $this->oConnection->prepare("
+            SELECT  tt.id AS trainingId, tc.courseName, tc.courseCode, ts.coursePrice,
+                    ts.fromDate, ts.toDate, tv.venue, ts.recurrence, ts.numRepetitions,
+                    CONCAT(tu.firstName, ' ', tu.lastName) AS instructorName
+            FROM       tbl_courses   tc
+            INNER JOIN tbl_schedules ts
+            ON tc.id = ts.courseId
+            INNER JOIN tbl_venue     tv
+            ON tv.id = ts.venueId
+            INNER JOIN tbl_training  tt
+            ON tt.scheduleId = ts.id
+            INNER JOIN tbl_users     tu
+            ON ts.instructorId = tu.userId
+            INNER JOIN tbl_payments  tp
+            ON tp.trainingId  = tt.id
+            WHERE 1 = 1
+                AND ts.fromDate > CURDATE()
+                AND ts.toDate > CURDATE()
+                AND tt.studentId = ?
+                AND tp.isApproved = 2
             GROUP BY tt.id
             ORDER BY ts.fromDate, tc.courseName ASC
         ");

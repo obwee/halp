@@ -94,7 +94,7 @@ require_once "Template/header.php";
 	<div class="modal-dialog modal-xl approvePaymentModal">
 		<div class="modal-content">
 			<div class="modal-header" style="background-color: #3c8dbc;">
-				<h5 align="center" style="color:white;"><i class="fas fa-eye"></i> Approve Payment</h5>
+				<h5 align="center" style="color:white;"><i class="fas fa-check-double"></i> Approve Payment</h5>
 			</div>
 			<form action="POST" id="approvePaymentForm">
 				<div class="modal-body">
@@ -150,7 +150,6 @@ require_once "Template/header.php";
 				</div>
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-success">Accept</button>
-					<button type="button" class="btn btn-danger rejectPayment">Reject</button>
 					<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
 				</div>
 			</form>

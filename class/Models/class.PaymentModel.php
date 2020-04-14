@@ -146,14 +146,13 @@ class PaymentModel
             SELECT
                 tu.userId AS studentId,
                 CONCAT(tu.firstName, ' ', tu.lastName) AS studentName,
-                tu.contactNum, tu.email
+                tu.contactNum, tu.email, tt.id AS trainingId
             FROM tbl_training       tt
             INNER JOIN tbl_users    tu
                 ON tt.studentId = tu.userId
             INNER JOIN tbl_payments tp
                 ON tp.trainingId = tt.id
-            WHERE tp.isPaid = 0
-            GROUP BY tu.userId
+            WHERE tp.isPaid = 0 AND tp.isApproved != 2 AND tt.isCancelled = 0
         ");
 
         // Execute the above statement.

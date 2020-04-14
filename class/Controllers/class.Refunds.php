@@ -54,6 +54,7 @@ class Refunds extends BaseController
     {
         Utils::unsetKeys($this->aParams, ['agreementCheckbox']);
         Utils::sanitizeData($this->aParams);
+        $this->aParams['dateRequested'] = dateNow();
 
         $iQuery = $this->oRefundsModel->requestRefund($this->aParams);
 
@@ -131,7 +132,7 @@ class Refunds extends BaseController
                 $aResult[$iKey]['paymentMethod'] = $this->aPaymentMethods[$iMopIndex]['methodName'];
             }
 
-            $aResult[$iKey]['paymentId']        = $aRefundData['paymentId'];
+            $aResult[$iKey]['trainingId']       = $aRefundData['trainingId'];
             $aResult[$iKey]['refundId']         = $aRefundData['refundId'];
             $aResult[$iKey]['refundReason']     = $aRefundData['refundReason'];
             $aResult[$iKey]['dateRequested']    = Utils::formatDate($aRefundData['dateRequested']);
@@ -143,6 +144,11 @@ class Refunds extends BaseController
             $aResult[$iKey]['paymentStatus']    = $this->aPaymentStatus[$aRefundData['paymentStatus']];
             $aResult[$iKey]['totalBalance']     = Utils::toCurrencyFormat($aRefundData['coursePrice'] - $iTotalPayment);
             $aResult[$iKey]['approvedBy']       = $aRefundData['approvedBy'] ?? 'N/A';
+
+            if ($aResult[$iKey]['paymentStatus'] === 'Fully Paid') {
+                $aResult[$iKey]['paymentAmount'] = $aResult[$iKey]['coursePrice'];
+                break;
+            }
         }
 
         echo json_encode(array_values($aResult));
@@ -179,19 +185,23 @@ class Refunds extends BaseController
 
     public function approveRefund()
     {
-        $aDatabaseColumns = array(
-            'iRefundId' => ':id',
-        );
-
-        Utils::renameKeys($this->aParams, $aDatabaseColumns);
         Utils::sanitizeData($this->aParams);
 
-        $this->aParams[':executor'] = Session::get('fullName');
+        $aApproveRefundData = array(
+            ':id'       => $this->aParams['iRefundId'],
+            ':executor' => Session::get('fullName')
+        );
+
+        $aCancelReservationData = array(
+            ':id'                 => $this->aParams['iTrainingId'],
+            ':cancellationReason' => $this->aParams['sRefundReason']
+        );
 
         // Perform update.
-        $iQuery = $this->oRefundsModel->approveRefund($this->aParams);
+        $iApproveQuery = $this->oRefundsModel->approveRefund($aApproveRefundData);
+        $iCancelQuery = $this->oTrainingModel->cancelReservation($aCancelReservationData);
 
-        if ($iQuery > 0) {
+        if ($iApproveQuery > 0 && $iCancelQuery > 0) {
             $aResult = array(
                 'bResult' => true,
                 'sMsg'    => 'Refund approved!'

@@ -98,6 +98,7 @@ var oRefundRequests = (() => {
         });
 
         $(document).on('click', '#rejectRefund', function () {
+            const oRefundDetails = aRefundDetails.filter(oRefund => oRefund.refundId == $(this).attr('data-id'))[0];
             Swal.fire({
                 title: 'Reject Refund?',
                 text: 'This will reject the refund request.',
@@ -106,7 +107,7 @@ var oRefundRequests = (() => {
                 confirmButtonText: 'Yes',
                 allowOutsideClick: () => !Swal.isLoading(),
                 preConfirm: () => {
-                    return rejectApproveRefund($(this).attr('data-id'), 'reject');
+                    return rejectApproveRefund(oRefundDetails.trainingId, oRefundDetails.refundId, oRefundDetails.refundReason, 'reject');
                 },
             }).then((oResponse) => {
                 oLibraries.displayAlertMessage((oResponse.value.bResult === true) ? 'success' : 'error', oResponse.value.sMsg);
@@ -116,6 +117,7 @@ var oRefundRequests = (() => {
         });
 
         $(document).on('click', '#approveRefund', function () {
+            const oRefundDetails = aRefundDetails.filter(oRefund => oRefund.refundId == $(this).attr('data-id'))[0];
             Swal.fire({
                 title: 'Approve Refund?',
                 text: 'This will approve the refund request.',
@@ -124,7 +126,7 @@ var oRefundRequests = (() => {
                 confirmButtonText: 'Yes',
                 allowOutsideClick: () => !Swal.isLoading(),
                 preConfirm: () => {
-                    return rejectApproveRefund($(this).attr('data-id'), 'approve');
+                    return rejectApproveRefund(oRefundDetails.trainingId, oRefundDetails.refundId, oRefundDetails.refundReason, 'approve');
                 },
             }).then((oResponse) => {
                 oLibraries.displayAlertMessage((oResponse.value.bResult === true) ? 'success' : 'error', oResponse.value.sMsg);
@@ -135,8 +137,8 @@ var oRefundRequests = (() => {
 
     }
 
-    function rejectApproveRefund(iRefundId, sAction) {
-        return axios.post(`/Nexus/utils/ajax.php?class=Refunds&action=${sAction}Refund`, { iRefundId })
+    function rejectApproveRefund(iTrainingId, iRefundId, sRefundReason, sAction) {
+        return axios.post(`/Nexus/utils/ajax.php?class=Refunds&action=${sAction}Refund`, { iTrainingId, iRefundId, sRefundReason })
             .then(function (oResponse) {
                 return oResponse.data;
             })
@@ -152,6 +154,7 @@ var oRefundRequests = (() => {
             dataType: 'json',
             success: function (oResponse) {
                 aRefunds = oResponse;
+                console.log(aRefunds)
 
                 let aColumnDefs = [
                     { orderable: false, targets: [3] }

@@ -50,9 +50,6 @@ var oPayments = (() => {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
                     `<button class="btn btn-primary btn-sm" data-toggle="modal" id="viewPaymentDetails" data-id="${oRow.trainingId}">
                         <i class="fa fa-money"></i>
-                    </button>
-                    <button class="btn btn-danger btn-sm" data-toggle="modal" id="refundPayment" data-id="${oRow.trainingId}">
-                        <i class="fa fa-times-circle"></i>
                     </button>`
             },
         ],
@@ -78,7 +75,15 @@ var oPayments = (() => {
                     (oRow.paymentApproval !== 'Approved') ?
                         `<button class="btn btn-success btn-sm" data-toggle="modal" id="approvePayment" data-id="${oRow.paymentId}">
                             <i class="fa fa-check-circle"></i>
-                        </button>` :
+                        </button>
+                        <button class="btn btn-danger btn-sm" data-toggle="modal" id="rejectPayment" data-id="${oRow.paymentId}">
+                            <i class="fa fa-times-circle"></i>
+                        </button>
+                        <a href="${oRow.paymentImage}" data-lightbox="payment-image">
+                            <button class="btn btn-primary btn-sm" id="viewPaymentImage" data-id="${oRow.paymentId}">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        </a>` :
                         `<a href="${oRow.paymentImage}" data-lightbox="payment-image">
                             <button class="btn btn-primary btn-sm" id="viewPaymentImage" data-id="${oRow.paymentId}">
                                 <i class="fa fa-eye"></i>
@@ -134,7 +139,7 @@ var oPayments = (() => {
             $('#approvePaymentModal').modal('show');
         });
 
-        $(document).on('click', '.rejectPayment', function () {
+        $(document).on('click', '#rejectPayment', function () {
             Swal.fire({
                 title: 'Reject payment?',
                 text: 'Please state reason for rejecting payment.',
@@ -150,11 +155,12 @@ var oPayments = (() => {
                     if (sRejectReason === '') {
                         Swal.showValidationMessage('Payment reject reason cannot be empty.');
                     } else {
-                        return rejectPayment($('.paymentId').val(), sRejectReason);
+                        return rejectPayment($(this).attr('data-id'), sRejectReason);
                     }
                 },
             }).then((oResponse) => {
                 oLibraries.displayAlertMessage((oResponse.value.bResult === true) ? 'success' : 'error', oResponse.value.sMsg);
+                $('.modal').modal('hide');
             })
         });
 

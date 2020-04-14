@@ -9,6 +9,12 @@ class Payment extends BaseController
     private $oPaymentModel;
 
     /**
+     * @var RefundsModel $oRefundsModel
+     * Class instance for Refunds model.
+     */
+    private $oRefundsModel;
+
+    /**
      * @var $aPaymentMethods
      * Holder of payment methods.
      */
@@ -22,8 +28,10 @@ class Payment extends BaseController
     {
         // Store the $_POST variables inside $this->aParams variable.
         $this->aParams = $aPostVariables;
-        // Instantiate the UsersModel class and store it inside $this->oVenueModel.
+        // Instantiate the PaymentModel class and store it inside $this->oPaymentModel.
         $this->oPaymentModel = new PaymentModel();
+        // Instantiate the RefundsModel class and store it inside $this->oRefundsModel.
+        $this->oRefundsModel = new RefundsModel();
 
         $this->aPaymentMethods = $this->oPaymentModel->fetchModeOfPayments();
 
@@ -163,6 +171,7 @@ class Payment extends BaseController
                 $aResult[$iKey]['paymentMethod'] = $this->aPaymentMethods[$iMopIndex]['methodName'];
             }
 
+            $aResult[$iKey]['trainingId']       = $aPaymentData['trainingId'];
             $aResult[$iKey]['paymentId']        = $aPaymentData['paymentId'];
             $aResult[$iKey]['rejectReason']     = $aPaymentData['rejectReason'];
             $aResult[$iKey]['paymentDate']      = Utils::formatDate($aPaymentData['paymentDate']);
@@ -219,7 +228,32 @@ class Payment extends BaseController
     public function fetchStudentsThatHasPaid()
     {
         $aPaymentDetails = $this->oPaymentModel->fetchStudentsThatHasPaid();
-        echo json_encode($aPaymentDetails);
+
+        if (count($aPaymentDetails) > 0) {
+            foreach ($aPaymentDetails as $iKey => $aData) {
+                $aTrainingIds[$iKey] = $aData['trainingId'];
+            }
+
+            $aRefundDetails = $this->oRefundsModel->getRefundsByTrainingId($aTrainingIds);
+            if (count($aRefundDetails) > 0) {
+                foreach ($aRefundDetails as $iKey => $aData) {
+                    $iIndex = Utils::searchKeyByValueInMultiDimensionalArray($aData['trainingId'], $aPaymentDetails, 'trainingId');
+                    unset($aPaymentDetails[$iIndex]);
+                }
+            }
+        }
+
+
+        // Remove duplicate students.
+        $aReturnData = array();
+        foreach ($aPaymentDetails as $iKey => $aData) {
+            $aReturnData[$aData['studentId']]['studentId'] = $aData['studentId'];
+            $aReturnData[$aData['studentId']]['studentName'] = $aData['studentName'];
+            $aReturnData[$aData['studentId']]['contactNum'] = $aData['contactNum'];
+            $aReturnData[$aData['studentId']]['email'] = $aData['email'];
+        }
+
+        echo json_encode(array_values($aReturnData));
     }
 
     public function approvePayment()
@@ -253,9 +287,9 @@ class Payment extends BaseController
             $iUpdateStatusQuery = $this->oPaymentModel->updatePaymentStatuses($aTrainingData['trainingId']);
             $iCancelRemainingPaymentsQuery = $this->oPaymentModel->cancelRemainingPayments($aTrainingData['trainingId']);
         } else {
-            $iApproveQuery = $this->oPaymentModel->approvePayment($this->aParams);
             $this->aParams['isPaid'] = 1;
             $this->aParams['isApproved'] = 1;
+            $iApproveQuery = $this->oPaymentModel->approvePayment($this->aParams);
         }
 
         if ($iApproveQuery > 0) {
