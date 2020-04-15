@@ -4,9 +4,9 @@ var oEnrollment = (() => {
 
     let oTblPaymentDetails = $('#tbl_paymentDetails');
 
-    let aEnrolledCourses = [];
+    let aTrainingRequests = [];
 
-    let aCoursesAvailable = [];
+    let aTrainingsAvailable = [];
 
     let aInstructors = [];
 
@@ -28,15 +28,15 @@ var oEnrollment = (() => {
                 title: 'Venue', className: 'text-center', data: 'venue'
             },
             {
-                title: 'Instructor', className: 'text-center', data: 'instructorName'
+                title: 'Instructor', className: 'text-center', data: 'instructor'
             },
             {
                 title: 'Amount', className: 'text-center', render: (aData, oType, oRow) =>
-                    'P' + parseInt(oRow.coursePrice, 10).toLocaleString(undefined, { minimumFractionDigits: 2 })
+                    oLibraries.formatCurrency(oRow.coursePrice)
             },
             {
                 title: 'Balance', className: 'text-center', render: (aData, oType, oRow) =>
-                    'P' + parseInt(oRow.paymentBalance, 10).toLocaleString(undefined, { minimumFractionDigits: 2 })
+                    oLibraries.formatCurrency(oRow.paymentBalance)
             },
             {
                 title: 'Status', className: 'text-center', data: 'paymentStatus'
@@ -85,7 +85,7 @@ var oEnrollment = (() => {
     };
 
     function init() {
-        fetchCourses();
+        fetchTrainingRequests();
         setEvents();
     }
 
@@ -101,7 +101,7 @@ var oEnrollment = (() => {
         });
 
         $(document).on('click', '#viewPayment', function () {
-            oEnrollmentDetails = aEnrolledCourses.filter(aCourse => aCourse.trainingId == $(this).attr('data-id'))[0];
+            oEnrollmentDetails = aTrainingRequests.filter(aCourse => aCourse.trainingId == $(this).attr('data-id'))[0];
             preparePaymentDetails();
             $('#viewPaymentModal').modal('show');
         });
@@ -115,7 +115,7 @@ var oEnrollment = (() => {
         });
 
         $(document).on('click', '#cancelReservation', function () {
-            const oCourseDetails = aEnrolledCourses.filter(oCourse => oCourse.trainingId == $(this).attr('data-id'))[0];
+            const oCourseDetails = aTrainingRequests.filter(oCourse => oCourse.trainingId == $(this).attr('data-id'))[0];
             if (oCourseDetails.paymentStatus === 'Not Yet Paid') {
                 Swal.fire({
                     title: 'Cancel Reservation?',
@@ -158,7 +158,7 @@ var oEnrollment = (() => {
         });
 
         $(document).on('click', '#printRegiForm', function () {
-            const oDetails = aEnrolledCourses.filter(oCourse => oCourse.trainingId == $(this).attr('data-id'))[0];
+            const oDetails = aTrainingRequests.filter(oCourse => oCourse.trainingId == $(this).attr('data-id'))[0];
             printRegiForm(oDetails);
         });
 
@@ -275,7 +275,7 @@ var oEnrollment = (() => {
                                 return intVal(iAccumulator) + intVal(iCurrentValue);
                             }, 0);
 
-                        // const iCoursePrice = aEnrolledCourses.filter(oCourse => oCourse.trainingId = oEr)
+                        // const iCoursePrice = aTrainingRequests.filter(oCourse => oCourse.trainingId = oEr)
 
                         const iBalance = oEnrollmentDetails.coursePrice.replace(/[P,]/g, '') - iTotalPaid;
 
@@ -293,13 +293,13 @@ var oEnrollment = (() => {
     function populateCourseDropdown() {
         oCourseDropdown.empty().append($('<option selected disabled hidden>Select Course</option>'));
 
-        $.each(aCoursesAvailable, function (iKey, oCourse) {
+        $.each(aTrainingsAvailable, function (iKey, oCourse) {
             oCourseDropdown.append($('<option />').val(oCourse.courseId).text(`${oCourse.courseName} (${oCourse.courseCode})`));
         });
     }
 
     function populateScheduleDropdown(iCourseId) {
-        let oFilteredCourse = aCoursesAvailable.filter(oCourse => oCourse.courseId == iCourseId)[0];
+        let oFilteredCourse = aTrainingsAvailable.filter(oCourse => oCourse.courseId == iCourseId)[0];
 
         oScheduleDropdown.empty().append($('<option selected disabled hidden>Select Schedule</option>'));
 
@@ -309,7 +309,7 @@ var oEnrollment = (() => {
     }
 
     function populateRemainingInputs(iScheduleId) {
-        let oFilteredSchedule = aCoursesAvailable.filter(oCourse => oCourse.schedules[iScheduleId])[0];
+        let oFilteredSchedule = aTrainingsAvailable.filter(oCourse => oCourse.schedules[iScheduleId])[0];
 
         $('.price').val(`P${parseInt(oFilteredSchedule['prices'][iScheduleId], 10).toLocaleString()}`);
         $('.venue').val(oFilteredSchedule['venues'][iScheduleId]);
@@ -380,21 +380,21 @@ var oEnrollment = (() => {
         window.open('/Nexus/utils/ajax.php?class=Student&action=printRegiForm&tId=' + oDetails.trainingId);
     }
 
-    function fetchCourses() {
+    function fetchTrainingRequests() {
         $.ajax({
-            url: `/Nexus/utils/ajax.php?class=Courses&action=fetchCoursesToEnroll`,
+            url: `/Nexus/utils/ajax.php?class=Training&action=fetchTrainingRequests`,
             type: 'GET',
             dataType: 'json',
             success: function (oResponse) {
-                aEnrolledCourses = oResponse.aEnrolledCourses;
-                aCoursesAvailable = oResponse.aCoursesAvailable;
+                aTrainingRequests = oResponse.aTrainingRequests;
+                aTrainingsAvailable = oResponse.aTrainingsAvailable;
                 aInstructors = oResponse.aInstructors;
 
                 let aColumnDefs = [
                     { orderable: false, targets: [3, 4, 5, 6] }
                 ];
 
-                loadTable(oTblEnrollment.attr('id'), aEnrolledCourses, oColumns.aCourses, aColumnDefs);
+                loadTable(oTblEnrollment.attr('id'), aTrainingRequests, oColumns.aCourses, aColumnDefs);
             },
             error: function () {
                 oLibraries.displayAlertMessage('error', 'An error has occured. Please try again.');

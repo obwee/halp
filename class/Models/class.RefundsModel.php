@@ -169,13 +169,15 @@ class RefundsModel
 
         // Prepare a select query.
         $statement = $this->oConnection->prepare("
-            SELECT tr.trainingId, tu.userId AS studentId, tr.isApproved AS refundStatus
+            SELECT tr.trainingId, tu.userId AS studentId,
+                   MAX(tr.isApproved) AS refundStatus
             FROM tbl_refunds tr
             INNER JOIN tbl_training tt
-            ON tt.id = tr.trainingId
+                ON tt.id = tr.trainingId
             INNER JOIN tbl_users tu
-            ON tu.userId = tt.studentId
-            WHERE tr.trainingId IN ($sPlaceHolders) AND tr.isApproved = 1
+                ON tu.userId = tt.studentId
+            WHERE 1 = 1
+                AND tr.trainingId IN ($sPlaceHolders)
             GROUP BY tr.trainingId
         ");
 
