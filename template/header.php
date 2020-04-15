@@ -125,7 +125,7 @@
                         </ul>
                     </li>
                     <li class="">
-                        <a href="/Nexus/dashboard/admin/reservations">
+                        <a href="/Nexus/dashboard/admin/enrollment">
                             <i class="fas fa-university"></i>
                             <span>&emsp;Enrollment</span>
                         </a>
