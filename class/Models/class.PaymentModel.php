@@ -168,7 +168,9 @@ class PaymentModel
 
         // Prepare a select query.
         $statement = $this->oConnection->prepare("
-            SELECT tp.trainingId, SUM(tp.paymentAmount) AS paymentAmount, tp.isPaid AS paymentStatus
+            SELECT tp.id AS paymentId, tp.trainingId,
+                   SUM(tp.paymentAmount) AS paymentAmount,
+                   MAX(tp.isPaid) AS paymentStatus
             FROM tbl_payments tp
             WHERE tp.trainingId IN ($sPlaceHolders)
             GROUP BY tp.id

@@ -1,4 +1,4 @@
-var oReservations = (() => {
+var oEnrollment = (() => {
 
     let oTblReservations = $('#tbl_reservations');
 
@@ -127,5 +127,5 @@ var oReservations = (() => {
 })();
 
 $(document).ready(function () {
-    oReservations.initialize();
+    oEnrollment.initialize();
 });
