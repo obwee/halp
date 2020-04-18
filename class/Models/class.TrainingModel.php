@@ -423,7 +423,9 @@ class TrainingModel
         $statement = $this->oConnection->prepare("
             SELECT ts.courseId, tt.id AS trainingId, ts.id AS scheduleId,
                    tc.courseCode, ts.fromDate, ts.toDate, ts.recurrence, ts.numRepetitions,
-                   tv.venue, ts.coursePrice, CONCAT(tu.firstName, ' ', tu.lastName) AS instructor
+                   tv.venue, ts.coursePrice, CONCAT(tu.firstName, ' ', tu.lastName) AS instructor,
+                   tp.id AS paymentId, tp.paymentMethod, tp.paymentDate, tp.paymentAmount,
+                   tp.paymentFile, tp.isPaid AS paymentStatus, tp.isApproved AS paymentApproval
             FROM tbl_schedules ts
             INNER JOIN tbl_training tt
                 ON tt.scheduleId = ts.id
@@ -433,6 +435,8 @@ class TrainingModel
                 ON tv.id = ts.venueId
             INNER JOIN tbl_users tu
                 ON tu.userId = ts.instructorId
+            LEFT JOIN tbl_payments tp
+                ON tp.trainingId = tt.id
             WHERE 1 = 1
                 AND tt.studentId = ?
                 AND tt.isDone = 0

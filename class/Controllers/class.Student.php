@@ -206,31 +206,8 @@ class Student extends BaseController
         $oPrintRegiForm->Output('I', 'Registration-Form.pdf');
     }
 
-    public function fetchEnrollmentData()
+    public function fetchStudents()
     {
-        $aEnrollees = $this->oStudentModel->fetchEnrollees();
-        $aInstructorIds = array();
-
-        // Get instructor IDs.
-        foreach ($aEnrollees as $iKey => $aData) {
-            $aInstructorIds[$iKey] = $aData['instructorId'];
-        }
-
-        // Get instructor names.
-        if (count($aInstructorIds) > 0) {
-            $aInstructors = $this->AdminsModel->fetchAdminsByInstructorIds($aInstructorIds);
-        }
-
-        // Append instructor name to the data to be returned.
-        foreach ($aEnrollees as $iKey => $aEnrollee) {
-            $iInstructorKey = Utils::searchKeyByValueInMultiDimensionalArray($aEnrollee['instructorId'], $aInstructors, 'instructorId');
-            $aEnrollees[$iKey]['instructor'] = $aInstructors[$iInstructorKey]['instructorName'];
-            $aEnrollees[$iKey]['paymentStatus'] = $this->aPaymentStatus[$aEnrollee['paymentStatus'] ?? 0];
-            if ($aEnrollees[$iKey]['paymentStatus'] !== 'Fully Paid' && $aEnrollees[$iKey]['paymentFile'] !== null) {
-                $aEnrollees[$iKey]['paymentStatus'] = 'Payment Submitted';
-            }
-        }
-
-        echo json_encode($aEnrollees);
+        echo json_encode($this->oStudentModel->fetchStudents());
     }
 }

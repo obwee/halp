@@ -31,12 +31,10 @@ var oEnrollment = (() => {
                 title: 'Instructor', className: 'text-center', data: 'instructor'
             },
             {
-                title: 'Amount', className: 'text-center', render: (aData, oType, oRow) =>
-                    oLibraries.formatCurrency(oRow.coursePrice)
+                title: 'Amount', className: 'text-center', data: 'coursePrice'
             },
             {
-                title: 'Balance', className: 'text-center', render: (aData, oType, oRow) =>
-                    oLibraries.formatCurrency(oRow.paymentBalance)
+                title: 'Balance', className: 'text-center', data: 'paymentBalance'
             },
             {
                 title: 'Status', className: 'text-center', data: 'paymentStatus'
@@ -75,7 +73,7 @@ var oEnrollment = (() => {
             },
             {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
-                    `<a href="${oRow.paymentImage}" data-lightbox="payment-image">
+                    `<a href="${oRow.paymentImage}" data-lightbox="payment-image-${oRow.paymentId}">
                         <button class="btn btn-primary btn-sm" id="viewPaymentImage" data-id="${oRow.paymentId}">
                             <i class="fa fa-eye"></i>
                         </button>
@@ -103,6 +101,12 @@ var oEnrollment = (() => {
         $(document).on('click', '#viewPayment', function () {
             oEnrollmentDetails = aTrainingRequests.filter(aCourse => aCourse.trainingId == $(this).attr('data-id'))[0];
             preparePaymentDetails();
+
+            $('#viewPaymentModal').find('.addPayment').css('display', 'block');
+            if (oEnrollmentDetails.paymentStatus === 'Fully Paid') {
+                $('#viewPaymentModal').find('.addPayment').css('display', 'none');
+            }
+
             $('#viewPaymentModal').modal('show');
         });
 
@@ -137,7 +141,7 @@ var oEnrollment = (() => {
                     },
                 }).then((oResponse) => {
                     oLibraries.displayAlertMessage((oResponse.value.bResult === true) ? 'success' : 'error', oResponse.value.sMsg);
-                    fetchCourses();
+                    fetchTrainingRequests();
                     $('.modal').modal('hide');
                 })
             } else {
@@ -176,7 +180,7 @@ var oEnrollment = (() => {
             const sFormId = `#${$(this).attr('id')}`;
 
             // Disable the form.
-            oForms.disableFormState(sFormId, true);
+            // oForms.disableFormState(sFormId, true);
 
             // Invoke the resetInputBorders method inside oForms utils for that form.
             oForms.resetInputBorders(sFormId);
@@ -235,11 +239,10 @@ var oEnrollment = (() => {
     }
 
     function preparePaymentDetails() {
-        $('.viewPaymentModal').find('#courseName').val(oEnrollmentDetails.courseName);
-        $('.viewPaymentModal').find('#schedule').val(`${oEnrollmentDetails.fromDate} - ${oEnrollmentDetails.toDate}`);
+        $('.viewPaymentModal').find('#courseName').val(oEnrollmentDetails.courseCode);
+        $('.viewPaymentModal').find('#schedule').val(oEnrollmentDetails.schedule);
         $('.viewPaymentModal').find('#venue').val(oEnrollmentDetails.venue);
-        $('.viewPaymentModal').find('#instructor').val(oEnrollmentDetails.instructorName);
-
+        $('.viewPaymentModal').find('#instructor').val(oEnrollmentDetails.instructor);
         loadPaymentDetailsTable();
     }
 
@@ -283,7 +286,7 @@ var oEnrollment = (() => {
                     });
                 };
 
-                const aDetails = aResponse.filter(oData => oData.paymentStatus != 'Fully Paid' && oData.paymentApproval != 'Rejected');
+                const aDetails = aResponse.filter(oData => oData.paymentApproval != 'Rejected');
 
                 loadTable(oTblPaymentDetails.attr('id'), aDetails, oColumns.aPaymentDetails, aColumnDefs, false, oFooterCallback);
             },
@@ -348,7 +351,7 @@ var oEnrollment = (() => {
             },
             success: (oResponse) => {
                 if (oResponse.bResult === true) {
-                    fetchCourses();
+                    fetchTrainingRequests();
                     oLibraries.displayAlertMessage('success', oResponse.sMsg);
                     $('.modal').modal('hide');
                 } else {
