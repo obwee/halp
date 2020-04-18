@@ -2,6 +2,7 @@
 require_once "Template/header.php";
 ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/css/lightbox.min.css">
+<link rel="stylesheet" href="/Nexus/dashboard/css/typeahead.css">
 
 <div class="container">
 	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -12,15 +13,15 @@ require_once "Template/header.php";
 		<div class="col-md-4">
 			<div class="row">
 				<div class="col-sm-6">
+					<label><i class="fas fa-map-pin"></i><b> Venue</b></label><br>
 					<div class="venue">
-						<label><i class="fas fa-map-pin"></i><b> Venue</b></label><br>
 						<div class="custom-control custom-checkbox mr-sm-2">
-							<input type="checkbox" class="custom-control-input" id="makati">
-							<label class="custom-control-label" for="makati">Makati</label>
+							<input type="checkbox" class="custom-control-input">
+							<label class="custom-control-label">Makati</label>
 						</div>
 						<div class="custom-control custom-checkbox mr-sm-2">
-							<input type="checkbox" class="custom-control-input" id="manila">
-							<label class="custom-control-label" for="manila">Manila</label>
+							<input type="checkbox" class="custom-control-input">
+							<label class="custom-control-label">Manila</label>
 						</div>
 					</div>
 				</div>
@@ -28,12 +29,16 @@ require_once "Template/header.php";
 					<div class="paymentStatus">
 						<label><i class="fas fa-money"></i><b> Payment</b></label><br>
 						<div class="custom-control custom-checkbox mr-sm-2">
-							<input type="checkbox" class="custom-control-input" id="partial">
-							<label class="custom-control-label" for="partial">Partial</label>
+							<input type="checkbox" class="custom-control-input">
+							<label class="custom-control-label">Unpaid</label>
 						</div>
 						<div class="custom-control custom-checkbox mr-sm-2">
-							<input type="checkbox" class="custom-control-input" id="full">
-							<label class="custom-control-label" for="full">Full</label>
+							<input type="checkbox" class="custom-control-input">
+							<label class="custom-control-label">Partial</label>
+						</div>
+						<div class="custom-control custom-checkbox mr-sm-2">
+							<input type="checkbox" class="custom-control-input">
+							<label class="custom-control-label">Full</label>
 						</div>
 					</div>
 				</div>
@@ -41,19 +46,19 @@ require_once "Template/header.php";
 		</div>
 		<div class="col-md-4">
 			<label><i class="fas fa-book"></i><b> Course</b></label>
-			<select class="form-control">
+			<select class="form-control courseDropdown">
 				<option value="" selected disabled hidden>Select Course</option>
 			</select>&nbsp&nbsp
 		</div>
 		<div class="col-md-4">
 			<label><i class="fas fa-calendar"></i><b> Schedule</b></label>
-			<select class="form-control">
+			<select class="form-control scheduleDropdown">
 				<option value="" selected disabled hidden>Select Schedule</option>
 			</select>
 			<div class="form-group row">
 				<label for="slot" class="col-sm-4 col-form-label"><i class="fas fa-users"></i><b> Slots</b></label>
 				<div class="col-sm-8">
-					<input type="text" readonly class="form-control-plaintext" id="slot" value="10/15">
+					<input type="text" disabled class="form-control-plaintext numSlots" value="N/A">
 				</div>
 			</div>
 		</div>
@@ -83,8 +88,9 @@ require_once "Template/header.php";
 					<span aria-hidden="true" style="color:white">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
-				<form>
+			<form method="POST" id="rescheduleForm">>
+				<div class="modal-body">
+					<div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
 					<div class="form-group row">
 						<label for="studName" class="col-sm-4 col-form-label"><i class="fas fa-user"></i> Name:</label>
 						<div class="col-sm-8">
@@ -115,12 +121,17 @@ require_once "Template/header.php";
 							</select>
 						</div>
 					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="submit" class="btn btn-success">Update</button>
-				<button type="submit" class="btn btn-info" data-dismiss="modal">Cancel</button>
-			</div>
+				</div>
+				<div class="d-flex justify-content-center">
+					<div class="spinner-border spinner" role="status" style="display:none;">
+						<span class="sr-only">Loading...</span>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-success">Update</button>
+					<button type="submit" class="btn btn-info" data-dismiss="modal">Cancel</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -134,30 +145,213 @@ require_once "Template/header.php";
 					<span aria-hidden="true" style="color:white">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
-				<form>
-					<div class="form-group">
-						<label for="sname"><span class="fas fa-user"></span> Student Name</label>
-						<input type="text" name="sname" class="form-control">
+			<form method="POST" id="addWalkInForm">
+				<div class="modal-body">
+					<div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+					<div class="form-group studentSearch">
+						<label for="studentName"><span class="fas fa-user"></span> Student Name</label>
+						<input type="text" name="studentName" class="form-control typeahead studentName" placeholder="Enter Student Name">
 					</div>
 					<div class="form-group">
-						<label for="courseCode"><span class="fas fa-book"></span> Course</label>
-						<select class="form-control">
+						<label for="courseDropdown"><span class="fas fa-book"></span> Course</label>
+						<select class="form-control courseDropdown">
 							<option value="" selected disabled hidden>Select Course</option>
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="schedule"><span class="fas fa-calendar-alt"></span> Schedule</label>
-						<select class="form-control">
+						<label for="scheduleDropdown"><span class="fas fa-calendar-alt"></span> Schedule</label>
+						<select class="form-control scheduleDropdown">
 							<option value="" selected disabled hidden>Select Schedule</option>
 						</select>
 					</div>
-				</form>
+				</div>
+				<div class="d-flex justify-content-center">
+					<div class="spinner-border spinner" role="status" style="display:none;">
+						<span class="sr-only">Loading...</span>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-success">Add</button>
+					<button type="submit" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="viewPaymentModal" role="dialog">
+	<div class="modal-dialog modal-lg viewPaymentModal">
+		<div class="modal-content">
+			<div class="modal-header" style="background-color: #605ca8;">
+				<h5 align="center" style="color:white;">View Payment History</h5>
+			</div>
+			<div class="modal-body">
+				<div style="border: 3px solid #d5d5d5;padding-top:5px;padding-left:5px;padding-right:5px;padding-bottom:0;border-radius: 4px 4px;margin-bottom:5px;">
+					<b>Training Details:</b>
+					<div class="form-group row" style="margin-left:15px;">
+						<label for="studentName" class="col-sm-3 col-form-label"><span class="fas fa-book"></span> <b>Student</b></label>
+						<div class="col-sm-9">
+							<input type="text" readonly class="form-control-plaintext" id="studentName">
+						</div>
+						<label for="courseName" class="col-sm-3 col-form-label"><span class="fas fa-book"></span> <b>Course</b></label>
+						<div class="col-sm-9">
+							<input type="text" readonly class="form-control-plaintext" id="courseName">
+						</div>
+						<label for="schedule" class="col-sm-3 col-form-label"><span class="fas fa-calendar-alt"></span> <b>Schedule</b></label>
+						<div class="col-sm-9">
+							<input type="text" readonly class="form-control-plaintext" id="schedule">
+						</div>
+						<label for="venue" class="col-sm-3 col-form-label"><span class="fas fa-map"></span> <b>Venue</b></label>
+						<div class="col-sm-9">
+							<input type="text" readonly class="form-control-plaintext" id="venue">
+						</div>
+						<label for="instructor" class="col-sm-3 col-form-label"><span class="fas fa-chalkboard-teacher"></span> <b>Instructor</b></label>
+						<div class="col-sm-9">
+							<input type="text" readonly class="form-control-plaintext" id="instructor">
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+					<table id="tbl_paymentDetails" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
+						<thead></thead>
+						<tbody></tbody>
+						<tfoot>
+							<tr>
+								<th></th>
+								<th></th>
+								<th style="text-align:right">Remaining Balance:</th>
+								<th></th>
+								<th></th>
+								<th></th>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="btn btn-success">Add</button>
-				<button type="submit" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-success addPayment">Add Payment</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="approvePaymentModal" role="dialog" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-xl approvePaymentModal">
+		<div class="modal-content">
+			<div class="modal-header" style="background-color: #3c8dbc;">
+				<h5 align="center" style="color:white;"><i class="fas fa-check-double"></i> Approve Payment</h5>
+			</div>
+			<form action="POST" id="approvePaymentForm">
+				<div class="modal-body">
+					<div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+					<input type="hidden" name="paymentId" class="form-control paymentId">
+					<div class="row">
+						<div class="col-6">
+							<div class="paymentImage" style="border-style:solid;border-width:1px;height:100%;width:100%">
+								<a href="" data-lightbox="payment-image">
+									<img src="" style="width: 100%; height: 100%">
+								</a>
+							</div>
+						</div>
+						<div class="col-6" style="border-radius:10px 10px;border-style:solid;border-color:#d5d5d5;padding:10px 10px;width:50%;border-width:2px;">
+							<div class="form-group">
+								<label><i class="fas fa-money"></i><b> MOP</b></label>
+								<select class="form-control modeOfPayment" name="modeOfPayment"></select>
+							</div>
+							<div class="form-group">
+								<label><i class="fas fa-money"></i><b> Amount Paid</b></label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">₱</span>
+									</div>
+									<input type="text" name="paymentAmount" class="form-control paymentAmount">
+								</div>
+							</div>
+							<div class="form-group">
+								<label><i class="fas fa-money"></i><b> Old Balance</b></label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">₱</span>
+									</div>
+									<input type="text" class="form-control oldBalance" readonly>
+								</div>
+							</div>
+							<div class="form-group">
+								<label><i class="fas fa-money"></i><b> New Balance</b></label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">₱</span>
+									</div>
+									<input type="text" class="form-control newBalance" readonly>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="d-flex justify-content-center">
+					<div class="spinner-border spinner" role="status" style="display:none;">
+						<span class="sr-only">Loading...</span>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-success">Accept</button>
+					<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="cancelReservationModal" role="dialog">
+	<div class="modal-dialog cancelReservationModal">
+		<div class="modal-content">
+			<div class="modal-header" style="background-color: #605ca8;">
+				<h5 align="center" style="color:white;">Cancel Reservation</h5>
+			</div>
+			<form action="POST" id="cancelReservationForm">
+				<div class="modal-body">
+					<input type="hidden" class="trainingId" name="trainingId">
+					<div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+					<ul class="list-group mb-3">
+						<li class="list-group-item">
+							<span><i class="fas fa-exclamation-circle" style="color:red;"></i> To RESCHEDULE your training, please contact us immediately.</span>
+						</li>
+						<li class="list-group-item">
+							<span><i class="fas fa-exclamation-circle" style="color:red;"></i> Refunds requests should be submitted atleast three (3) days before your reserved schedule.</span>
+						</li>
+						<li class="list-group-item">
+							<span><i class="fas fa-exclamation-circle" style="color:red;"></i> Refunds are not allowed if the student decides to backout on the first day of class.</span>
+						</li>
+						<li class="list-group-item">
+							<span><i class="fas fa-exclamation-circle" style="color:red;"></i> Upon receiving your request, an admin will contact you regarding your refund.</span>
+						</li>
+						<li class="list-group-item">
+							<span><i class="fas fa-exclamation-circle" style="color:red;"></i> Please give us one (1) week to process your request.</span>
+						</li>
+					</ul>
+					<div class="form-group">
+						<label for="refundReason"><i class="fas fa-comments"></i> Refund reason:</label>
+						<textarea class="form-control refundReason" name="refundReason" rows="4"></textarea>
+					</div>
+					<div>
+						<div class="custom-control custom-checkbox mr-sm-2">
+							<input type="checkbox" class="custom-control-input agreementCheckbox" name="agreementCheckbox" id="customControlAutosizing">
+							<label class="custom-control-label" for="customControlAutosizing" style="text-align:justify;">I have read, understood and agreed to the terms and conditions stated above. I understand that submitting this request does not guarantee the request to be accepted and processed immediately.</label>
+						</div>
+					</div>
+					<div class="d-flex justify-content-center">
+						<div class="spinner-border spinner" role="status" style="display:none;">
+							<span class="sr-only">Loading...</span>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">Submit</button>
+						<button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -171,6 +365,7 @@ require_once "template/scripts.php";
 <script src="/Nexus/utils/js/utils.Validations.js"></script>
 <script src="/Nexus/utils/js/utils.Forms.js"></script>
 
+<script src="https://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
 <script src="/Nexus/dashboard/js/admin/dashboard.enrollment.js"></script>
 
 <?php

@@ -30,14 +30,17 @@ class Forms extends BaseController
         $aResult = $this->oCourseModel->fetchAvailableCoursesAndSchedules();
         $aCourses = array();
         $aSchedules = array();
+        $aSlots = array();
 
         foreach ($aResult as $aCourse) {
             $aSchedules[$aCourse['courseId']][$aCourse['scheduleId']] = $aCourse['fromDate'] . ' - ' . $aCourse['toDate'] . ' (' . $this->getInterval($aCourse) . ')';
+            $aSlots[$aCourse['courseId']][$aCourse['scheduleId']] = $aCourse['remainingSlots'] . '/' . $aCourse['numSlots'];
             $aCourses[$aCourse['courseId']] = $aCourse;
         }
 
         foreach ($aCourses as $aCourse) {
             $aCourses[$aCourse['courseId']]['schedule'] = $aSchedules[$aCourse['courseId']];
+            $aCourses[$aCourse['courseId']]['slots'] = $aSlots[$aCourse['courseId']];
         }
 
         echo json_encode(array_values($aCourses));

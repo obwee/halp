@@ -114,8 +114,7 @@ class PaymentModel
             ON tp.trainingId = tt.id
             WHERE 1 = 1
                 AND tt.id = :trainingId
-               -- AND tp.isPaid IN (0, 1)
-               -- AND tp.isApproved != 2
+                -- AND tp.isApproved != 2
         ");
 
         // Execute the above statement.

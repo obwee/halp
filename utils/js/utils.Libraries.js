@@ -46,7 +46,7 @@ var oLibraries = (() => {
     }
 
     function formatCurrency(iValue) {
-        return 'P' + parseInt(iValue, 10).toLocaleString(undefined, { minimumFractionDigits: 2 });
+        return parseInt(iValue, 10).toLocaleString();
     }
 
     // Return public pointers.
