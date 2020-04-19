@@ -39,34 +39,14 @@ var oRefundRequests = (() => {
                 title: 'Amount', className: 'text-center', data: 'coursePrice'
             },
             {
-                title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
-                    `<button class="btn btn-primary btn-sm" data-toggle="modal" id="viewRequestDetails" data-id="${oRow.trainingId}">
-                        <i class="fa fa-eye"></i>
-                    </button>`
-            },
-        ],
-        aRequestDetails: [
-            {
-                title: 'Date Requested', className: 'text-center', data: 'dateRequested'
-            },
-            {
-                title: 'MOP', className: 'text-center', data: 'paymentMethod'
-            },
-            {
-                title: 'Training Fee', className: 'text-center', data: 'coursePrice',
-            },
-            {
-                title: 'Amount Paid', className: 'text-center sum', data: 'paymentAmount',
-            },
-            {
-                title: 'Refund Reason', className: 'text-center', data: 'refundReason'
+                title: 'Reason', className: 'text-center', data: 'refundReason'
             },
             {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
-                    `<button class="btn btn-success btn-sm" data-toggle="modal" id="approveRefund" data-id="${oRow.refundId}">
+                    `<button class="btn btn-success btn-sm" data-toggle="modal" id="approveRefund" data-id="${oRow.trainingId}">
                         <i class="fa fa-check-circle"></i>
                     </button>
-                    <button class="btn btn-danger btn-sm" data-toggle="modal" id="rejectRefund" data-id="${oRow.refundId}">
+                    <button class="btn btn-danger btn-sm" data-toggle="modal" id="rejectRefund" data-id="${oRow.trainingId}">
                         <i class="fa fa-times-circle"></i>
                     </button>`
             },
@@ -98,7 +78,7 @@ var oRefundRequests = (() => {
         });
 
         $(document).on('click', '#rejectRefund', function () {
-            const oRefundDetails = aRefundDetails.filter(oRefund => oRefund.refundId == $(this).attr('data-id'))[0];
+            const oRefundDetails = aTrainingDetails.filter(oTraining => oTraining.trainingId == $(this).attr('data-id'))[0];
             Swal.fire({
                 title: 'Reject Refund?',
                 text: 'This will reject the refund request.',
@@ -107,7 +87,7 @@ var oRefundRequests = (() => {
                 confirmButtonText: 'Yes',
                 allowOutsideClick: () => !Swal.isLoading(),
                 preConfirm: () => {
-                    return rejectApproveRefund(oRefundDetails.trainingId, oRefundDetails.refundId, oRefundDetails.refundReason, 'reject');
+                    return rejectApproveRefund(oRefundDetails.trainingId, oRefundDetails.refundReason, 'reject');
                 },
             }).then((oResponse) => {
                 oLibraries.displayAlertMessage((oResponse.value.bResult === true) ? 'success' : 'error', oResponse.value.sMsg);
@@ -117,7 +97,7 @@ var oRefundRequests = (() => {
         });
 
         $(document).on('click', '#approveRefund', function () {
-            const oRefundDetails = aRefundDetails.filter(oRefund => oRefund.refundId == $(this).attr('data-id'))[0];
+            const oRefundDetails = aTrainingDetails.filter(oTraining => oTraining.trainingId == $(this).attr('data-id'))[0];
             Swal.fire({
                 title: 'Approve Refund?',
                 text: 'This will approve the refund request.',
@@ -126,7 +106,7 @@ var oRefundRequests = (() => {
                 confirmButtonText: 'Yes',
                 allowOutsideClick: () => !Swal.isLoading(),
                 preConfirm: () => {
-                    return rejectApproveRefund(oRefundDetails.trainingId, oRefundDetails.refundId, oRefundDetails.refundReason, 'approve');
+                    return rejectApproveRefund(oRefundDetails.trainingId, oRefundDetails.refundReason, 'approve');
                 },
             }).then((oResponse) => {
                 oLibraries.displayAlertMessage((oResponse.value.bResult === true) ? 'success' : 'error', oResponse.value.sMsg);
@@ -137,8 +117,8 @@ var oRefundRequests = (() => {
 
     }
 
-    function rejectApproveRefund(iTrainingId, iRefundId, sRefundReason, sAction) {
-        return axios.post(`/Nexus/utils/ajax.php?class=Refunds&action=${sAction}Refund`, { iTrainingId, iRefundId, sRefundReason })
+    function rejectApproveRefund(iTrainingId, sRefundReason, sAction) {
+        return axios.post(`/Nexus/utils/ajax.php?class=Refunds&action=${sAction}Refund`, { iTrainingId, sRefundReason })
             .then(function (oResponse) {
                 return oResponse.data;
             })
@@ -154,15 +134,12 @@ var oRefundRequests = (() => {
             dataType: 'json',
             success: function (oResponse) {
                 aRefunds = oResponse;
-                console.log(aRefunds)
 
                 let aColumnDefs = [
                     { orderable: false, targets: [3] }
                 ];
 
-                const aData = aRefunds.filter(oData => oData.refundStatus == 'Not Yet Approved');
-
-                loadTable(oTblRefunds.attr('id'), aData, oColumns.aStudents, aColumnDefs);
+                loadTable(oTblRefunds.attr('id'), aRefunds, oColumns.aStudents, aColumnDefs);
             },
             error: function () {
                 oLibraries.displayAlertMessage('error', 'An error has occured. Please try again.');
@@ -190,32 +167,6 @@ var oRefundRequests = (() => {
             error: function () {
                 oLibraries.displayAlertMessage('error', 'An error has occured. Please try again.');
             }
-        });
-    }
-
-    function prepareStudentDetails(iTrainingId) {
-        const oDetails = aTrainingDetails.filter(oTrainingDetails => oTrainingDetails.trainingId == iTrainingId)[0];
-        $('.viewRequestModal').find('#studentName').val(oDetails.studentName);
-        $('.viewRequestModal').find('#email').val(oDetails.email);
-        $('.viewRequestModal').find('#contactNum').val(oDetails.contactNum);
-    }
-
-    function loadRefundDetailsTable(iTrainingId) {
-        $.ajax({
-            url: '/Nexus/utils/ajax.php?class=Refunds&action=fetchRefundDetails',
-            type: 'POST',
-            data: { trainingId: iTrainingId },
-            dataType: 'json',
-            async: 'false',
-            success: function (aResponse) {
-                aRefundDetails = aResponse;
-
-                let aColumnDefs = [
-                    { orderable: false, targets: [1, 2, 3] }
-                ];
-
-                loadTable(oTblPaymentDetails.attr('id'), aRefundDetails, oColumns.aRequestDetails, aColumnDefs, false);
-            },
         });
     }
 

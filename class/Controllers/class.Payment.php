@@ -15,6 +15,18 @@ class Payment extends BaseController
     private $oRefundsModel;
 
     /**
+     * @var TrainingModel $oTrainingModel
+     * Class instance for Training model.
+     */
+    private $oTrainingModel;
+
+    /**
+     * @var CourseModel $oCourseModel
+     * Class instance for Course model.
+     */
+    private $oCourseModel;
+
+    /**
      * @var $aPaymentMethods
      * Holder of payment methods.
      */
@@ -32,6 +44,10 @@ class Payment extends BaseController
         $this->oPaymentModel = new PaymentModel();
         // Instantiate the RefundsModel class and store it inside $this->oRefundsModel.
         $this->oRefundsModel = new RefundsModel();
+        // Instantiate the TrainingModel class and store it inside $this->oTrainingModel.
+        $this->oTrainingModel = new TrainingModel();
+        // Instantiate the CourseModel class and store it inside $this->oCourseModel.
+        $this->oCourseModel = new CourseModel();
 
         $this->aPaymentMethods = $this->oPaymentModel->fetchModeOfPayments();
 
@@ -267,7 +283,7 @@ class Payment extends BaseController
         Utils::renameKeys($this->aParams, ['paymentId' => 'id', 'modeOfPayment' => 'paymentMethod']);
 
         // Get the training ID associated with the payment ID.
-        $aTrainingData = $this->oPaymentModel->fetchTrainingIdsByPaymentId($this->aParams['id']);
+        $aTrainingData = $this->oPaymentModel->fetchTrainingDataByPaymentId($this->aParams['id']);
         $aPaymentDetails = $this->oPaymentModel->fetchPaymentsByTrainingId([$aTrainingData['trainingId']])[0];
 
         $iOverallPayment = $this->aParams['paymentAmount'] + $aPaymentDetails['paymentAmount'];
@@ -284,15 +300,21 @@ class Payment extends BaseController
             $this->aParams['isPaid'] = 2;
             $this->aParams['isApproved'] = 1;
             $iApproveQuery = $this->oPaymentModel->approvePayment($this->aParams);
-            $iUpdateStatusQuery = $this->oPaymentModel->updatePaymentStatuses($aTrainingData['trainingId']);
-            $iCancelRemainingPaymentsQuery = $this->oPaymentModel->cancelRemainingPayments($aTrainingData['trainingId']);
+            $this->oPaymentModel->updatePaymentStatuses($aTrainingData['trainingId']);
+            $this->oPaymentModel->cancelRemainingPayments($aTrainingData['trainingId']);
         } else {
             $this->aParams['isPaid'] = 1;
             $this->aParams['isApproved'] = 1;
             $iApproveQuery = $this->oPaymentModel->approvePayment($this->aParams);
         }
 
+        if ($aTrainingData['isReserved'] === 0) {
+            $this->oTrainingModel->markAsReserved($aTrainingData['trainingId'], $aTrainingData['scheduleId']);
+        }
+
         if ($iApproveQuery > 0) {
+            $this->sendEmailToStudent($aTrainingData, $iOverallPayment, $this->aParams['isPaid']);
+
             echo json_encode(array(
                 'bResult'  => true,
                 'sMsg'     => 'Payment approved!'
@@ -314,8 +336,8 @@ class Payment extends BaseController
     public function rejectPayment()
     {
         $aDatabaseColumns = array(
-            'iPaymentId'    => ':id',
-            'sRejectReason' => ':rejectReason'
+            'iPaymentId'    => 'id',
+            'sRejectReason' => 'rejectReason'
         );
 
         Utils::renameKeys($this->aParams, $aDatabaseColumns);
@@ -337,5 +359,33 @@ class Payment extends BaseController
         }
 
         echo json_encode($aResult);
+    }
+
+    private function sendEmailToStudent($aTrainingData, $iTotalPayment, $iPaymentStatus)
+    {
+        $aStudentDetails = $this->getUserDetails();
+        $aStudentDetails['fullName'] = $aStudentDetails['firstName'] . ' ' . $aStudentDetails['lastName'];
+        $aEnrollmentDetails = $this->oCourseModel->getCourseAndScheduleDetails($aTrainingData['scheduleId']);
+        $aEnrollmentDetails['schedule'] = Utils::formatDate($aEnrollmentDetails['fromDate']) . ' - ' . Utils::formatDate($aEnrollmentDetails['toDate']) . ' (' . $this->getInterval($aEnrollmentDetails) . ')';
+
+        $sMsg = 'Hello, ' . $aStudentDetails['fullName'] . '. Your payment has been approved for: ';
+        $sMsg .= "\r\n\r\n";
+        $sMsg .= 'Course Code: ' . $aEnrollmentDetails['courseCode'];
+        $sMsg .= "\r\n";
+        $sMsg .= 'Course Price: ' . Utils::toCurrencyFormat($aEnrollmentDetails['coursePrice']);
+        $sMsg .= "\r\n";
+        $sMsg .= 'Schedule: ' . $aEnrollmentDetails['schedule'];
+        $sMsg .= "\r\n\r\n";
+        $sMsg .= 'Payment Status: ' . $this->aPaymentStatus[$iPaymentStatus];
+        $sMsg .= "\r\n";
+        $sMsg .= 'Remaining Balance: ' . Utils::toCurrencyFormat($aEnrollmentDetails['coursePrice'] - $iTotalPayment);
+
+        $oMail = new Email();
+        $oMail->setEmailSender('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
+        $oMail->addSingleRecipient('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
+        // $oMail->addSingleRecipient($aStudentDetails['email'], $aStudentDetails['fullName']);
+        $oMail->setTitle('Payment Approval');
+        $oMail->setBody($sMsg);
+        return $oMail->send();
     }
 }

@@ -138,7 +138,7 @@ var oApprovedRefunds = (() => {
 
     function fetchApprovedRefunds() {
         $.ajax({
-            url: `/Nexus/utils/ajax.php?class=Refunds&action=fetchAllRefundRequests`,
+            url: `/Nexus/utils/ajax.php?class=Refunds&action=fetchAllApprovedRefunds`,
             type: 'GET',
             dataType: 'json',
             success: function (oResponse) {
@@ -148,9 +148,7 @@ var oApprovedRefunds = (() => {
                     { orderable: false, targets: [3] }
                 ];
 
-                const aData = aRefunds.filter(oData => oData.refundStatus == 'Approved');
-
-                loadTable(oTblRefunds.attr('id'), aData, oColumns.aStudents, aColumnDefs);
+                loadTable(oTblRefunds.attr('id'), aRefunds, oColumns.aStudents, aColumnDefs);
             },
             error: function () {
                 oLibraries.displayAlertMessage('error', 'An error has occured. Please try again.');

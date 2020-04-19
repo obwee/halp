@@ -111,6 +111,20 @@ class Refunds extends BaseController
     }
 
     /**
+     * fetchAllApprovedRefunds
+     */
+    public function fetchAllApprovedRefunds()
+    {
+        $aRefundRequests = $this->oRefundsModel->fetchAllApprovedRefunds();
+
+        foreach ($aRefundRequests as $iKey => $aDetails) {
+            $aRefundRequests[$iKey]['refundStatus'] = $this->aApprovalStatus[$aDetails['refundStatus']];
+        }
+
+        echo json_encode($aRefundRequests);
+    }
+
+    /**
      * fetchRefundDetails
      */
     public function fetchRefundDetails()
@@ -156,17 +170,15 @@ class Refunds extends BaseController
 
     public function rejectRefund()
     {
-        $aDatabaseColumns = array(
-            'iRefundId' => ':id',
-        );
-
-        Utils::renameKeys($this->aParams, $aDatabaseColumns);
         Utils::sanitizeData($this->aParams);
 
-        $this->aParams[':executor'] = Session::get('fullName');
+        $aParams = array(
+            ':trainingId' => $this->aParams['iTrainingId'],
+            ':executor'   => Session::get('fullName')
+        );
 
         // Perform update.
-        $iQuery = $this->oRefundsModel->rejectRefund($this->aParams);
+        $iQuery = $this->oRefundsModel->rejectRefund($aParams);
 
         if ($iQuery > 0) {
             $aResult = array(
@@ -188,8 +200,8 @@ class Refunds extends BaseController
         Utils::sanitizeData($this->aParams);
 
         $aApproveRefundData = array(
-            ':id'       => $this->aParams['iRefundId'],
-            ':executor' => Session::get('fullName')
+            ':trainingId' => $this->aParams['iTrainingId'],
+            ':executor'   => Session::get('fullName')
         );
 
         $aCancelReservationData = array(
@@ -200,6 +212,10 @@ class Refunds extends BaseController
         // Perform update.
         $iApproveQuery = $this->oRefundsModel->approveRefund($aApproveRefundData);
         $iCancelQuery = $this->oTrainingModel->cancelReservation($aCancelReservationData);
+
+        // Get the schedule ID associated with the training ID then mark as unreserved.
+        $aTrainingData = $this->oTrainingModel->getTrainingDataByTrainingId($this->aParams['iTrainingId']);
+        $this->oTrainingModel->markAsUnreserved($aTrainingData['scheduleId']);
 
         if ($iApproveQuery > 0 && $iCancelQuery > 0) {
             $aResult = array(

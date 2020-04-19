@@ -141,4 +141,27 @@ class CourseModel
         // Return the number of rows returned by the executed query.
         return $statement->fetchAll();
     }
+
+    public function getCourseAndScheduleDetails($iScheduleId)
+    {
+        // Query the tbl_courses.
+        $statement = $this->oConnection->prepare("
+            SELECT tc.courseName, tc.courseDescription, tc.courseCode, ts.coursePrice,
+                   ts.fromDate, ts.toDate, tv.venue, ts.recurrence, ts.numRepetitions,
+                   CONCAT(tu.firstName, ' ', tu.lastName) AS instructorName
+            FROM       tbl_courses   tc
+            INNER JOIN tbl_schedules ts
+            ON tc.id = ts.courseId
+            INNER JOIN tbl_venue     tv
+            ON tv.id = ts.venueId
+            INNER JOIN tbl_users     tu
+            ON ts.instructorId = tu.userId
+            WHERE ts.id = ?
+        ");
+
+        // Execute the above statement.
+        $statement->execute([$iScheduleId]);
+
+        return $statement->fetch();
+    }
 }

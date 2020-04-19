@@ -80,7 +80,38 @@ class RefundsModel
             INNER JOIN tbl_refunds tr
                 ON tr.trainingId = tt.id
             WHERE 1 = 1
-            GROUP BY tt.id
+                AND tr.isApproved = 0
+            GROUP BY tt.studentId
+        ");
+
+        // Execute the above statement.
+        $statement->execute();
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetchAll();
+    }
+
+    /**
+     * fetchAllApprovedRefunds
+     * @return array
+     */
+    public function fetchAllApprovedRefunds()
+    {
+        // Prepare a select query.
+        $statement = $this->oConnection->prepare("
+            SELECT
+                tu.userId AS studentId,
+                CONCAT(tu.firstName, ' ', tu.lastName) AS studentName,
+                tu.contactNum, tu.email, tr.isApproved AS refundStatus,
+                tt.id AS trainingId
+            FROM tbl_training      tt
+            INNER JOIN tbl_users   tu
+                ON tt.studentId = tu.userId
+            INNER JOIN tbl_refunds tr
+                ON tr.trainingId = tt.id
+            WHERE 1 = 1
+                AND tr.isApproved = 1
+            GROUP BY tt.studentId
         ");
 
         // Execute the above statement.
@@ -109,7 +140,7 @@ class RefundsModel
                 ON tr.trainingId = tt.id
             WHERE 1 = 1
                 AND tt.id = :trainingId
-                AND tp.isPaid != 0
+                -- AND tp.isPaid != 0
         ");
 
         // Execute the above statement.
@@ -133,7 +164,7 @@ class RefundsModel
             SET
                 isApproved = 2,
                 executor   = :executor
-            WHERE id = :id
+            WHERE trainingId = :trainingId
             AND isApproved = 0
         ");
 
@@ -155,7 +186,7 @@ class RefundsModel
             SET
                 isApproved = 1,
                 executor   = :executor
-            WHERE id = :id
+            WHERE trainingId = :trainingId
             AND isApproved = 0
         ");
 

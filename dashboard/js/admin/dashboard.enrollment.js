@@ -176,6 +176,7 @@ var oEnrollment = (() => {
                 },
             }).then((oResponse) => {
                 oLibraries.displayAlertMessage((oResponse.value.bResult === true) ? 'success' : 'error', oResponse.value.sMsg);
+                fetchEnrollmentData();
                 $('.modal').modal('hide');
             })
         });
@@ -203,7 +204,7 @@ var oEnrollment = (() => {
                     },
                 }).then((oResponse) => {
                     oLibraries.displayAlertMessage((oResponse.value.bResult === true) ? 'success' : 'error', oResponse.value.sMsg);
-                    fetchCourses();
+                    fetchEnrollmentData();
                     $('.modal').modal('hide');
                 })
             } else {
@@ -231,11 +232,18 @@ var oEnrollment = (() => {
 
             const oInputForms = {
                 '#approvePaymentForm': {
-                    'validationMethod': oValidations.validateApprovePaymentInputs(sFormId),
+                    'validationMethod': oValidations.validateApprovePaymentInputs('#approvePaymentForm'),
                     'requestClass': 'Payment',
                     'requestAction': 'approvePayment',
                     'alertTitle': 'Approve Payment?',
                     'alertText': 'This will approve the payment of the selected student.'
+                },
+                '#cancelReservationForm': {
+                    'validationMethod': oValidations.validateCancelReservationForm('#cancelReservationForm'),
+                    'requestClass': 'Refunds',
+                    'requestAction': 'requestRefund',
+                    'alertTitle': 'Request Refund?',
+                    'alertText': 'This will request a refund before cancelling the reservation.'
                 }
             }
 
@@ -309,6 +317,21 @@ var oEnrollment = (() => {
         }
 
         return axios.post('/Nexus/utils/ajax.php?class=Payment&action=rejectPayment', oData)
+            .then(function (oResponse) {
+                return oResponse.data;
+            })
+            .catch(function (oError) {
+                return oError;
+            });
+    }
+
+    function cancelReservation(iTrainingId, sCancellationReason) {
+        const oData = {
+            iTrainingId,
+            sCancellationReason
+        }
+
+        return axios.post('/Nexus/utils/ajax.php?class=Training&action=cancelReservation', oData)
             .then(function (oResponse) {
                 return oResponse.data;
             })
