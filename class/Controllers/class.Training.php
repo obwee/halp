@@ -311,7 +311,11 @@ class Training extends BaseController
         $aCoursesAvailable = $this->oCourseModel->fetchAvailableCoursesAndSchedules();
 
         if (count($aEnrolledTrainings) === 0) {
-            echo json_encode([]);
+            echo json_encode(array(
+                'aTrainingRequests'   => [],
+                'aTrainingsAvailable' => $this->prepareTrainingsAvailable($aCoursesAvailable),
+                'aInstructors'        => array_values(array_filter($this->oInstructorsModel->fetchInstructors(), fn ($aInstructors) => $aInstructors['status'] === 'Active'))
+            ));
             exit;
         }
 
