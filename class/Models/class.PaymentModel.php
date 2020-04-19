@@ -182,11 +182,11 @@ class PaymentModel
         return $statement->fetchAll();
     }
 
-    public function fetchTrainingIdsByPaymentId($iPaymentId)
+    public function fetchTrainingDataByPaymentId($iPaymentId)
     {
         // Prepare a select query.
         $statement = $this->oConnection->prepare("
-            SELECT tp.trainingId, ts.coursePrice
+            SELECT tp.trainingId, ts.coursePrice, tt.isReserved, tt.scheduleId
             FROM tbl_payments tp
             INNER JOIN tbl_training tt
             ON tp.trainingId = tt.id

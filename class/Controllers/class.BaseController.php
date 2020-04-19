@@ -42,6 +42,11 @@ class BaseController
         return $this->oStudentModel->getUserIdByFirstAndLastName($sFirstName, $sLastName);
     }
 
+    protected function getUserDetails()
+    {
+        return $this->oStudentModel->getUserDetails(['userId' => $this->getUserId()]);
+    }
+
     /**
      * getInterval
      */

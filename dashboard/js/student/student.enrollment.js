@@ -180,7 +180,7 @@ var oEnrollment = (() => {
             const sFormId = `#${$(this).attr('id')}`;
 
             // Disable the form.
-            // oForms.disableFormState(sFormId, true);
+            oForms.disableFormState(sFormId, true);
 
             // Invoke the resetInputBorders method inside oForms utils for that form.
             oForms.resetInputBorders(sFormId);
@@ -397,7 +397,12 @@ var oEnrollment = (() => {
                     { orderable: false, targets: [3, 4, 5, 6] }
                 ];
 
-                loadTable(oTblEnrollment.attr('id'), aTrainingRequests, oColumns.aCourses, aColumnDefs);
+                let sCourseCode = '';
+                const oSearchParams = new URLSearchParams(window.location.search);
+                if (oSearchParams.has('course') === true) {
+                    sCourseCode = oSearchParams.get('course');
+                }
+                loadTable(oTblEnrollment.attr('id'), aTrainingRequests, oColumns.aCourses, aColumnDefs, true, () => { }, sCourseCode);
             },
             error: function () {
                 oLibraries.displayAlertMessage('error', 'An error has occured. Please try again.');
@@ -405,8 +410,8 @@ var oEnrollment = (() => {
         });
     }
 
-    function loadTable(sTableName, aData, aColumns, aColumnDefs, bSearching = true, oFooterCallback = () => { }) {
-        $(`#${sTableName} > tbody`).empty().parent().DataTable({
+    function loadTable(sTableName, aData, aColumns, aColumnDefs, bSearching = true, oFooterCallback = () => { }, sFilter = '') {
+        $(`#${sTableName} > tbody`).empty().parent().dataTable({
             destroy: true,
             deferRender: true,
             data: aData,
@@ -422,7 +427,7 @@ var oEnrollment = (() => {
             columns: aColumns,
             columnDefs: aColumnDefs,
             footerCallback: oFooterCallback
-        });
+        }).fnFilter(sFilter);
     }
 
     return {

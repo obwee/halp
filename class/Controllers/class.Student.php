@@ -19,6 +19,12 @@ class Student extends BaseController
     private $AdminsModel;
 
     /**
+     * @var CourseModel $oCourseModel
+     * Class instance for course' model.
+     */
+    private $oCourseModel;
+
+    /**
      * Student constructor.
      * @param array $aPostVariables
      */
@@ -30,6 +36,8 @@ class Student extends BaseController
         $this->oTrainingModel = new TrainingModel();
         // Instantiate the AdminsModel.
         $this->AdminsModel = new AdminsModel();
+        // Instantiate the CourseModel.
+        $this->oCourseModel = new CourseModel();
         parent::__construct();
     }
 
@@ -171,7 +179,32 @@ class Student extends BaseController
             $aResult = $aValidationResult;
         }
 
+        $this->sendEmailToAdmin($this->aParams);
+
         echo json_encode($aResult);
+    }
+
+    private function sendEmailToAdmin($aParams)
+    {
+        $aStudentDetails = $this->getUserDetails();
+        $aStudentDetails['fullName'] = $aStudentDetails['firstName'] . ' ' . $aStudentDetails['lastName'];
+        $aEnrollmentDetails = $this->oCourseModel->getCourseAndScheduleDetails($aParams['scheduleId']);
+        $aEnrollmentDetails['schedule'] = Utils::formatDate($aEnrollmentDetails['fromDate']) . ' - ' . Utils::formatDate($aEnrollmentDetails['toDate']) . ' (' . $this->getInterval($aEnrollmentDetails) . ')';
+        
+        $sMsg = $aStudentDetails['fullName'] . ' has enrolled for: ';
+        $sMsg .= "\r\n\r\n";
+        $sMsg .= 'Course Code: ' . $aEnrollmentDetails['courseCode'];
+        $sMsg .= "\r\n";
+        $sMsg .= 'Course Price: ' . Utils::toCurrencyFormat($aEnrollmentDetails['coursePrice']);
+        $sMsg .= "\r\n";
+        $sMsg .= 'Schedule: ' . $aEnrollmentDetails['schedule'];
+        
+        $oMail = new Email();
+        $oMail->setEmailSender($aStudentDetails['email'], $aStudentDetails['fullName']);
+        $oMail->addSingleRecipient('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
+        $oMail->setTitle('Enrollment Request');
+        $oMail->setBody($sMsg);
+        return $oMail->send();
     }
 
     public function printRegiForm()

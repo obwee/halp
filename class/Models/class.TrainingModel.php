@@ -103,34 +103,21 @@ class TrainingModel
                 $iStudentId
             ]);
 
-            // // Prepare an insert query to the payment table.
-            // $oPaymentStatement = $this->oConnection->prepare("
-            //     INSERT INTO tbl_payments
-            //         (trainingId, paymentDate)
-            //     VALUES
-            //         (?, ?)
+            // // Prepare an update query to the schedule table.
+            // $oScheduleStatement = $this->oConnection->prepare("
+            //     UPDATE tbl_schedules
+            //         SET remainingSlots = (remainingSlots - 1)
+            //     WHERE 1 = 1
+            //         AND id         = ?
+            //         AND courseId   = ?
             // ");
 
             // // Execute update.
-            // $oPaymentStatement->execute([
-            //     $this->oConnection->lastInsertId(),
-            //     date('Y-m-d H:i:s')
+            // $oScheduleStatement->execute([
+            //     $iScheduleId,
+            //     $iCourseId
             // ]);
 
-            // Prepare an update query to the schedule table.
-            $oScheduleStatement = $this->oConnection->prepare("
-                UPDATE tbl_schedules
-                    SET remainingSlots = (remainingSlots - 1)
-                WHERE 1 = 1
-                    AND id         = ?
-                    AND courseId   = ?
-            ");
-
-            // Execute update.
-            $oScheduleStatement->execute([
-                $iScheduleId,
-                $iCourseId
-            ]);
             return $this->oConnection->commit();
         } catch (PDOException $oError) {
             $this->oConnection->rollBack();
@@ -224,6 +211,7 @@ class TrainingModel
                 AND ts.toDate > CURDATE()
                 AND tt.studentId = ?
                 AND tp.isPaid = 2
+                AND tt.isCancelled = 0
             GROUP BY tt.id
             ORDER BY ts.fromDate, tc.courseName ASC
         ");
@@ -344,9 +332,9 @@ class TrainingModel
             UPDATE tbl_training
             SET
                 isCancelled = 1,
+                isReserved = 0,
                 cancellationReason = :cancellationReason
-            WHERE 1 = 1
-                AND id = :id
+            WHERE id = :id
         ");
 
         // Execute the above statement.
@@ -391,7 +379,7 @@ class TrainingModel
             SELECT tt.id AS trainingId, tc.courseName, tc.courseCode, ts.coursePrice,
                     ts.fromDate, ts.toDate, tv.venue, ts.recurrence, ts.numRepetitions,
                     ts.instructorId, CONCAT(tu.firstName, ' ', tu.lastName) AS studentName,
-                    tu.contactNum, tu.email, tr.isApproved AS refundStatus
+                    tu.contactNum, tu.email, tr.isApproved AS refundStatus, tr.refundReason
             FROM       tbl_courses   tc
             INNER JOIN tbl_schedules ts
                 ON tc.id = ts.courseId
@@ -448,5 +436,59 @@ class TrainingModel
 
         // Return the number of rows returned by the executed query.
         return $statement->fetchAll();
+    }
+
+    public function markAsReserved($iTrainingId, $iScheduleId)
+    {
+        try {
+            $this->oConnection->beginTransaction();
+
+            $oTrainingStatement = $this->oConnection->prepare("
+                UPDATE tbl_training
+                SET isReserved = 1
+                WHERE id = ?
+            ");
+
+            $oTrainingStatement->execute([
+                $iTrainingId
+            ]);
+
+            $oTrainingStatement = $this->oConnection->prepare("
+                UPDATE tbl_schedules
+                SET remainingSlots = (remainingSlots - 1)
+                WHERE id = ?
+            ");
+
+            $oTrainingStatement->execute([
+                $iScheduleId
+            ]);
+
+            return $this->oConnection->commit();
+        } catch (PDOException $oError) {
+            $this->oConnection->rollBack();
+            return 0;
+        }
+    }
+
+    public function markAsUnreserved($iScheduleId)
+    {
+        $oTrainingStatement = $this->oConnection->prepare("
+            UPDATE tbl_schedules
+            SET remainingSlots = (remainingSlots + 1)
+            WHERE id = ?
+        ");
+
+        return $oTrainingStatement->execute([$iScheduleId]);
+    }
+
+    public function getTrainingDataByTrainingId($iTrainingId)
+    {
+        $sQuery = $this->oConnection->prepare(
+            "SELECT * FROM tbl_training WHERE id = ?"
+        );
+
+        $sQuery->execute([$iTrainingId]);
+
+        return $sQuery->fetch();
     }
 }
