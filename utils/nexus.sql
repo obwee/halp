@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 12, 2020 at 04:20 PM
+-- Generation Time: Apr 19, 2020 at 05:00 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -112,6 +112,20 @@ CREATE TABLE `tbl_inclusions` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_notifications`
+--
+
+CREATE TABLE `tbl_notifications` (
+  `id` int(11) NOT NULL,
+  `studentId` int(11) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL,
+  `date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_payments`
 --
 
@@ -126,22 +140,6 @@ CREATE TABLE `tbl_payments` (
   `isPaid` tinyint(1) NOT NULL DEFAULT 0,
   `rejectReason` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `tbl_payments`
---
-
-INSERT INTO `tbl_payments` (`id`, `trainingId`, `paymentDate`, `paymentMethod`, `paymentAmount`, `paymentFile`, `isApproved`, `isPaid`, `rejectReason`) VALUES
-(12, 12, '2020-04-07 22:08:23', '2', 9500, '2020-04-07_22-08-23_Mark Exequiel-Sale.jpg', '1', 2, NULL),
-(13, 12, '2020-04-09 13:54:10', '2', 500, '2020-04-09_13-54-10_Mark Exequiel-Sale.JPG', '1', 2, NULL),
-(14, 11, '2020-04-10 12:59:41', '2', 2999, '2020-04-10_12-59-41_Mark Exequiel-Sale.JPG', '1', 1, NULL),
-(125, 13, '2020-04-10 14:58:20', NULL, 0, '2020-04-10_14-58-20_Mark Exequiel-Sale.jpg', '0', 0, NULL),
-(127, 12, '2020-04-11 13:31:10', '2', 10000, '2020-04-11_13-31-10_Mark Exequiel-Sale.jpg', '1', 2, NULL),
-(129, 12, '2020-04-11 13:31:10', '2', 0, '2020-04-11_13-31-10_Mark Exequiel-Sale.jpg', '2', 0, 'Fully paid already.'),
-(130, 11, '2020-04-11 16:04:16', NULL, 0, '2020-04-11_16-04-16_Mark Exequiel-Sale.jpg', '2', 0, 'test reject'),
-(131, 15, '2020-04-11 18:54:07', NULL, 0, '2020-04-11_18-54-07_Mark Exequiel-Sale.jpg', '0', 0, NULL),
-(132, 11, '2020-04-11 16:04:16', NULL, 0, '2020-04-11_16-04-16_Mark Exequiel-Sale.jpg', '0', 0, ''),
-(133, 16, '2020-04-12 18:05:57', '2', 10000, '2020-04-12_18-05-57_Mark Exequiel-Sale.png', '1', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -260,13 +258,6 @@ CREATE TABLE `tbl_refunds` (
   `executor` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `tbl_refunds`
---
-
-INSERT INTO `tbl_refunds` (`id`, `trainingId`, `refundReason`, `dateRequested`, `isApproved`, `executor`) VALUES
-(1, 11, 'test refund', '2020-04-12 19:01:19', 1, 'Mark Exequiel Sale');
-
 -- --------------------------------------------------------
 
 --
@@ -293,19 +284,21 @@ CREATE TABLE `tbl_schedules` (
 --
 
 INSERT INTO `tbl_schedules` (`id`, `courseId`, `coursePrice`, `instructorId`, `venueId`, `numSlots`, `remainingSlots`, `fromDate`, `toDate`, `recurrence`, `numRepetitions`, `status`) VALUES
-(2, 1, '20000', 111, 1, 12, 10, '2020-04-20', '2020-04-24', 'none', '1', 'Active'),
-(3, 2, '20000', 111, 2, 50, 48, '2020-05-04', '2020-05-08', 'none', '1', 'Active'),
-(4, 1, '20000', 110, 1, 50, 50, '2020-04-30', '2020-05-01', 'none', '1', 'Active'),
+(2, 1, '20000', 111, 1, 12, 12, '2020-04-27', '2020-05-01', 'none', '1', 'Active'),
+(3, 2, '20000', 111, 2, 50, 49, '2020-05-04', '2020-05-08', 'none', '1', 'Active'),
+(4, 1, '20000', 110, 1, 50, 50, '2020-05-04', '2020-05-05', 'none', '1', 'Active'),
 (5, 4, '20000', 111, 2, 50, 50, '2020-04-07', '2020-04-07', 'none', '1', 'Inactive'),
-(6, 12, '20000', 111, 1, 49, 47, '2020-04-13', '2020-04-17', 'none', '1', 'Active'),
+(6, 12, '20000', 111, 1, 50, 50, '2020-04-20', '2020-04-24', 'none', '1', 'Active'),
 (25, 12, '20000', 110, 1, 1, 1, '2020-03-09', '2020-03-10', 'none', '1', 'Active'),
 (26, 12, '20000', 110, 1, 1, 1, '2020-04-07', '2020-04-08', 'none', '1', 'Inactive'),
 (27, 10, '20000', 110, 1, 1, 1, '2020-04-07', '2020-04-09', 'none', '1', 'Inactive'),
 (28, 7, '10000', 110, 2, 25, 25, '2020-04-08', '2020-04-10', 'none', '1', 'Active'),
-(29, 10, '8000', 110, 2, 1, 0, '2020-05-14', '2020-05-15', 'none', '1', 'Active'),
-(32, 7, '9999', 110, 2, 99, 98, '2020-05-25', '2020-05-29', 'none', '1', 'Active'),
-(42, 12, '2000', 110, 1, 10, 9, '2020-05-03', '2020-05-10', 'weekly', '2', 'Active'),
-(43, 7, '41241', 111, 1, 1, 0, '2020-04-12', '2020-04-19', 'weekly', '2', 'Active');
+(29, 10, '8000', 110, 2, 1, 0, '2020-05-14', '2020-05-15', 'none', '1', 'Inactive'),
+(32, 7, '9999', 110, 2, 99, 99, '2020-05-25', '2020-05-29', 'none', '1', 'Active'),
+(42, 12, '2000', 110, 1, 10, 10, '2020-05-04', '2020-05-11', 'weekly', '2', 'Active'),
+(43, 7, '41241', 111, 1, 1, 1, '2020-05-03', '2020-05-10', 'weekly', '2', 'Active'),
+(44, 5, '7000', 111, 2, 30, 30, '2020-05-18', '2020-05-22', 'none', '1', 'Active'),
+(45, 5, '7000', 110, 2, 30, 30, '2020-05-31', '2020-06-04', 'none', '1', 'Active');
 
 -- --------------------------------------------------------
 
@@ -329,21 +322,12 @@ CREATE TABLE `tbl_training` (
   `id` int(11) NOT NULL,
   `studentId` int(11) NOT NULL,
   `scheduleId` int(11) NOT NULL,
+  `isReserved` int(11) NOT NULL DEFAULT 0,
   `isDone` tinyint(1) NOT NULL DEFAULT 0,
   `certificateIssued` tinyint(1) NOT NULL DEFAULT 0,
   `isCancelled` int(11) NOT NULL DEFAULT 0,
   `cancellationReason` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `tbl_training`
---
-
-INSERT INTO `tbl_training` (`id`, `studentId`, `scheduleId`, `isDone`, `certificateIssued`, `isCancelled`, `cancellationReason`) VALUES
-(11, 7, 32, 0, 0, 0, ''),
-(12, 7, 2, 0, 0, 0, ''),
-(15, 7, 6, 0, 0, 1, 'Test cancellation.'),
-(16, 7, 3, 0, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -531,7 +515,7 @@ ALTER TABLE `tbl_inclusions`
 -- AUTO_INCREMENT for table `tbl_payments`
 --
 ALTER TABLE `tbl_payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=158;
 
 --
 -- AUTO_INCREMENT for table `tbl_payment_methods`
@@ -555,13 +539,13 @@ ALTER TABLE `tbl_quotation_senders`
 -- AUTO_INCREMENT for table `tbl_refunds`
 --
 ALTER TABLE `tbl_refunds`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tbl_schedules`
 --
 ALTER TABLE `tbl_schedules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `tbl_sent_quotations`
@@ -573,7 +557,7 @@ ALTER TABLE `tbl_sent_quotations`
 -- AUTO_INCREMENT for table `tbl_training`
 --
 ALTER TABLE `tbl_training`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`
