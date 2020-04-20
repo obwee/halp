@@ -147,10 +147,18 @@ require_once "Template/header.php";
 			</div>
 			<form method="POST" id="addWalkInForm">
 				<div class="modal-body">
+					<input type="hidden" class="form-control studentId" readonly>
 					<div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
 					<div class="form-group studentSearch">
-						<label for="studentName"><span class="fas fa-user"></span> Student Name</label>
-						<input type="text" name="studentName" class="form-control typeahead studentName" placeholder="Enter Student Name">
+					<label for="studentName"><span class="fas fa-user"></span> Student Name</label>
+						<div class="row">
+							<div class="col-6">
+								<input type="text" name="studentName" class="form-control typeahead studentName" placeholder="Enter Student Name">
+							</div>
+							<div class="col-6">
+								<button type="button" class="btn btn-primary loadStudent">Load Student</button>
+							</div>
+						</div>
 					</div>
 					<div class="form-group">
 						<label for="courseDropdown"><span class="fas fa-book"></span> Course</label>
@@ -164,6 +172,22 @@ require_once "Template/header.php";
 							<option value="" selected disabled hidden>Select Schedule</option>
 						</select>
 					</div>
+					<div class="form-group">
+                        <label><i class="fas fa-map"></i> Venue</label>
+                        <input type="text" class="form-control venue" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-money"></i> Price</label>
+                        <input type="text" class="form-control price" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-users"></i> Available Slots</label>
+                        <input type="text" class="form-control slots" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-chalkboard"></i> Instructor</label>
+                        <input type="text" class="form-control instructor" readonly>
+                    </div>
 				</div>
 				<div class="d-flex justify-content-center">
 					<div class="spinner-border spinner" role="status" style="display:none;">

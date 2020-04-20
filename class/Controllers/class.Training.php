@@ -485,4 +485,42 @@ class Training extends BaseController
         Utils::unsetUnnecessaryData($aEnrollmentData, $aUnnecessaryData);
         echo json_encode(array_values($aEnrollmentData));
     }
+
+    public function fetchStudentEnrollmentData()
+    {
+        // Get enrolled trainings.
+        $aEnrolledTrainings = $this->oTrainingModel->fetchTrainingRequests($this->aParams['iStudentId']);
+        $aCoursesAvailable = $this->oCourseModel->fetchAvailableCoursesAndSchedules();
+
+        if (count($aEnrolledTrainings) === 0) {
+            echo json_encode(array(
+                'aTrainingsAvailable' => array_values($this->prepareTrainingsAvailable($aCoursesAvailable)),
+                'aInstructors'        => array_values(array_filter($this->oInstructorsModel->fetchInstructors(), fn ($aInstructors) => $aInstructors['status'] === 'Active'))
+            ));
+            exit;
+        }
+
+        foreach ($aEnrolledTrainings as $iKey => $aEnrolledTraining) {
+            // Unset rejected payments.
+            if ($aEnrolledTraining['paymentApproval'] === '2') {
+                unset($aEnrolledTrainings[$iKey]);
+                continue;
+            }
+            foreach ($aCoursesAvailable as $mKey => $aCourseAvailable) {
+                if ($aEnrolledTraining['courseId'] === $aCourseAvailable['courseId']) {
+                    unset($aCoursesAvailable[$mKey]);
+                }
+            }
+        }
+
+        $aTrainingsAvailable = [];
+        if (count($aCoursesAvailable) > 0) {
+            $aTrainingsAvailable = $this->prepareTrainingsAvailable($aCoursesAvailable);
+        }
+
+        echo json_encode(array(
+            'aTrainingsAvailable' => array_values($aTrainingsAvailable),
+            'aInstructors'        => array_values(array_filter($this->oInstructorsModel->fetchInstructors(), fn ($aInstructors) => $aInstructors['status'] === 'Active'))
+        ));
+    }
 }
