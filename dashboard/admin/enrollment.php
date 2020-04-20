@@ -79,7 +79,7 @@ require_once "Template/header.php";
 </div>
 
 
-<div class="modal fade" id="rescheduleModal" role="dialog">
+<div class="modal fade" id="rescheduleModal" role="dialog" data-backdrop="static">
 	<div class="modal-dialog modal-dialog-centered rescheduleModal">
 		<div class="modal-content">
 			<div class="modal-header" style="background-color: #3c8dbc;">
@@ -88,7 +88,7 @@ require_once "Template/header.php";
 					<span aria-hidden="true" style="color:white">&times;</span>
 				</button>
 			</div>
-			<form method="POST" id="rescheduleForm">>
+			<form method="POST" id="rescheduleForm">
 				<div class="modal-body">
 					<div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
 					<div class="form-group row">
@@ -136,7 +136,7 @@ require_once "Template/header.php";
 	</div>
 </div>
 
-<div class="modal fade" id="addWalkinModal" role="dialog">
+<div class="modal fade" id="addWalkinModal" role="dialog" data-backdrop="static">
 	<div class="modal-dialog modal-dialog-centered addWalkinModal">
 		<div class="modal-content">
 			<div class="modal-header" style="background-color: #3c8dbc;">

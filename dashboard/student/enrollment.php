@@ -12,9 +12,9 @@ require_once "template/studentHeader.php";
         <button type="button" id="enrollBtn" class="btn btn-primary btn-lg">Enroll</button>
     </div>
 
-    <div class="container">
+    <div class="container" style="padding-left:0;padding-right:0;">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h5>Reserved Trainings</h5>
+            <h5>Trainings</h5>
         </div>
 
         <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
@@ -30,7 +30,10 @@ require_once "template/studentHeader.php";
     <div class="modal-dialog enrollModal">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #605ca8;">
-                <h5 align="center" style="color:white;">Enrollment</h5>
+                <h5 align="center" style="color:white;"><i class="fab fa-leanpub"></i> Enrollment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:white">&times;</span>
+                </button>
             </div>
             <form action="POST" id="enrollForm">
                 <div class="modal-body">
@@ -71,18 +74,21 @@ require_once "template/studentHeader.php";
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Enroll</button>
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="cancelReservationModal" role="dialog">
+<div class="modal fade" id="cancelReservationModal" role="dialog" data-backdrop="static">
     <div class="modal-dialog cancelReservationModal">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #605ca8;">
                 <h5 align="center" style="color:white;">Cancel Reservation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:white">&times;</span>
+                </button>
             </div>
             <form action="POST" id="cancelReservationForm">
                 <div class="modal-body">
@@ -122,7 +128,7 @@ require_once "template/studentHeader.php";
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Submit</button>
-                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
             </form>
@@ -130,11 +136,14 @@ require_once "template/studentHeader.php";
     </div>
 </div>
 
-<div class="modal fade" id="viewPaymentModal" role="dialog">
+<div class="modal fade" id="viewPaymentModal" role="dialog" data-backdrop="static">
     <div class="modal-dialog modal-lg viewPaymentModal">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #605ca8;">
                 <h5 align="center" style="color:white;">View Payment History</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:white">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div style="border: 3px solid #d5d5d5;padding-top:5px;padding-left:5px;padding-right:5px;padding-bottom:0;border-radius: 4px 4px;margin-bottom:5px;">
@@ -178,17 +187,20 @@ require_once "template/studentHeader.php";
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success addPayment">Add Payment</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="addPaymentModal" role="dialog">
-    <div class="modal-dialog modal-lg addPaymentModal modal-dialog-centered">
+<div class="modal fade" id="addPaymentModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog addPaymentModal modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #605ca8;">
                 <h5 align="center" style="color: white;">Upload Payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:white">&times;</span>
+                </button>
             </div>
             <form action="POST" id="addPaymentForm">
                 <div class="modal-body">
@@ -216,7 +228,7 @@ require_once "template/studentHeader.php";
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Upload</button>
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
                 </div>
             </form>
         </div>
@@ -244,7 +256,7 @@ require_once "template/studentHeader.php";
                 <p>To view the complete terms and conditions, click <a href="">here</a>.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
