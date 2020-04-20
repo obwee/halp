@@ -25,33 +25,35 @@ require_once "template/studentHeader.php";
 
   #top:hover {
       background-color: #555;
+    }
+
+
   </style>
 
 <div class="container">
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"  style="padding-bottom: 10px;">
         <h2>Terms and Conditions</h2>
     </div>
 
-    <button onclick="topFunction()" id="top">Back to top</button> 
+    <button onclick="topFunction()" id="top"><i class="fas fa-arrow-alt-circle-up"></i></button> 
 
 
-    <div style="margin-top:60px;">
-        <ol>
-            <li>NEXUS ITTC reserves the right to change schedules, instructors or even cancel a class if the need arises.</li>
-            <li>All schedule and fees are subject to change without prior notice.</li>
-            <li>Rescheduling of reservations should be done at least three (3) days prior the reserved schedule.</li>
-            <li>To reschedule, contact NEXUS ITTC at least three (3) days prior the reserved schedule.</li>
-            <li>Minimum of five (5) students to commence a class</li>
-            <li>Refunds are not allowed if the student decides to backout on the first day of class.</li>
-            <li>Refund requests should be submitted at least three (3) days prior the reserved schedule.</li>
-            <li>Submitting a refund request does not guarantee that the request will be accepted. Processing of refund requests are subject to the discretion of the administrators.</li>
-            <li>Walk-ins are accepted depending on the availability of slots.</li>
-            <li>Upon uploading a proof of payment, please wait for the confirmation of your slot via email.</li>
-            <li>Desktops, routers and switches will be provided for each student.</li>
-            <li>All trainings are inclusive of e-books, training manuals, reviewers and certificate of completion.</li>
-            <li>Students who wish to enroll must be at least a high school graduate.</li>
-            <li>Maximum of 15 students per class only to ensure the efficiency of the training.</li>
-        </ol>
+    <div>
+        <ul class="list-group">
+            <li class="list-group-item">NEXUS ITTC reserves the right to change schedules, instructors or even cancel a class if the need arises.</li>
+            <li class="list-group-item">All schedule and fees are subject to change without prior notice.</li>
+            <li class="list-group-item">Rescheduling of reservations should be done at least three (3) days prior the reserved schedule.</li>
+            <li class="list-group-item">To reschedule, contact NEXUS ITTC at least three (3) days prior the reserved schedule.</li>
+            <li class="list-group-item">Minimum of five (5) students to commence a class</li>
+            <li class="list-group-item">Refunds are not allowed if the student decides to backout on the first day of class.</li>
+            <li class="list-group-item">Refund requests should be submitted at least three (3) days prior the reserved schedule.</li>
+            <li class="list-group-item">Submitting a refund request does not guarantee that the request will be accepted. Processing of refund requests are subject to the discretion of the administrators.</li>
+            <li class="list-group-item">Walk-ins are accepted depending on the availability of slots.</li>
+            <li class="list-group-item">Upon uploading a proof of payment, please wait for the confirmation of your slot via email.</li>
+            <li class="list-group-item">Desktops, routers and switches will be provided for each student.</li>
+            <li class="list-group-item">All trainings are inclusive of e-books, training manuals, reviewers and certificate of completion.</li>
+            <li class="list-group-item">Students who wish to enroll must be at least a high school graduate.</li>
+        </ul>
     </div>
 </div>
 
