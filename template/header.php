@@ -63,10 +63,10 @@
                         <li class="dropdown notifications-menu open">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                 <i class="fa fa-bell-o"></i>
-                                <span class="label label-warning">10</span>
+                                <span class="label label-warning notif-count">10</span>
                             </a>
-                            <ul class="dropdown-menu">
-                                <li class="header">You have 10 notifications</li>
+                            <ul class="dropdown-menu" style="overflow-y: hidden;">
+                                <li class="header notif-header">You have 10 notifications</li>
                                 <li>
                                     <ul class="menu">
                                         <li>
@@ -97,7 +97,6 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="footer"><a href="#">View all</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -150,7 +149,8 @@
                         </a>
                         <ul class="treeview-menu">
                             <li><a href="/Nexus/dashboard/admin/rejectedPayments"><i class="fas fa-times-circle"></i>&emsp;Rejected Payments</a></li>
-                            <li><a href="/Nexus/dashboard/admin/refundRequests"><i class="fas fa-user-times"></i>&emsp;Refund</a></li>
+                            <li><a href="/Nexus/dashboard/admin/refundRequests"><i class="fas fa-user-times"></i>&emsp;Refund Requests</a></li>
+                            <li><a href="/Nexus/dashboard/admin/approvedRefunds"><i class="fas fa-user-check"></i>&emsp;Approved Refunds</a></li>
                         </ul>
                     </li>
                     <li class="treeview">

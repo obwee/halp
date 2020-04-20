@@ -145,6 +145,7 @@ var oEnrollment = (() => {
                     $('.modal').modal('hide');
                 })
             } else {
+                console.log(oCourseDetails);
                 checkIfAlreadyRequestedForRefund(oCourseDetails.trainingId)
                     .then((oResponse) => {
                         if (oResponse.bResult === false) {
