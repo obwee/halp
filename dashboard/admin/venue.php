@@ -18,11 +18,14 @@ require_once "Template/header.php";
     </div>
 </div>
 
-<div class="modal fade" id="addNewBranchModal" role="dialog">
-    <div class="modal-dialog modal-lg addNewBranchModal">
+<div class="modal fade" id="addNewBranchModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-centered addNewBranchModal">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #3c8dbc;">
                 <h5 align="center" style="color:white;"><i class="fas fa-plus"></i> Add New Branch</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:white">&times;</span>
+                </button>
             </div>
             <form id="addVenueForm" method="POST">
                 <div class="modal-body">
@@ -49,11 +52,14 @@ require_once "Template/header.php";
     </div>
 </div>
 
-<div class="modal fade" id="editVenueModal" role="dialog">
-    <div class="modal-dialog modal-lg editVenueModal">
+<div class="modal fade" id="editVenueModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-centered editVenueModal">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #3c8dbc;">
                 <h5 align="center" style="color:white;"><i class="fas fa-edit"></i> Edit Venue</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:white">&times;</span>
+                </button>
             </div>
             <form id="editVenueForm" method="POST">
                 <div class="modal-body">
