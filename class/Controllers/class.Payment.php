@@ -313,7 +313,7 @@ class Payment extends BaseController
         }
 
         if ($iApproveQuery > 0) {
-            $this->sendEmailToStudent($aTrainingData, $iOverallPayment, $this->aParams['isPaid']);
+            $this->sendEmailToStudent($aTrainingData, $iOverallPayment, $this->aParams['isPaid'], 'approved');
 
             echo json_encode(array(
                 'bResult'  => true,
@@ -343,10 +343,18 @@ class Payment extends BaseController
         Utils::renameKeys($this->aParams, $aDatabaseColumns);
         Utils::sanitizeData($this->aParams);
 
+        // Get the training ID associated with the payment ID.
+        $aTrainingData = $this->oPaymentModel->fetchTrainingDataByPaymentId($this->aParams['id']);
+        $aPaymentDetails = $this->oPaymentModel->fetchPaymentsByTrainingId([$aTrainingData['trainingId']])[0];
+
+        $iBalance = $aTrainingData['coursePrice'] - $aPaymentDetails['paymentAmount'];
+
         // Perform update.
         $iQuery = $this->oPaymentModel->rejectPayment($this->aParams);
 
         if ($iQuery > 0) {
+            $this->sendEmailToStudent($aTrainingData, $iBalance, $aPaymentDetails['paymentStatus'], 'rejected');
+
             $aResult = array(
                 'bResult' => true,
                 'sMsg'    => 'Payment rejected!'
@@ -361,14 +369,14 @@ class Payment extends BaseController
         echo json_encode($aResult);
     }
 
-    private function sendEmailToStudent($aTrainingData, $iTotalPayment, $iPaymentStatus)
+    private function sendEmailToStudent($aTrainingData, $iTotalPayment, $iPaymentStatus, $sAction)
     {
-        $aStudentDetails = $this->getUserDetails();
+        $aStudentDetails = $this->getUserDetails($aTrainingData['studentId']);
         $aStudentDetails['fullName'] = $aStudentDetails['firstName'] . ' ' . $aStudentDetails['lastName'];
         $aEnrollmentDetails = $this->oCourseModel->getCourseAndScheduleDetails($aTrainingData['scheduleId']);
         $aEnrollmentDetails['schedule'] = Utils::formatDate($aEnrollmentDetails['fromDate']) . ' - ' . Utils::formatDate($aEnrollmentDetails['toDate']) . ' (' . $this->getInterval($aEnrollmentDetails) . ')';
 
-        $sMsg = 'Hello, ' . $aStudentDetails['fullName'] . '. Your payment has been approved for: ';
+        $sMsg = 'Hello, ' . $aStudentDetails['fullName'] . '. Your payment has been ' . $sAction . ' for: ';
         $sMsg .= "\r\n\r\n";
         $sMsg .= 'Course Code: ' . $aEnrollmentDetails['courseCode'];
         $sMsg .= "\r\n";
@@ -384,7 +392,7 @@ class Payment extends BaseController
         $oMail->setEmailSender('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
         $oMail->addSingleRecipient('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
         // $oMail->addSingleRecipient($aStudentDetails['email'], $aStudentDetails['fullName']);
-        $oMail->setTitle('Payment Approval');
+        $oMail->setTitle('Payment ' . ucfirst($sAction));
         $oMail->setBody($sMsg);
         return $oMail->send();
     }

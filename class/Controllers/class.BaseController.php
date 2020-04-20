@@ -42,9 +42,9 @@ class BaseController
         return $this->oStudentModel->getUserIdByFirstAndLastName($sFirstName, $sLastName);
     }
 
-    protected function getUserDetails()
+    protected function getUserDetails($iStudentId)
     {
-        return $this->oStudentModel->getUserDetails(['userId' => $this->getUserId()]);
+        return $this->oStudentModel->getUserDetails(['userId' => $iStudentId]);
     }
 
     /**

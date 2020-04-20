@@ -158,18 +158,25 @@ class RefundsModel
      */
     public function rejectRefund($aData)
     {
-        // Prepare a delete query for the tbl_venue table.
-        $statement = $this->oConnection->prepare("
-            UPDATE tbl_refunds
-            SET
-                isApproved = 2,
-                executor   = :executor
-            WHERE trainingId = :trainingId
-            AND isApproved = 0
+        $sDelete = $this->oConnection->prepare("
+            DELETE FROM tbl_refunds
+            WHERE trainingId = ?
         ");
 
-        // Execute the above statement along with the needed where clauses then return.
-        return $statement->execute($aData);
+        return $sDelete->execute([$aData['trainingId']]);
+
+        // // Prepare a delete query for the refunds table.
+        // $statement = $this->oConnection->prepare("
+        //     UPDATE tbl_refunds
+        //     SET
+        //         isApproved = 2,
+        //         executor   = :executor
+        //     WHERE trainingId = :trainingId
+        //     AND isApproved = 0
+        // ");
+        // 
+        // // Execute the above statement along with the needed where clauses then return.
+        // return $statement->execute($aData);
     }
 
     /**
