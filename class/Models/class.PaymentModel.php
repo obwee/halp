@@ -172,7 +172,7 @@ class PaymentModel
                    MAX(tp.isPaid) AS paymentStatus
             FROM tbl_payments tp
             WHERE tp.trainingId IN ($sPlaceHolders)
-            GROUP BY tp.id
+            -- GROUP BY tp.id
         ");
 
         // Execute the above statement.
@@ -186,7 +186,7 @@ class PaymentModel
     {
         // Prepare a select query.
         $statement = $this->oConnection->prepare("
-            SELECT tp.trainingId, ts.coursePrice, tt.isReserved, tt.scheduleId
+            SELECT tp.trainingId, ts.coursePrice, tt.isReserved, tt.scheduleId, tt.studentId
             FROM tbl_payments tp
             INNER JOIN tbl_training tt
             ON tp.trainingId = tt.id

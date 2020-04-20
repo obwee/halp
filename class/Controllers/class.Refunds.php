@@ -21,6 +21,12 @@ class Refunds extends BaseController
     private $oPaymentModel;
 
     /**
+     * @var CourseModel $oCourseModel
+     * Class instance for Course model.
+     */
+    private $oCourseModel;
+
+    /**
      * @var $aPaymentMethods
      * Holder of payment methods.
      */
@@ -40,6 +46,8 @@ class Refunds extends BaseController
         $this->oTrainingModel = new TrainingModel();
         // Instantiate the VenueModel class and store it inside $this->oVenueModel.
         $this->oPaymentModel = new PaymentModel();
+        // Instantiate the CourseModel class and store it inside $this->oCourseModel.
+        $this->oCourseModel = new CourseModel();
 
         $this->aPaymentMethods = $this->oPaymentModel->fetchModeOfPayments();
 
@@ -181,6 +189,9 @@ class Refunds extends BaseController
         $iQuery = $this->oRefundsModel->rejectRefund($aParams);
 
         if ($iQuery > 0) {
+            $aTrainingData = $this->oTrainingModel->getTrainingDataByTrainingId($this->aParams['iTrainingId']);
+            $this->sendEmailToStudent($aTrainingData, 'rejected');
+
             $aResult = array(
                 'bResult' => true,
                 'sMsg'    => 'Refund rejected!'
@@ -218,6 +229,7 @@ class Refunds extends BaseController
         $this->oTrainingModel->markAsUnreserved($aTrainingData['scheduleId']);
 
         if ($iApproveQuery > 0 && $iCancelQuery > 0) {
+            $this->sendEmailToStudent($aTrainingData, 'approved');
             $aResult = array(
                 'bResult' => true,
                 'sMsg'    => 'Refund approved!'
@@ -230,5 +242,29 @@ class Refunds extends BaseController
         }
 
         echo json_encode($aResult);
+    }
+
+    private function sendEmailToStudent($aTrainingData, $sAction)
+    {
+        $aStudentDetails = $this->getUserDetails($aTrainingData['studentId']);
+        $aStudentDetails['fullName'] = $aStudentDetails['firstName'] . ' ' . $aStudentDetails['lastName'];
+        $aEnrollmentDetails = $this->oCourseModel->getCourseAndScheduleDetails($aTrainingData['scheduleId']);
+        $aEnrollmentDetails['schedule'] = Utils::formatDate($aEnrollmentDetails['fromDate']) . ' - ' . Utils::formatDate($aEnrollmentDetails['toDate']) . ' (' . $this->getInterval($aEnrollmentDetails) . ')';
+
+        $sMsg = 'Hello, ' . $aStudentDetails['fullName'] . '. Your refund has been ' . $sAction . ' for: ';
+        $sMsg .= "\r\n\r\n";
+        $sMsg .= 'Course Code: ' . $aEnrollmentDetails['courseCode'];
+        $sMsg .= "\r\n";
+        $sMsg .= 'Course Price: ' . Utils::toCurrencyFormat($aEnrollmentDetails['coursePrice']);
+        $sMsg .= "\r\n";
+        $sMsg .= 'Schedule: ' . $aEnrollmentDetails['schedule'];
+
+        $oMail = new Email();
+        $oMail->setEmailSender('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
+        $oMail->addSingleRecipient('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
+        // $oMail->addSingleRecipient($aStudentDetails['email'], $aStudentDetails['fullName']);
+        $oMail->setTitle('Refund ' . ucfirst($sAction));
+        $oMail->setBody($sMsg);
+        return $oMail->send();
     }
 }

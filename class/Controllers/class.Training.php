@@ -436,8 +436,7 @@ class Training extends BaseController
             exit;
         }
 
-        // echo "<pre>";
-        // print_r($aEnrollees);
+        $aEnrollmentData = [];
 
         // Get instructor IDs, training IDs and payment statuses. Also, remove duplicates.
         foreach ($aEnrollees as $iKey => $aData) {
