@@ -48,7 +48,7 @@
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>NXS</b></span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg">Nexus - Student</span>
+                <span class="logo-lg">Nexus | STUDENT</span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
@@ -100,18 +100,18 @@
                     </li>
                     <li><a href="terms.php"><i class="fas fa-handshake"></i>&emsp;Terms and Conditions</a></li>
                     <li><a href="quotationRequest.php"><i class="fas fa-mail-bulk"></i>&emsp;Quotation Requests</a></li>
-                    <li><a href="enrollment.php"><i class="fas fa-university"></i>&emsp;Enrollment</a></li>
+                    <li><a href="enrollment.php"><i class="fab fa-leanpub"></i>&emsp;Enrollment</a></li>
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-users-cog"></i>
-                            <span>&emsp;Reservations</span>
+                            <span>&emsp;Trainings</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="fullyPaidReservations"><i class="fas fa-check-double"></i>&emsp;Fully Paid Reservations</a></li>
-                            <li><a href="cancelledReservations"><i class="fas fa-window-close"></i>&emsp;Cancelled Reservations</a></li>
+                            <li><a href="finishedTrainings"><i class="fas fa-check-double"></i>&emsp;Finished Trainings</a></li>
+                            <li><a href="cancelledReservations"><i class="fas fa-window-close"></i>&emsp;Cancelled Trainings</a></li>
                             <li><a href="rejectedPayments"><i class="fas fa-times-circle"></i>&emsp;Rejected Payments</a></li>
                         </ul>
                     </li>
