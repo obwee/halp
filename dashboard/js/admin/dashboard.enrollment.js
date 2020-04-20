@@ -82,7 +82,10 @@ var oEnrollment = (() => {
     let aPaymentDetails = [];
     let aPaymentModes = [];
     let aStudentList = [];
+    let aStudentNames = [];
     let oStudentsTypeAhead = {};
+    let aTrainingsAvailable = [];
+    let aInstructors = [];
 
     function init() {
         fetchCoursesAndSchedules();
@@ -97,7 +100,7 @@ var oEnrollment = (() => {
         oStudentsTypeAhead = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.whitespace,
             queryTokenizer: Bloodhound.tokenizers.whitespace,
-            local: aStudentList
+            local: aStudentNames
         });
     }
 
@@ -109,10 +112,22 @@ var oEnrollment = (() => {
             highlight: true,
             minLength: 1
         },
-            {
-                name: 'aStudentList',
-                source: oStudentsTypeAhead
-            });
+        {
+            name: 'aStudentNames',
+            source: oStudentsTypeAhead
+        });
+
+        $(document).on('click', '.loadStudent', function() {
+            const sFormId = `#${$(this).closest('form').attr('id')}`;
+            const sStudentName = $(sFormId).find('input.typeahead.tt-input').val();
+            const oStudentDetails = aStudentList.filter(oStudent => oStudent.studentName == sStudentName)[0];
+
+            if (oStudentDetails === undefined) {
+                oLibraries.displayErrorMessage(sFormId, 'Invalid student.', '.studentName');
+            } else {
+                fetchStudentEnrollmentData(oStudentDetails.studentId);
+            }
+        });
 
         $(document).on('hidden.bs.modal', '#approvePaymentModal', function () {
             $(this).find('form')[0].reset();
@@ -244,6 +259,13 @@ var oEnrollment = (() => {
                     'requestAction': 'requestRefund',
                     'alertTitle': 'Request Refund?',
                     'alertText': 'This will request a refund before cancelling the reservation.'
+                },
+                '#addWalkInForm': {
+                    'validationMethod': oValidations.validateAddWalkInForm('#addWalkInForm'),
+                    'requestClass': 'Student',
+                    'requestAction': 'addWalkIn',
+                    'alertTitle': 'Add Student?',
+                    'alertText': 'This will add a student as walk-in.'
                 }
             }
 
@@ -456,6 +478,22 @@ var oEnrollment = (() => {
         });
     }
 
+    function fetchStudentEnrollmentData(iStudentId) {
+        $.ajax({
+            url: `/Nexus/utils/ajax.php?class=Training&action=fetchStudentEnrollmentData`,
+            type: 'POST',
+            data: {iStudentId},
+            dataType: 'json',
+            success: function (oResponse) {
+                aTrainingsAvailable = oResponse.aTrainingsAvailable;
+                aInstructors = oResponse.aInstructors;
+            },
+            error: function () {
+                oLibraries.displayAlertMessage('error', 'An error has occured. Please try again.');
+            }
+        });
+    }
+
     function fetchStudents() {
         $.ajax({
             url: `/Nexus/utils/ajax.php?class=Student&action=fetchStudents`,
@@ -463,8 +501,9 @@ var oEnrollment = (() => {
             dataType: 'json',
             async: false,
             success: function (oResponse) {
-                oResponse.forEach((oStudent) => {
-                    aStudentList.push(oStudent.studentName);
+                aStudentList = oResponse;
+                aStudentList.forEach((oStudent) => {
+                    aStudentNames.push(oStudent.studentName);
                 });
             },
             error: function () {
