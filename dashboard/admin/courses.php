@@ -9,7 +9,7 @@ require_once "template/header.php";
 
     <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
         <div align="right">
-            <button type="button" id="addNewCourse" data-toggle="modal" data-target="#addCourseModal" class="btn btn-info btn-lg">Add New Course</button>
+            <button type="button" id="addNewCourse" data-toggle="modal" data-target="#addCourseModal" class="btn btn-info btn-lg"><i class="fas fa-plus"></i> Add New Course</button>
             <br><br>
         </div>
         <table id="tbl_courses" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
@@ -19,11 +19,14 @@ require_once "template/header.php";
     </div>
 </div>
 
-<div class="modal fade" id="addCourseModal" role="dialog">
-    <div class="modal-dialog vertical-align-center addCourseModal">
+<div class="modal fade" id="addCourseModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered addCourseModal">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #3c8dbc;">
                 <h5 align="center" style="color:white;"><i class="fas fa-book-open"></i> Add Course</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:white">&times;</span>
+                </button>
             </div>
             <form id="addCourseForm">
                 <div class="modal-body">
@@ -50,11 +53,14 @@ require_once "template/header.php";
     </div>
 </div>
 
-<div class="modal fade" id="editCourseModal" role="dialog">
-    <div class="modal-dialog vertical-align-center editCourseModal">
+<div class="modal fade" id="editCourseModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered editCourseModal">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #3c8dbc;">
                 <h5 align="center" style="color:white;"><span class="fas fa-edit"></span> Edit Course</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:white">&times;</span>
+                </button>
             </div>
             <form id="editCourseForm">
                 <div class="modal-body">

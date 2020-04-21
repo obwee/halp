@@ -560,4 +560,5 @@ var oEnrollment = (() => {
 
 $(document).ready(function () {
     oEnrollment.initialize();
+    window.swal = this.swal = this.Sweetalert2;
 });

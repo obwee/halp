@@ -6,11 +6,14 @@ require_once "Template/header.php";
     <div class="container" id='calendar'></div>
 </div>
 
-<div class="modal fade" id="addScheduleModal" role="dialog">
+<div class="modal fade" id="addScheduleModal" role="dialog" data-backdrop="static">
     <div class="modal-dialog addScheduleModal">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #3c8dbc;">
                 <h5 align="center" style="color:white;"><span class="fas fa-calendar-alt"></span> Add Schedule</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:white">&times;</span>
+                </button>
             </div>
             <form id="addScheduleForm" method="POST">
                 <div class="modal-body">

@@ -186,7 +186,7 @@ class Student extends BaseController
 
     private function sendEmailToAdmin($aParams)
     {
-        $aStudentDetails = $this->getUserDetails();
+        $aStudentDetails = $this->getUserDetails($this->getUserId());
         $aStudentDetails['fullName'] = $aStudentDetails['firstName'] . ' ' . $aStudentDetails['lastName'];
         $aEnrollmentDetails = $this->oCourseModel->getCourseAndScheduleDetails($aParams['scheduleId']);
         $aEnrollmentDetails['schedule'] = Utils::formatDate($aEnrollmentDetails['fromDate']) . ' - ' . Utils::formatDate($aEnrollmentDetails['toDate']) . ' (' . $this->getInterval($aEnrollmentDetails) . ')';
