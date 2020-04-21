@@ -211,8 +211,10 @@ class Payment extends BaseController
             exit();
         }
 
+        $this->aParams['studentId'] = $this->aParams['studentId'] ?? $this->getUserId();
+
         $aPaymentFile = array_merge($this->aParams['paymentFile'], pathinfo($this->aParams['paymentFile']['name']));
-        $aStudentDetails = $this->oStudentModel->getUserDetails(['userId' => $this->getUserId()]);
+        $aStudentDetails = $this->oStudentModel->getUserDetails(['userId' => $this->aParams['studentId']]);
 
         $sDateNow = date('Y-m-d H:i:s');
         $sFileName = str_replace(' ', '_', str_replace(':', '-', $sDateNow)) . '_' . $aStudentDetails['firstName'] . '-' . $aStudentDetails['lastName'] . '.' . $aPaymentFile['extension'];
@@ -314,6 +316,7 @@ class Payment extends BaseController
 
         if ($iApproveQuery > 0) {
         $this->sendEmailToStudent($aTrainingData, $iOverallPayment, $this->aParams['isPaid'], 'approved');
+        $this->sendEmailToStudent($aTrainingData, $iOverallPayment, $this->aParams['isPaid'], 'approved');
 
             echo json_encode(array(
                 'bResult'  => true,
@@ -353,7 +356,7 @@ class Payment extends BaseController
         $iQuery = $this->oPaymentModel->rejectPayment($this->aParams);
 
         if ($iQuery > 0) {
-            $this->sendEmailToStudent($aTrainingData, $iBalance, $aPaymentDetails['paymentStatus'], 'rejected');
+            // $this->sendEmailToStudent($aTrainingData, $iBalance, $aPaymentDetails['paymentStatus'], 'rejected');
 
             $aResult = array(
                 'bResult' => true,

@@ -206,6 +206,7 @@ var oForms = (() => {
 
     function preparePaymentEvents() {
         removeRedBorderOnFocus();
+        prepareEnrollmentEvents();
 
         $(document).on('keyup keydown', '.paymentAmount', function () {
             if (this.value.length === 1 && this.value.match(/[^1-9]/)) {

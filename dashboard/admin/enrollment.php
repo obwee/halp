@@ -46,13 +46,13 @@ require_once "Template/header.php";
 		</div>
 		<div class="col-md-4">
 			<label><i class="fas fa-book"></i><b> Course</b></label>
-			<select class="form-control courseDropdown">
+			<select class="form-control courseFilterDropdown">
 				<option value="" selected disabled hidden>Select Course</option>
 			</select>&nbsp&nbsp
 		</div>
 		<div class="col-md-4">
 			<label><i class="fas fa-calendar"></i><b> Schedule</b></label>
-			<select class="form-control scheduleDropdown">
+			<select class="form-control scheduleFilterDropdown">
 				<option value="" selected disabled hidden>Select Schedule</option>
 			</select>
 			<div class="form-group row">
@@ -147,47 +147,49 @@ require_once "Template/header.php";
 			</div>
 			<form method="POST" id="addWalkInForm">
 				<div class="modal-body">
-					<input type="hidden" class="form-control studentId" readonly>
+					<input type="hidden" class="form-control studentId" name="studentId" readonly>
 					<div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
 					<div class="form-group studentSearch">
-					<label for="studentName"><span class="fas fa-user"></span> Student Name</label>
+						<label for="studentName"><span class="fas fa-user"></span> Student Name</label>
 						<div class="row">
 							<div class="col-6">
-								<input type="text" name="studentName" class="form-control typeahead studentName" placeholder="Enter Student Name">
+								<input type="text" class="form-control typeahead studentName" placeholder="Enter Student Name">
 							</div>
 							<div class="col-6">
 								<button type="button" class="btn btn-primary loadStudent">Load Student</button>
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
-						<label for="courseDropdown"><span class="fas fa-book"></span> Course</label>
-						<select class="form-control courseDropdown">
-							<option value="" selected disabled hidden>Select Course</option>
-						</select>
+					<div class="dropdowns">
+						<div class="form-group">
+							<label for="courseDropdown"><span class="fas fa-book"></span> Course</label>
+							<select class="form-control courseDropdown" name="courseDropdown" disabled>
+								<option value="" selected disabled hidden>Select Course</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="scheduleDropdown"><span class="fas fa-calendar-alt"></span> Schedule</label>
+							<select class="form-control scheduleDropdown" name="scheduleDropdown" disabled>
+								<option value="" selected disabled hidden>Select Schedule</option>
+							</select>
+						</div>
 					</div>
 					<div class="form-group">
-						<label for="scheduleDropdown"><span class="fas fa-calendar-alt"></span> Schedule</label>
-						<select class="form-control scheduleDropdown">
-							<option value="" selected disabled hidden>Select Schedule</option>
-						</select>
+						<label><i class="fas fa-map"></i> Venue</label>
+						<input type="text" class="form-control venue" readonly>
 					</div>
 					<div class="form-group">
-                        <label><i class="fas fa-map"></i> Venue</label>
-                        <input type="text" class="form-control venue" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-money"></i> Price</label>
-                        <input type="text" class="form-control price" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-users"></i> Available Slots</label>
-                        <input type="text" class="form-control slots" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-chalkboard"></i> Instructor</label>
-                        <input type="text" class="form-control instructor" readonly>
-                    </div>
+						<label><i class="fas fa-money"></i> Price</label>
+						<input type="text" class="form-control price" readonly>
+					</div>
+					<div class="form-group">
+						<label><i class="fas fa-users"></i> Available Slots</label>
+						<input type="text" class="form-control slots" readonly>
+					</div>
+					<div class="form-group">
+						<label><i class="fas fa-chalkboard"></i> Instructor</label>
+						<input type="text" class="form-control instructor" readonly>
+					</div>
 				</div>
 				<div class="d-flex justify-content-center">
 					<div class="spinner-border spinner" role="status" style="display:none;">
@@ -378,6 +380,48 @@ require_once "Template/header.php";
 			</form>
 		</div>
 	</div>
+</div>
+
+<div class="modal fade" id="addPaymentModal" role="dialog" data-backdrop="static">
+    <div class="modal-dialog addPaymentModal modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #605ca8;">
+                <h5 align="center" style="color: white;">Upload Payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:white">&times;</span>
+                </button>
+            </div>
+            <form action="POST" id="addPaymentForm">
+                <div class="modal-body">
+                    <div>
+                        <ol>
+                            <li>We accept CASH, BDO DEPOSIT, BDO BANK TRANSFER and CHEQUE payments.</li>
+                            <li>Pay the training fee by depositing at any BDO branch.</li>
+                            <ul>
+                                <li>Account Name: Nexus IT Training Center</li>
+                                <li>BDO Account Number: 002810078994</li>
+                            </ul>
+                            <li>Upload a picture or PDF file of the proof of payment below.</li>
+                        </ol>
+                    </div>
+                    <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input paymentFile" name="paymentFile">
+                        <label class="custom-file-label" for="customFile">Upload File</label>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border spinner" role="status" style="display:none;">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Upload</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <?php

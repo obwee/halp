@@ -1281,6 +1281,63 @@ class Validations {
     }
 
     /**
+     * validateAddWalkInInputs
+     * Validates the inputs of the user before submission for adding walk-in.
+     * @param {string} sFormId (The id of the form.)
+     * @return {object} oValidationResult (Result of the validation.)
+     */
+    validateAddWalkInInputs(sFormId) {
+        // Declare initially the validation result to be returned by the function.
+        let oValidationResult = {
+            result: true
+        }
+
+        let aAddWalkInElements = [
+            {
+                name: 'student name',
+                value: $(sFormId).find('.studentId').val(),
+                class: '.studentId',
+                elementToHighlight: '.studentName'
+            },
+            {
+                name: 'course',
+                value: $(sFormId).find('.courseDropdown').val(),
+                class: '.courseDropdown',
+                elementToHighlight: '.courseDropdown'
+            },
+            {
+                name: 'schedule',
+                value: $(sFormId).find('.scheduleDropdown').val(),
+                class: '.scheduleDropdown',
+                elementToHighlight: '.scheduleDropdown'
+            }
+        ];
+
+        const aNotAllowedValues = [null, '', 0];
+
+        $.each(aAddWalkInElements, (iKey, oProperty) => {
+            if (aNotAllowedValues.includes(oProperty.value) === true) {
+                oValidationResult = {
+                    result: false,
+                    element: oProperty.elementToHighlight,
+                    msg: `Please indicate ${oProperty.name}.`
+                };
+                return false;
+            }
+            if (/^[0-9]+$/.test(oProperty.value) === false) {
+                oValidationResult = {
+                    result: false,
+                    element: oProperty.elementToHighlight,
+                    msg: `Invalid ${oProperty.name}.`
+                };
+                return false;
+            }
+        });
+
+        return oValidationResult;
+    }
+
+    /**
      * loopThruRulesForErrors
      * @param {array} aRules (Array of rules.)
      * @param {string} sFormId (The id of the form.)

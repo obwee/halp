@@ -1184,6 +1184,47 @@ class Validations
     }
 
     /**
+     * validateWalkInInputs
+     * Method for validating walk-in inputs sent by AJAX.
+     * @param array $aParams
+     * @return array $aValidationResult
+     */
+    public static function validateWalkInInputs($aParams)
+    {
+
+        $aProperties = array(
+            'studentId'        => array(
+                'sName'               => 'student name',
+                'sClass'              => '.studentId',
+                'sElementToHighlight' => '.studentName'
+            ),
+            'courseDropdown'   => array(
+                'sName'               => 'course',
+                'sClass'              => '.courseDropdown',
+                'sElementToHighlight' => '.courseDropdown'
+            ),
+            'scheduleDropdown' => array(
+                'sName'               => 'schedule',
+                'sClass'              => '.scheduleDropdown',
+                'sElementToHighlight' => '.scheduleDropdown'
+            )
+        );
+
+        foreach ($aParams as $aParam) {
+            // Check if the values are not a digit.
+            if (!preg_match('/^[\d]/', $aParam)) {
+                return array(
+                    'bResult'  => false,
+                    'sElement' => $aProperties[$aParam]['sElementToHighlight'],
+                    'sMsg'     => 'Invalid ' . $aProperties[$aParam]['sName'] . '.'
+                );
+            }
+        }
+
+        return array('bResult' => true);
+    }
+
+    /**
      * validateApprovePaymentInputs
      * Validates the payment inputs before approval sent by AJAX.
      * @param array $aParams
