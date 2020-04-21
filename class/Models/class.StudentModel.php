@@ -160,7 +160,7 @@ class StudentModel
     {
         // Query the tbl_users for a username equal to $username.
         $statement = $this->oConnection->prepare("
-            SELECT tt.id AS trainingId, CONCAT(tu.firstName, ' ', tu.lastName) AS studentName,
+            SELECT tu.userId AS studentId, tt.id AS trainingId, CONCAT(tu.firstName, ' ', tu.lastName) AS studentName,
                    tc.courseCode, ts.coursePrice, tv.venue, ts.fromDate, ts.toDate, ts.numRepetitions, ts.recurrence,
                    ts.instructorId, tp.id AS paymentId, tp.paymentMethod, tp.paymentDate, tp.paymentAmount,
                    tp.paymentFile, tp.isPaid AS paymentStatus, tp.isApproved AS paymentApproval

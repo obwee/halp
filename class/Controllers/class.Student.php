@@ -179,7 +179,7 @@ class Student extends BaseController
             $aResult = $aValidationResult;
         }
 
-        $this->sendEmailToAdmin($this->aParams);
+        // $this->sendEmailToAdmin($this->aParams);
 
         echo json_encode($aResult);
     }
@@ -242,5 +242,45 @@ class Student extends BaseController
     public function fetchStudents()
     {
         echo json_encode($this->oStudentModel->fetchStudents());
+    }
+
+    /**
+     * addWalkIn
+     * Add a walk-in for enrollment.
+     */
+    public function addWalkIn()
+    {
+        $aValidationResult = Validations::validateWalkInInputs($this->aParams);
+
+        if ($aValidationResult['bResult'] === true) {
+            $aDatabaseColumns = array(
+                'courseDropdown'   => 'courseId',
+                'scheduleDropdown' => 'scheduleId'
+            );
+
+            Utils::renameKeys($this->aParams, $aDatabaseColumns);
+            Utils::sanitizeData($this->aParams);
+
+            // Insert into training table.
+            $iQuery = $this->oTrainingModel->enrollForTraining($this->aParams['scheduleId'], $this->aParams['courseId'], $this->aParams['studentId']);
+
+            if ($iQuery > 0) {
+                $aResult = array(
+                    'bResult' => true,
+                    'sMsg'    => 'Student added as walk-in!'
+                );
+            } else {
+                $aResult = array(
+                    'bResult' => false,
+                    'sMsg'    => 'An error has occured.'
+                );
+            }
+        } else {
+            $aResult = $aValidationResult;
+        }
+
+        // $this->sendEmailToAdmin($this->aParams);
+
+        echo json_encode($aResult);
     }
 }
