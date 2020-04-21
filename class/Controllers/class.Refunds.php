@@ -229,7 +229,7 @@ class Refunds extends BaseController
         $this->oTrainingModel->markAsUnreserved($aTrainingData['scheduleId']);
 
         if ($iApproveQuery > 0 && $iCancelQuery > 0) {
-            $this->sendEmailToStudent($aTrainingData, 'approved');
+        //     $this->sendEmailToStudent($aTrainingData, 'approved');
             $aResult = array(
                 'bResult' => true,
                 'sMsg'    => 'Refund approved!'

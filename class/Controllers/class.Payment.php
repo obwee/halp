@@ -313,7 +313,7 @@ class Payment extends BaseController
         }
 
         if ($iApproveQuery > 0) {
-            $this->sendEmailToStudent($aTrainingData, $iOverallPayment, $this->aParams['isPaid'], 'approved');
+        $this->sendEmailToStudent($aTrainingData, $iOverallPayment, $this->aParams['isPaid'], 'approved');
 
             echo json_encode(array(
                 'bResult'  => true,
