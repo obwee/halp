@@ -2,8 +2,10 @@ var oEnrollment = (() => {
 
     let oTblReservations = $('#tbl_reservations');
     let oTblPaymentDetails = $('#tbl_paymentDetails');
-    let oCourseDropdown = $('.courseDropdown');
-    let oScheduleDropdown = $('.scheduleDropdown');
+    let oCourseFilterDropdown = $('.courseFilterDropdown');
+    let oScheduleFilterDropdown = $('.scheduleFilterDropdown');
+    let oCourseDropdownForWalkIn = $('.courseDropdown');
+    let oScheduleDropdownForWalkIn = $('.scheduleDropdown');
 
     let oColumns = {
         aEnrollees: [
@@ -84,6 +86,7 @@ var oEnrollment = (() => {
     let aStudentList = [];
     let aStudentNames = [];
     let oStudentsTypeAhead = {};
+    let oStudentDetails = {};
     let aTrainingsAvailable = [];
     let aInstructors = [];
 
@@ -120,30 +123,50 @@ var oEnrollment = (() => {
         $(document).on('click', '.loadStudent', function() {
             const sFormId = `#${$(this).closest('form').attr('id')}`;
             const sStudentName = $(sFormId).find('input.typeahead.tt-input').val();
-            const oStudentDetails = aStudentList.filter(oStudent => oStudent.studentName == sStudentName)[0];
+            oStudentDetails = aStudentList.filter(oStudent => oStudent.studentName == sStudentName)[0];
 
             if (oStudentDetails === undefined) {
                 oLibraries.displayErrorMessage(sFormId, 'Invalid student.', '.studentName');
+                $(sFormId)[0].reset();
+                $(sFormId).find('.dropdowns select').prop('disabled', true);
             } else {
                 fetchStudentEnrollmentData(oStudentDetails.studentId);
+                $(sFormId).find('.dropdowns select').prop('disabled', false);
+                $(sFormId).find('.studentId').val(oStudentDetails.studentId);
             }
         });
 
-        $(document).on('hidden.bs.modal', '#approvePaymentModal', function () {
+        $(document).on('hidden.bs.modal', '#approvePaymentModal, #addWalkinModal', function () {
             $(this).find('form')[0].reset();
+            if ($(this).attr('id') === 'addWalkinModal') {
+                $(this).find('.studentId').val('');
+                $(this).find('.dropdowns select').prop('disabled', true);
+            }
         });
 
         $(document).on('click', '#rescheduleEnrollee', function () {
             $('#rescheduleModal').modal('show');
         });
 
+        $(document).on('change', '.courseFilterDropdown', function () {
+            populateScheduleDropdown(oScheduleFilterDropdown, aCoursesAndSchedules, $(this).val());
+        });
+
         $(document).on('change', '.courseDropdown', function () {
-            populateScheduleDropdown($(this).val());
+            populateScheduleDropdown(oScheduleDropdownForWalkIn, aTrainingsAvailable, $(this).val());
+        });
+
+        $(document).on('change', '.scheduleDropdown', function () {
+            populateRemainingInputs($(this).val());
+        });
+
+        $(document).on('click', '.addPayment', function () {
+            $('#addPaymentModal').modal('show');
         });
 
         $(document).on('click', '#viewPaymentDetails', function () {
-            const oStudentDetails = aEnrollees.filter(oEnrollee => oEnrollee.trainingId == $(this).attr('data-id'))[0];
-            preparePaymentDetails(oStudentDetails);
+            oStudentDetails = aEnrollees.filter(oEnrollee => oEnrollee.trainingId == $(this).attr('data-id'))[0];
+            preparePaymentDetails();
             $('#viewPaymentModal').modal('show');
 
             $('#viewPaymentModal').find('.addPayment').css('display', 'block');
@@ -261,11 +284,18 @@ var oEnrollment = (() => {
                     'alertText': 'This will request a refund before cancelling the reservation.'
                 },
                 '#addWalkInForm': {
-                    'validationMethod': oValidations.validateAddWalkInForm('#addWalkInForm'),
+                    'validationMethod': oValidations.validateAddWalkInInputs('#addWalkInForm'),
                     'requestClass': 'Student',
                     'requestAction': 'addWalkIn',
                     'alertTitle': 'Add Student?',
                     'alertText': 'This will add a student as walk-in.'
+                },
+                '#addPaymentForm': {
+                    'validationMethod': oValidations.validateFileForPayment(sFormId),
+                    'requestClass': 'Payment',
+                    'requestAction': 'addPayment',
+                    'alertTitle': 'Add Payment?',
+                    'alertText': 'This will add a new payment to the selected reservation.'
                 }
             }
 
@@ -300,6 +330,11 @@ var oEnrollment = (() => {
     */
     function executeSubmit(sFormId, sRequestClass, sRequestAction) {
         const oFormData = new FormData($(sFormId)[0]);
+        if (sRequestAction === 'addPayment') {
+            for ([sName, mValue] of Object.entries(oStudentDetails)) {
+                oFormData.append(sName, mValue);
+            }
+        }
 
         // Execute AJAX.
         $.ajax({
@@ -362,17 +397,17 @@ var oEnrollment = (() => {
             });
     }
 
-    function preparePaymentDetails(oStudentDetails) {
+    function preparePaymentDetails() {
         $('.viewPaymentModal').find('#studentName').val(oStudentDetails.studentName);
         $('.viewPaymentModal').find('#courseName').val(oStudentDetails.courseCode);
         $('.viewPaymentModal').find('#schedule').val(oStudentDetails.schedule);
         $('.viewPaymentModal').find('#venue').val(oStudentDetails.venue);
         $('.viewPaymentModal').find('#instructor').val(oStudentDetails.instructor);
 
-        loadPaymentDetailsTable(oStudentDetails);
+        loadPaymentDetailsTable();
     }
 
-    function loadPaymentDetailsTable(oStudentDetails) {
+    function loadPaymentDetailsTable() {
         $.ajax({
             url: '/Nexus/utils/ajax.php?class=Payment&action=fetchPaymentDetails',
             type: 'POST',
@@ -422,7 +457,7 @@ var oEnrollment = (() => {
     }
 
     // Populate the payment mode dropdown select.
-    function populateModeOfPayments(aCourses) {
+    function populateModeOfPayments() {
         let oPaymentModeDropdown = $('#approvePaymentForm').find('.modeOfPayment');
         oPaymentModeDropdown.empty().append($('<option value="" selected disabled hidden>Select Mode of Payment</option>'));
 
@@ -431,21 +466,34 @@ var oEnrollment = (() => {
         });
     }
 
-    function populateCourseDropdown() {
+    function populateCourseDropdown(oCourseDropdown, aData) {
         oCourseDropdown.empty().append($('<option selected disabled hidden>Select Course</option>'));
 
-        $.each(aCoursesAndSchedules, function (iKey, oCourse) {
+        $.each(aData, function (iKey, oCourse) {
             oCourseDropdown.append($('<option />').val(oCourse.courseId).text(`${oCourse.courseName} (${oCourse.courseCode})`));
         });
     }
 
-    function populateScheduleDropdown(iCourseId) {
-        let oFilteredCourse = aCoursesAndSchedules.filter(oCourse => oCourse.courseId == iCourseId)[0];
+    function populateScheduleDropdown(oScheduleDropdown, aData, iCourseId) {
+        let oFilteredCourse = aData.filter(oCourse => oCourse.courseId == iCourseId)[0];
         oScheduleDropdown.empty().append($('<option selected disabled hidden>Select Schedule</option>'));
 
-        $.each(oFilteredCourse.schedule, function (iScheduleId, sScheduleDate) {
+        $.each((oFilteredCourse.schedule ?? oFilteredCourse.schedules), function (iScheduleId, sScheduleDate) {
             oScheduleDropdown.append($('<option />').val(iScheduleId).text(sScheduleDate));
         });
+    }
+
+    function populateRemainingInputs(iScheduleId) {
+        let oFilteredSchedule = aTrainingsAvailable.filter(oCourse => oCourse.schedules[iScheduleId])[0];
+
+        $('.price').val(`P${parseInt(oFilteredSchedule['prices'][iScheduleId], 10).toLocaleString()}`);
+        $('.venue').val(oFilteredSchedule['venues'][iScheduleId]);
+        $('.slots').val(oFilteredSchedule['slots'][iScheduleId]);
+
+        let iInstructorId = oFilteredSchedule['instructors'][iScheduleId];
+        let oInstructor = aInstructors.filter(oInstructor => oInstructor.id == iInstructorId)[0];
+
+        $('.instructor').val(`${oInstructor.firstName} ${oInstructor.lastName}`);
     }
 
     /**
@@ -459,7 +507,7 @@ var oEnrollment = (() => {
             dataType: 'json',
             success: function (oResponse) {
                 aCoursesAndSchedules = oResponse;
-                populateCourseDropdown(oResponse);
+                populateCourseDropdown(oCourseFilterDropdown, aCoursesAndSchedules);
             }
         });
     }
@@ -487,6 +535,7 @@ var oEnrollment = (() => {
             success: function (oResponse) {
                 aTrainingsAvailable = oResponse.aTrainingsAvailable;
                 aInstructors = oResponse.aInstructors;
+                populateCourseDropdown(oCourseDropdownForWalkIn, aTrainingsAvailable);
             },
             error: function () {
                 oLibraries.displayAlertMessage('error', 'An error has occured. Please try again.');
