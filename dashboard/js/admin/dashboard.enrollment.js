@@ -89,10 +89,13 @@ var oEnrollment = (() => {
     let oStudentDetails = {};
     let aTrainingsAvailable = [];
     let aInstructors = [];
+    let oTemplate = {};
+    let aVenues = [];
 
     function init() {
         fetchCoursesAndSchedules();
         fetchPaymentMethods();
+        fetchVenues();
         fetchStudents();
         initializeBloodhound();
         fetchEnrollmentData();
@@ -158,6 +161,12 @@ var oEnrollment = (() => {
 
         $(document).on('change', '.scheduleDropdown', function () {
             populateRemainingInputs($(this).val());
+        });
+
+        $(document).on('change', '.scheduleFilterDropdown', function () {
+            let iScheduleId = $(this).val();
+            let iNumSlots = aCoursesAndSchedules.filter(oSchedule => oSchedule.schedule[iScheduleId])[0].slots[iScheduleId];
+            $('.numSlots').val(iNumSlots);
         });
 
         $(document).on('click', '.addPayment', function () {
@@ -257,7 +266,7 @@ var oEnrollment = (() => {
             }
         });
 
-        $(document).on('submit', 'form', function (oEvent) {
+        $(document).on('submit', 'form[id!="filterForm"]', function (oEvent) {
             oEvent.preventDefault();
 
             const sFormId = `#${$(this).attr('id')}`;
@@ -320,6 +329,41 @@ var oEnrollment = (() => {
             // Enable the form.
             oForms.disableFormState(sFormId, false);
         });
+
+        $(document).on('submit', '#filterForm', function(oEvent) {
+            oEvent.preventDefault();
+            const sFormId = `#${$(this).attr('id')}`;
+            let oFormData = new FormData($(sFormId)[0]);
+
+            // Check for invalid values.
+            for ([sName, sValue] of oFormData.entries()) {
+                if (/^[0-9]/.test(sValue) === false) {
+                    oLibraries.displayAlertMessage('error', 'Invalid filters detected.');
+                    return false;
+                }
+            }
+            
+            $.ajax({
+                url: `/Nexus/utils/ajax.php?class=Training&action=fetchFilteredEnrollmentData`,
+                type: 'POST',
+                data: oFormData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: (oResponse) => {
+                    // if (oResponse.bResult === true) {
+                    //     fetchEnrollmentData();
+                    //     fetchCoursesAndSchedules();
+                    //     fetchStudents();
+                    //     oLibraries.displayAlertMessage('success', oResponse.sMsg);
+                    //     $('.modal').modal('hide');
+                    // } else {
+                    //     oLibraries.displayErrorMessage(sFormId, oResponse.sMsg, oResponse.sElement);
+                    // }
+                }
+            });
+
+        });
     }
 
     /**
@@ -350,6 +394,8 @@ var oEnrollment = (() => {
             success: (oResponse) => {
                 if (oResponse.bResult === true) {
                     fetchEnrollmentData();
+                    fetchCoursesAndSchedules();
+                    fetchStudents();
                     oLibraries.displayAlertMessage('success', oResponse.sMsg);
                     $('.modal').modal('hide');
                 } else {
@@ -523,6 +569,44 @@ var oEnrollment = (() => {
             error: function () {
                 oLibraries.displayAlertMessage('error', 'An error has occured. Please try again.');
             }
+        });
+    }
+
+    function fetchVenues() {
+        $.ajax({
+            url: `/Nexus/utils/ajax.php?class=Venue&action=fetchVenues`,
+            type: 'GET',
+            dataType: 'json',
+            success: function (oResponse) {
+                aVenues = oResponse.filter(oVenue => oVenue.status === 'Active');
+                populateVenues();
+            },
+            error: function () {
+                oLibraries.displayAlertMessage('error', 'An error has occured. Please try again.');
+            }
+        });
+    }
+
+    function loadTemplate() {
+        if ($.isEmptyObject(oTemplate) === true) {
+            oTemplate = $('.venue-tpl').clone();
+        }
+    }
+
+    function populateVenues() {
+        loadTemplate();
+
+        $.each(aVenues, (iKey, oVal) => {
+            let oRow = oTemplate.clone().attr({
+                'hidden': false,
+                'class': 'clonedTpl',
+            });
+
+            oRow.find('.venue').val(oVal.id);
+            oRow.find('label').text(oVal.venue);
+
+            
+            oRow.insertAfter($('.venue-tpl'));
         });
     }
 

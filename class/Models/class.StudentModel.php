@@ -200,6 +200,38 @@ class StudentModel
         $statement->execute();
 
         // Return the result of the execution of the above statement.
-        return $statement->fetchAll();   
+        return $statement->fetchAll();
+    }
+
+    public function fetchFilteredEnrollees($aParams)
+    {
+        $sQuery = "
+            SELECT tu.userId AS studentId, tt.id AS trainingId, CONCAT(tu.firstName, ' ', tu.lastName) AS studentName,
+                tc.courseCode, ts.coursePrice, tv.venue, ts.fromDate, ts.toDate, ts.numRepetitions, ts.recurrence,
+                ts.instructorId, tp.id AS paymentId, tp.paymentMethod, tp.paymentDate, tp.paymentAmount,
+                tp.paymentFile, tp.isPaid AS paymentStatus, tp.isApproved AS paymentApproval
+            FROM tbl_users           tu
+            INNER JOIN tbl_training  tt
+                ON tt.studentId  = tu.userId
+            INNER JOIN tbl_schedules ts
+                ON ts.id         = tt.scheduleId
+            INNER JOIN tbl_courses   tc
+                ON tc.id         = ts.courseId
+            INNER JOIN tbl_venue     tv
+                ON tv.id         = ts.venueId
+            LEFT JOIN tbl_payments   tp
+                ON tp.trainingId = tt.id
+            WHERE 1 = 1
+                AND tt.isDone = 0
+                AND tt.isCancelled = 0
+        ";
+
+        $aWhere = array(
+            'paymentStatus' => '',
+            'venueId'       => '',
+            'courseId'      => '',
+            'scheduleId'    => ''
+        );
+        print_r($aParams);
     }
 }

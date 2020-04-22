@@ -381,8 +381,10 @@ class Training extends BaseController
             }
         }
 
-        $aUnnecessaryKeys = ['recurrence', 'numRepetitions', 'fromDate', 'toDate', 'paymentMethod',
-        'paymentDate', 'paymentFile', 'paymentApproval'];
+        $aUnnecessaryKeys = [
+            'recurrence', 'numRepetitions', 'fromDate', 'toDate', 'paymentMethod',
+            'paymentDate', 'paymentFile', 'paymentApproval'
+        ];
         Utils::unsetUnnecessaryData($aEnrollmentData, $aUnnecessaryKeys);
 
         echo json_encode(array(
@@ -522,5 +524,74 @@ class Training extends BaseController
             'aTrainingsAvailable' => array_values($aTrainingsAvailable),
             'aInstructors'        => array_values(array_filter($this->oInstructorsModel->fetchInstructors(), fn ($aInstructors) => $aInstructors['status'] === 'Active'))
         ));
+    }
+
+    public function fetchFilteredEnrollmentData()
+    {
+        $aNewKeys = array(
+            'venue'            => 'venueId',
+            'courseDropdown'   => 'courseId',
+            'scheduleDropdown' => 'scheduleId'
+        );
+        Utils::renameKeys($this->aParams, $aNewKeys);
+
+        $aEnrollees = $this->oStudentModel->fetchFilteredEnrollees($this->aParams);
+        $aInstructorIds = array();
+
+        die;
+
+        if (count($aEnrollees) === 0) {
+            echo json_encode([]);
+            exit;
+        }
+
+        $aEnrollmentData = [];
+
+        // Get instructor IDs, training IDs and payment statuses. Also, remove duplicates.
+        foreach ($aEnrollees as $iKey => $aData) {
+
+            // Unset rejected payments.
+            if ($aData['paymentApproval'] === '2') {
+                unset($aEnrollees[$iKey]);
+                continue;
+            }
+
+            $aTrainingIds[$iKey] = $aData['trainingId'];
+            $aInstructorIds[$iKey] = $aData['instructorId'];
+            $aPaymentStatus[$aData['trainingId']][] = $aData['paymentStatus'];
+            $aPaymentApproval[$aData['trainingId']][] = $aData['paymentApproval'];
+
+            $aEnrollmentData[$aData['trainingId']] = $aData;
+        }
+
+        // Get the highest payment status value, together if there are pending payments.
+        foreach ($aPaymentStatus as $iKey => $aStatus) {
+            $aEnrollmentData[$iKey]['paymentStatus'] = max($aStatus);
+
+            $bHasPendingPayments = array_filter($aStatus, fn ($iStatus) => in_array($iStatus, [0, '0']) === true);
+            $aEnrollmentData[$iKey]['hasPendingPayments'] = (count($bHasPendingPayments) > 0 && empty($aEnrollmentData[$iKey]['paymentId']) === false) ? true : false;
+        }
+
+        // Get instructor names.
+        if (count($aInstructorIds) > 0) {
+            $aInstructors = $this->oAdminsModel->fetchAdminsByInstructorIds(array_values($aInstructorIds));
+        }
+
+        // Append instructor name to the data to be returned.
+        foreach ($aEnrollmentData as $iKey => $aData) {
+            // print_r($aData['trainingId'] . '-' . $aData['paymentStatus']);
+            $iInstructorKey = Utils::searchKeyByValueInMultiDimensionalArray($aData['instructorId'], $aInstructors, 'instructorId');
+
+            $aEnrollmentData[$iKey]['schedule'] = Utils::formatDate($aData['fromDate']) . ' - ' . Utils::formatDate($aData['toDate']) . ' (' . $this->getInterval($aData) . ')';
+            $aEnrollmentData[$iKey]['instructor'] = $aInstructors[$iInstructorKey]['instructorName'];
+            $aEnrollmentData[$iKey]['paymentStatus'] = $this->aPaymentStatus[$aData['paymentStatus'] ?? 0];
+            if ($aEnrollmentData[$iKey]['hasPendingPayments'] === true) {
+                $aEnrollmentData[$iKey]['paymentStatus'] = 'Payment Submitted';
+            }
+        }
+
+        $aUnnecessaryData = ['paymentId', 'paymentMethod', 'paymentDate', 'paymentAmount', 'paymentFile'];
+        Utils::unsetUnnecessaryData($aEnrollmentData, $aUnnecessaryData);
+        echo json_encode(array_values($aEnrollmentData));
     }
 }
