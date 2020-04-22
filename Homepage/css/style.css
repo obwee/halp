@@ -6,20 +6,21 @@ html, body {
 
 /* NAVIGATION BAR */
 .navbar {
-    background-color: transparent;
     padding: 0 0;
-    font-size: 15px;
-    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-family: 'Rubik', sans-serif;
     border-bottom: none;
     text-transform: uppercase;
+    font-weight: bold;
 }
 
 .navbar-brand {
-    color: #fff;
-
+    padding-left:5px;  
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
 }
 
-.navbar-default .navbar-nav li a {
+/*.navbar-default .navbar-nav li a {
     color: #fff;
     padding-right: 20px;
 }
@@ -30,7 +31,7 @@ html, body {
 
 .navbar-default .navbar-nav li a.active {
     background-color: #d5d5d5;
-}
+}*/
 
 
 
@@ -38,13 +39,13 @@ html, body {
 .carousel-inner {
     height: 103vh;
 }
-.carousel-inner .item .carousel-img {
-    background: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.4)), no-repeat center center fixed;
+.carousel-inner .carousel-item img {
+    background: linear-gradient(rgba(0,0,0,0.9),rgba(0,0,0,0.9)), no-repeat center center fixed;
 }
 
-#my-slider .carousel-inner .carousel-caption {
+#carousel .carousel-inner .carousel-caption {
     font-family: 'Montserrat', sans-serif;
-    padding-bottom: 250px;
+    padding-bottom: 280px;
 }
 
 .carousel-caption h2 {
@@ -149,60 +150,49 @@ html, body {
 #about {
     padding-top: 50px;
 }
-.padding {
-    padding: 70px 0;
-}
-
-.padding img {
-
-}
-
-.padding h2{
+.about h2{
     font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
     font-weight: bold;
+    font-size: 25px;
 }
 
-.padding p {
-     font-family: 'Montserrat', sans-serif;
-     font-size: 1.2em;  
-     text-align: justify;
+.about p {
+    text-align: justify;
 }
+
+
 
 #services {
     background-color: #A2C710;
-    padding: 70px 0;
+    padding: 40px 40px;
 }
+
 
 #services p {
     text-align: center;
-    color: black;
-}
-
-#services h3 {
-    font-family: 'Montserrat', sans-serif;
-}
-
-#services .section-heading {
-    margin-left: 500px;
-    padding-top: 30px;
-    padding-bottom: 50px;
-}
-
-#services .services {
-    padding-bottom: 50px;
+    color: white;
 }
 
 #services i {
     color: #fff;
 }
 
-#fixed {
+#services h3 {
+    font-weight: bold;
+}
+
+.fixed-image {
     background: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.4)), url(../../resource/img/homepage/fixed.jpg) no-repeat center center fixed;
     display: table;
     height: 70%;
     position: relative;
     width: 100%;
     background-size: cover;
+}
+
+#faqs h2 button {
+    color: black;
 }
 
 /* CONTACT US */

@@ -309,7 +309,7 @@ class Training extends BaseController
         // Get enrolled trainings.
         $aEnrolledTrainings = $this->oTrainingModel->fetchTrainingRequests($this->getUserId());
         $aCoursesAvailable = $this->oCourseModel->fetchAvailableCoursesAndSchedules();
-
+        
         if (count($aEnrolledTrainings) === 0) {
             echo json_encode(array(
                 'aTrainingRequests'   => [],
