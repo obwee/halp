@@ -9,66 +9,63 @@ require_once "Template/header.php";
 		<h2><i class="fas fa-university"></i> Enrollment</h2>
 	</div>
 
-	<div class="row" style="border-radius:8px 8px;padding-top:10px;padding-bottom:0;margin-bottom:0;margin-left:10px;margin-right:10px;border-width:2px;background-color:#fff;box-shadow:8px 8px #3c8dbc;">
-		<div class="col-md-4">
-			<div class="row">
-				<div class="col-sm-6">
-					<label><i class="fas fa-map-pin"></i><b> Venue</b></label><br>
-					<div class="venue">
-						<div class="custom-control custom-checkbox mr-sm-2">
-							<input type="checkbox" class="custom-control-input">
-							<label class="custom-control-label">Makati</label>
-						</div>
-						<div class="custom-control custom-checkbox mr-sm-2">
-							<input type="checkbox" class="custom-control-input">
-							<label class="custom-control-label">Manila</label>
+	<form action="POST" id="filterForm">
+		<div class="row" style="border-radius:8px 8px;padding-top:10px;padding-bottom:0;margin-bottom:0;margin-left:10px;margin-right:10px;border-width:2px;background-color:#fff;box-shadow:8px 8px #3c8dbc;">
+			<div class="col-md-4">
+				<div class="row">
+					<div class="col-sm-6">
+						<label><i class="fas fa-map-pin"></i><b> Venue</b></label><br>
+						<div class="venue-tpl" hidden>
+							<div class="form-check">
+								<input class="form-check-input venue" name="venue[]" type="checkbox">
+								<label class="form-check-label"></label>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-sm-6">
-					<div class="paymentStatus">
-						<label><i class="fas fa-money"></i><b> Payment</b></label><br>
-						<div class="custom-control custom-checkbox mr-sm-2">
-							<input type="checkbox" class="custom-control-input">
-							<label class="custom-control-label">Unpaid</label>
-						</div>
-						<div class="custom-control custom-checkbox mr-sm-2">
-							<input type="checkbox" class="custom-control-input">
-							<label class="custom-control-label">Partial</label>
-						</div>
-						<div class="custom-control custom-checkbox mr-sm-2">
-							<input type="checkbox" class="custom-control-input">
-							<label class="custom-control-label">Full</label>
+					<div class="col-sm-6">
+						<div class="paymentStatus">
+							<label><i class="fas fa-money"></i><b> Payment</b></label><br>
+							<div class="form-check">
+								<input class="form-check-input paymentStatus" name="paymentStatus[]" type="checkbox" value="0">
+								<label class="form-check-label">Unpaid</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input paymentStatus" name="paymentStatus[]" type="checkbox" value="1">
+								<label class="form-check-label">Partial</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input paymentStatus" name="paymentStatus[]" type="checkbox" value="2">
+								<label class="form-check-label">Full</label>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="col-md-4">
-			<label><i class="fas fa-book"></i><b> Course</b></label>
-			<select class="form-control courseFilterDropdown">
-				<option value="" selected disabled hidden>Select Course</option>
-			</select>&nbsp&nbsp
-		</div>
-		<div class="col-md-4">
-			<label><i class="fas fa-calendar"></i><b> Schedule</b></label>
-			<select class="form-control scheduleFilterDropdown">
-				<option value="" selected disabled hidden>Select Schedule</option>
-			</select>
-			<div class="form-group row">
-				<label for="slot" class="col-sm-4 col-form-label"><i class="fas fa-users"></i><b> Slots</b></label>
-				<div class="col-sm-8">
-					<input type="text" disabled class="form-control-plaintext numSlots" value="N/A">
+			<div class="col-md-4">
+				<label><i class="fas fa-book"></i><b> Course</b></label>
+				<select class="form-control courseFilterDropdown" name="courseDropdown">
+					<option value="" selected disabled hidden>Select Course</option>
+				</select>&nbsp&nbsp
+			</div>
+			<div class="col-md-4">
+				<label><i class="fas fa-calendar"></i><b> Schedule</b></label>
+				<select class="form-control scheduleFilterDropdown" name="scheduleDropdown">
+					<option value="" selected disabled hidden>Select Schedule</option>
+				</select>
+				<div class="form-group row">
+					<label for="slot" class="col-sm-4 col-form-label"><i class="fas fa-users"></i><b> Slots</b></label>
+					<div class="col-sm-8">
+						<input type="text" disabled class="form-control-plaintext numSlots" value="N/A">
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-
-	<div align="center" style="margin-top:12px;margin-bottom:15px;">
-		<button type="button" id="addWalkin" class="btn btn-primary" data-toggle="modal" data-target="#addWalkinModal"><i class="fas fa-walking"></i> &nbsp&nbsp&nbsp&nbspAdd Walk-in&nbsp&nbsp&nbsp&nbsp</button>
-		<button type="submit" id="clear" class="btn btn-danger"><i class="fas fa-eraser"></i> Clear Selection</button>
-		<button type="submit" id="loadClassList" class="btn btn-success">&nbsp&nbsp&nbsp&nbsp&nbsp<i class="fas fa-spinner"></i> Load List&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
-	</div>
+		<div align="center" style="margin-top:12px;margin-bottom:15px;">
+			<button type="button" id="addWalkin" class="btn btn-primary" data-toggle="modal" data-target="#addWalkinModal"><i class="fas fa-walking"></i> &nbsp&nbsp&nbsp&nbspAdd Walk-in&nbsp&nbsp&nbsp&nbsp</button>
+			<button type="button" id="clearSelection" class="btn btn-danger"><i class="fas fa-eraser"></i> Clear Selection</button>
+			<button type="submit" id="loadClassList" class="btn btn-success">&nbsp&nbsp&nbsp&nbsp&nbsp<i class="fas fa-spinner"></i> Load List&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
+		</div>
+	</form>
 
 	<div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
 		<table id="tbl_reservations" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
@@ -383,45 +380,45 @@ require_once "Template/header.php";
 </div>
 
 <div class="modal fade" id="addPaymentModal" role="dialog" data-backdrop="static">
-    <div class="modal-dialog addPaymentModal modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color: #605ca8;">
-                <h5 align="center" style="color: white;">Upload Payment</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true" style="color:white">&times;</span>
-                </button>
-            </div>
-            <form action="POST" id="addPaymentForm">
-                <div class="modal-body">
-                    <div>
-                        <ol>
-                            <li>We accept CASH, BDO DEPOSIT, BDO BANK TRANSFER and CHEQUE payments.</li>
-                            <li>Pay the training fee by depositing at any BDO branch.</li>
-                            <ul>
-                                <li>Account Name: Nexus IT Training Center</li>
-                                <li>BDO Account Number: 002810078994</li>
-                            </ul>
-                            <li>Upload a picture or PDF file of the proof of payment below.</li>
-                        </ol>
-                    </div>
-                    <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input paymentFile" name="paymentFile">
-                        <label class="custom-file-label" for="customFile">Upload File</label>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <div class="spinner-border spinner" role="status" style="display:none;">
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Upload</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
+	<div class="modal-dialog addPaymentModal modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header" style="background-color: #605ca8;">
+				<h5 align="center" style="color: white;">Upload Payment</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true" style="color:white">&times;</span>
+				</button>
+			</div>
+			<form action="POST" id="addPaymentForm">
+				<div class="modal-body">
+					<div>
+						<ol>
+							<li>We accept CASH, BDO DEPOSIT, BDO BANK TRANSFER and CHEQUE payments.</li>
+							<li>Pay the training fee by depositing at any BDO branch.</li>
+							<ul>
+								<li>Account Name: Nexus IT Training Center</li>
+								<li>BDO Account Number: 002810078994</li>
+							</ul>
+							<li>Upload a picture or PDF file of the proof of payment below.</li>
+						</ol>
+					</div>
+					<div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+					<div class="custom-file">
+						<input type="file" class="custom-file-input paymentFile" name="paymentFile">
+						<label class="custom-file-label" for="customFile">Upload File</label>
+					</div>
+				</div>
+				<div class="d-flex justify-content-center">
+					<div class="spinner-border spinner" role="status" style="display:none;">
+						<span class="sr-only">Loading...</span>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-success">Upload</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
 
 <?php

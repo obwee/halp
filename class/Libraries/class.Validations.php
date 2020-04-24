@@ -1210,17 +1210,41 @@ class Validations
             )
         );
 
-        foreach ($aParams as $aParam) {
+        foreach ($aParams as $sParam) {
             // Check if the values are not a digit.
-            if (!preg_match('/^[\d]/', $aParam)) {
+            if (!preg_match('/^[\d]/', $sParam)) {
                 return array(
                     'bResult'  => false,
-                    'sElement' => $aProperties[$aParam]['sElementToHighlight'],
-                    'sMsg'     => 'Invalid ' . $aProperties[$aParam]['sName'] . '.'
+                    'sElement' => $aProperties[$sParam]['sElementToHighlight'],
+                    'sMsg'     => 'Invalid ' . $aProperties[$sParam]['sName'] . '.'
                 );
             }
         }
 
+        return array('bResult' => true);
+    }
+
+    public static function validateIdParams($aParams)
+    {
+        foreach ($aParams as $mValue) {
+            if (is_array($mValue) === true) {
+                foreach ($mValue as $iValue) {
+                    if (!preg_match('/^[\d]/', $iValue)) {
+                        return array(
+                            'bResult' => false,
+                            'sMsg'    => 'Invalid search filters.'
+                        );
+                    }
+                }
+                continue;
+            }
+            if (!preg_match('/^[\d]/', $mValue)) {
+                return array(
+                    'bResult' => false,
+                    'sMsg'    => 'Invalid search filters.'
+                );
+            }
+        }
         return array('bResult' => true);
     }
 

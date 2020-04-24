@@ -381,8 +381,10 @@ class Training extends BaseController
             }
         }
 
-        $aUnnecessaryKeys = ['recurrence', 'numRepetitions', 'fromDate', 'toDate', 'paymentMethod',
-        'paymentDate', 'paymentFile', 'paymentApproval'];
+        $aUnnecessaryKeys = [
+            'recurrence', 'numRepetitions', 'fromDate', 'toDate', 'paymentMethod',
+            'paymentDate', 'paymentFile', 'paymentApproval'
+        ];
         Utils::unsetUnnecessaryData($aEnrollmentData, $aUnnecessaryKeys);
 
         echo json_encode(array(
@@ -506,8 +508,130 @@ class Training extends BaseController
                 unset($aEnrolledTrainings[$iKey]);
                 continue;
             }
+            // Unset already enrolled courses.
             foreach ($aCoursesAvailable as $mKey => $aCourseAvailable) {
                 if ($aEnrolledTraining['courseId'] === $aCourseAvailable['courseId']) {
+                    unset($aCoursesAvailable[$mKey]);
+                }
+            }
+        }
+
+        $aTrainingsAvailable = [];
+        if (count($aCoursesAvailable) > 0) {
+            $aTrainingsAvailable = $this->prepareTrainingsAvailable($aCoursesAvailable);
+        }
+
+        echo json_encode(array(
+            'aTrainingsAvailable' => array_values($aTrainingsAvailable),
+            'aInstructors'        => array_values(array_filter($this->oInstructorsModel->fetchInstructors(), fn ($aInstructors) => $aInstructors['status'] === 'Active'))
+        ));
+    }
+
+    public function fetchFilteredEnrollmentData()
+    {
+        if (empty($this->aParams) === true) {
+            echo json_encode(array(
+                'bResult'         => false,
+                'sMsg' => 'Please indicate filters to search.',
+            ));
+            exit;
+        }
+
+        $aNewKeys = array(
+            'venue'            => 'venueId',
+            'courseDropdown'   => 'courseId',
+            'scheduleDropdown' => 'scheduleId'
+        );
+        Utils::renameKeys($this->aParams, $aNewKeys);
+        Utils::sanitizeData($this->aParams);
+
+        $aValidateParams = Validations::validateIdParams($this->aParams);
+        if ($aValidateParams['bResult'] === false) {
+            echo json_encode($aValidateParams);
+            exit;
+        }
+
+        $aEnrollees = $this->oStudentModel->fetchFilteredEnrollees($this->aParams);
+        $aInstructorIds = array();
+
+        if (count($aEnrollees) === 0) {
+            echo json_encode(array(
+                'bResult'         => true,
+                'aEnrollmentData' => [],
+            ));
+            exit;
+        }
+
+        $aEnrollmentData = [];
+
+        // Get instructor IDs, training IDs and payment statuses. Also, remove duplicates.
+        foreach ($aEnrollees as $iKey => $aData) {
+
+            // Unset rejected payments.
+            if ($aData['paymentApproval'] === '2') {
+                unset($aEnrollees[$iKey]);
+                continue;
+            }
+
+            $aTrainingIds[$iKey] = $aData['trainingId'];
+            $aInstructorIds[$iKey] = $aData['instructorId'];
+            $aPaymentStatus[$aData['trainingId']][] = $aData['paymentStatus'];
+            $aPaymentApproval[$aData['trainingId']][] = $aData['paymentApproval'];
+
+            $aEnrollmentData[$aData['trainingId']] = $aData;
+        }
+
+        // Get the highest payment status value, together if there are pending payments.
+        foreach ($aPaymentStatus as $iKey => $aStatus) {
+            $aEnrollmentData[$iKey]['paymentStatus'] = max($aStatus);
+
+            $bHasPendingPayments = array_filter($aStatus, fn ($iStatus) => in_array($iStatus, [0, '0']) === true);
+            $aEnrollmentData[$iKey]['hasPendingPayments'] = (count($bHasPendingPayments) > 0 && empty($aEnrollmentData[$iKey]['paymentId']) === false) ? true : false;
+        }
+
+        // Get instructor names.
+        if (count($aInstructorIds) > 0) {
+            $aInstructors = $this->oAdminsModel->fetchAdminsByInstructorIds(array_values($aInstructorIds));
+        }
+
+        // Append instructor name to the data to be returned.
+        foreach ($aEnrollmentData as $iKey => $aData) {
+            // print_r($aData['trainingId'] . '-' . $aData['paymentStatus']);
+            $iInstructorKey = Utils::searchKeyByValueInMultiDimensionalArray($aData['instructorId'], $aInstructors, 'instructorId');
+
+            $aEnrollmentData[$iKey]['schedule'] = Utils::formatDate($aData['fromDate']) . ' - ' . Utils::formatDate($aData['toDate']) . ' (' . $this->getInterval($aData) . ')';
+            $aEnrollmentData[$iKey]['instructor'] = $aInstructors[$iInstructorKey]['instructorName'];
+            $aEnrollmentData[$iKey]['paymentStatus'] = $this->aPaymentStatus[$aData['paymentStatus'] ?? 0];
+            if ($aEnrollmentData[$iKey]['hasPendingPayments'] === true) {
+                $aEnrollmentData[$iKey]['paymentStatus'] = 'Payment Submitted';
+            }
+        }
+
+        $aUnnecessaryData = ['paymentId', 'paymentMethod', 'paymentDate', 'paymentAmount', 'paymentFile'];
+        Utils::unsetUnnecessaryData($aEnrollmentData, $aUnnecessaryData);
+        echo json_encode(array(
+            'bResult'         => true,
+            'aEnrollmentData' => array_values($aEnrollmentData),
+        ));
+    }
+
+    public function fetchAvailableTrainingsForReschedule()
+    {
+        Utils::sanitizeData($this->aParams);
+
+        // Get enrolled trainings.
+        $aEnrolledTrainings = $this->oTrainingModel->fetchTrainingRequests($this->aParams['iStudentId']);
+        $aCoursesAvailable = $this->oCourseModel->fetchAvailableCoursesAndSchedules();
+
+        foreach ($aEnrolledTrainings as $iKey => $aEnrolledTraining) {
+            // Unset rejected payments.
+            if ($aEnrolledTraining['paymentApproval'] === '2') {
+                unset($aEnrolledTrainings[$iKey]);
+                continue;
+            }
+            // Unset already enrolled schedules.
+                foreach ($aCoursesAvailable as $mKey => $aCourseAvailable) {
+                    if ($aEnrolledTraining['scheduleId'] === $aCourseAvailable['scheduleId']) {
                     unset($aCoursesAvailable[$mKey]);
                 }
             }

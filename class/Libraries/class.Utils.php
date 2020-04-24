@@ -30,12 +30,15 @@ class Utils
     public static function sanitizeData(&$aParams)
     {
         // Loop thru the array.
-        foreach ($aParams as $sKey => $aValues) {
+        foreach ($aParams as $sKey => $mValues) {
             // Perform htmlspecialchars() function on every values inside $aParams and trim whitespaces.
-            if (is_array($aValues)) {
+            if (is_array($mValues)) {
+                foreach ($mValues as $iKey => $sValue) {
+                    $aParams[$sKey][$iKey] = nl2br(strip_tags(htmlspecialchars(trim($sValue))));
+                }
                 continue;
             }
-            $aParams[$sKey] = nl2br(strip_tags(htmlspecialchars(trim($aValues))));
+            $aParams[$sKey] = nl2br(strip_tags(htmlspecialchars(trim($mValues))));
         }
     }
 
