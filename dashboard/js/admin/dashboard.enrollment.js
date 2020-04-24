@@ -169,6 +169,12 @@ var oEnrollment = (() => {
             $('.numSlots').val(iNumSlots);
         });
 
+        $(document).on('click', '#clearSelection', function() {
+            fetchEnrollmentData();
+            $(this).closest('form')[0].reset();
+            oScheduleFilterDropdown.empty().append('<option selected disabled hidden>Select Schedule</option>');
+        });
+
         $(document).on('click', '.addPayment', function () {
             $('#addPaymentModal').modal('show');
         });
@@ -272,7 +278,7 @@ var oEnrollment = (() => {
             const sFormId = `#${$(this).attr('id')}`;
 
             // Disable the form.
-            // oForms.disableFormState(sFormId, true);
+            oForms.disableFormState(sFormId, true);
 
             // Invoke the resetInputBorders method inside oForms utils for that form.
             oForms.resetInputBorders(sFormId);
@@ -350,16 +356,21 @@ var oEnrollment = (() => {
                 dataType: 'json',
                 contentType: false,
                 processData: false,
-                success: (oResponse) => {
-                    // if (oResponse.bResult === true) {
-                    //     fetchEnrollmentData();
-                    //     fetchCoursesAndSchedules();
-                    //     fetchStudents();
-                    //     oLibraries.displayAlertMessage('success', oResponse.sMsg);
-                    //     $('.modal').modal('hide');
-                    // } else {
-                    //     oLibraries.displayErrorMessage(sFormId, oResponse.sMsg, oResponse.sElement);
-                    // }
+                success: function (oResponse) {
+                    if (oResponse.bResult === false) {
+                        oLibraries.displayAlertMessage('error', oResponse.sMsg);
+                    }
+                    aEnrollees = oResponse.aEnrollmentData;
+                    // console.log(aEnrollees)
+    
+                    let aColumnDefs = [
+                        { orderable: false, targets: [3, 4, 5, 6] }
+                    ];
+    
+                    loadTable(oTblReservations.attr('id'), aEnrollees, oColumns.aEnrollees, aColumnDefs);
+                },
+                error: function () {
+                    oLibraries.displayAlertMessage('error', 'An error has occured. Please try again.');
                 }
             });
 

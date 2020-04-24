@@ -227,11 +227,22 @@ class StudentModel
         ";
 
         $aWhere = array(
-            'paymentStatus' => '',
-            'venueId'       => '',
-            'courseId'      => '',
-            'scheduleId'    => ''
+            'paymentStatus' => 'AND tp.isPaid IN (%s) ',
+            'venueId'       => 'AND tv.id IN (%s) ',
+            'courseId'      => 'AND tc.id = %s ',
+            'scheduleId'    => 'AND ts.id = %s '
         );
-        print_r($aParams);
+
+        foreach($aParams as $sKey => $mValue) {
+            if (is_array($mValue) === true) {
+                $sQuery .= sprintf($aWhere[$sKey], implode(', ', $mValue));
+                continue;
+            }
+            $sQuery .= sprintf($aWhere[$sKey], $mValue);
+        }
+
+        $oStatement = $this->oConnection->prepare($sQuery);
+        $oStatement->execute();
+        return $oStatement->fetchAll();
     }
 }

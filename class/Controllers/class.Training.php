@@ -528,20 +528,36 @@ class Training extends BaseController
 
     public function fetchFilteredEnrollmentData()
     {
+        if (empty($this->aParams) === true) {
+            echo json_encode(array(
+                'bResult'         => false,
+                'sMsg' => 'Please indicate filters to search.',
+            ));
+            exit;
+        }
+
         $aNewKeys = array(
             'venue'            => 'venueId',
             'courseDropdown'   => 'courseId',
             'scheduleDropdown' => 'scheduleId'
         );
         Utils::renameKeys($this->aParams, $aNewKeys);
+        Utils::sanitizeData($this->aParams);
+
+        $aValidateParams = Validations::validateIdParams($this->aParams);
+        if ($aValidateParams['bResult'] === false) {
+            echo json_encode($aValidateParams);
+            exit;
+        }
 
         $aEnrollees = $this->oStudentModel->fetchFilteredEnrollees($this->aParams);
         $aInstructorIds = array();
 
-        die;
-
         if (count($aEnrollees) === 0) {
-            echo json_encode([]);
+            echo json_encode(array(
+                'bResult'         => true,
+                'aEnrollmentData' => [],
+            ));
             exit;
         }
 
@@ -592,6 +608,9 @@ class Training extends BaseController
 
         $aUnnecessaryData = ['paymentId', 'paymentMethod', 'paymentDate', 'paymentAmount', 'paymentFile'];
         Utils::unsetUnnecessaryData($aEnrollmentData, $aUnnecessaryData);
-        echo json_encode(array_values($aEnrollmentData));
+        echo json_encode(array(
+            'bResult'         => true,
+            'aEnrollmentData' => array_values($aEnrollmentData),
+        ));
     }
 }
