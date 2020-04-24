@@ -62,7 +62,7 @@ require_once "Template/header.php";
 		</div>
 		<div align="center" style="margin-top:12px;margin-bottom:15px;">
 			<button type="button" id="addWalkin" class="btn btn-primary" data-toggle="modal" data-target="#addWalkinModal"><i class="fas fa-walking"></i> &nbsp&nbsp&nbsp&nbspAdd Walk-in&nbsp&nbsp&nbsp&nbsp</button>
-			<button type="button" id="clear" class="btn btn-danger"><i class="fas fa-eraser"></i> Clear Selection</button>
+			<button type="button" id="clearSelection" class="btn btn-danger"><i class="fas fa-eraser"></i> Clear Selection</button>
 			<button type="submit" id="loadClassList" class="btn btn-success">&nbsp&nbsp&nbsp&nbsp&nbsp<i class="fas fa-spinner"></i> Load List&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
 		</div>
 	</form>

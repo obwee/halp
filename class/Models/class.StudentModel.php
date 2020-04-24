@@ -162,8 +162,8 @@ class StudentModel
         $statement = $this->oConnection->prepare("
             SELECT tu.userId AS studentId, tt.id AS trainingId, CONCAT(tu.firstName, ' ', tu.lastName) AS studentName,
                    tc.courseCode, ts.coursePrice, tv.venue, ts.fromDate, ts.toDate, ts.numRepetitions, ts.recurrence,
-                   ts.instructorId, tp.id AS paymentId, tp.paymentMethod, tp.paymentDate, tp.paymentAmount,
-                   tp.paymentFile, tp.isPaid AS paymentStatus, tp.isApproved AS paymentApproval
+                   ts.instructorId, tt.scheduleId, tp.id AS paymentId, tp.paymentMethod, tp.paymentDate,
+                   tp.paymentAmount, tp.paymentFile, tp.isPaid AS paymentStatus, tp.isApproved AS paymentApproval
             FROM tbl_users           tu
             INNER JOIN tbl_training  tt
                 ON tt.studentId  = tu.userId
@@ -207,9 +207,9 @@ class StudentModel
     {
         $sQuery = "
             SELECT tu.userId AS studentId, tt.id AS trainingId, CONCAT(tu.firstName, ' ', tu.lastName) AS studentName,
-                tc.courseCode, ts.coursePrice, tv.venue, ts.fromDate, ts.toDate, ts.numRepetitions, ts.recurrence,
-                ts.instructorId, tp.id AS paymentId, tp.paymentMethod, tp.paymentDate, tp.paymentAmount,
-                tp.paymentFile, tp.isPaid AS paymentStatus, tp.isApproved AS paymentApproval
+                  tc.courseCode, ts.coursePrice, tv.venue, ts.fromDate, ts.toDate, ts.numRepetitions, ts.recurrence,
+                  ts.instructorId, tt.scheduleId, tp.id AS paymentId, tp.paymentMethod, tp.paymentDate,
+                  tp.paymentAmount, tp.paymentFile, tp.isPaid AS paymentStatus, tp.isApproved AS paymentApproval
             FROM tbl_users           tu
             INNER JOIN tbl_training  tt
                 ON tt.studentId  = tu.userId
@@ -227,11 +227,22 @@ class StudentModel
         ";
 
         $aWhere = array(
-            'paymentStatus' => '',
-            'venueId'       => '',
-            'courseId'      => '',
-            'scheduleId'    => ''
+            'paymentStatus' => 'AND tp.isPaid IN (%s) ',
+            'venueId'       => 'AND tv.id IN (%s) ',
+            'courseId'      => 'AND tc.id = %s ',
+            'scheduleId'    => 'AND ts.id = %s '
         );
-        print_r($aParams);
+
+        foreach($aParams as $sKey => $mValue) {
+            if (is_array($mValue) === true) {
+                $sQuery .= sprintf($aWhere[$sKey], implode(', ', $mValue));
+                continue;
+            }
+            $sQuery .= sprintf($aWhere[$sKey], $mValue);
+        }
+
+        $oStatement = $this->oConnection->prepare($sQuery);
+        $oStatement->execute();
+        return $oStatement->fetchAll();
     }
 }
