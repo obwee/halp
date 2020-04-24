@@ -162,8 +162,8 @@ class StudentModel
         $statement = $this->oConnection->prepare("
             SELECT tu.userId AS studentId, tt.id AS trainingId, CONCAT(tu.firstName, ' ', tu.lastName) AS studentName,
                    tc.courseCode, ts.coursePrice, tv.venue, ts.fromDate, ts.toDate, ts.numRepetitions, ts.recurrence,
-                   ts.instructorId, tp.id AS paymentId, tp.paymentMethod, tp.paymentDate, tp.paymentAmount,
-                   tp.paymentFile, tp.isPaid AS paymentStatus, tp.isApproved AS paymentApproval
+                   ts.instructorId, tt.scheduleId, tp.id AS paymentId, tp.paymentMethod, tp.paymentDate,
+                   tp.paymentAmount, tp.paymentFile, tp.isPaid AS paymentStatus, tp.isApproved AS paymentApproval
             FROM tbl_users           tu
             INNER JOIN tbl_training  tt
                 ON tt.studentId  = tu.userId
@@ -207,9 +207,9 @@ class StudentModel
     {
         $sQuery = "
             SELECT tu.userId AS studentId, tt.id AS trainingId, CONCAT(tu.firstName, ' ', tu.lastName) AS studentName,
-                tc.courseCode, ts.coursePrice, tv.venue, ts.fromDate, ts.toDate, ts.numRepetitions, ts.recurrence,
-                ts.instructorId, tp.id AS paymentId, tp.paymentMethod, tp.paymentDate, tp.paymentAmount,
-                tp.paymentFile, tp.isPaid AS paymentStatus, tp.isApproved AS paymentApproval
+                  tc.courseCode, ts.coursePrice, tv.venue, ts.fromDate, ts.toDate, ts.numRepetitions, ts.recurrence,
+                  ts.instructorId, tt.scheduleId, tp.id AS paymentId, tp.paymentMethod, tp.paymentDate,
+                  tp.paymentAmount, tp.paymentFile, tp.isPaid AS paymentStatus, tp.isApproved AS paymentApproval
             FROM tbl_users           tu
             INNER JOIN tbl_training  tt
                 ON tt.studentId  = tu.userId

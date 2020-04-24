@@ -508,6 +508,7 @@ class Training extends BaseController
                 unset($aEnrolledTrainings[$iKey]);
                 continue;
             }
+            // Unset already enrolled courses.
             foreach ($aCoursesAvailable as $mKey => $aCourseAvailable) {
                 if ($aEnrolledTraining['courseId'] === $aCourseAvailable['courseId']) {
                     unset($aCoursesAvailable[$mKey]);
@@ -611,6 +612,39 @@ class Training extends BaseController
         echo json_encode(array(
             'bResult'         => true,
             'aEnrollmentData' => array_values($aEnrollmentData),
+        ));
+    }
+
+    public function fetchAvailableTrainingsForReschedule()
+    {
+        Utils::sanitizeData($this->aParams);
+
+        // Get enrolled trainings.
+        $aEnrolledTrainings = $this->oTrainingModel->fetchTrainingRequests($this->aParams['iStudentId']);
+        $aCoursesAvailable = $this->oCourseModel->fetchAvailableCoursesAndSchedules();
+
+        foreach ($aEnrolledTrainings as $iKey => $aEnrolledTraining) {
+            // Unset rejected payments.
+            if ($aEnrolledTraining['paymentApproval'] === '2') {
+                unset($aEnrolledTrainings[$iKey]);
+                continue;
+            }
+            // Unset already enrolled schedules.
+                foreach ($aCoursesAvailable as $mKey => $aCourseAvailable) {
+                    if ($aEnrolledTraining['scheduleId'] === $aCourseAvailable['scheduleId']) {
+                    unset($aCoursesAvailable[$mKey]);
+                }
+            }
+        }
+
+        $aTrainingsAvailable = [];
+        if (count($aCoursesAvailable) > 0) {
+            $aTrainingsAvailable = $this->prepareTrainingsAvailable($aCoursesAvailable);
+        }
+
+        echo json_encode(array(
+            'aTrainingsAvailable' => array_values($aTrainingsAvailable),
+            'aInstructors'        => array_values(array_filter($this->oInstructorsModel->fetchInstructors(), fn ($aInstructors) => $aInstructors['status'] === 'Active'))
         ));
     }
 }

@@ -118,12 +118,12 @@ var oEnrollment = (() => {
             highlight: true,
             minLength: 1
         },
-        {
-            name: 'aStudentNames',
-            source: oStudentsTypeAhead
-        });
+            {
+                name: 'aStudentNames',
+                source: oStudentsTypeAhead
+            });
 
-        $(document).on('click', '.loadStudent', function() {
+        $(document).on('click', '.loadStudent', function () {
             const sFormId = `#${$(this).closest('form').attr('id')}`;
             const sStudentName = $(sFormId).find('input.typeahead.tt-input').val();
             oStudentDetails = aStudentList.filter(oStudent => oStudent.studentName == sStudentName)[0];
@@ -148,6 +148,9 @@ var oEnrollment = (() => {
         });
 
         $(document).on('click', '#rescheduleEnrollee', function () {
+            oStudentDetails = aEnrollees.filter(oEnrollee => oEnrollee.trainingId == $(this).attr('data-id'))[0];
+            displayStudentDetails();
+            fetchAvailableTrainingsForReschedule();
             $('#rescheduleModal').modal('show');
         });
 
@@ -169,7 +172,7 @@ var oEnrollment = (() => {
             $('.numSlots').val(iNumSlots);
         });
 
-        $(document).on('click', '#clearSelection', function() {
+        $(document).on('click', '#clearSelection', function () {
             fetchEnrollmentData();
             $(this).closest('form')[0].reset();
             oScheduleFilterDropdown.empty().append('<option selected disabled hidden>Select Schedule</option>');
@@ -336,7 +339,7 @@ var oEnrollment = (() => {
             oForms.disableFormState(sFormId, false);
         });
 
-        $(document).on('submit', '#filterForm', function(oEvent) {
+        $(document).on('submit', '#filterForm', function (oEvent) {
             oEvent.preventDefault();
             const sFormId = `#${$(this).attr('id')}`;
             let oFormData = new FormData($(sFormId)[0]);
@@ -348,7 +351,7 @@ var oEnrollment = (() => {
                     return false;
                 }
             }
-            
+
             $.ajax({
                 url: `/Nexus/utils/ajax.php?class=Training&action=fetchFilteredEnrollmentData`,
                 type: 'POST',
@@ -362,11 +365,11 @@ var oEnrollment = (() => {
                     }
                     aEnrollees = oResponse.aEnrollmentData;
                     // console.log(aEnrollees)
-    
+
                     let aColumnDefs = [
                         { orderable: false, targets: [3, 4, 5, 6] }
                     ];
-    
+
                     loadTable(oTblReservations.attr('id'), aEnrollees, oColumns.aEnrollees, aColumnDefs);
                 },
                 error: function () {
@@ -462,6 +465,12 @@ var oEnrollment = (() => {
         $('.viewPaymentModal').find('#instructor').val(oStudentDetails.instructor);
 
         loadPaymentDetailsTable();
+    }
+
+    function displayStudentDetails() {
+        $('.rescheduleModal').find('#studName').val(oStudentDetails.studentName);
+        $('.rescheduleModal').find('#course').val(oStudentDetails.courseCode);
+        $('.rescheduleModal').find('#schedule').val(oStudentDetails.schedule);
     }
 
     function loadPaymentDetailsTable() {
@@ -616,8 +625,28 @@ var oEnrollment = (() => {
             oRow.find('.venue').val(oVal.id);
             oRow.find('label').text(oVal.venue);
 
-            
             oRow.insertAfter($('.venue-tpl'));
+        });
+    }
+
+    function fetchAvailableTrainingsForReschedule() {
+        $.ajax({
+            url: `/Nexus/utils/ajax.php?class=Training&action=fetchAvailableTrainingsForReschedule`,
+            type: 'POST',
+            data: {
+                iTrainingId: oStudentDetails.trainingId,
+                iScheduleId: oStudentDetails.scheduleId,
+                iStudentId: oStudentDetails.studentId
+            },
+            dataType: 'json',
+            success: function (oResponse) {
+                // aTrainingsAvailable = oResponse.aTrainingsAvailable;
+                // aInstructors = oResponse.aInstructors;
+                // populateCourseDropdown(oCourseDropdownForWalkIn, aTrainingsAvailable);
+            },
+            error: function () {
+                // oLibraries.displayAlertMessage('error', 'An error has occured. Please try again.');
+            }
         });
     }
 
@@ -625,7 +654,7 @@ var oEnrollment = (() => {
         $.ajax({
             url: `/Nexus/utils/ajax.php?class=Training&action=fetchStudentEnrollmentData`,
             type: 'POST',
-            data: {iStudentId},
+            data: { iStudentId },
             dataType: 'json',
             success: function (oResponse) {
                 aTrainingsAvailable = oResponse.aTrainingsAvailable;
