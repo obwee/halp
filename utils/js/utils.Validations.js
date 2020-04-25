@@ -1338,6 +1338,55 @@ class Validations {
     }
 
     /**
+     * validateRescheduleInputs
+     * Validates the inputs of the user before submission for reschedule.
+     * @param {string} sFormId (The id of the form.)
+     * @return {object} oValidationResult (Result of the validation.)
+     */
+    validateRescheduleInputs(sFormId) {
+        // Declare initially the validation result to be returned by the function.
+        let oValidationResult = {
+            result: true
+        }
+
+        let aAddWalkInElements = [
+            {
+                name: 'course',
+                value: $(sFormId).find('.courseDropdownForReschedule').val(),
+                class: '.courseDropdownForReschedule'
+            },
+            {
+                name: 'schedule',
+                value: $(sFormId).find('.scheduleDropdownForReschedule').val(),
+                class: '.scheduleDropdownForReschedule'
+            }
+        ];
+
+        const aNotAllowedValues = [null, '', 0];
+
+        $.each(aAddWalkInElements, (iKey, oProperty) => {
+            if (aNotAllowedValues.includes(oProperty.value) === true) {
+                oValidationResult = {
+                    result: false,
+                    element: oProperty.elementToHighlight,
+                    msg: `Please indicate new ${oProperty.name}.`
+                };
+                return false;
+            }
+            if (/^[0-9]+$/.test(oProperty.value) === false) {
+                oValidationResult = {
+                    result: false,
+                    element: oProperty.elementToHighlight,
+                    msg: `Invalid ${oProperty.name}.`
+                };
+                return false;
+            }
+        });
+
+        return oValidationResult;
+    }
+
+    /**
      * loopThruRulesForErrors
      * @param {array} aRules (Array of rules.)
      * @param {string} sFormId (The id of the form.)

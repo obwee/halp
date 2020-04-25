@@ -181,6 +181,8 @@ class TrainingModel
             GROUP BY tt.id
         ");
 
+        print_r($statement);
+
         // Execute the above statement.
         $statement->execute([$iStudentId]);
 
@@ -490,5 +492,16 @@ class TrainingModel
         $sQuery->execute([$iTrainingId]);
 
         return $sQuery->fetch();
+    }
+
+    public function changeSchedule($iScheduleId, $iTrainingId)
+    {
+        $oTrainingStatement = $this->oConnection->prepare("
+            UPDATE tbl_training
+            SET scheduleId = ?
+            WHERE id = ?
+        ");
+
+        return $oTrainingStatement->execute([$iScheduleId, $iTrainingId]);
     }
 }
