@@ -313,4 +313,28 @@ class PaymentModel
         // Execute the above statement along with the needed where clauses then return.
         return $statement->execute($aData);
     }
+
+    /**
+     * changePaymentStatus
+     * Queries the payment table in changing payment status.
+     * @param array $aParam
+     * @return int
+     */
+    public function changePaymentStatus($aParam)
+    {
+        $statement = $this->oConnection->prepare("
+            UPDATE tbl_payments tp
+            SET
+                tp.isPaid = ?
+            WHERE 1 = 1
+                AND tp.trainingId = ?
+                AND tp.isApproved = 1
+        ");
+
+        // Execute the above statement along with the needed where clauses then return.
+        return $statement->execute(array(
+            $aParam['isPaid'],
+            $aParam['trainingId']
+        ));
+    }
 }

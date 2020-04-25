@@ -176,7 +176,7 @@ require_once "template/studentHeader.php";
                             <tr>
                                 <th></th>
                                 <th></th>
-                                <th style="text-align:right">Remaining Balance:</th>
+								<th style="text-align:right" class="footerBalance"></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>

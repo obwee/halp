@@ -131,7 +131,7 @@
             </div>
         </div>
     </section>
-    
+
 
     <!--Services-->
 
@@ -201,7 +201,7 @@
                             <p class="card-text">Training fee: <span>P10,000</span></p>
                             <a href="#" class="btn btn-sm btn-secondary">Course Calendar</a>
                             <a href="" class="btn btn-sm btn-warning">Course Outline</a>
-                            <a href="#" class="btn btn-sm btn-info mt-2">Enroll Now</a>    
+                            <a href="#" class="btn btn-sm btn-info mt-2">Enroll Now</a>
                         </div>
                     </div>
                 </div>
@@ -237,7 +237,7 @@
                             <p class="card-text">Training fee: <span>P10,000</span></p>
                             <a href="#" class="btn btn-sm btn-secondary">Course Calendar</a>
                             <a href="" class="btn btn-sm btn-warning">Course Outline</a>
-                            <a href="#" class="btn btn-sm btn-info mt-2">Enroll Now</a>    
+                            <a href="#" class="btn btn-sm btn-info mt-2">Enroll Now</a>
                         </div>
                     </div>
                 </div>
@@ -254,7 +254,8 @@
                             </div>
                         </div>
                     </div>
-                </div><div class="col-sm-4">
+                </div>
+                <div class="col-sm-4">
                     <div class="card text-center">
                         <div class="card-body">
                             <h5 class="card-title">Cisco Certified Network Professional</h5>
@@ -267,8 +268,8 @@
                     </div>
                 </div>
                 <p style="font-size:15px;" align="center">*Prices are subject to change without prior notice.</p>
-            </div>  
-        </div>  
+            </div>
+        </div>
     </section>
 
     <!--FAQs-->
@@ -409,9 +410,9 @@
                 </div>
             </div>
         </div>
-    </section> 
+    </section>
 
-    
+
     <section id="footer" class="section">
         <div class="container">
             <div class="col-lg-12 text-center">
@@ -426,19 +427,19 @@
             </div>
             <div class="col-sm-6 text-center">
                 <i class="fab fa-facebook-square fa-2x mb-3 sr-icon-3"></i>
-                <p><a class="facebook" href="https://www.facebook.com/nxs88" target="_blank" style="text-decoration: none;color: black;">Nexus IT Training Center</a></p> 
+                <p><a class="facebook" href="https://www.facebook.com/nxs88" target="_blank" style="text-decoration: none;color: black;">Nexus IT Training Center</a></p>
             </div>
         </div>
         <div class="container">
             <div class="row">
                 <div class="col-sm-6 text-center">
-                    <i class="fas fa-map-marked-alt fa-2x mb-3 sr-icon-2" data-toggle="modal" data-target="#makati" ></i>
+                    <i class="fas fa-map-marked-alt fa-2x mb-3 sr-icon-2" data-toggle="modal" data-target="#makati"></i>
                     <p style="font-weight: bold;">MAKATI BRANCH</p>
                     <p>Unit 2417 Cityland 10 Tower 2, 154 H.V. Dela Costa Street, Ayala North, Makati City</p>
                     <div>
                         <i class="fas fa-phone fa-2x mb-3 sr-icon-1"></i>
-                        <p>+63 2 8362-3755</p>    
-                    </div>  
+                        <p>+63 2 8362-3755</p>
+                    </div>
                 </div>
                 <div class="col-sm-6 text-center">
                     <i class="fas fa-map-marked-alt fa-2x mb-3 sr-icon-2" data-toggle="modal" data-target="#manila"></i>
@@ -446,324 +447,328 @@
                     <p>Unit 401 Dona Amparo Building, Espana Boulevard, Sampaloc, Manila City</p>
                     <div>
                         <i class="fas fa-phone fa-2x mb-3 sr-icon-1"></i>
-                        <p>+63 2 8355-7759</p>   
+                        <p>+63 2 8355-7759</p>
                     </div>
                 </div>
             </div>
-        </section>
+    </section>
 
 
 
-        <div class="modal fade" id="makati" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-body mb-0 p-0">
-                        <iframe id="makati" class="z-depth-1-half map-container" style="height: 500px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.678658112453!2d121.01502201424155!3d14.560359689828074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c9096ec55555%3A0xaf0d621b7e9c77c1!2sCityland%2010%20Tower%202!5e0!3m2!1sen!2sph!4v1581604908686!5m2!1sen!2sph" width="500" height="200" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="manila" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-body mb-0 p-0">
-                        <iframe id="manila" class="z-depth-1-half map-container" style="height: 500px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.8726048535877!2d120.98647931424222!3d14.606332189798794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c9ff6e6a7e19%3A0x89d69880ec46e9bb!2sDo%C3%B1a%20Amparo%20Building%2C%20Espa%C3%B1a%20Blvd%2C%20Sampaloc%2C%20Manila%2C%201008%20Metro%20Manila!5e0!3m2!1sen!2sph!4v1581605109709!5m2!1sen!2sph" width="500" height="200" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
-                    </div>
+    <div class="modal fade" id="makati" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body mb-0 p-0">
+                    <iframe id="makati" class="z-depth-1-half map-container" style="height: 500px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.678658112453!2d121.01502201424155!3d14.560359689828074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c9096ec55555%3A0xaf0d621b7e9c77c1!2sCityland%2010%20Tower%202!5e0!3m2!1sen!2sph!4v1581604908686!5m2!1sen!2sph" width="500" height="200" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="modal fade" id="manila" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body mb-0 p-0">
+                    <iframe id="manila" class="z-depth-1-half map-container" style="height: 500px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.8726048535877!2d120.98647931424222!3d14.606332189798794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c9ff6e6a7e19%3A0x89d69880ec46e9bb!2sDo%C3%B1a%20Amparo%20Building%2C%20Espa%C3%B1a%20Blvd%2C%20Sampaloc%2C%20Manila%2C%201008%20Metro%20Manila!5e0!3m2!1sen!2sph!4v1581605109709!5m2!1sen!2sph" width="500" height="200" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
 
 
-        <!--MODALS-->
+    <!--MODALS-->
 
-        <!--Registration-->
+    <!--Registration-->
 
-        <div class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" id="registerModal">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Registration</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
+    <div class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" id="registerModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registration</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" id="registrationForm">
+                    <div class="modal-body" style="padding:30px 50px;">
+                        <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+                        <div class="form-group row">
+                            <label for="registrationFname">First Name</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="registrationFname" name="registrationFname" placeholder="First Name" autofocus maxlength="30" minlength="2">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="registrationMname">Middle Name</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="registrationMname" name="registrationMname" placeholder="Middle Name" autofocus maxlength="30" minlength="2">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="registrationLname">Last Name</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="registrationLname" name="registrationLname" placeholder="Last Name" autofocus maxlength="30" minlength="2">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="registrationContactNum">Contact Number</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="registrationContactNum" name="registrationContactNum" placeholder="Contact Number" maxlength="12">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="registrationCompanyName">Company Name</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-building"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="registrationCompanyName" name="registrationCompanyName" placeholder="Company Name" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="registrationEmail">E-mail Address</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                </div>
+                                <input type="email" class="form-control" id="registrationEmail" name="registrationEmail" placeholder="E-mail Address" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="registrationUsername">Username</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="registrationUsername" name="registrationUsername" placeholder="Username" maxlength="15" minlength="4">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="registrationPassword">Password</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user-lock"></i></span>
+                                </div>
+                                <input type="password" class="form-control" id="registrationPassword" name="registrationPassword" placeholder="Password" maxlength="30">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="registrationPassword">Confirm Password</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                </div>
+                                <input type="password" class="form-control" id="registrationConfirmPassword" name="registrationConfirmPassword" placeholder="Confirm Password" maxlength="30">
+                            </div>
+                        </div>
                     </div>
-                    <form method="post" id="registrationForm">
-                        <div class="modal-body" style="padding:30px 50px;">
-                            <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
-                            <div class="form-group row">
-                                <label for="registrationFname">First Name</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-user"></i></span> 
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Register</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--QUOTATION-->
+
+    <div class="modal fade" id="getQuoteModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog getQuoteModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Get Quote</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id="quotationForm">
+                        <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+                        <div class="form-group">
+                            <label for="quoteFname"><span class="fas fa-user-circle"></span> First Name</label>
+                            <input type="text" class="form-control quoteFname" name="quoteFname" placeholder="First Name" autofocus maxlength="30">
+                        </div>
+                        <div class="form-group">
+                            <label for="quoteMname"><span class="fas fa-user-circle"></span> Middle Name</label>
+                            <input type="text" class="form-control quoteMname" name="quoteMname" placeholder="Middle Name" autofocus maxlength="30">
+                        </div>
+                        <div class="form-group">
+                            <label for="quoteLname"><span class="fas fa-user-circle"></span> Last Name</label>
+                            <input type="text" class="form-control quoteLname" name="quoteLname" placeholder="Last Name" autofocus maxlength="30">
+                        </div>
+                        <div class="form-group">
+                            <label for="quoteContactNum"><span class="fas fa-user-circle"></span> Contact Number</label>
+                            <input type="text" class="form-control quoteContactNum" name="quoteContactNum" placeholder="Contact Number" autofocus maxlength="12">
+                        </div>
+                        <div class="form-group">
+                            <label for="quoteEmail"><span class="fas fa-envelope"></span> E-mail Address</label>
+                            <input type="email" class="form-control quoteEmail" name="quoteEmail" placeholder="E-mail Address" maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="quoteCompanyName"><span class="far fa-building"></span> Company Name</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control quoteCompanyName" placeholder="Company Name" name="quoteCompanyName" maxlength="50" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" name="quoteBillToCompany" class="quoteBillToCompany">
+                                        <label class="form-check-label ml-1" for="exampleCheck1">Bill to Company?</label>
                                     </div>
-                                    <input type="text" class="form-control" id="registrationFname" name="registrationFname" placeholder="First Name" autofocus maxlength="30" minlength="2">
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label for="registrationMname">Middle Name</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-user"></i></span> 
-                                    </div>
-                                    <input type="text" class="form-control" id="registrationMname" name="registrationMname" placeholder="Middle Name" autofocus maxlength="30" minlength="2">
-                                </div>
+                        </div>
+                        <div class="courseAndScheduleDiv" style="display: none;">
+                            <div class="form-group">
+                                <label for="quoteCourse"><span class="fas fa-book"></span> Course</label>
+                                <select class="form-control quoteCourse" name="quoteCourse[]">
+                                </select>
                             </div>
-                            <div class="form-group row">
-                                <label for="registrationLname">Last Name</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-user"></i></span> 
-                                    </div>
-                                    <input type="text" class="form-control" id="registrationLname" name="registrationLname" placeholder="Last Name" autofocus maxlength="30" minlength="2">
-                                </div>
+                            <div class="form-group">
+                                <label for="quoteSchedule"><span class="fas fa-calendar-week"></span> Schedule</label>
+                                <select class="form-control quoteSchedule" name="quoteSchedule[]" disabled>
+                                    <option value="" selected disabled hidden>Select Course First</option>
+                                </select>
                             </div>
-                            <div class="form-group row">
-                                <label for="registrationContactNum">Contact Number</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-phone"></i></span> 
-                                    </div>
-                                    <input type="text" class="form-control" id="registrationContactNum" name="registrationContactNum" placeholder="Contact Number" maxlength="13">
-                                </div>
+                            <div class="form-group">
+                                <label for="numPax"><span class="fas fa-user-friends"></span> PAX</label>
+                                <input type="number" class="form-control numPax" placeholder="Number of Persons" name="numPax[]" min="1" max="100" value="1">
                             </div>
-                            <div class="form-group row">
-                                <label for="registrationCompanyName">Company Name</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-building"></i></span> 
-                                    </div>
-                                    <input type="text" class="form-control" id="registrationCompanyName" name="registrationCompanyName" placeholder="Company Name" maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-12 text-center">
+                                    <button type="button" class="btn btn-info addCourseBtn">Add New Course</button>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="registrationEmail">E-mail Address</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span> 
-                                    </div>
-                                    <input type="email" class="form-control" id="registrationEmail" name="registrationEmail" placeholder="E-mail Address" maxlength="50">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="registrationUsername">Username</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-user-circle"></i></span> 
-                                    </div>
-                                    <input type="text" class="form-control" id="registrationUsername" name="registrationUsername" placeholder="Username" maxlength="15" minlength="4">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="registrationPassword">Password</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-user-lock"></i></span> 
-                                    </div>
-                                    <input type="password" class="form-control" id="registrationPassword" name="registrationPassword" placeholder="Password" maxlength="30">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="registrationPassword">Confirm Password</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-lock"></i></span> 
-                                    </div>
-                                    <input type="password" class="form-control" id="registrationConfirmPassword" name="registrationConfirmPassword" placeholder="Confirm Password" maxlength="30">
+                                <div class="col-sm-6 text-left" style="display: none;">
+                                    <button type="button" class="btn btn-warning deleteCourseBtn">&nbsp;&nbsp;&nbsp;Delete Course&nbsp;&nbsp;&nbsp;</button>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-success">Register</button>
+                            <button type="submit" class="btn btn-success">Submit</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!--QUOTATION-->
+    <!--Email Us Modal-->
+    <div class="modal fade" id="emailUsModal" role="dialog">
+        <div class="modal-dialog loginModal">
 
-        <div class="modal fade" id="getQuoteModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog getQuoteModal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Get Quote</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="post" id="quotationForm">
-                            <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
-                            <div class="form-group">
-                                <label for="quoteFname"><span class="fas fa-user-circle"></span> First Name</label>
-                                <input type="text" class="form-control quoteFname" name="quoteFname" placeholder="First Name" autofocus maxlength="30">
-                            </div>
-                            <div class="form-group">
-                                <label for="quoteMname"><span class="fas fa-user-circle"></span> Middle Name</label>
-                                <input type="text" class="form-control quoteMname" name="quoteMname" placeholder="Middle Name" autofocus maxlength="30">
-                            </div>
-                            <div class="form-group">
-                                <label for="quoteLname"><span class="fas fa-user-circle"></span> Last Name</label>
-                                <input type="text" class="form-control quoteLname" name="quoteLname" placeholder="Last Name" autofocus maxlength="30">
-                            </div>
-                            <div class="form-group">
-                                <label for="quoteContactNum"><span class="fas fa-user-circle"></span> Contact Number</label>
-                                <input type="text" class="form-control quoteContactNum" name="quoteContactNum" placeholder="Contact Number" autofocus maxlength="12">
-                            </div>
-                            <div class="form-group">
-                                <label for="quoteEmail"><span class="fas fa-envelope"></span> E-mail Address</label>
-                                <input type="email" class="form-control quoteEmail" name="quoteEmail" placeholder="E-mail Address" maxlength="50">
-                            </div>
-                            <div class="form-group">
-                                <label for="quoteCompanyName"><span class="far fa-building"></span> Company Name</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control quoteCompanyName" placeholder="Company Name" name="quoteCompanyName" maxlength="50" aria-describedby="basic-addon2">
-                                    <span class="input-group-addon" id="basic-addon2">
-                                        <input type="checkbox" name="quoteBillToCompany" class="quoteBillToCompany"> Bill to Company?</span>
-                                    </div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Email Us</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" id="emailForm">
+                    <div class="modal-body" style="padding:30px 50px;">
+                        <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+                        <div class="form-group row">
+                            <label for="emailFname">First Name</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <div class="courseAndScheduleDiv" style="display: none;">
-                                    <div class="form-group">
-                                        <label for="quoteCourse"><span class="fas fa-book"></span> Course</label>
-                                        <select class="form-control quoteCourse" name="quoteCourse[]">
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="quoteSchedule"><span class="fas fa-calendar-week"></span> Schedule</label>
-                                        <select class="form-control quoteSchedule" name="quoteSchedule[]" disabled>
-                                            <option value="" selected disabled hidden>Select Course First</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="numPax"><span class="fas fa-user-friends"></span> PAX</label>
-                                        <input type="number" class="form-control numPax" placeholder="Number of Persons" name="numPax[]" min="1" max="100" value="1">
-                                    </div>
+                                <input type="text" class="form-control" id="emailFname" name="emailFname" placeholder="First Name" autofocus maxlength="20">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="emailMname">Middle Name</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-12 text-center">
-                                            <button type="button" class="btn btn-info addCourseBtn">Add New Course</button>
-                                        </div>
-                                        <div class="col-sm-6 text-left" style="display: none;">
-                                            <button type="button" class="btn btn-warning deleteCourseBtn">&nbsp;&nbsp;&nbsp;Delete Course&nbsp;&nbsp;&nbsp;</button>
-                                        </div>
-                                    </div>
+                                <input type="text" class="form-control" id="emailMname" name="emailMname" placeholder="Middle Name" autofocus maxlength="20">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="emailLname">Last Name</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-success">Submit</button>
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <input type="text" class="form-control" id="emailLname" name="emailLname" placeholder="Last Name" autofocus maxlength="20">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="email">E-mail Address</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                 </div>
-                            </form>
+                                <input type="email" class="form-control" id="emailAddress" name="emailAddress" placeholder="E-mail Address" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="emailTitle">E-mail Subject</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-envelope-open-text"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="emailTitle" name="emailTitle" placeholder="Email Subject" autofocus maxlength="20">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="emailMsg">Message</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-comments"></i></span>
+                                </div>
+                                <textarea class="form-control" id="emailMsg" name="emailMsg" rows="8" placeholder="Type your message here."></textarea>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!--Email Us Modal-->
-            <div class="modal fade" id="emailUsModal" role="dialog">
-                <div class="modal-dialog loginModal">
-
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Email Us</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                        </div>
-                        <form method="post" id="emailForm">
-                            <div class="modal-body" style="padding:30px 50px;">
-                                <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
-                                <div class="form-group row">
-                                    <label for="emailFname">First Name</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-user"></i></span> 
-                                        </div>
-                                        <input type="text" class="form-control" id="emailFname" name="emailFname" placeholder="First Name" autofocus maxlength="20">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="emailMname">Middle Name</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-user"></i></span> 
-                                        </div>
-                                        <input type="text" class="form-control" id="emailMname" name="emailMname" placeholder="Middle Name" autofocus maxlength="20">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="emailLname">Last Name</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-user"></i></span> 
-                                        </div>
-                                        <input type="text" class="form-control" id="emailLname" name="emailLname" placeholder="Last Name" autofocus maxlength="20">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="email">E-mail Address</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-envelope"></i></span> 
-                                        </div>
-                                        <input type="email" class="form-control" id="emailAddress" name="emailAddress" placeholder="E-mail Address" maxlength="50">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="emailTitle">E-mail Subject</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-envelope-open-text"></i></span> 
-                                        </div>
-                                        <input type="text" class="form-control" id="emailTitle" name="emailTitle" placeholder="Email Subject" autofocus maxlength="20">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="emailMsg">Message</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-comments"></i></span> 
-                                        </div>
-                                        <textarea class="form-control" id="emailMsg" name="emailMsg" rows="8" placeholder="Type your message here."></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-success">Submit</button>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            </div>
-                        </form>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
-                </div>
+                </form>
             </div>
+        </div>
+    </div>
 
 
-            <!--SCRIPTS-->
-            <!--Font Awesome-->
-            <script src="https://kit.fontawesome.com/be76a30cc4.js" crossorigin="anonymous"></script>
-            <!--jQuery-->
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-            <!--Bootstrap-->
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-            <!--Sweet Alert-->
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <!--SCRIPTS-->
+    <!--Font Awesome-->
+    <script src="https://kit.fontawesome.com/be76a30cc4.js" crossorigin="anonymous"></script>
+    <!--jQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--Bootstrap-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <!--Sweet Alert-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
-            <script src="../utils/js/utils.Libraries.js"></script>
-            <script src="../utils/js/utils.Validations.js"></script>
-            <script src="../utils/js/utils.Forms.js"></script>
+    <script src="../utils/js/utils.Libraries.js"></script>
+    <script src="../utils/js/utils.Validations.js"></script>
+    <script src="../utils/js/utils.Forms.js"></script>
 
-            <script src="js/homepage.js"></script>
+    <script src="js/homepage.js"></script>
 
-            <script src="https://unpkg.com/scrollreveal"></script>
-            <script src="js/scrollreveal.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="js/scrollreveal.js"></script>
 
 
-   <!-- <script type="text/javascript">
+    <!-- <script type="text/javascript">
         $(document).ready(function() {
 
             //$("a").click(function() {

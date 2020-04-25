@@ -18,6 +18,10 @@ var oCommon = (() => {
         });
     }
 
+    function fetchNotifications() {
+        
+    }
+
     return {
         initialize: init
     }

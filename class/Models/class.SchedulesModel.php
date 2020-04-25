@@ -343,4 +343,56 @@ class SchedulesModel
         }
         return $this->oConnection->commit();
     }
+
+    public function fetchOldScheduleDetails($aParams)
+    {
+        $sQuery = $this->oConnection->prepare(
+            "SELECT tt.Id AS trainingId, ts.coursePrice, tt.scheduleId,
+                    SUM(tp.paymentAmount) AS totalPayment,
+                    MAX(tp.isPaid) AS paymentStatus
+             FROM tbl_schedules ts
+             INNER JOIN tbl_training tt
+             ON ts.id = tt.scheduleId
+             LEFT JOIN tbl_payments tp
+             ON tp.trainingId = tt.id
+             WHERE 1 = 1
+             AND tt.id = ?
+             AND tt.studentId = ?
+             GROUP BY tt.id"
+        );
+
+        $sQuery->execute(array(
+            $aParams['trainingId'],
+            $aParams['studentId']
+        ));
+
+        return $sQuery->fetch();  
+    }
+
+    public function changeRemainingSlots($iOldScheduleId, $iNewScheduleId)
+    {
+        try {
+            $this->oConnection->beginTransaction();
+
+            $statement = $this->oConnection->prepare("
+                UPDATE tbl_schedules
+                SET remainingSlots = (remainingSlots + 1)
+                WHERE id = ?
+            ");
+
+            $statement->execute([$iOldScheduleId]);
+
+            $statement = $this->oConnection->prepare("
+                UPDATE tbl_schedules
+                SET remainingSlots = (remainingSlots - 1)
+                WHERE id = ?
+            ");
+
+            $statement->execute([$iNewScheduleId]);
+            return $this->oConnection->commit();
+        } catch (PDOException $oError) {
+            $this->oConnection->rollBack();
+            return 0;
+        }
+    }
 }

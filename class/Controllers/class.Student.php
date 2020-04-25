@@ -49,7 +49,7 @@ class Student extends BaseController
     {
         $aValidationResult = Validations::validateRegistrationInputs($this->aParams);
 
-        if ($aValidationResult['result'] === true) {
+        if ($aValidationResult['bResult'] === true) {
             Utils::sanitizeData($this->aParams);
             Utils::prepareData($this->aParams, 'registration');
 
@@ -90,7 +90,7 @@ class Student extends BaseController
     {
         $aValidationResult = Validations::validateEmailInputs($this->aParams);
 
-        if ($aValidationResult['result'] === true) {
+        if ($aValidationResult['bResult'] === true) {
             Utils::sanitizeData($this->aParams);
             Utils::prepareData($this->aParams, 'sendEmail');
 

@@ -19,16 +19,16 @@
     <link rel="stylesheet" href="/Nexus/CDNs/dist/css/AdminLTE.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
      folder instead of downloading all of them to reduce the load. -->
-     <link rel="stylesheet" href="/Nexus/CDNs/dist/css/skins/skin-blue.min.css">
-     <!-- Google Font -->
-     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="stylesheet" href="/Nexus/CDNs/dist/css/skins/skin-blue.min.css">
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
-     <!-- Datatables -->
-     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <!-- Datatables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 
-     <!-- <link rel="stylesheet" type="text/css" href="../CDNs/admin.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../CDNs/admin.css"> -->
 
-     <style type="text/css">
+    <style type="text/css">
         .dropdown-menu {
             max-height: 300px;
             overflow-y: scroll;
@@ -65,19 +65,33 @@
                                 <i class="fa fa-bell-o"></i>
                                 <span class="label label-warning notif-count">10</span>
                             </a>
-                            <ul class="dropdown-menu" style="overflow-y: hidden;">
-                                <li class="header notif-header">You have 10 notifications</li>
+                            <ul class="dropdown-menu" style="overflow-y: hidden; width: 390px !important;">
+                                <li class="header notif-header">Notifications</li>
                                 <li>
                                     <ul class="menu">
                                         <li>
                                             <a href="#">
-                                                <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                                <i class="fa fa-users text-aqua"></i>
+                                                <span class="notifText">5 new members joined today</span>
+                                                <br>
+                                                <em>
+                                                    <small class="pull-right">
+                                                        <i class="fas fa-dot-circle fa-xs text-aqua"></i>
+                                                        <span class="notifDate">A few minutes ago</span>
+                                                    </small>
+                                                </em>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#">
-                                                <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
-                                                page and may cause design problems
+                                        <a href="#">
+                                                <i class="fa fa-money text-green"></i>
+                                                <span class="notifText">5 new members paid today</span>
+                                                <br>
+                                                <em>
+                                                    <small class="pull-right">
+                                                        <span class="notifDate">2 hours ago</span>
+                                                    </small>
+                                                </em>
                                             </a>
                                         </li>
                                         <li>

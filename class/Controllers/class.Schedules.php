@@ -19,6 +19,18 @@ class Schedules extends BaseController
     private $oTrainingModel;
 
     /**
+     * @var CourseModel $oCourseModel
+     * Class instance for course model.
+     */
+    private $oCourseModel;
+
+    /**
+     * @var PaymentModel $oPaymentModel
+     * Class instance for payment model.
+     */
+    private $oPaymentModel;
+
+    /**
      * Schedules constructor.
      * @param array $aPostVariables
      */
@@ -28,8 +40,12 @@ class Schedules extends BaseController
         $this->aParams = $aPostVariables;
         // Instantiate the SchedulesModel class and store it inside $this->oScheduleModel.
         $this->oScheduleModel = new SchedulesModel();
-        // Instantiate the SchedulesModel class and store it inside $this->oScheduleModel.
+        // Instantiate the TrainingModel class and store it inside $this->oTrainingModel.
         $this->oTrainingModel = new TrainingModel();
+        // Instantiate the CourseModel class and store it inside $this->oCourseModel.
+        $this->oCourseModel = new CourseModel();
+        // Instantiate the PaymentModel class and store it inside $this->oPaymentModel.
+        $this->oPaymentModel = new PaymentModel();
     }
 
     /**
@@ -298,5 +314,50 @@ class Schedules extends BaseController
         );
         $iNumberOfEmployees = $oTrainingModel->fetchNumberOfEnrollees($aIds);
         return $aData['numSlots'] - $iNumberOfEmployees;
+    }
+
+    public function rescheduleTraining()
+    {
+        $aNewKeys = array(
+            'course'   => 'courseId',
+            'schedule' => 'scheduleId'
+        );
+        Utils::renameKeys($this->aParams, $aNewKeys);
+        Utils::sanitizeData($this->aParams);
+
+        $aValidateParams = Validations::validateIdsForReschedule($this->aParams);
+        if ($aValidateParams['bResult'] === false) {
+            echo json_encode($aValidateParams);
+            exit;
+        }
+
+        $aOldScheduleDetails = $this->oScheduleModel->fetchOldScheduleDetails($this->aParams);
+        $aNewScheduleDetails = $this->oCourseModel->getCourseAndScheduleDetails($this->aParams['scheduleId']);
+
+        $iBalance = $aOldScheduleDetails['totalPayment'] - $aNewScheduleDetails['coursePrice'];
+        
+        if ($iBalance > 0 || $iBalance === 0) {
+            $iIsPaid = 2;
+        } else {
+            $iIsPaid = 1;
+        }
+        $iIsPaid = ($aOldScheduleDetails['totalPayment'] === 0) ? 0 : $iIsPaid;
+
+        $aParams = array(
+            'isPaid'     => $iIsPaid,
+            'scheduleId' => $this->aParams['scheduleId'],
+            'trainingId' => $this->aParams['trainingId'],
+            'studentId'  => $this->aParams['studentId']
+        );
+        $this->oPaymentModel->changePaymentStatus($aParams);
+        $this->oScheduleModel->changeRemainingSlots($aOldScheduleDetails['scheduleId'], $aParams['scheduleId']);
+        $this->oTrainingModel->changeSchedule($aParams['scheduleId'], $aParams['trainingId']);
+
+        echo json_encode(
+            array(
+                'bResult' => true,
+                'sMsg'    => 'Reschedule successful!'
+            )
+        );
     }
 }

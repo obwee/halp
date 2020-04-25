@@ -6,6 +6,8 @@ var oEnrollment = (() => {
     let oScheduleFilterDropdown = $('.scheduleFilterDropdown');
     let oCourseDropdownForWalkIn = $('.courseDropdown');
     let oScheduleDropdownForWalkIn = $('.scheduleDropdown');
+    let oCourseDropdownForReschedule = $('.courseDropdownForReschedule');
+    let oScheduleDropdownForReschedule = $('.scheduleDropdownForReschedule');
 
     let oColumns = {
         aEnrollees: [
@@ -91,6 +93,7 @@ var oEnrollment = (() => {
     let aInstructors = [];
     let oTemplate = {};
     let aVenues = [];
+    let aTrainingsAvailableForReschedule = [];
 
     function init() {
         fetchCoursesAndSchedules();
@@ -172,6 +175,10 @@ var oEnrollment = (() => {
             $('.numSlots').val(iNumSlots);
         });
 
+        $(document).on('change', '.courseDropdownForReschedule', function() {
+            populateScheduleDropdown(oScheduleDropdownForReschedule, aTrainingsAvailableForReschedule, $(this).val());
+        });
+
         $(document).on('click', '#clearSelection', function () {
             fetchEnrollmentData();
             $(this).closest('form')[0].reset();
@@ -188,10 +195,17 @@ var oEnrollment = (() => {
             $('#viewPaymentModal').modal('show');
 
             $('#viewPaymentModal').find('.addPayment').css('display', 'block');
+
             if (oStudentDetails.paymentStatus === 'Fully Paid') {
                 $('#viewPaymentModal').find('.addPayment').css('display', 'none');
+                $('#viewPaymentModal').find('.clearCredits').css('display', 'none');
+            } else if (oStudentDetails.paymentStatus === 'Has Credits') {
+                $('#viewPaymentModal').find('.addPayment').css('display', 'none');
+                $('#viewPaymentModal').find('.clearCredits').css('display', 'block');
+            } else {
+                $('#viewPaymentModal').find('.addPayment').css('display', 'block');
+                $('#viewPaymentModal').find('.clearCredits').css('display', 'none');
             }
-
         });
 
         $(document).on('click', '#approvePayment', function () {
@@ -314,6 +328,13 @@ var oEnrollment = (() => {
                     'requestAction': 'addPayment',
                     'alertTitle': 'Add Payment?',
                     'alertText': 'This will add a new payment to the selected reservation.'
+                },
+                '#rescheduleForm': {
+                    'validationMethod': oValidations.validateRescheduleInputs(sFormId),
+                    'requestClass': 'Schedules',
+                    'requestAction': 'rescheduleTraining',
+                    'alertTitle': 'Reschedule Training?',
+                    'alertText': 'This will change the schedule of the selected training.'
                 }
             }
 
@@ -364,7 +385,6 @@ var oEnrollment = (() => {
                         oLibraries.displayAlertMessage('error', oResponse.sMsg);
                     }
                     aEnrollees = oResponse.aEnrollmentData;
-                    // console.log(aEnrollees)
 
                     let aColumnDefs = [
                         { orderable: false, targets: [3, 4, 5, 6] }
@@ -468,6 +488,8 @@ var oEnrollment = (() => {
     }
 
     function displayStudentDetails() {
+        $('.rescheduleModal').find('#studId').val(oStudentDetails.studentId);
+        $('.rescheduleModal').find('#trainingId').val(oStudentDetails.trainingId);
         $('.rescheduleModal').find('#studName').val(oStudentDetails.studentName);
         $('.rescheduleModal').find('#course').val(oStudentDetails.courseCode);
         $('.rescheduleModal').find('#schedule').val(oStudentDetails.schedule);
@@ -510,8 +532,13 @@ var oEnrollment = (() => {
                         // const iCoursePrice = aTrainingRequests.filter(oCourse => oCourse.trainingId = oEr)
 
                         const iBalance = oStudentDetails.coursePrice.replace(/[P,]/g, '') - iTotalPaid;
-
-                        $(this.footer()).text(`P${iBalance.toLocaleString()}`);
+                        if (iBalance === 0 || iBalance > 0) {
+                            $('.footerBalance').text('Remaining Balance:');
+                            $(this.footer()).text(`P${iBalance.toLocaleString()}`);
+                        } else {
+                            $('.footerBalance').text('Credits:');
+                            $(this.footer()).text(`P${Math.abs(iBalance).toLocaleString()}`);
+                        }
                     });
                 };
 
@@ -640,12 +667,11 @@ var oEnrollment = (() => {
             },
             dataType: 'json',
             success: function (oResponse) {
-                // aTrainingsAvailable = oResponse.aTrainingsAvailable;
-                // aInstructors = oResponse.aInstructors;
-                // populateCourseDropdown(oCourseDropdownForWalkIn, aTrainingsAvailable);
+                aTrainingsAvailableForReschedule = oResponse;
+                populateCourseDropdown(oCourseDropdownForReschedule, aTrainingsAvailableForReschedule);
             },
             error: function () {
-                // oLibraries.displayAlertMessage('error', 'An error has occured. Please try again.');
+                oLibraries.displayAlertMessage('error', 'An error has occured. Please try again.');
             }
         });
     }

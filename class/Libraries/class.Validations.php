@@ -1248,6 +1248,39 @@ class Validations
         return array('bResult' => true);
     }
 
+    public static function validateIdsForReschedule($aParams)
+    {
+        $aProperties = array(
+            'studentId'  => array(
+                'sName'               => 'student',
+                'sElementToHighlight' => '#studName'
+            ),
+            'trainingId'  => array(
+                'sName'               => 'training',
+                'sElementToHighlight' => '#schedule'
+            ),
+            'courseId'   => array(
+                'sName'               => 'course',
+                'sElementToHighlight' => '.courseDropdownForReschedule'
+            ),
+            'scheduleId' => array(
+                'sName'               => 'schedule',
+                'sElementToHighlight' => '.courseDropdownForReschedule'
+            )
+        );
+
+        foreach ($aParams as $sKey => $iValue) {
+            if (!preg_match('/^[\d]/', $iValue)) {
+                return array(
+                    'bResult'  => false,
+                    'sElement' => $aProperties[$sKey]['sElementToHighlight'],
+                    'sMsg'     => 'Invalid ' . $aProperties[$sKey]['sName'] . '.'
+                );
+            }
+        }
+        return array('bResult' => true);
+    }
+
     /**
      * validateApprovePaymentInputs
      * Validates the payment inputs before approval sent by AJAX.
