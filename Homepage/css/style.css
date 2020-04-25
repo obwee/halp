@@ -168,16 +168,32 @@ html {
 /* ========================================================================================= */
 
 .section {
-    padding: 100px 100px;
+    padding: 50px 50px;
 }
 
 /* ABOUT */
 #about {
-    background-color: #A2C710;
+    background: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.4)), url(../../resource/img/homepage/Homepage1.jpg) no-repeat center center fixed;
+    display: table;
+    height: 700px;
+    position: relative;
+    width: 100%;
+    background-size: cover;
+    padding-top:250px;
+    padding-bottom:20px;
+    padding-left:0;
+    padding-right: 0;
+}
+
+#about .about-text {
+    background-color: white;
+    opacity: 0.7;
+    width: 100%;
+    padding:20px 20px;
 }
 
 #about p {
-    color: white;
+    color: black;
     font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
 
 }
@@ -212,6 +228,21 @@ html {
     background-color: #497391;
 }
 
+#faqs .accordion .card .card-header button {
+    color: black;
+    font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 15px;
+}
+
+#faqs .accordion .card .card-header button:hover {
+    text-decoration: none;
+}
+
+#faqs .accordion .card .card-body {
+    font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+}
+
 .fixed-image {
     background: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.4)), url(../../resource/img/homepage/fixed.jpg) no-repeat center center fixed;
     display: table;
@@ -221,34 +252,28 @@ html {
     background-size: cover;
 }
 
-
+/* COURSES */
+#courses .card {
+    width:350px;
+    height: 300px;
+}
 
 /* CONTACT US */
 
-footer {
+#footer {
     width: 100%;
-    background-color: black;
-    padding: 5% 5% 10% 5%;
-    color: #FFF;
+    background-color: #edbb00;
     font-family: 'Montserrat', sans-serif;
 
 }
 
-.icon {
-    padding: 15px;
-    font-size: 25px;
-    color: #FFF;
+#footer fa-3x {
+ color: black;
 }
 
-/*.icon:hover {
-    color: #d5d5d5;
-}*/
-
-footer h3 {
-    font-weight: bold;
-    text-transform: uppercase;
+#footer a .facebook {
+    color:black;
 }
-
 
 /* COURSES */
 
