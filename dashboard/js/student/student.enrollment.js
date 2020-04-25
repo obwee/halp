@@ -34,9 +34,6 @@ var oEnrollment = (() => {
                 title: 'Amount', className: 'text-center', data: 'coursePrice'
             },
             {
-                title: 'Balance', className: 'text-center', data: 'paymentBalance'
-            },
-            {
                 title: 'Status', className: 'text-center', data: 'paymentStatus'
             },
             {
@@ -103,7 +100,7 @@ var oEnrollment = (() => {
             preparePaymentDetails();
 
             $('#viewPaymentModal').find('.addPayment').css('display', 'block');
-            if (oEnrollmentDetails.paymentStatus === 'Fully Paid') {
+            if (oEnrollmentDetails.paymentStatus === 'Fully Paid' || oEnrollmentDetails.paymentStatus === 'Has Credits') {
                 $('#viewPaymentModal').find('.addPayment').css('display', 'none');
             }
 
@@ -282,8 +279,13 @@ var oEnrollment = (() => {
                         // const iCoursePrice = aTrainingRequests.filter(oCourse => oCourse.trainingId = oEr)
 
                         const iBalance = oEnrollmentDetails.coursePrice.replace(/[P,]/g, '') - iTotalPaid;
-
-                        $(this.footer()).text(`P${iBalance.toLocaleString()}`);
+                        if (iBalance === 0 || iBalance > 0) {
+                            $('.footerBalance').text('Remaining Balance:');
+                            $(this.footer()).text(`P${iBalance.toLocaleString()}`);
+                        } else {
+                            $('.footerBalance').text('Credits:');
+                            $(this.footer()).text(`P${Math.abs(iBalance).toLocaleString()}`);
+                        }
                     });
                 };
 

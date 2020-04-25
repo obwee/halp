@@ -89,31 +89,32 @@ require_once "Template/header.php";
 				<div class="modal-body">
 					<div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
 					<div class="form-group row">
+						<input type="text" id="studId" name="studentId" readonly hidden>
+						<input type="text" id="trainingId" name="trainingId" readonly hidden>
 						<label for="studName" class="col-sm-4 col-form-label"><i class="fas fa-user"></i> Name:</label>
 						<div class="col-sm-8">
-							<input type="text" readonly class="form-control-plaintext" id="studName" value="Mark Sale">
+							<input type="text" readonly class="form-control-plaintext" id="studName">
 						</div>
-
 						<label for="course" class="col-sm-4 col-form-label"><i class="fas fa-book"></i> Course:</label>
 						<div class="col-sm-8">
-							<input type="text" readonly class="form-control-plaintext" id="course" value="Ethical Hanking with Pen Test">
+							<input type="text" readonly class="form-control-plaintext" id="course">
 						</div>
 
 						<label for="schedule" class="col-sm-4 col-form-label"><i class="fas fa-calendar-day"></i> Schedule:</label>
 						<div class="col-sm-8">
-							<input type="text" readonly class="form-control-plaintext" id="schedule" value="April 29 - 30, 2020">
+							<input type="text" readonly class="form-control-plaintext" id="schedule">
 						</div>
 					</div>
 					<div style="border:2px solid #d5d5d5;border-top:5px solid #3c8dbc; padding:10px;">
 						<div class="form-group">
 							<label for="course"><span class="fas fa-book"></span> New Course</label>
-							<select class="form-control">
+							<select name="course" class="form-control courseDropdownForReschedule">
 								<option value="" selected disabled hidden>Select New Course</option>
 							</select>
 						</div>
 						<div class="form-group">
 							<label for="schedule"><span class="fas fa-calendar"></span> New Schedule</label>
-							<select class="form-control">
+							<select name="schedule" class="form-control scheduleDropdownForReschedule">
 								<option value="" selected disabled hidden>Select New Schedule</option>
 							</select>
 						</div>
@@ -243,7 +244,7 @@ require_once "Template/header.php";
 							<tr>
 								<th></th>
 								<th></th>
-								<th style="text-align:right">Remaining Balance:</th>
+								<th style="text-align:right" class="footerBalance"></th>
 								<th></th>
 								<th></th>
 								<th></th>
@@ -254,6 +255,7 @@ require_once "Template/header.php";
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-success addPayment">Add Payment</button>
+				<button type="button" class="btn btn-success clearCredits">Clear Credits</button>
 				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 			</div>
 		</div>

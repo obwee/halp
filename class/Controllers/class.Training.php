@@ -374,6 +374,9 @@ class Training extends BaseController
             if ($aEnrollmentData[$iKey]['hasPendingPayments'] === true) {
                 $aEnrollmentData[$iKey]['paymentStatus'] = 'Payment Submitted';
             }
+            if ($aEnrollmentData[$iKey]['coursePrice'] < array_sum($aTotalPaymentAmount[$iKey])) {
+                $aEnrollmentData[$iKey]['paymentStatus'] = 'Has Credits';
+            }
 
             if (empty($iRefundIndex) === false && $aRefundDetails[$iRefundIndex] !== 0) {
                 unset($aEnrollmentData[$iKey]);
@@ -383,7 +386,7 @@ class Training extends BaseController
 
         $aUnnecessaryKeys = [
             'recurrence', 'numRepetitions', 'fromDate', 'toDate', 'paymentMethod',
-            'paymentDate', 'paymentFile', 'paymentApproval'
+            'paymentDate', 'paymentFile', 'paymentApproval', 'paymentAmount'
         ];
         Utils::unsetUnnecessaryData($aEnrollmentData, $aUnnecessaryKeys);
 
@@ -439,6 +442,7 @@ class Training extends BaseController
         }
 
         $aEnrollmentData = [];
+        $iTotalPaymentAmount = 0;
 
         // Get instructor IDs, training IDs and payment statuses. Also, remove duplicates.
         foreach ($aEnrollees as $iKey => $aData) {
@@ -449,6 +453,7 @@ class Training extends BaseController
                 continue;
             }
 
+            $iTotalPaymentAmount += $aData['paymentAmount'];
             $aTrainingIds[$iKey] = $aData['trainingId'];
             $aInstructorIds[$iKey] = $aData['instructorId'];
             $aPaymentStatus[$aData['trainingId']][] = $aData['paymentStatus'];
@@ -472,7 +477,6 @@ class Training extends BaseController
 
         // Append instructor name to the data to be returned.
         foreach ($aEnrollmentData as $iKey => $aData) {
-            // print_r($aData['trainingId'] . '-' . $aData['paymentStatus']);
             $iInstructorKey = Utils::searchKeyByValueInMultiDimensionalArray($aData['instructorId'], $aInstructors, 'instructorId');
 
             $aEnrollmentData[$iKey]['schedule'] = Utils::formatDate($aData['fromDate']) . ' - ' . Utils::formatDate($aData['toDate']) . ' (' . $this->getInterval($aData) . ')';
@@ -480,6 +484,9 @@ class Training extends BaseController
             $aEnrollmentData[$iKey]['paymentStatus'] = $this->aPaymentStatus[$aData['paymentStatus'] ?? 0];
             if ($aEnrollmentData[$iKey]['hasPendingPayments'] === true) {
                 $aEnrollmentData[$iKey]['paymentStatus'] = 'Payment Submitted';
+            }
+            if ($aEnrollmentData[$iKey]['coursePrice'] < $iTotalPaymentAmount) {
+                $aEnrollmentData[$iKey]['paymentStatus'] = 'Has Credits';
             }
         }
 
@@ -637,14 +644,15 @@ class Training extends BaseController
             }
         }
 
-        $aTrainingsAvailable = [];
+        $aTrainingsAvailableForReschedule = [];
         if (count($aCoursesAvailable) > 0) {
-            $aTrainingsAvailable = $this->prepareTrainingsAvailable($aCoursesAvailable);
+            $aTrainingsAvailableForReschedule = $this->prepareTrainingsAvailable($aCoursesAvailable);
         }
 
-        echo json_encode(array(
-            'aTrainingsAvailable' => array_values($aTrainingsAvailable),
-            'aInstructors'        => array_values(array_filter($this->oInstructorsModel->fetchInstructors(), fn ($aInstructors) => $aInstructors['status'] === 'Active'))
-        ));
+        echo json_encode(array_values($aTrainingsAvailableForReschedule));
+        // echo json_encode(array(
+            // 'aTrainingsAvailableForReschedule' => array_values($aTrainingsAvailable),
+            // 'aInstructors'                     => array_values(array_filter($this->oInstructorsModel->fetchInstructors(), fn ($aInstructors) => $aInstructors['status'] === 'Active'))
+        // ));
     }
 }
