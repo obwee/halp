@@ -7,7 +7,6 @@ include_once 'utils/dbConnection.php';
  */
 class StudentModel
 {
-
     /**
      * @var dbConnection $oConnection
      * Holder for dbConnection instance.
@@ -244,5 +243,25 @@ class StudentModel
         $oStatement = $this->oConnection->prepare($sQuery);
         $oStatement->execute();
         return $oStatement->fetchAll();
+    }
+
+    public function getStudentsDetails($aStudentDetails)
+    {
+        $sPlaceHolders = str_repeat ('?, ',  count ($aStudentDetails) - 1) . '?';
+
+        // Query the tbl_quotation_details.
+        $statement = $this->oConnection->prepare("
+            SELECT
+                userId AS studentId,
+                CONCAT(firstName, ' ', lastName) AS studentName
+            FROM tbl_users
+            WHERE userId IN ($sPlaceHolders)
+        ");
+
+        // Execute the above statement along with the needed where clauses.
+        $statement->execute($aStudentDetails);
+
+        // Return the result of the execution of the above statement.
+        return $statement->fetchAll();
     }
 }
