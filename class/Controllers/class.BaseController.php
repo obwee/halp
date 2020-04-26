@@ -7,6 +7,7 @@ class BaseController
 {
 
     protected $oStudentModel;
+    protected $oNotificationModel;
 
     protected $aPaymentStatus = array(
         'Not Yet Paid',
@@ -30,6 +31,8 @@ class BaseController
     {
         // Instantiate the StudentModel class and store it inside $this->oStudentModel.
         $this->oStudentModel = new StudentModel();
+        // Instantiate the NotificationModel class and store it inside $this->oNotificationModel.
+        $this->oNotificationModel = new NotificationModel();
     }
 
     protected function getUserId()

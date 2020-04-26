@@ -68,45 +68,18 @@
                             <ul class="dropdown-menu" style="overflow-y: hidden; width: 390px !important;">
                                 <li class="header notif-header">Notifications</li>
                                 <li>
-                                    <ul class="menu">
-                                        <li>
-                                            <a href="#">
-                                                <i class="fa fa-users text-aqua"></i>
-                                                <span class="notifText">5 new members joined today</span>
+                                    <ul class="menu notif-menu">
+                                        <li class="template" hidden>
+                                            <a href="#" style="font-size: 13px;">
+                                                <i class="notifIcon"></i>
+                                                <span class="notifText"></span>
                                                 <br>
                                                 <em>
                                                     <small class="pull-right">
                                                         <i class="fas fa-dot-circle fa-xs text-aqua"></i>
-                                                        <span class="notifDate">A few minutes ago</span>
+                                                        <span class="notifDate"></span>
                                                     </small>
                                                 </em>
-                                            </a>
-                                        </li>
-                                        <li>
-                                        <a href="#">
-                                                <i class="fa fa-money text-green"></i>
-                                                <span class="notifText">5 new members paid today</span>
-                                                <br>
-                                                <em>
-                                                    <small class="pull-right">
-                                                        <span class="notifDate">2 hours ago</span>
-                                                    </small>
-                                                </em>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="fa fa-users text-red"></i> 5 new members joined
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="fa fa-user text-red"></i> You changed your username
                                             </a>
                                         </li>
                                     </ul>
