@@ -24,7 +24,7 @@
 
 </head>
 
-<body>
+<body data-spy="scroll" data-target="#mainNav">
 
 
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
@@ -496,7 +496,6 @@
                     <div class="modal-body" style="padding:30px 50px;">
                         <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                         <div class="form-group row">
-                            <label for="registrationFname">First Name</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -505,7 +504,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="registrationMname">Middle Name</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -514,7 +512,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="registrationLname">Last Name</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -523,7 +520,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="registrationContactNum">Contact Number</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-phone"></i></span>
@@ -532,7 +528,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="registrationCompanyName">Company Name</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-building"></i></span>
@@ -541,7 +536,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="registrationEmail">E-mail Address</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-envelope"></i></span>
@@ -550,7 +544,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="registrationUsername">Username</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
@@ -559,7 +552,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="registrationPassword">Password</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user-lock"></i></span>
@@ -568,7 +560,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="registrationPassword">Confirm Password</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-lock"></i></span>
@@ -670,7 +661,7 @@
     </div>
 
     <!--Email Us Modal-->
-    <div class="modal fade" id="emailUsModal" role="dialog">
+    <div class="modal fade" id="emailUsModal" role="dialog" data-backdrop="static">
         <div class="modal-dialog loginModal">
 
             <div class="modal-content">
@@ -684,7 +675,6 @@
                     <div class="modal-body" style="padding:30px 50px;">
                         <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
                         <div class="form-group row">
-                            <label for="emailFname">First Name</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -693,7 +683,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="emailMname">Middle Name</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -702,7 +691,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="emailLname">Last Name</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -711,7 +699,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="email">E-mail Address</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-envelope"></i></span>
@@ -720,7 +707,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="emailTitle">E-mail Subject</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-envelope-open-text"></i></span>
@@ -729,7 +715,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="emailMsg">Message</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-comments"></i></span>
@@ -764,11 +749,11 @@
 
     <script src="js/homepage.js"></script>
 
-    <script src="https://unpkg.com/scrollreveal"></script>
+    <!--<script src="https://unpkg.com/scrollreveal"></script>
     <script src="js/scrollreveal.js"></script>
 
 
-    <!-- <script type="text/javascript">
+     <script type="text/javascript">
         $(document).ready(function() {
 
             //$("a").click(function() {
