@@ -442,7 +442,7 @@ class Training extends BaseController
         }
 
         $aEnrollmentData = [];
-        $iTotalPaymentAmount = 0;
+        $aTotalPaymentAmount = [];
 
         // Get instructor IDs, training IDs and payment statuses. Also, remove duplicates.
         foreach ($aEnrollees as $iKey => $aData) {
@@ -453,7 +453,7 @@ class Training extends BaseController
                 continue;
             }
 
-            $iTotalPaymentAmount += $aData['paymentAmount'];
+            $aTotalPaymentAmount[$aData['trainingId']][] = $aData['paymentAmount'];
             $aTrainingIds[$iKey] = $aData['trainingId'];
             $aInstructorIds[$iKey] = $aData['instructorId'];
             $aPaymentStatus[$aData['trainingId']][] = $aData['paymentStatus'];
@@ -485,7 +485,7 @@ class Training extends BaseController
             if ($aEnrollmentData[$iKey]['hasPendingPayments'] === true) {
                 $aEnrollmentData[$iKey]['paymentStatus'] = 'Payment Submitted';
             }
-            if ($aEnrollmentData[$iKey]['coursePrice'] < $iTotalPaymentAmount) {
+            if ($aEnrollmentData[$iKey]['coursePrice'] < array_sum($aTotalPaymentAmount[$aData['trainingId']])) {
                 $aEnrollmentData[$iKey]['paymentStatus'] = 'Has Credits';
             }
         }

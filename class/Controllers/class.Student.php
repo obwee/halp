@@ -165,6 +165,17 @@ class Student extends BaseController
             $iQuery = $this->oTrainingModel->enrollForTraining($this->aParams['scheduleId'], $this->aParams['courseId'], $this->getUserId());
 
             if ($iQuery > 0) {
+                // $this->sendEmailToAdmin($this->aParams);
+
+                $aParams = array(
+                    'studentId'  => $this->getUserId(),
+                    'courseId'   => $this->aParams['courseId'],
+                    'scheduleId' => $this->aParams['scheduleId'],
+                    'type'       => 0,
+                    'date'       => dateNow()
+                );
+                $this->oNotificationModel->insertNotification($aParams);
+
                 $aResult = array(
                     'bResult' => true,
                     'sMsg'    => 'Course enrolled!'
@@ -178,8 +189,6 @@ class Student extends BaseController
         } else {
             $aResult = $aValidationResult;
         }
-
-        // $this->sendEmailToAdmin($this->aParams);
 
         echo json_encode($aResult);
     }

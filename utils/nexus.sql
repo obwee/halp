@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2020 at 05:00 PM
+-- Generation Time: Apr 26, 2020 at 03:35 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -118,10 +118,20 @@ CREATE TABLE `tbl_inclusions` (
 CREATE TABLE `tbl_notifications` (
   `id` int(11) NOT NULL,
   `studentId` int(11) NOT NULL,
+  `courseId` int(11) NOT NULL,
+  `scheduleId` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
-  `status` int(11) NOT NULL,
-  `date` datetime NOT NULL
+  `status` int(11) DEFAULT 0,
+  `date` datetime NOT NULL,
+  `hasOpened` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_notifications`
+--
+
+INSERT INTO `tbl_notifications` (`id`, `studentId`, `courseId`, `scheduleId`, `type`, `status`, `date`, `hasOpened`) VALUES
+(1, 7, 1, 2, '0', 0, '2020-04-26 16:13:28', 0);
 
 -- --------------------------------------------------------
 
@@ -284,9 +294,9 @@ CREATE TABLE `tbl_schedules` (
 --
 
 INSERT INTO `tbl_schedules` (`id`, `courseId`, `coursePrice`, `instructorId`, `venueId`, `numSlots`, `remainingSlots`, `fromDate`, `toDate`, `recurrence`, `numRepetitions`, `status`) VALUES
-(2, 1, '20000', 111, 1, 12, 12, '2020-04-27', '2020-05-01', 'none', '1', 'Active'),
+(2, 1, '20000', 111, 1, 12, 13, '2020-04-27', '2020-05-01', 'none', '1', 'Active'),
 (3, 2, '20000', 111, 2, 50, 49, '2020-05-04', '2020-05-08', 'none', '1', 'Active'),
-(4, 1, '20000', 110, 1, 50, 50, '2020-05-04', '2020-05-05', 'none', '1', 'Active'),
+(4, 1, '20000', 110, 1, 50, 0, '2020-05-04', '2020-05-05', 'none', '1', 'Active'),
 (5, 4, '20000', 111, 2, 50, 50, '2020-04-07', '2020-04-07', 'none', '1', 'Inactive'),
 (6, 12, '20000', 111, 1, 50, 50, '2020-04-20', '2020-04-24', 'none', '1', 'Active'),
 (25, 12, '20000', 110, 1, 1, 1, '2020-03-09', '2020-03-10', 'none', '1', 'Active'),
@@ -296,7 +306,7 @@ INSERT INTO `tbl_schedules` (`id`, `courseId`, `coursePrice`, `instructorId`, `v
 (29, 10, '8000', 110, 2, 1, 0, '2020-05-14', '2020-05-15', 'none', '1', 'Inactive'),
 (32, 7, '9999', 110, 2, 99, 99, '2020-05-25', '2020-05-29', 'none', '1', 'Active'),
 (42, 12, '2000', 110, 1, 10, 10, '2020-05-04', '2020-05-11', 'weekly', '2', 'Active'),
-(43, 7, '41241', 111, 1, 1, 1, '2020-05-03', '2020-05-10', 'weekly', '2', 'Active'),
+(43, 7, '8999', 111, 1, 1, 0, '2020-05-03', '2020-05-10', 'weekly', '2', 'Active'),
 (44, 5, '7000', 111, 2, 30, 30, '2020-05-18', '2020-05-22', 'none', '1', 'Active'),
 (45, 5, '7000', 110, 2, 30, 30, '2020-05-31', '2020-06-04', 'none', '1', 'Active');
 
@@ -328,6 +338,13 @@ CREATE TABLE `tbl_training` (
   `isCancelled` int(11) NOT NULL DEFAULT 0,
   `cancellationReason` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_training`
+--
+
+INSERT INTO `tbl_training` (`id`, `studentId`, `scheduleId`, `isReserved`, `isDone`, `certificateIssued`, `isCancelled`, `cancellationReason`) VALUES
+(32, 7, 2, 0, 0, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -424,6 +441,12 @@ ALTER TABLE `tbl_inclusions`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_notifications`
+--
+ALTER TABLE `tbl_notifications`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_payments`
 --
 ALTER TABLE `tbl_payments`
@@ -512,10 +535,16 @@ ALTER TABLE `tbl_inclusions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `tbl_notifications`
+--
+ALTER TABLE `tbl_notifications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `tbl_payments`
 --
 ALTER TABLE `tbl_payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=158;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
 
 --
 -- AUTO_INCREMENT for table `tbl_payment_methods`
@@ -539,7 +568,7 @@ ALTER TABLE `tbl_quotation_senders`
 -- AUTO_INCREMENT for table `tbl_refunds`
 --
 ALTER TABLE `tbl_refunds`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_schedules`
@@ -557,13 +586,13 @@ ALTER TABLE `tbl_sent_quotations`
 -- AUTO_INCREMENT for table `tbl_training`
 --
 ALTER TABLE `tbl_training`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
 
 --
 -- AUTO_INCREMENT for table `tbl_venue`
