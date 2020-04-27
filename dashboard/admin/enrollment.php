@@ -206,7 +206,7 @@ require_once "Template/header.php";
 <div class="modal fade" id="viewPaymentModal" role="dialog">
 	<div class="modal-dialog modal-lg viewPaymentModal">
 		<div class="modal-content">
-			<div class="modal-header" style="background-color: #605ca8;">
+			<div class="modal-header" style="background-color: #3c8dbc;">
 				<h5 align="center" style="color:white;">View Payment History</h5>
 			</div>
 			<div class="modal-body">
@@ -332,7 +332,7 @@ require_once "Template/header.php";
 <div class="modal fade" id="cancelReservationModal" role="dialog">
 	<div class="modal-dialog cancelReservationModal">
 		<div class="modal-content">
-			<div class="modal-header" style="background-color: #605ca8;">
+			<div class="modal-header" style="background-color: #3c8dbc;;">
 				<h5 align="center" style="color:white;">Cancel Reservation</h5>
 			</div>
 			<form action="POST" id="cancelReservationForm">
@@ -384,7 +384,7 @@ require_once "Template/header.php";
 <div class="modal fade" id="addPaymentModal" role="dialog" data-backdrop="static">
 	<div class="modal-dialog addPaymentModal modal-dialog-centered">
 		<div class="modal-content">
-			<div class="modal-header" style="background-color: #605ca8;">
+			<div class="modal-header" style="background-color: #3c8dbc;">
 				<h5 align="center" style="color: white;">Upload Payment</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true" style="color:white">&times;</span>
