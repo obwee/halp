@@ -45,10 +45,10 @@
                         <a class="nav-link js-scroll-trigger" href="#courses">Courses</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#faq">FAQ</a>
+                        <a class="nav-link js-scroll-trigger" href="#faqs">FAQ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#contact">Contact Us</a>
+                        <a class="nav-link js-scroll-trigger" href="#footer">Contact Us</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" role="button" data-toggle="modal" data-target="#getQuoteModal">Get Quote</a>
@@ -416,7 +416,7 @@
     <section id="footer" class="section">
         <div class="container">
             <div class="col-lg-12 text-center">
-                <h2 class="text-black" style="font-family: 'Bebas Neue', cursive;font-size: 45px;font-weight: bold;">CONNECT</h2>
+                <h2 class="text-black" style="font-family: 'Bebas Neue', cursive;font-size: 45px;font-weight: bold;">CONTACT US</h2>
                 <p>Contact us and we'll answer your inquiries immediately!</p>
             </div>
         </div>
