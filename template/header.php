@@ -70,16 +70,20 @@
                                 <li>
                                     <ul class="menu notif-menu">
                                         <li class="template" hidden>
-                                            <a href="#" style="font-size: 13px;">
+                                            <a href="#">
                                                 <i class="notifIcon"></i>
-                                                <span class="notifText"></span>
+                                                <span class="notifText" style="font-size: 13px;"></span>
                                                 <br>
-                                                <em>
-                                                    <small class="pull-right">
-                                                        <i class="fas fa-dot-circle fa-xs text-aqua"></i>
-                                                        <span class="notifDate"></span>
-                                                    </small>
+                                                <em class="pull-right">
+                                                    <i class="fas fa-dot-circle fa-xs text-aqua"></i>
+                                                    <span class="notifDate" style="font-size: 11px;"></span>
                                                 </em>
+                                            </a>
+                                        </li>
+                                        <li class="empty" hidden>
+                                            <a>
+                                                <i class="fa fa-folder-open"></i>
+                                                <span class="text-center" style="font-size: 13px;">No Notifications</span>
                                             </a>
                                         </li>
                                     </ul>

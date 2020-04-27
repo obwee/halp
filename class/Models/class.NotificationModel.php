@@ -24,9 +24,10 @@ class NotificationModel
     /**
      * fetchNotifications
      * Queries the users table in getting all the instructors.
+     * @param int $iLimit
      * @return array
      */
-    public function fetchNotifications()
+    public function fetchNotifications($iLimit)
     {
         // Prepare a select query.
         $oStatement = $this->oConnection->prepare("
@@ -35,11 +36,11 @@ class NotificationModel
             FROM tbl_notifications tn
             INNER JOIN tbl_courses tc
             ON tn.courseId = tc.id
-            LIMIT 0, 5
+            LIMIT ?, ?
         ");
 
         // Execute the above statement.
-        $oStatement->execute();
+        $oStatement->execute([$iLimit, $iLimit + 5]);
 
         // Return the number of rows returned by the executed query.
         return $oStatement->fetchAll();

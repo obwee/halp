@@ -4,11 +4,23 @@ var oCommon = (() => {
 
     let aNotifications = [];
 
+    let iLimit = 0;
+
     function init() {
-        $('.logout').on('click', doLogout);
         fetchNotifications();
+        setEvents();
     }
-    
+
+    function setEvents() {
+        $('.logout').on('click', doLogout);
+
+        $('.notif-menu').on('scroll', function () {
+            if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+                fetchNotifications();
+            }
+        });
+    }
+
     function doLogout(e) {
         e.preventDefault();
         Swal.fire({
@@ -31,10 +43,12 @@ var oCommon = (() => {
         // Execute AJAX request.
         $.ajax({
             url: '/Nexus/utils/ajax.php?class=Notification&action=fetchNotifications',
-            type: 'GET',
+            type: 'POST',
+            data: { iLimit: iLimit },
             dataType: 'json',
             success: function (oResponse) {
                 aNotifications = oResponse;
+                iLimit += 5;
                 populateNotifications();
             }
         });
@@ -46,10 +60,13 @@ var oCommon = (() => {
     function populateNotifications() {
         loadTemplate();
 
-        $('.notif-menu')
-            .empty()
-            .find('div[class!="template"]')
-            .remove();
+        if (aNotifications.length === 0 && $('.empty').not(':visible')) {
+            let oEmptyTpl = $('.empty').clone().attr('hidden', false);
+            $('.empty').remove();
+            $('.notif-menu').append(oEmptyTpl);
+            iLimit -= 5;
+            return false;
+        }
 
         $.each(aNotifications, (iKey, oVal) => {
             let oRow = oTemplate.clone().attr({
@@ -57,12 +74,15 @@ var oCommon = (() => {
                 'class': 'clonedTpl'
             });
 
+            oRow.find('a').attr('href', oVal.notifLink);
             oRow.find('.notifIcon').addClass(oVal.notifIcon);
             oRow.find('.notifText').text(oVal.notifText);
-            oRow.find('.notifDate').text(oVal.notifDate);
+            oRow.find('.notifDate').attr('title', oVal.notifDate);
 
             $('.notif-menu').append(oRow);
         });
+
+        $('.notifDate').timeago();
     }
 
     /**

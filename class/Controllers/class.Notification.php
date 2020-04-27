@@ -4,27 +4,47 @@ class Notification extends BaseController
 {
 
     protected $aNotificationType = array(
-        'enrollment request',
-        'cancelled enrollment',
-        'payment submitted',
-        'payment rejected',
-        'refund approved',
-        'refund rejected',
-        'quotation requested',
-        'quotation approved'
+        array(
+            'sText' => 'enrollment request',
+            'sIcon' => 'fa fa-user text-aqua',
+            'sLink' => '/Nexus/dashboard/admin/enrollment?'
+        ),
+        array(
+            'sText' => 'cancelled enrollment',
+            'sIcon' => 'fa fa-user text-aqua',
+            'sLink' => ''
+        ),
+        array(
+            'sText' => 'payment submitted',
+            'sIcon' => 'fa fa-user text-aqua',
+            'sLink' => ''
+        ),
+        array(
+            'sText' => 'payment rejected',
+            'sIcon' => 'fa fa-user text-aqua',
+            'sLink' => ''
+        ),
+        array(
+            'sText' => 'refund approved',
+            'sIcon' => 'fa fa-user text-aqua',
+            'sLink' => ''
+        ),
+        array(
+            'sText' => 'refund rejected',
+            'sIcon' => 'fa fa-user text-aqua',
+            'sLink' => ''
+        ),
+        array(
+            'sText' => 'quotation requested',
+            'sIcon' => 'fa fa-user text-aqua',
+            'sLink' => ''
+        ),
+        array(
+            'sText' => 'quotation approved',
+            'sIcon' => 'fa fa-user text-aqua',
+            'sLink' => ''
+        )
     );
-
-    protected $aNotificationIcon = array(
-        'fa fa-user text-aqua',
-        'fa fa-user text-aqua',
-        'fa fa-user text-aqua',
-        'fa fa-user text-aqua',
-        'fa fa-user text-aqua',
-        'fa fa-user text-aqua',
-        'fa fa-user text-aqua',
-        'fa fa-user text-aqua'
-    );
-    
 
     /**
      * Notification constructor.
@@ -43,7 +63,7 @@ class Notification extends BaseController
      */
     public function fetchNotifications()
     {
-        $aNotifications = $this->oNotificationModel->fetchNotifications();
+        $aNotifications = $this->oNotificationModel->fetchNotifications($this->aParams['iLimit']);
 
         if (empty($aNotifications) === true) {
             echo json_encode([]);
@@ -60,11 +80,15 @@ class Notification extends BaseController
             $iStudentKey = Utils::searchKeyByValueInMultiDimensionalArray($aValue['studentId'], $aStudentDetails, 'studentId');
 
             $aReturnData[$iKey]['notifText'] = $aStudentDetails[$iStudentKey]['studentName'];
-            $aReturnData[$iKey]['notifText'] .= ' has ' . $this->aNotificationType[$aValue['type']];
+            $aReturnData[$iKey]['notifText'] .= ' has ' . $this->aNotificationType[$aValue['type']]['sText'];
             $aReturnData[$iKey]['notifText'] .= ' for ' . $aValue['courseCode'] . '.';
 
             $aReturnData[$iKey]['notifDate'] = $aValue['date'];
-            $aReturnData[$iKey]['notifIcon'] = $this->aNotificationIcon[$aValue['type']];
+            $aReturnData[$iKey]['notifIcon'] = $this->aNotificationType[$aValue['type']]['sIcon'];
+
+            $aReturnData[$iKey]['notifLink'] = $this->aNotificationType[$aValue['type']]['sLink'];
+            $aReturnData[$iKey]['notifLink'] .= 'studentName=' . urlencode($aStudentDetails[$iStudentKey]['studentName']);
+            $aReturnData[$iKey]['notifLink'] .= '&courseName=' . urlencode($aValue['courseCode']);
 
             $aReturnData[$iKey]['scheduleId'] = $aValue['scheduleId'];
             $aReturnData[$iKey]['notifType'] = $aValue['type'];
