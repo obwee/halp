@@ -317,6 +317,16 @@ class Payment extends BaseController
         if ($iApproveQuery > 0) {
         // $this->sendEmailToStudent($aTrainingData, $iOverallPayment, $this->aParams['isPaid'], 'approved');
 
+        $aParams = array(
+            'studentId'  => $this->getUserId(),
+            'courseId'   => $aTrainingData['courseId'],
+            'scheduleId' => $aTrainingData['scheduleId'],
+            'type'       => 3,
+            'receiver'   => 'student',
+            'date'       => dateNow()
+        );
+        $this->oNotificationModel->insertNotification($aParams);
+
             echo json_encode(array(
                 'bResult'  => true,
                 'sMsg'     => 'Payment approved!'
@@ -356,6 +366,15 @@ class Payment extends BaseController
 
         if ($iQuery > 0) {
             // $this->sendEmailToStudent($aTrainingData, $iBalance, $aPaymentDetails['paymentStatus'], 'rejected');
+            $aParams = array(
+                'studentId'  => $this->getUserId(),
+                'courseId'   => $aTrainingData['courseId'],
+                'scheduleId' => $aTrainingData['scheduleId'],
+                'type'       => 4,
+                'receiver'   => 'student',
+                'date'       => dateNow()
+            );
+            $this->oNotificationModel->insertNotification($aParams);
 
             $aResult = array(
                 'bResult' => true,

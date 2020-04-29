@@ -63,7 +63,7 @@
                         <li class="dropdown notifications-menu open">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                 <i class="fa fa-bell-o"></i>
-                                <span class="label label-warning notif-count">10</span>
+                                <span class="label label-warning notif-count"></span>
                             </a>
                             <ul class="dropdown-menu" style="overflow-y: hidden; width: 390px !important;">
                                 <li class="header notif-header">Notifications</li>

@@ -16,6 +16,8 @@ var oEnrollment = (() => {
 
     let oScheduleDropdown = $('.schedules');
 
+    let sFilter = '';
+
     let oColumns = {
         aCourses: [
             {
@@ -80,8 +82,16 @@ var oEnrollment = (() => {
     };
 
     function init() {
+        checkUrlParams();
         fetchTrainingRequests();
         setEvents();
+    }
+
+    function checkUrlParams() {
+        const oSearchParams = new URLSearchParams(window.location.search);
+        if (oSearchParams.has('courseName') === true) {
+            sFilter = oSearchParams.get('courseName');
+        }
     }
 
     function setEvents() {
@@ -413,7 +423,7 @@ var oEnrollment = (() => {
         });
     }
 
-    function loadTable(sTableName, aData, aColumns, aColumnDefs, bSearching = true, oFooterCallback = () => { }, sFilter = '') {
+    function loadTable(sTableName, aData, aColumns, aColumnDefs, bSearching = true, oFooterCallback = () => { }) {
         $(`#${sTableName} > tbody`).empty().parent().dataTable({
             destroy: true,
             deferRender: true,

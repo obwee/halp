@@ -8,6 +8,8 @@ var oPaidReservations = (() => {
 
     let oEnrollmentDetails = {};
 
+    let sFilter = '';
+
     let oColumns = {
         aCourses: [
             {
@@ -61,8 +63,16 @@ var oPaidReservations = (() => {
     };
 
     function init() {
+        checkUrlParams();
         fetchRejectedPayments();
         setEvents();
+    }
+
+    function checkUrlParams() {
+        const oSearchParams = new URLSearchParams(window.location.search);
+        if (oSearchParams.has('courseName') === true) {
+            sFilter = oSearchParams.get('courseName');
+        }
     }
 
     function setEvents() {
@@ -220,7 +230,7 @@ var oPaidReservations = (() => {
     }
 
     function loadTable(sTableName, aData, aColumns, aColumnDefs, aOrder, bSearching = true, oFooterCallback = () => { }) {
-        $(`#${sTableName} > tbody`).empty().parent().DataTable({
+        $(`#${sTableName} > tbody`).empty().parent().dataTable({
             destroy: true,
             deferRender: true,
             data: aData,
@@ -236,7 +246,7 @@ var oPaidReservations = (() => {
             columns: aColumns,
             columnDefs: aColumnDefs,
             footerCallback: oFooterCallback
-        });
+        }).fnFilter(sFilter);
     }
 
     return {

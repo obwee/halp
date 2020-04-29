@@ -186,12 +186,14 @@ class PaymentModel
     {
         // Prepare a select query.
         $statement = $this->oConnection->prepare("
-            SELECT tp.trainingId, ts.coursePrice, tt.isReserved, tt.scheduleId, tt.studentId
+            SELECT tp.trainingId, ts.coursePrice, tt.isReserved, tt.scheduleId, tt.studentId, ts.courseId
             FROM tbl_payments tp
             INNER JOIN tbl_training tt
             ON tp.trainingId = tt.id
             INNER JOIN tbl_schedules ts
             ON ts.id = tt.scheduleId
+            INNER JOIN tbl_courses tc
+            ON tc.id = ts.courseId
             WHERE tp.id = ?
         ");
 

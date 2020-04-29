@@ -6,8 +6,13 @@ var oCommon = (() => {
 
     let iLimit = 0;
 
+    let iNotifCount = 0;
+
+    let bHasOpenedNotifications = false;
+
     function init() {
         fetchNotifications();
+        insertNotifCount();
         setEvents();
     }
 
@@ -17,6 +22,75 @@ var oCommon = (() => {
         $('.notif-menu').on('scroll', function () {
             if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
                 fetchNotifications();
+            }
+        });
+
+        $('.dropdown-toggle').click(function () {
+            if (bHasOpenedNotifications === false) {
+                updateNotifCount();
+            }
+        });
+
+        $('.clonedTpl > a').click(function (oEvent) {
+            oEvent.preventDefault();
+            const iNotifId = $(this).attr('data-id');
+            const sHref = $(this).attr('href');
+
+            axios.post('/Nexus/utils/ajax.php?class=Notification&action=updateStatus', { iNotifId })
+                .then(function (oResponse) {
+                    if (oResponse.data.bResult === false) {
+                        return oLibraries.displayAlertMessage('error', oResponse.data.sMsg);
+                    }
+                    location.href = sHref;
+                })
+                .catch(function (oError) {
+                    return oError;
+                });
+        });
+    }
+
+    function getUrlEndpoint(sProp) {
+        const oUsers = {
+            'admin': {
+                'fetchNotifications': 'fetchAdminNotifications',
+                'updateNotifCount': 'updateAdminNotifCount',
+            },
+            'student': {
+                'fetchNotifications': 'fetchStudentNotifications',
+                'updateNotifCount': 'updateStudentNotifCount',
+            }
+        };
+
+        for ([sUser, oAction] of Object.entries(oUsers)) {
+            if (location.href.includes(sUser) === true) {
+                return oAction[sProp];
+            }
+        }
+    }
+
+    function insertNotifCount() {
+        if (iNotifCount !== 0) {
+            $('.notif-count').text(iNotifCount);
+        } else {
+            deleteNotifCount();
+        }
+    }
+
+    function deleteNotifCount() {
+        $('.notif-count').remove();
+    }
+
+    function updateNotifCount() {
+        // Execute AJAX request.
+        $.ajax({
+            url: `/Nexus/utils/ajax.php?class=Notification&action=${getUrlEndpoint('updateNotifCount')}`,
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function () {
+                insertNotifCount();
+                deleteNotifCount();
+                bHasOpenedNotifications = true;
             }
         });
     }
@@ -42,12 +116,14 @@ var oCommon = (() => {
     function fetchNotifications() {
         // Execute AJAX request.
         $.ajax({
-            url: '/Nexus/utils/ajax.php?class=Notification&action=fetchNotifications',
+            url: `/Nexus/utils/ajax.php?class=Notification&action=${getUrlEndpoint('fetchNotifications')}`,
             type: 'POST',
             data: { iLimit: iLimit },
+            async: false,
             dataType: 'json',
             success: function (oResponse) {
-                aNotifications = oResponse;
+                aNotifications = oResponse.aNotifs;
+                iNotifCount = oResponse.iNotifCount;
                 iLimit += 5;
                 populateNotifications();
             }
@@ -74,10 +150,17 @@ var oCommon = (() => {
                 'class': 'clonedTpl'
             });
 
-            oRow.find('a').attr('href', oVal.notifLink);
+            oRow.find('a').attr({
+                'href': oVal.notifLink,
+                'data-id': oVal.notifId
+            });
             oRow.find('.notifIcon').addClass(oVal.notifIcon);
             oRow.find('.notifText').text(oVal.notifText);
             oRow.find('.notifDate').attr('title', oVal.notifDate);
+
+            if (oVal.notifStatus === 1) {
+                oRow.find('.notifDate').prev().remove();
+            }
 
             $('.notif-menu').append(oRow);
         });
