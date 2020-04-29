@@ -94,8 +94,10 @@ var oEnrollment = (() => {
     let oTemplate = {};
     let aVenues = [];
     let aTrainingsAvailableForReschedule = [];
+    let sFilter = '';
 
     function init() {
+        checkUrlParams();
         fetchCoursesAndSchedules();
         fetchPaymentMethods();
         fetchVenues();
@@ -103,6 +105,16 @@ var oEnrollment = (() => {
         initializeBloodhound();
         fetchEnrollmentData();
         setEvents();
+    }
+
+    function checkUrlParams() {
+        const oSearchParams = new URLSearchParams(window.location.search);
+        if (oSearchParams.has('studentName') === true) {
+            sFilter = oSearchParams.get('studentName');
+        }
+        if (oSearchParams.has('courseName') === true) {
+            sFilter = sFilter + ' ' + oSearchParams.get('courseName');
+        }
     }
 
     function initializeBloodhound() {
@@ -180,9 +192,10 @@ var oEnrollment = (() => {
         });
 
         $(document).on('click', '#clearSelection', function () {
-            fetchEnrollmentData();
             $(this).closest('form')[0].reset();
             oScheduleFilterDropdown.empty().append('<option selected disabled hidden>Select Schedule</option>');
+            sFilter = '';
+            fetchEnrollmentData();
         });
 
         $(document).on('click', '.addPayment', function () {
@@ -732,7 +745,7 @@ var oEnrollment = (() => {
     }
 
     function loadTable(sTableName, aData, aColumns, aColumnDefs, bSearching = true, oFooterCallback = () => { }) {
-        $(`#${sTableName} > tbody`).empty().parent().DataTable({
+        $(`#${sTableName} > tbody`).empty().parent().dataTable({
             destroy: true,
             deferRender: true,
             data: aData,
@@ -748,7 +761,7 @@ var oEnrollment = (() => {
             columns: aColumns,
             columnDefs: aColumnDefs,
             footerCallback: oFooterCallback
-        });
+        }).fnFilter(sFilter);
     }
 
     return {

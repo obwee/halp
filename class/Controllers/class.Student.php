@@ -172,6 +172,7 @@ class Student extends BaseController
                     'courseId'   => $this->aParams['courseId'],
                     'scheduleId' => $this->aParams['scheduleId'],
                     'type'       => 0,
+                    'receiver'   => 'admin',
                     'date'       => dateNow()
                 );
                 $this->oNotificationModel->insertNotification($aParams);

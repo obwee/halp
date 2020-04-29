@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 26, 2020 at 03:35 PM
+-- Generation Time: Apr 29, 2020 at 04:27 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -121,17 +121,22 @@ CREATE TABLE `tbl_notifications` (
   `courseId` int(11) NOT NULL,
   `scheduleId` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
+  `receiver` varchar(255) NOT NULL,
   `status` int(11) DEFAULT 0,
   `date` datetime NOT NULL,
-  `hasOpened` int(11) NOT NULL DEFAULT 0
+  `hasOpenedByAdmin` int(11) NOT NULL DEFAULT 0,
+  `hasOpenedByStudent` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tbl_notifications`
 --
 
-INSERT INTO `tbl_notifications` (`id`, `studentId`, `courseId`, `scheduleId`, `type`, `status`, `date`, `hasOpened`) VALUES
-(1, 7, 1, 2, '0', 0, '2020-04-26 16:13:28', 0);
+INSERT INTO `tbl_notifications` (`id`, `studentId`, `courseId`, `scheduleId`, `type`, `receiver`, `status`, `date`, `hasOpenedByAdmin`, `hasOpenedByStudent`) VALUES
+(1, 7, 1, 2, '0', 'admin', 0, '2020-04-26 16:13:28', 1, 0),
+(2, 7, 2, 3, '0', 'admin', 1, '2020-04-27 21:59:54', 1, 0),
+(15, 7, 1, 2, '3', 'student', 0, '2020-04-29 20:56:45', 0, 1),
+(16, 7, 2, 3, '4', 'student', 0, '2020-04-29 21:55:53', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -150,6 +155,14 @@ CREATE TABLE `tbl_payments` (
   `isPaid` tinyint(1) NOT NULL DEFAULT 0,
   `rejectReason` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_payments`
+--
+
+INSERT INTO `tbl_payments` (`id`, `trainingId`, `paymentDate`, `paymentMethod`, `paymentAmount`, `paymentFile`, `isApproved`, `isPaid`, `rejectReason`) VALUES
+(170, 32, '2020-04-29 20:36:03', '2', 10000, '2020-04-29_20-36-03_Mark Exequiel-Sale.jpg', '1', 1, NULL),
+(171, 33, '2020-04-29 21:55:32', NULL, 0, '2020-04-29_21-55-32_Mark Exequiel-Sale.jpg', '2', 0, 'test reject');
 
 -- --------------------------------------------------------
 
@@ -294,7 +307,7 @@ CREATE TABLE `tbl_schedules` (
 --
 
 INSERT INTO `tbl_schedules` (`id`, `courseId`, `coursePrice`, `instructorId`, `venueId`, `numSlots`, `remainingSlots`, `fromDate`, `toDate`, `recurrence`, `numRepetitions`, `status`) VALUES
-(2, 1, '20000', 111, 1, 12, 13, '2020-04-27', '2020-05-01', 'none', '1', 'Active'),
+(2, 1, '20000', 111, 1, 12, 12, '2020-04-27', '2020-05-01', 'none', '1', 'Active'),
 (3, 2, '20000', 111, 2, 50, 49, '2020-05-04', '2020-05-08', 'none', '1', 'Active'),
 (4, 1, '20000', 110, 1, 50, 0, '2020-05-04', '2020-05-05', 'none', '1', 'Active'),
 (5, 4, '20000', 111, 2, 50, 50, '2020-04-07', '2020-04-07', 'none', '1', 'Inactive'),
@@ -344,7 +357,8 @@ CREATE TABLE `tbl_training` (
 --
 
 INSERT INTO `tbl_training` (`id`, `studentId`, `scheduleId`, `isReserved`, `isDone`, `certificateIssued`, `isCancelled`, `cancellationReason`) VALUES
-(32, 7, 2, 0, 0, 0, 0, NULL);
+(32, 7, 2, 1, 0, 0, 0, NULL),
+(33, 7, 3, 0, 0, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -538,13 +552,13 @@ ALTER TABLE `tbl_inclusions`
 -- AUTO_INCREMENT for table `tbl_notifications`
 --
 ALTER TABLE `tbl_notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `tbl_payments`
 --
 ALTER TABLE `tbl_payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
 
 --
 -- AUTO_INCREMENT for table `tbl_payment_methods`
@@ -586,7 +600,7 @@ ALTER TABLE `tbl_sent_quotations`
 -- AUTO_INCREMENT for table `tbl_training`
 --
 ALTER TABLE `tbl_training`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`
