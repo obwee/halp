@@ -163,7 +163,7 @@ class RefundsModel
             WHERE trainingId = ?
         ");
 
-        return $sDelete->execute([$aData['trainingId']]);
+        return $sDelete->execute([$aData[':trainingId']]);
 
         // // Prepare a delete query for the refunds table.
         // $statement = $this->oConnection->prepare("
