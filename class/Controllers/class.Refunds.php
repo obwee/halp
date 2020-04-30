@@ -67,6 +67,18 @@ class Refunds extends BaseController
         $iQuery = $this->oRefundsModel->requestRefund($this->aParams);
 
         if ($iQuery > 0) {
+            $aTrainingData = $this->oTrainingModel->getTrainingDataByTrainingId($this->aParams['trainingId']);
+
+            $aParams = array(
+                'studentId'  => $this->getUserId(),
+                'courseId'   => $aTrainingData['courseId'],
+                'scheduleId' => $aTrainingData['scheduleId'],
+                'type'       => 5,
+                'receiver'   => 'admin',
+                'date'       => dateNow()
+            );
+            $this->oNotificationModel->insertNotification($aParams);
+            
             $aResult = array(
                 'bResult' => true,
                 'sMsg'    => 'Refund requested!'
@@ -189,8 +201,18 @@ class Refunds extends BaseController
         $iQuery = $this->oRefundsModel->rejectRefund($aParams);
 
         if ($iQuery > 0) {
-            $aTrainingData = $this->oTrainingModel->getTrainingDataByTrainingId($this->aParams['iTrainingId']);
             // $this->sendEmailToStudent($aTrainingData, 'rejected');
+            $aTrainingData = $this->oTrainingModel->getTrainingDataByTrainingId($this->aParams['iTrainingId']);
+
+            $aParams = array(
+                'studentId'  => $aTrainingData['studentId'],
+                'courseId'   => $aTrainingData['courseId'],
+                'scheduleId' => $aTrainingData['scheduleId'],
+                'type'       => 7,
+                'receiver'   => 'student',
+                'date'       => dateNow()
+            );
+            $this->oNotificationModel->insertNotification($aParams);
 
             $aResult = array(
                 'bResult' => true,
@@ -229,7 +251,19 @@ class Refunds extends BaseController
         $this->oTrainingModel->markAsUnreserved($aTrainingData['scheduleId']);
 
         if ($iApproveQuery > 0 && $iCancelQuery > 0) {
-            $this->sendEmailToStudent($aTrainingData, 'approved');
+            // $this->sendEmailToStudent($aTrainingData, 'approved');
+            $aTrainingData = $this->oTrainingModel->getTrainingDataByTrainingId($this->aParams['iTrainingId']);
+
+            $aParams = array(
+                'studentId'  => $aTrainingData['studentId'],
+                'courseId'   => $aTrainingData['courseId'],
+                'scheduleId' => $aTrainingData['scheduleId'],
+                'type'       => 6,
+                'receiver'   => 'student',
+                'date'       => dateNow()
+            );
+            $this->oNotificationModel->insertNotification($aParams);
+
             $aResult = array(
                 'bResult' => true,
                 'sMsg'    => 'Refund approved!'

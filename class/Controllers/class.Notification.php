@@ -10,14 +10,14 @@ class Notification extends BaseController
             'sLink' => '/Nexus/dashboard/admin/enrollment?'
         ),
         array( // 1
-            'sText' => 'cancelled enrollment',
+            'sText' => 'enrollment cancelled',
             'sIcon' => 'fa fa-user-times text-aqua',
-            'sLink' => ''
+            'sLink' => '/Nexus/dashboard/student/cancelledReservations?'
         ),
         array( // 2
             'sText' => 'payment submitted',
-            'sIcon' => 'fa fa-money-bill-alt text-aqua',
-            'sLink' => ''
+            'sIcon' => 'fa fa-money-bill-alt text-success',
+            'sLink' => '/Nexus/dashboard/admin/enrollment?'
         ),
         array( // 3
             'sText' => 'payment approved',
@@ -30,23 +30,28 @@ class Notification extends BaseController
             'sLink' => '/Nexus/dashboard/student/rejectedPayments?'
         ),
         array( // 5
-            'sText' => 'refund approved',
-            'sIcon' => 'fa fa-user text-aqua',
-            'sLink' => ''
+            'sText' => 'refund request',
+            'sIcon' => 'fa fa-money-check-alt text-success',
+            'sLink' => '/Nexus/dashboard/admin/refundRequests?'
         ),
         array( // 6
+            'sText' => 'refund approved',
+            'sIcon' => 'fa fa-hand-holding-usd text-success',
+            'sLink' => '/Nexus/dashboard/student/cancelledReservations?'
+        ),
+        array( // 7
             'sText' => 'refund rejected',
             'sIcon' => 'fa fa-times-circle text-aqua',
             'sLink' => ''
         ),
-        array( // 7
-            'sText' => 'quotation requested',
-            'sIcon' => 'fa fa-user text-aqua',
-            'sLink' => ''
-        ),
         array( // 8
-            'sText' => 'quotation approved',
-            'sIcon' => 'fa fa-user text-aqua',
+            'sText' => 'requested a quotation',
+            'sIcon' => 'fa fa-envelope-square text-aqua',
+            'sLink' => '/Nexus/dashboard/admin/quotationRequest?'
+        ),
+        array( // 9
+            'sText' => 'quotation is approved',
+            'sIcon' => 'fa fa-envelope-open-text text-aqua',
             'sLink' => ''
         )
     );
@@ -96,8 +101,12 @@ class Notification extends BaseController
             $aReturnData[$iKey]['notifIcon'] = $this->aNotificationType[$aValue['type']]['sIcon'];
 
             $aReturnData[$iKey]['notifLink'] = $this->aNotificationType[$aValue['type']]['sLink'];
-            $aReturnData[$iKey]['notifLink'] .= 'studentName=' . urlencode($aStudentDetails[$iStudentKey]['studentName']);
-            $aReturnData[$iKey]['notifLink'] .= '&courseName=' . urlencode($aValue['courseCode']);
+            if (empty($aReturnData[$iKey]['notifLink']) === false) {
+                $aReturnData[$iKey]['notifLink'] .= 'studentName=' . urlencode($aStudentDetails[$iStudentKey]['studentName']);
+                $aReturnData[$iKey]['notifLink'] .= '&courseName=' . urlencode($aValue['courseCode']);
+            } else {
+                $aReturnData[$iKey]['notifLink'] .= '#';
+            }
 
             $aReturnData[$iKey]['notifType'] = $aValue['type'];
             $aReturnData[$iKey]['notifId'] = $aValue['id'];
@@ -141,7 +150,11 @@ class Notification extends BaseController
             $aReturnData[$iKey]['notifIcon'] = $this->aNotificationType[$aValue['type']]['sIcon'];
 
             $aReturnData[$iKey]['notifLink'] = $this->aNotificationType[$aValue['type']]['sLink'];
-            $aReturnData[$iKey]['notifLink'] .= 'courseName=' . urlencode($aValue['courseCode']);
+            if (empty($aReturnData[$iKey]['notifLink']) === false) {
+                $aReturnData[$iKey]['notifLink'] .= '&courseName=' . urlencode($aValue['courseCode']);
+            } else {
+                $aReturnData[$iKey]['notifLink'] .= '#';
+            }
 
             $aReturnData[$iKey]['notifType'] = $aValue['type'];
             $aReturnData[$iKey]['notifId'] = $aValue['id'];

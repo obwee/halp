@@ -239,6 +239,18 @@ class Training extends BaseController
         $iQuery = $this->oTrainingModel->cancelReservation($this->aParams);
 
         if ($iQuery > 0) {
+            $aTrainingData = $this->oTrainingModel->getTrainingDataByTrainingId($this->aParams[':id']);
+
+            $aParams = array(
+                'studentId'  => $aTrainingData['studentId'],
+                'courseId'   => $aTrainingData['courseId'],
+                'scheduleId' => $aTrainingData['scheduleId'],
+                'type'       => 1,
+                'receiver'   => 'student',
+                'date'       => dateNow()
+            );
+            $this->oNotificationModel->insertNotification($aParams);
+
             $aResult = array(
                 'bResult' => true,
                 'sMsg'    => 'Reservation cancelled!'
@@ -309,7 +321,7 @@ class Training extends BaseController
         // Get enrolled trainings.
         $aEnrolledTrainings = $this->oTrainingModel->fetchTrainingRequests($this->getUserId());
         $aCoursesAvailable = $this->oCourseModel->fetchAvailableCoursesAndSchedules();
-        
+
         if (count($aEnrolledTrainings) === 0) {
             echo json_encode(array(
                 'aTrainingRequests'   => [],
@@ -336,6 +348,11 @@ class Training extends BaseController
             $aEnrollmentData[$aTraining['trainingId']] = $aTraining;
 
             $aTotalPaymentAmount[$aTraining['trainingId']][] = $aTraining['paymentAmount'];
+        }
+
+        if (count($aEnrolledTrainings) === 0) {
+            echo json_encode([]);
+            exit;
         }
 
         // Get the highest payment status value and total amount paid, together if there are pending payments.
@@ -374,7 +391,7 @@ class Training extends BaseController
             if ($aEnrollmentData[$iKey]['hasPendingPayments'] === true) {
                 $aEnrollmentData[$iKey]['paymentStatus'] = 'Payment Submitted';
             }
-            if ($aEnrollmentData[$iKey]['coursePrice'] < array_sum($aTotalPaymentAmount[$iKey])) {
+            if ($aTraining['coursePrice'] < array_sum($aTotalPaymentAmount[$iKey])) {
                 $aEnrollmentData[$iKey]['paymentStatus'] = 'Has Credits';
             }
 
@@ -460,6 +477,11 @@ class Training extends BaseController
             $aPaymentApproval[$aData['trainingId']][] = $aData['paymentApproval'];
 
             $aEnrollmentData[$aData['trainingId']] = $aData;
+        }
+
+        if (count($aEnrollees) === 0) {
+            echo json_encode([]);
+            exit;
         }
 
         // Get the highest payment status value, together if there are pending payments.
@@ -637,8 +659,8 @@ class Training extends BaseController
                 continue;
             }
             // Unset already enrolled schedules.
-                foreach ($aCoursesAvailable as $mKey => $aCourseAvailable) {
-                    if ($aEnrolledTraining['scheduleId'] === $aCourseAvailable['scheduleId']) {
+            foreach ($aCoursesAvailable as $mKey => $aCourseAvailable) {
+                if ($aEnrolledTraining['scheduleId'] === $aCourseAvailable['scheduleId']) {
                     unset($aCoursesAvailable[$mKey]);
                 }
             }
@@ -651,8 +673,8 @@ class Training extends BaseController
 
         echo json_encode(array_values($aTrainingsAvailableForReschedule));
         // echo json_encode(array(
-            // 'aTrainingsAvailableForReschedule' => array_values($aTrainingsAvailable),
-            // 'aInstructors'                     => array_values(array_filter($this->oInstructorsModel->fetchInstructors(), fn ($aInstructors) => $aInstructors['status'] === 'Active'))
+        // 'aTrainingsAvailableForReschedule' => array_values($aTrainingsAvailable),
+        // 'aInstructors'                     => array_values(array_filter($this->oInstructorsModel->fetchInstructors(), fn ($aInstructors) => $aInstructors['status'] === 'Active'))
         // ));
     }
 }

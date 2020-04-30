@@ -244,8 +244,8 @@ class TrainingModel
             INNER JOIN tbl_payments  tp
             ON tp.trainingId  = tt.id
             WHERE 1 = 1
-                AND ts.fromDate > CURDATE()
-                AND ts.toDate > CURDATE()
+                -- AND ts.fromDate > CURDATE()
+                -- AND ts.toDate > CURDATE()
                 AND tt.studentId = ?
                 AND tp.isApproved = 2
             GROUP BY tt.id
@@ -394,8 +394,8 @@ class TrainingModel
             INNER JOIN tbl_users     tu
                 ON tu.userId = tt.studentId
             WHERE 1 = 1
-                AND ts.fromDate > CURDATE()
-                AND ts.toDate > CURDATE()
+                -- AND ts.fromDate > CURDATE()
+                -- AND ts.toDate > CURDATE()
                 AND tt.studentId = ?
             GROUP BY tt.id
         ");
@@ -486,7 +486,11 @@ class TrainingModel
     public function getTrainingDataByTrainingId($iTrainingId)
     {
         $sQuery = $this->oConnection->prepare(
-            "SELECT * FROM tbl_training WHERE id = ?"
+            "SELECT tt.*, ts.courseId
+             FROM tbl_training tt
+             INNER JOIN tbl_schedules ts
+             ON tt.scheduleId = ts.id
+             WHERE tt.id = ?"
         );
 
         $sQuery->execute([$iTrainingId]);

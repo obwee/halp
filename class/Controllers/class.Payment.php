@@ -234,6 +234,18 @@ class Payment extends BaseController
             );
         } else {
             Utils::moveUploadedFile($aPaymentFile, $sFileName);
+            $aTrainingData = $this->oTrainingModel->getTrainingDataByTrainingId($this->aParams['trainingId']);
+
+            $aParams = array(
+                'studentId'  => $this->getUserId(),
+                'courseId'   => $aTrainingData['courseId'],
+                'scheduleId' => $aTrainingData['scheduleId'],
+                'type'       => 2,
+                'receiver'   => 'admin',
+                'date'       => dateNow()
+            );
+            $this->oNotificationModel->insertNotification($aParams);
+
             $aResult = array(
                 'bResult' => true,
                 'sMsg'    => 'Payment added!'
@@ -318,7 +330,7 @@ class Payment extends BaseController
         // $this->sendEmailToStudent($aTrainingData, $iOverallPayment, $this->aParams['isPaid'], 'approved');
 
         $aParams = array(
-            'studentId'  => $this->getUserId(),
+            'studentId'  => $aTrainingData['studentId'],
             'courseId'   => $aTrainingData['courseId'],
             'scheduleId' => $aTrainingData['scheduleId'],
             'type'       => 3,
@@ -367,7 +379,7 @@ class Payment extends BaseController
         if ($iQuery > 0) {
             // $this->sendEmailToStudent($aTrainingData, $iBalance, $aPaymentDetails['paymentStatus'], 'rejected');
             $aParams = array(
-                'studentId'  => $this->getUserId(),
+                'studentId'  => $aTrainingData['studentId'],
                 'courseId'   => $aTrainingData['courseId'],
                 'scheduleId' => $aTrainingData['scheduleId'],
                 'type'       => 4,

@@ -25,8 +25,18 @@ var oCancelledReservations = (() => {
         ]
     };
 
+    let sFilter = '';
+
     function init() {
+        checkUrlParams();
         fetchCancelledReservations();
+    }
+
+    function checkUrlParams() {
+        const oSearchParams = new URLSearchParams(window.location.search);
+        if (oSearchParams.has('courseName') === true) {
+            sFilter = oSearchParams.get('courseName');
+        }
     }
 
     function fetchCancelledReservations() {
@@ -49,7 +59,7 @@ var oCancelledReservations = (() => {
     }
 
     function loadTable(sTableName, aData, aColumns, aColumnDefs, aOrder, bSearching = true, oFooterCallback = () => { }) {
-        $(`#${sTableName} > tbody`).empty().parent().DataTable({
+        $(`#${sTableName} > tbody`).empty().parent().dataTable({
             destroy: true,
             deferRender: true,
             data: aData,
@@ -65,7 +75,7 @@ var oCancelledReservations = (() => {
             columns: aColumns,
             columnDefs: aColumnDefs,
             footerCallback: oFooterCallback
-        });
+        }).fnFilter(sFilter);
     }
 
     return {

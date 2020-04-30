@@ -56,16 +56,26 @@ var oRefundRequests = (() => {
     let aRefunds = [];
     let aTrainingDetails = [];
     let aRefundDetails = [];
+    let sFilter = '';
 
     function init() {
+        checkUrlParams();
         fetchRefundRequests();
         setEvents();
+    }
+
+    function checkUrlParams() {
+        const oSearchParams = new URLSearchParams(window.location.search);
+        if (oSearchParams.has('studentName') === true) {
+            sFilter = oSearchParams.get('studentName');
+        }
     }
 
     function setEvents() {
         oForms.preparePaymentEvents();
 
         $(document).on('click', '#viewDetails', function () {
+            sFilter = '';
             fetchTrainingDataOfSelectedStudentWithRefundRequest($(this).attr('data-id'));
             $('#viewDetailsModal').modal('show');
         });
@@ -171,7 +181,7 @@ var oRefundRequests = (() => {
     }
 
     function loadTable(sTableName, aData, aColumns, aColumnDefs, bSearching = true) {
-        $(`#${sTableName} > tbody`).empty().parent().DataTable({
+        $(`#${sTableName} > tbody`).empty().parent().dataTable({
             destroy: true,
             deferRender: true,
             data: aData,
@@ -186,7 +196,7 @@ var oRefundRequests = (() => {
             info: true,
             columns: aColumns,
             columnDefs: aColumnDefs
-        });
+        }).fnFilter(sFilter);
     }
 
     return {
