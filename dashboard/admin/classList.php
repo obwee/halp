@@ -47,23 +47,23 @@ require_once "template/header.php";
                 </div>
                 <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
                     <table id="tbl_studentList" style="width:100%" class="table table-striped table-bordered table-hover">
-                        <thead>
+                        <thead></thead>
+                        <tbody></tbody>
+                        <tfoot>
                             <tr>
-                                <th style="white-space:nowrap;">Name of Student</th>
-                                <th style="white-space:nowrap;">Email Address</th>
-                                <th style="white-space:nowrap;">Contact Number</th>
-                                <th style="white-space:nowrap;">Date Paid</th>
-                                <th style="white-space:nowrap;">Amount Paid</th>
-                                <th style="white-space:nowrap;">Balance</th>
+                                <th>
+                                <th>
+                                <th>
+                                <th>
+                                <th>
+                                <th>
+                                <th>
                             </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
+                        </tfoot>
                     </table>
                 </div>
             </div>
-            <div class="modal-footer">
-            </div>
+            <div class="modal-footer"></div>
         </div>
     </div>
 </div>

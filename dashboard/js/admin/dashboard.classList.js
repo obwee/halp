@@ -27,6 +27,29 @@ var oClassList = (() => {
                         <i class="fa fa-eye"></i>
                     </button>`
             },
+        ],
+        aStudentList: [
+            {
+                title: 'Student Name', data: 'studentName', className: 'text-center'
+            },
+            {
+                title: 'E-mail Address', data: 'email', className: 'text-center'
+            },
+            {
+                title: 'Contact Number', data: 'contactNum', className: 'text-center'
+            },
+            {
+                title: 'Payment Date', data: 'paymentDate', className: 'text-center'
+            },
+            {
+                title: 'Payment Amount', data: 'paymentDate', className: 'text-center'
+            },
+            {
+                title: 'Balance', data: 'balance', className: 'text-center sum'
+            },
+            {
+                title: 'Credits', data: 'credits', className: 'text-center sum'
+            }
         ]
     };
 
@@ -37,8 +60,20 @@ var oClassList = (() => {
 
     function setEvents() {
         $(document).on('click', '#viewDetails', function () {
-            fetchStudentList($(this).attr('data-id'));
+            const iScheduleId = $(this).attr('data-id');
+            fetchStudentList(iScheduleId);
+            prepareClassDetails(iScheduleId);
+            $('#viewClassList').modal('show');
         });
+    }
+
+    function prepareClassDetails(iScheduleId) {
+        const oClassDetails = aClassLists.filter(oList => oList.scheduleId == iScheduleId)[0];
+
+        $('#viewClassList').find('#courseName').val(oClassDetails.courseCode);
+        $('#viewClassList').find('#schedule').val(oClassDetails.schedule);
+        $('#viewClassList').find('#venue').val(oClassDetails.venue);
+        $('#viewClassList').find('#instructor').val(oClassDetails.instructor);
     }
 
     function fetchStudentList(iScheduleId) {
@@ -47,17 +82,43 @@ var oClassList = (() => {
             type: 'POST',
             data: { iScheduleId: iScheduleId },
             dataSrc: (oJson) => {
-                aClassLists = oJson;
-                return aClassLists;
+                aStudentList = oJson;
+                return aStudentList;
             },
             async: false
         };
+
+        let aOrder = [[0, 'asc']];
 
         let aColumnDefs = [
             { orderable: false, targets: '_all' }
         ];
 
-        loadTable(oTblStudentList.attr('id'), oAjax, oColumns.aClassList, aColumnDefs);
+        let oFooterCallback = function () {
+            let oApi = this.api();
+
+            // Remove the formatting to get integer data for summation.
+            let intVal = (mValue) => {
+                return typeof mValue === 'string' ?
+                    mValue.replace(/[P,]/g, '') * 1 :
+                    typeof mValue === 'number' ?
+                        mValue : 0;
+            };
+
+            // Get the sum of all the columns with a class named 'sum'.
+            oApi.columns('.sum').every(function () {
+                let iSum = oApi
+                    .cells(null, this.index())
+                    .render('display')
+                    .reduce((iAccumulator, iCurrentValue) => {
+                        return intVal(iAccumulator) + intVal(iCurrentValue);
+                    }, 0);
+
+                    $(this.footer()).text(`P${iSum.toLocaleString()}`);
+            });
+        };
+
+        loadTable(oTblStudentList.attr('id'), oAjax, oColumns.aStudentList, aColumnDefs, aOrder, oFooterCallback);
     }
 
     function fetchClassLists(oData) {
@@ -66,8 +127,8 @@ var oClassList = (() => {
             type: 'POST',
             data: oData,
             dataSrc: (oJson) => {
-                aStudentList = oJson;
-                return aStudentList;
+                aClassLists = oJson;
+                return aClassLists;
             },
             async: false
         };
@@ -81,7 +142,7 @@ var oClassList = (() => {
         loadTable(oTblClassList.attr('id'), oAjax, oColumns.aClassList, aColumnDefs, aOrder);
     }
 
-    function loadTable(sTableName, oData, aColumns, aColumnDefs, aOrder = []) {
+    function loadTable(sTableName, oData, aColumns, aColumnDefs, aOrder, oFooterCallback = () => { }) {
         $(`#${sTableName} > tbody`).empty().parent().dataTable({
             destroy: true,
             deferRender: true,
@@ -96,7 +157,8 @@ var oClassList = (() => {
             lengthMenu: [[4, 8, 12, 16, 20, 24, -1], [4, 8, 12, 16, 20, 24, 'All']],
             info: true,
             columns: aColumns,
-            columnDefs: aColumnDefs
+            columnDefs: aColumnDefs,
+            footerCallback: oFooterCallback
         });
     }
 
