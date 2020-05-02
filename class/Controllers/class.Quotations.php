@@ -149,18 +149,14 @@ class Quotations extends BaseController
             }
 
             $aParams = array(
-                'type'     => 8,
-                'receiver' => 'admin',
-                'date'     => dateNow()
+                'studentId'  => (empty($iUserId) === false) ? $iUserId : $iQuoteSenderId,
+                'courseId'   => 0,
+                'scheduleId' => 0,
+                'type'       => 8,
+                'receiver'   => 'admin',
+                'date'       => dateNow()
             );
-
-            if (empty($iUserId) === false) {
-                $aParams['studentId'] = $iUserId;
-            }
-            if (empty($iQuoteSenderId) === false) {
-                $aParams['senderId'] = $iQuoteSenderId;
-            }
-
+    
             $this->oNotificationModel->insertNotification($aParams);
 
             $aResult = array(
@@ -219,18 +215,14 @@ class Quotations extends BaseController
             }
 
             $aParams = array(
-                'type'     => 8,
-                'receiver' => 'admin',
-                'date'     => dateNow()
+                'studentId'  => (empty($iUserId) === false) ? $iUserId : $iQuoteSenderId,
+                'courseId'   => 0,
+                'scheduleId' => 0,
+                'type'       => 8,
+                'receiver'   => 'admin',
+                'date'       => dateNow()
             );
-
-            if (empty($iUserId) === false) {
-                $aParams['studentId'] = $iUserId;
-            }
-            if (empty($iQuoteSenderId) === false) {
-                $aParams['senderId'] = $iQuoteSenderId;
-            }
-
+    
             $this->oNotificationModel->insertNotification($aParams);
 
             $aResult = array(
@@ -383,17 +375,13 @@ class Quotations extends BaseController
         // $this->processSendingEmail($aSenderDetails, $aCourseDetails);
 
         $aParams = array(
-            'type'     => 9,
-            'receiver' => 'student',
-            'date'     => dateNow()
+            'studentId'  => (empty($this->aParams['iUserId']) === false) ? $this->aParams['iUserId'] : $this->aParams['iSenderId'],
+            'courseId'   => 0,
+            'scheduleId' => 0,
+            'type'       => 9,
+            'receiver'   => 'student',
+            'date'       => dateNow()
         );
-
-        if (empty($this->aParams['iUserId']) === false) {
-            $aParams['studentId'] = $this->aParams['iUserId'];
-        }
-        if (empty($this->aParams['iSenderId']) === false) {
-            $aParams['senderId'] = $this->aParams['iSenderId'];
-        }
 
         $this->oNotificationModel->insertNotification($aParams);
 
@@ -472,6 +460,17 @@ class Quotations extends BaseController
                 );
                 $this->oQuotationModel->insertQuotationDetails($aQuotationDetails);
             }
+
+            $aParams = array(
+                'studentId'  => $this->getUserId(),
+                'courseId'   => 0,
+                'scheduleId' => 0,
+                'type'       => 8,
+                'receiver'   => 'admin',
+                'date'       => dateNow()
+            );
+
+            $this->oNotificationModel->insertNotification($aParams);
 
             $aResult = array(
                 'bResult' => true,

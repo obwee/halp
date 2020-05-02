@@ -11,6 +11,7 @@ var oQuotationRequests = (() => {
     let aSenders = [];
     let aSenderDetails = [];
     let oEditIds = {};
+    let sFilter = '';
 
     let oColumns = {
         aSender: [
@@ -89,9 +90,17 @@ var oQuotationRequests = (() => {
     };
 
     function init() {
+        checkUrlParams();
         populateSendersTable();
         fetchCoursesAndSchedules();
         setEvents();
+    }
+
+    function checkUrlParams() {
+        const oSearchParams = new URLSearchParams(window.location.search);
+        if (oSearchParams.has('studentName') === true) {
+            sFilter = oSearchParams.get('studentName');
+        }
     }
 
     function setEvents() {
@@ -172,6 +181,8 @@ var oQuotationRequests = (() => {
         });
 
         $(document).on('click', '#viewRequest', function () {
+            sFilter = '';
+
             let oDetails = {
                 iSenderId: $(this).attr('data-sender-id'),
                 iUserId: $(this).attr('data-user-id')
@@ -554,7 +565,7 @@ var oQuotationRequests = (() => {
     }
 
     function loadTable(sTableName, oData, aColumns, aColumnDefs) {
-        $(`#${sTableName} > tbody`).empty().parent().DataTable({
+        $(`#${sTableName} > tbody`).empty().parent().dataTable({
             destroy: true,
             deferRender: true,
             ajax: oData,
@@ -568,7 +579,7 @@ var oQuotationRequests = (() => {
             info: true,
             columns: aColumns,
             columnDefs: aColumnDefs
-        });
+        }).fnFilter(sFilter);
     }
 
     // Populate the course dropdown select.

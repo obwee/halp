@@ -174,7 +174,7 @@ var oCommon = (() => {
      */
     function loadTemplate() {
         if ($.isEmptyObject(oTemplate) === true) {
-            oTemplate = $('.template').clone();
+            oTemplate = $('.notifs-template').clone();
         }
     }
 
