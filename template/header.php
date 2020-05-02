@@ -168,7 +168,7 @@
                         </a>
                         <ul class="treeview-menu">
                             <li><a href="/Nexus/dashboard/admin/classList"><i class="fas fa-clipboard-list"></i>&emsp;Class List</a></li>
-                            <li><a href="/Nexus/dashboard/admin/ongoingSched"><i class="fas fa-calendar-check"></i>&emsp;Finished Trainings</a></li>
+                            <li><a href="/Nexus/dashboard/admin/finishedTrainings"><i class="fas fa-calendar-check"></i>&emsp;Finished Trainings</a></li>
                         </ul>
                     </li>
                     <li class="treeview">

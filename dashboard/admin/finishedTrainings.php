@@ -4,10 +4,10 @@ require_once "template/header.php";
 
 <div class="container">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <p class="h4">Class List</p>
+        <p class="h4">Finished Trainings</p>
     </div>
     <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
-        <table id="tbl_classList" style="width:100%" class="table table-striped table-bordered table-hover">
+        <table id="tbl_finishedTrainings" style="width:100%" class="table table-striped table-bordered table-hover">
             <thead></thead>
             <tbody></tbody>
         </table>
@@ -18,7 +18,7 @@ require_once "template/header.php";
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Class List</h5>
+                <h5 class="modal-title">Student List</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -68,7 +68,7 @@ require_once "template/header.php";
 require_once "template/scripts.php";
 ?>
 
-<script src="/Nexus/dashboard/js/admin/dashboard.classList.js"></script>
+<script src="/Nexus/dashboard/js/admin/dashboard.finishedTrainings.js"></script>
 
 <?php
 require_once "template/footer.php";
