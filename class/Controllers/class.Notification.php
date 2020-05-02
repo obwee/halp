@@ -92,13 +92,25 @@ class Notification extends BaseController
 
         foreach ($aNotifications as $iKey => $aValue) {
             $iStudentKey = Utils::searchKeyByValueInMultiDimensionalArray($aValue['studentId'], $aStudentDetails, 'studentId');
+            if (empty($aValue['senderId']) === false) {
+                $iStudentKey = Utils::searchKeyByValueInMultiDimensionalArray($aValue['senderId'], $aStudentDetails, 'senderId');
+            }
 
-            $aReturnData[$iKey]['notifText'] = $aStudentDetails[$iStudentKey]['studentName'];
-            $aReturnData[$iKey]['notifText'] .= ' has ' . $this->aNotificationType[$aValue['type']]['sText'];
-            $aReturnData[$iKey]['notifText'] .= ' for ' . $aValue['courseCode'] . '.';
-
-            $aReturnData[$iKey]['notifDate'] = $aValue['date'];
-            $aReturnData[$iKey]['notifIcon'] = $this->aNotificationType[$aValue['type']]['sIcon'];
+            // If notification is about quotation...
+            if (in_array($aValue['type'], [8, 9]) == true) {
+                $aReturnData[$iKey]['notifText'] = $aStudentDetails[$iStudentKey]['studentName'];
+                $aReturnData[$iKey]['notifText'] .= ' has ' . $this->aNotificationType[$aValue['type']]['sText'];
+                
+                $aReturnData[$iKey]['notifDate'] = $aValue['date'];
+                $aReturnData[$iKey]['notifIcon'] = $this->aNotificationType[$aValue['type']]['sIcon'];
+            } else {
+                $aReturnData[$iKey]['notifText'] = $aStudentDetails[$iStudentKey]['studentName'];
+                $aReturnData[$iKey]['notifText'] .= ' has ' . $this->aNotificationType[$aValue['type']]['sText'];
+                $aReturnData[$iKey]['notifText'] .= ' for ' . $aValue['courseCode'] . '.';
+    
+                $aReturnData[$iKey]['notifDate'] = $aValue['date'];
+                $aReturnData[$iKey]['notifIcon'] = $this->aNotificationType[$aValue['type']]['sIcon'];
+            }
 
             $aReturnData[$iKey]['notifLink'] = $this->aNotificationType[$aValue['type']]['sLink'];
             if (empty($aReturnData[$iKey]['notifLink']) === false) {
@@ -144,7 +156,10 @@ class Notification extends BaseController
 
         foreach ($aNotifications as $iKey => $aValue) {
             $aReturnData[$iKey]['notifText'] = ucfirst($this->aNotificationType[$aValue['type']]['sText']);
-            $aReturnData[$iKey]['notifText'] .= ' for ' . $aValue['courseCode'] . '.';
+            if (in_array($aValue['type'], [8, 9]) == false) {
+                $aReturnData[$iKey]['notifText'] .= ' for ' . $aValue['courseCode'];
+            }
+            $aReturnData[$iKey]['notifText'] .= '.';
 
             $aReturnData[$iKey]['notifDate'] = $aValue['date'];
             $aReturnData[$iKey]['notifIcon'] = $this->aNotificationType[$aValue['type']]['sIcon'];

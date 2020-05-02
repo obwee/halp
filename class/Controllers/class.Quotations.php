@@ -148,6 +148,21 @@ class Quotations extends BaseController
                 $this->oQuotationModel->insertQuotationDetails($aQuotationDetails);
             }
 
+            $aParams = array(
+                'type'     => 8,
+                'receiver' => 'admin',
+                'date'     => dateNow()
+            );
+
+            if (empty($iUserId) === false) {
+                $aParams['studentId'] = $iUserId;
+            }
+            if (empty($iQuoteSenderId) === false) {
+                $aParams['senderId'] = $iQuoteSenderId;
+            }
+
+            $this->oNotificationModel->insertNotification($aParams);
+
             $aResult = array(
                 'bResult' => true,
                 'sMsg'    => 'Quotation requested!'
@@ -202,6 +217,21 @@ class Quotations extends BaseController
                 );
                 $this->oQuotationModel->insertQuotationDetails($aQuotationDetails);
             }
+
+            $aParams = array(
+                'type'     => 8,
+                'receiver' => 'admin',
+                'date'     => dateNow()
+            );
+
+            if (empty($iUserId) === false) {
+                $aParams['studentId'] = $iUserId;
+            }
+            if (empty($iQuoteSenderId) === false) {
+                $aParams['senderId'] = $iQuoteSenderId;
+            }
+
+            $this->oNotificationModel->insertNotification($aParams);
 
             $aResult = array(
                 'bResult' => true,
@@ -260,7 +290,7 @@ class Quotations extends BaseController
             );
 
             $mParams = array_merge($aIds, $this->aParams);
-            
+
             $this->oQuotationModel->deleteQuotation($aIds);
 
             foreach ($mParams[':quoteCourses'] as $iKey => $mValue) {
@@ -350,7 +380,22 @@ class Quotations extends BaseController
 
         $this->oQuotationModel->approveQuotation(array_splice($aIds, 0, -1));
 
-        $this->processSendingEmail($aSenderDetails, $aCourseDetails);
+        // $this->processSendingEmail($aSenderDetails, $aCourseDetails);
+
+        $aParams = array(
+            'type'     => 9,
+            'receiver' => 'student',
+            'date'     => dateNow()
+        );
+
+        if (empty($this->aParams['iUserId']) === false) {
+            $aParams['studentId'] = $this->aParams['iUserId'];
+        }
+        if (empty($this->aParams['iSenderId']) === false) {
+            $aParams['senderId'] = $this->aParams['iSenderId'];
+        }
+
+        $this->oNotificationModel->insertNotification($aParams);
 
         echo json_encode(
             array(
@@ -391,7 +436,8 @@ class Quotations extends BaseController
         $oMail->send();
     }
 
-    public function fetchStudentRequests() {
+    public function fetchStudentRequests()
+    {
         // Re-initialize the $aParams variable.
         $this->aParams = array(
             'iUserId'          => $this->getUserId(),
