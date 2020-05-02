@@ -677,4 +677,20 @@ class Training extends BaseController
         // 'aInstructors'                     => array_values(array_filter($this->oInstructorsModel->fetchInstructors(), fn ($aInstructors) => $aInstructors['status'] === 'Active'))
         // ));
     }
+
+    public function fetchClassLists()
+    {
+        $aClassLists = $this->oTrainingModel->fetchClassLists();
+        // print_r($aClassLists);
+
+        foreach ($aClassLists as $iKey => $aData) {
+            $aClassLists[$iKey]['schedule'] = Utils::formatDate($aData['fromDate']) . ' - ' . Utils::formatDate($aData['toDate']) . ' (' . $this->getInterval($aData) . ')';
+            $aClassLists[$iKey]['numOfStudents'] = $aData['numSlots'] - $aData['remainingSlots'] . '/' . $aData['numSlots'];
+        }
+
+        $aUnnecessaryKeys = ['fromDate', 'toDate', 'recurrence', 'numRepetitions'];
+        Utils::unsetUnnecessaryData($aClassLists, $aUnnecessaryKeys);
+
+        echo json_encode($aClassLists);
+    }
 }

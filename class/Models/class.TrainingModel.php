@@ -508,4 +508,31 @@ class TrainingModel
 
         return $oTrainingStatement->execute([$iScheduleId, $iTrainingId]);
     }
+
+    public function fetchClassLists()
+    {
+        $oQuery = $this->oConnection->prepare(
+            "SELECT tc.courseCode, ts.fromDate, ts.toDate, ts.numSlots, ts.remainingSlots,
+                    CONCAT(tu.firstName, ' ', tu.lastName) AS instructor, tv.venue,
+                    ts.recurrence, ts.numRepetitions, ts.id AS scheduleId
+             FROM tbl_schedules ts
+             INNER JOIN tbl_users tu
+             ON tu.userId = ts.instructorId
+             INNER JOIN tbl_venue tv
+             ON tu.userId = ts.instructorId
+             INNER JOIN tbl_courses tc
+             ON tc.id = ts.courseId
+             WHERE 1 = 1
+                AND ts.fromDate > CURDATE()
+                AND ts.toDate > CURDATE()
+                AND ts.status = 'Active'
+                AND tv.status = 'Active'
+            GROUP BY ts.id
+            ORDER BY ts.toDate ASC
+        ");
+
+        $oQuery->execute();
+
+        return $oQuery->fetchAll();
+    }
 }
