@@ -681,7 +681,10 @@ class Training extends BaseController
     public function fetchClassLists()
     {
         $aClassLists = $this->oTrainingModel->fetchClassLists();
-        // print_r($aClassLists);
+        if (empty($aClassLists) === true) {
+            echo json_encode([]);
+            exit();
+        }
 
         foreach ($aClassLists as $iKey => $aData) {
             $aClassLists[$iKey]['schedule'] = Utils::formatDate($aData['fromDate']) . ' - ' . Utils::formatDate($aData['toDate']) . ' (' . $this->getInterval($aData) . ')';
@@ -692,5 +695,24 @@ class Training extends BaseController
         Utils::unsetUnnecessaryData($aClassLists, $aUnnecessaryKeys);
 
         echo json_encode($aClassLists);
+    }
+
+    public function fetchFinishedTrainings()
+    {
+        $aTrainings = $this->oTrainingModel->fetchFinishedTrainings();
+        if (empty($aTrainings) === true) {
+            echo json_encode([]);
+            exit();
+        }
+
+        foreach ($aTrainings as $iKey => $aData) {
+            $aTrainings[$iKey]['schedule'] = Utils::formatDate($aData['fromDate']) . ' - ' . Utils::formatDate($aData['toDate']) . ' (' . $this->getInterval($aData) . ')';
+            $aTrainings[$iKey]['numOfStudents'] = $aData['numSlots'] - $aData['remainingSlots'] . '/' . $aData['numSlots'];
+        }
+
+        $aUnnecessaryKeys = ['fromDate', 'toDate', 'recurrence', 'numRepetitions'];
+        Utils::unsetUnnecessaryData($aTrainings, $aUnnecessaryKeys);
+
+        echo json_encode($aTrainings);
     }
 }

@@ -271,7 +271,7 @@ class StudentModel
         $statement = $this->oConnection->prepare("
             SELECT CONCAT(tu.firstname, ' ', tu.lastName) AS studentName, tu.email, tu.contactNum,
                    ts.coursePrice, MAX(tp.paymentDate) AS paymentDate,
-                   MAX(tp.isPaid) AS paymentStatus, SUM(tp.paymentAmount) AS paymentAmount
+                   SUM(tp.paymentAmount) AS paymentAmount
             FROM tbl_schedules ts
             INNER JOIN tbl_training tt
             ON tt.scheduleId = ts.id
