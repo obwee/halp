@@ -264,4 +264,32 @@ class StudentModel
         // Return the result of the execution of the above statement.
         return $statement->fetchAll();
     }
+
+    public function fetchStudentList($iScheduleId)
+    {
+        // Query the tbl_users for a username equal to $username.
+        $statement = $this->oConnection->prepare("
+            SELECT CONCAT(tu.firstname, ' ', tu.lastName) AS studentName, tu.email, tu.contactNum,
+                   ts.coursePrice, MAX(tp.paymentDate) AS paymentDate,
+                   MAX(tp.isPaid) AS paymentStatus, SUM(tp.paymentAmount) AS paymentAmount
+            FROM tbl_schedules ts
+            INNER JOIN tbl_training tt
+            ON tt.scheduleId = ts.id
+            INNER JOIN tbl_payments tp
+            ON tp.trainingId = tt.id
+            INNER JOIN tbl_users tu
+            ON tu.userId = tt.studentId
+            WHERE 1 = 1
+                AND tt.isCancelled != 1
+                AND tp.isPaid = 1
+                AND ts.id = ?
+            GROUP BY tt.id
+        ");
+
+        // Execute the above statement.
+        $statement->execute([$iScheduleId]);
+
+        // Return the result of the execution of the above statement.
+        return $statement->fetchAll();
+    }
 }

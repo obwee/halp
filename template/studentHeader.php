@@ -71,7 +71,7 @@
                                 <li class="header notif-header">Notifications</li>
                                 <li>
                                     <ul class="menu notif-menu">
-                                        <li class="template" hidden>
+                                        <li class="notifs-template" hidden>
                                             <a href="#">
                                                 <i class="notifIcon"></i>
                                                 <span class="notifText" style="font-size: 13px;"></span>

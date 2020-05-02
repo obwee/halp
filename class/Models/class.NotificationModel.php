@@ -34,7 +34,7 @@ class NotificationModel
             SELECT
                 tn.*, tc.courseCode
             FROM tbl_notifications tn
-            INNER JOIN tbl_courses tc
+            LEFT JOIN tbl_courses tc
             ON tn.courseId = tc.id
             WHERE tn.receiver = 'admin'
             ORDER BY tn.date DESC
@@ -77,7 +77,7 @@ class NotificationModel
             SELECT
                 tn.*, tc.courseCode
             FROM tbl_notifications tn
-            INNER JOIN tbl_courses tc
+            LEFT JOIN tbl_courses tc
             ON tn.courseId = tc.id
             WHERE tn.receiver = 'student' AND studentId = ?
             ORDER BY tn.date DESC
@@ -121,6 +121,26 @@ class NotificationModel
                 (studentId, courseId, scheduleId, type, receiver, date)
             VALUES
                 (:studentId, :courseId, :scheduleId, :type, :receiver, :date)
+        ");
+
+        // Return the result of the execution of the above statement.
+        return $oStatement->execute($aData);
+    }
+
+    /**
+     * insertNotificationForQuotations
+     * Inserts a new record inside the notifications table.
+     * @param array $aData
+     * @return int
+     */
+    public function insertNotificationForQuotations($aData)
+    {
+        // Prepare an update query to the schedules table.
+        $oStatement = $this->oConnection->prepare("
+            INSERT INTO tbl_notifications
+                (studentId, senderId, courseId, scheduleId, type, receiver, date)
+            VALUES
+                (:studentId, :courseId, :senderId, :scheduleId, :type, :receiver, :date)
         ");
 
         // Return the result of the execution of the above statement.

@@ -293,4 +293,27 @@ class Student extends BaseController
 
         echo json_encode($aResult);
     }
+
+    public function fetchStudentList()
+    {
+        if (filter_var($this->aParams['iScheduleId'], FILTER_VALIDATE_INT) === false) {
+            echo json_encode(array(
+                'bResult' => false,
+                'sMsg'    => 'An error has occurred.'
+            ));
+            exit();
+        }
+        $aStudentList = $this->oStudentModel->fetchStudentList($this->aParams['iScheduleId']);
+        print_r($aStudentList); die;
+
+        foreach ($aStudentList as $iKey => $aData) {
+            $aStudentList[$iKey]['schedule'] = Utils::formatDate($aData['fromDate']) . ' - ' . Utils::formatDate($aData['toDate']) . ' (' . $this->getInterval($aData) . ')';
+            $aStudentList[$iKey]['numOfStudents'] = $aData['numSlots'] - $aData['remainingSlots'] . '/' . $aData['numSlots'];
+        }
+
+        $aUnnecessaryKeys = ['fromDate', 'toDate', 'recurrence', 'numRepetitions'];
+        Utils::unsetUnnecessaryData($aStudentList, $aUnnecessaryKeys);
+
+        echo json_encode($aStudentList);
+    }
 }
