@@ -35,14 +35,14 @@ require_once "Template/header.php";
 
     <div class="form-group">
         <div class="row justify-content-md-center">
-            <div class="col-xs-4">&nbsp&nbsp&nbsp&nbsp
+            <div class="col-6">
                 <label for="date1"><span class="fas fa-angle-double-left"></span> Start Date</label>
-                <input type="date" class="form-control" id="date1" name="date1" placeholder="From" required style="margin-left:16px;width:185px;" max="2999-12-31">
-            </div>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-            <div class="col-xs-4">
-                <label for="date2">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span class="fas fa-angle-double-right"></span> End Date</label>
+                <input type="date" class="form-control" id="date1" name="date1" placeholder="From" required max="2999-12-31">
+            </div>
+            <div class="col-6">
+                <label for="date2"><span class="fas fa-angle-double-right"></span> End Date</label>
                 <input type="date" class="form-control" id="date2" name="date2" placeholder="To" required max="2999-12-31">&nbsp&nbsp
-            </div>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            </div>
         </div>
     </div>
     <div class="row justify-content-md-center">

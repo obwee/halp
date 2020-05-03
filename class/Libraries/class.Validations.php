@@ -1293,6 +1293,57 @@ class Validations
     }
 
     /**
+     * validateSalesReportFilters
+     * Validates the inputs before filtering sales report.
+     * @param array $aParams
+     * @return array $aValidation
+     */
+    public static function validateSalesReportFilters($aParams)
+    {
+        if (empty($aParams['fromDate']) === false && empty($aParams['toDate']) === false) {
+            if ($aParams['fromDate'] > $aParams['toDate']) {
+                return array(
+                    'bResult'  => false,
+                    'sElement' => '.fromDate, .endDate',
+                    'sMsg'     => 'Start date must not be greater than the end date.'
+                );
+            }
+        }
+
+        $aValidationResult = array(
+            'bResult' => true
+        );
+
+        $aProperties = array(
+            'courseId'   => array(
+                'sName'               => 'course',
+                'sElementToHighlight' => '.courseDropdown'
+            ),
+            'scheduleId' => array(
+                'sName'               => 'schedule',
+                'sElementToHighlight' => '.courseDropdown'
+            ),
+            'venueId'  => array(
+                'sName'               => 'venue',
+                'sElementToHighlight' => '.venueDropdown'
+            )
+        );
+
+        foreach ($aParams as $sKey => $iValue) {
+            if (!preg_match('/^[\d]/', $iValue)) {
+                $aValidationResult = array(
+                    'bResult'  => false,
+                    'sElement' => $aProperties[$sKey]['sElementToHighlight'],
+                    'sMsg'     => 'Invalid ' . $aProperties[$sKey]['sName'] . '.'
+                );
+                break;
+            }
+        }
+
+        return $aValidationResult;
+    }
+
+    /**
      * loopThruRulesForErrors
      * @param array $aInputRules (Array of rules.)
      * @param string $sSelector (jQuery selector.)
