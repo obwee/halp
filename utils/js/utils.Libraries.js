@@ -1,5 +1,5 @@
 var oLibraries = (() => {
-    
+
     function displayAlertMessage(sType, sMsg) {
         let oSwal = {
             'error': {
@@ -25,11 +25,13 @@ var oLibraries = (() => {
         Swal.fire(oSwal[sType]);
     }
 
-    function displayErrorMessage(formName, msg, element) {
-        // Scroll to div that displays the error message.
-        $(formName).parents().find('div.modal').animate({
-            scrollTop: $('.error-msg').offset().top
-        } /* speed */);
+    function displayErrorMessage(formName, msg, element, isModal = true) {
+        if (isModal === true) {
+            // Scroll to div that displays the error message.
+            $(formName).parents().find('div.modal').animate({
+                scrollTop: $('.error-msg').offset().top
+            } /* speed */);
+        }
 
         // Display error message.
         $('.error-msg')
@@ -51,9 +53,9 @@ var oLibraries = (() => {
 
     // Return public pointers.
     return {
-        displayAlertMessage : displayAlertMessage,
-        displayErrorMessage : displayErrorMessage,
-        formatCurrency      : formatCurrency
+        displayAlertMessage: displayAlertMessage,
+        displayErrorMessage: displayErrorMessage,
+        formatCurrency: formatCurrency
     }
 
 })();

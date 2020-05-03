@@ -42,7 +42,7 @@ var oClassList = (() => {
                 title: 'Payment Date', data: 'paymentDate', className: 'text-center'
             },
             {
-                title: 'Payment Amount', data: 'paymentDate', className: 'text-center'
+                title: 'Payment Amount', data: 'paymentAmount', className: 'text-center sum'
             },
             {
                 title: 'Balance', data: 'balance', className: 'text-center sum'

@@ -15,7 +15,7 @@ require_once "template/header.php";
 </div>
 
 <div class="modal" tabindex="-1" role="dialog" id="viewClassList" data-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Class List</h5>
@@ -51,7 +51,8 @@ require_once "template/header.php";
                         <tbody></tbody>
                         <tfoot>
                             <tr>
-                                <th colspan=5>
+                                <th colspan="4">
+                                <th>
                                 <th>
                                 <th>
                             </tr>

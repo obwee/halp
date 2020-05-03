@@ -311,6 +311,7 @@ class Student extends BaseController
             
             $aStudentList[$iKey]['balance'] = ($iBalance >= 0) ? Utils::toCurrencyFormat($iBalance) : Utils::toCurrencyFormat(0);
             $aStudentList[$iKey]['credits'] = ($iBalance < 0) ? Utils::toCurrencyFormat(abs($iBalance)) : Utils::toCurrencyFormat(0);
+            $aStudentList[$iKey]['paymentAmount'] = Utils::toCurrencyFormat($aData['paymentAmount']);
         }
 
         echo json_encode($aStudentList);
