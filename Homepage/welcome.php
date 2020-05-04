@@ -45,6 +45,9 @@
                         <a class="nav-link js-scroll-trigger" href="#courses">Courses</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#">Schedules</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="#faqs">FAQ</a>
                     </li>
                     <li class="nav-item">
@@ -120,10 +123,10 @@
 
 
     <section id="about">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row about-text">
                 <div class="col-lg-12 mx-auto text-center">
-                    <p class="mb-4" style="font-size: 20px;">Started in 2008, Nexus served as a training center that offers Adobe Photoshop. Later on, we started integrating our trainings to Cisco and Microsoft and since then has improved to cater the needs of its enrollees. Currently, we offer trainings for Cisco, Microsoft, VMware, Citrix and more.</p>
+                    <h4 class="mb-4">Started in 2008, Nexus served as a training center that offers Adobe Photoshop. Later on, we started integrating our trainings to Cisco and Microsoft and since then has improved to cater the needs of its enrollees. Currently, we offer trainings for Cisco, Microsoft, VMware, Citrix and more.</h4>
                     <p class="mb-4">Providing trainings for IT professionals and beginners, Nexus continues to solidify its industry leadership position in producing quality training for the largest technologies and business trainings.</p>
                     <p class="mb-4">Nexus trains interested students in their chosen field to learn more and experience more through the advanced and innovative teaching process with the latest devices and certified instructors.</p>
                     <p class="mb-4">Our mission is to help, guide and prepare trainees in taking and passing the certification exam for each course. To achieve this objective, we continue to practice the values that stand at the core of professional teaching.</p>
@@ -135,50 +138,72 @@
 
     <!--Services-->
 
-    <section id="services" class="section">
-        <div class="container">
+
+    <section id="services">
+         <div class="container">
             <div class="col-lg-12 text-center">
-                <h2 class="text-black" style="font-family: 'Bebas Neue', cursive;font-size: 45px;font-weight: bold;">WHY NEXUS?</h2>
+                <h2 class="text-black" style="font-family: 'Bebas Neue', cursive;font-size: 45px;font-weight: bold;padding-bottom: 20px;">WHY NEXUS?</h2>
             </div>
         </div>
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box mt-5 mx-auto">
-                        <div class=" fastIcon">
-                            <i class="fas fa-4x fa-smile mb-3 sr-icon-1"></i>
-                        </div>
-                        <h3 class="mb-3">Satisfaction</h3>
-                        <p class="text-muted mb-0">We bring 100% customer satisfaction!</p>
+                <div class="col-sm-6">
+                    <div class="text-justify">
+                        <h4><i class="fas fa-star fa-2x"></i> Quality Training</h4>
+                        <p>We make sure that you get what you paid for. Nexus has trained thousands of IT students who has expanded their knowledge and are now professionals in their chosen career, a lot of which has passed their certifications.</p>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box mt-5 mx-auto">
-                        <div class=" fastIcon">
-                            <i class="fas fa-4x fa-chalkboard-teacher mb-3 sr-icon-2"></i>
-                        </div>
-                        <h3 class="mb-3">Quality</h3>
-                        <p class="text-muted mb-0">Instructors are certified in their fields!</p>
+                <div class="col-sm-6">
+                    <div class="text-justify">
+                        <h4><i class="fas fa-ban fa-2x"></i> No Holds Barred</h4>
+                        <p>Instructors teach not only theory-based knowledge but also real world applications and industry standard best practices.</p>
+                    </div>
+                </div>                
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="text-justify">
+                        <h4><i class="fas fa-server fa-2x"></i> Hands-on Excercises</h4>
+                        <p>Other IT training centers use simulators in their laboratory activities. In Nexus, we use 100% physical devices especially in our Cisco courses. This gives the students an in-depth learning approach in doing the laboratory activites and experience in handling physical devices.</p>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box mt-5 mx-auto">
-                        <div class=" fastIcon">
-                            <i class="fas fa-4x fa-money-bill-alt mb-3 sr-icon-3"></i>
-                        </div>
-                        <h3 class="mb-3">Value</h3>
-                        <p class="text-muted mb-0">We give you the best promos!</p>
+                <div class="col-sm-6">
+                    <div class="text-justify">
+                        <h4><i class="fas fa-certificate fa-2x"></i> Certified Instructors</h4>
+                        <p>All instructors are certified in their field. We make sure that our instructors are knowledgeable and has the credentials and experience to guide you towards learining and developing your career.</p>
+                    </div>
+                </div>                
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="text-justify">
+                        <h4><i class="far fa-heart fa-2x"></i> Support</h4>
+                        <p>Our technical support team are always on standby during trainings to assist you in your laboratory activities.</p>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box mt-5 mx-auto">
-                        <div class=" fastIcon">
-                            <i class="fas fa-4x fa-heart mb-3 sr-icon-4"></i>
-                        </div>
-                        <h3 class="mb-3">The Best</h3>
-                        <p class="text-muted mb-0">That's why we give you the best IT training!</p>
+                <div class="col-sm-6">
+                    <div class="text-justify">
+                        <h4><i class="fas fa-redo-alt fa-2x"></i> 1 Year Unlimited Review</h4>
+                        <p>Nexus offers 1 year unlimited sit-ins in selected courses. Students can sit in, review lectures and re-do the laboratory activities anytime.</p>
+                    </div>
+                </div>                
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="text-justify">
+                        <h4><i class="fas fa-search-dollar fa-2x"></i> Best Value</h4>
+                        <p>Searching for an affordable training? Nexus offers huge discounts and promos monthly.</p>
                     </div>
                 </div>
+                <div class="col-sm-6">
+                    <div class="text-justify">
+                        <h4><i class="fas fa-book-reader fa-2x"></i> Study Materials</h4>
+                        <p>Each student is equipped with their own laboratory manual and hand outs. No sharing of computers, routers and switches. Review materials and installers are also provided.</p>
+                    </div>
+                </div>                
             </div>
         </div>
     </section>
@@ -192,7 +217,7 @@
             </div>
         </div>
         <div class="container">
-            <div class="row">
+            <div class="row mt-3">
                 <div class="col-sm-4">
                     <div class="card text-center">
                         <div class="card-body">
@@ -229,6 +254,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row mt-3">
                 <div class="col-sm-4">
                     <div class="card text-center">
                         <div class="card-body">
@@ -267,6 +294,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+                
                 <p style="font-size:15px;" align="center">*Prices are subject to change without prior notice.</p>
             </div>
         </div>
@@ -420,38 +449,33 @@
                 <p>Contact us and we'll answer your inquiries immediately!</p>
             </div>
         </div>
-        <div class="container">
-            <div class="col-sm-6 text-center">
-                <i class="fas fa-envelope fa-2x mb-3 sr-icon-3" data-toggle="modal" data-target="#emailUsModal"></i>
-                <p>kdoz@live.com</p>
-            </div>
-            <div class="col-sm-6 text-center">
-                <i class="fab fa-facebook-square fa-2x mb-3 sr-icon-3"></i>
-                <p><a class="facebook" href="https://www.facebook.com/nxs88" target="_blank" style="text-decoration: none;color: black;">Nexus IT Training Center</a></p>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4 text-center">
+                     <i class="fas fa-map-marked-alt fa-2x mb-3 sr-icon-2" data-toggle="modal" data-target="#makati" style="cursor: pointer;"></i>
+                    <p class="branch-header">MAKATI BRANCH</p>
+                    <p style="font-size:15px;">Unit 2417 Cityland 10 Tower 2, 154 H.V. Dela Costa Street, Ayala North, Makati City</p>
+                    <i class="fas fa-phone fa-2x mb-3 sr-icon-1"></i>
+                    <p>+63 2 8362-3755</p>
+                    
+                </div>
+                <div class="col-sm-4 text-center facebook">
+                    <i class="fas fa-envelope fa-2x mb-3 sr-icon-3" data-toggle="modal" data-target="#emailUsModal" style="cursor: pointer;"></i>
+                    <p>kdoz@live.com</p>
+
+                    <a href="https://www.facebook.com/nxs88" target="_blank"><i class="fab fa-facebook-square fa-2x mb-3 sr-icon-3"></i></a>
+                    <p>Nexus IT Training Center</p>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <i class="fas fa-map-marked-alt fa-2x mb-3 sr-icon-2" data-toggle="modal" data-target="#manila" style="cursor: pointer;"></i>
+                    <p class="branch-header">MANILA BRANCH</p>
+                    <p>Unit 401 Doña Amparo Building, Tolentino St. corner España Boulevard, Sampaloc, Manila</p>
+                    <i class="fas fa-phone fa-2x mb-3 sr-icon-1"></i>
+                    <p>+63 2 8355-7759</p>
+                </div>
             </div>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6 text-center">
-                    <i class="fas fa-map-marked-alt fa-2x mb-3 sr-icon-2" data-toggle="modal" data-target="#makati"></i>
-                    <p style="font-weight: bold;">MAKATI BRANCH</p>
-                    <p>Unit 2417 Cityland 10 Tower 2, 154 H.V. Dela Costa Street, Ayala North, Makati City</p>
-                    <div>
-                        <i class="fas fa-phone fa-2x mb-3 sr-icon-1"></i>
-                        <p>+63 2 8362-3755</p>
-                    </div>
-                </div>
-                <div class="col-sm-6 text-center">
-                    <i class="fas fa-map-marked-alt fa-2x mb-3 sr-icon-2" data-toggle="modal" data-target="#manila"></i>
-                    <p style="font-weight: bold;">MANILA BRANCH</p>
-                    <p>Unit 401 Dona Amparo Building, Espana Boulevard, Sampaloc, Manila City</p>
-                    <div>
-                        <i class="fas fa-phone fa-2x mb-3 sr-icon-1"></i>
-                        <p>+63 2 8355-7759</p>
-                    </div>
-                </div>
-            </div>
-    </section>
+    </section>    
 
 
 
@@ -731,48 +755,7 @@
         </div>
     </div>
 
-    <!--Login Modal-->
-
-    <div class="modal fade" tabindex="-1" role="dialog" id="loginModal" style="">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" style="padding:5px 5px;">&times;</span>
-                    </button>
-                </div>
-                <form method="post" id="registrationForm">
-                    <div class="modal-body" style="padding:30px 50px;">
-                        <div align="center" style="margin-bottom: 25px;"><i class="fas fa-user-circle fa-8x"></i></div>
-                        <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
-                        <div class="form-group row">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
-                                </div>
-                                <input type="text" class="form-control" id="registrationUsername" name="registrationUsername" placeholder="Username" maxlength="15" minlength="4">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-user-lock"></i></span>
-                                </div>
-                                <input type="password" class="form-control" id="registrationPassword" name="registrationPassword" placeholder="Password" maxlength="30">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <input type="submit" class="btn btn-secondary btn-block btn-large" value="Login">
-                        </div>
-                        <div class="hint-text small" align="center"><a href="#">Forgot Password?</a></div>
-                    </div>
-                </form>
-                <div class="modal-footer">
-                </div>
-            </div>
-        </div>
-    </div>
-
+    
     <!--SCRIPTS-->
     <!--Font Awesome-->
     <script src="https://kit.fontawesome.com/be76a30cc4.js" crossorigin="anonymous"></script>

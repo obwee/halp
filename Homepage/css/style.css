@@ -179,16 +179,14 @@ html {
     position: relative;
     width: 100%;
     background-size: cover;
-    padding-top:250px;
-    padding-bottom:20px;
-    padding-left:0;
-    padding-right: 0;
+    padding-top:200px;
+    padding-bottom:150px;
+
 }
 
 #about .about-text {
     background-color: white;
     opacity: 0.7;
-    width: 100%;
     padding:20px 20px;
 }
 
@@ -197,27 +195,22 @@ html {
     font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
 
 }
-#about h2 .section-heading {
-    font-family: 'Bebas Neue', cursive;
-    color: white;
-}
-
-#about hr {
-  max-width: 250px;
-  border-width: 3px;
-  border-color: yellow;
-}
 
 /* ========================================================================================= */
 
 /*SERVICES*/
 
-.service-box {
-  max-width: 400px;
+#services {
+  background-color: white;
+  color: black;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
-#services i {
-    color:#497391;
+#services .container-fluid .row .col-sm-6 p {
+  padding-left: 60px;
 }
 
 /* ========================================================================================= */
@@ -262,20 +255,25 @@ html {
 
 #footer {
     width: 100%;
-    background-color: #edbb00;
+    background-color: black;
+    color: white;
     font-family: 'Montserrat', sans-serif;
 
 }
 
-#footer fa-3x {
- color: black;
+#footer p {
+  font-size: 15px;
 }
 
-#footer a .facebook {
-    color:black;
+
+#footer .facebook a i {
+    color: white;
+    text-decoration: none;
 }
 
-/* COURSES */
+
+
+/** /* COURSES */
 
 .container {
     display: flex;
@@ -400,8 +398,7 @@ html {
 
 #terms .terms-content {
     font-family: 'Montserrat', sans-serif;
-}
-
+} 
 /*============================================*/
 
 
