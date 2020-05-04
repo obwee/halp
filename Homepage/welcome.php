@@ -76,7 +76,7 @@
                         <h2 class="animated fadeIn" style="animation-delay: 0.5s">Learn. Get <span>Certified.</span></h2>
                         <h3 class="animated fadeIn" style="animation-delay: 0.5s">Advance your <span>IT</span> career with us.</h3>
                         <button class="btn btn-warning animated fadeIn" style="animation-delay: 0.5s;border:none;color: white;font-weight: bold;" data-toggle="modal" data-target="#registerModal"><i class="fas fa-user-plus"></i> Register</button>
-                        <button class="btn btn-secondary animated fadeIn" style="animation-delay: 0.5s; color:white;font-weight: bold;"><i class="fas fa-sign-in-alt"></i> &nbspLogin&nbsp&nbsp</button>
+                        <button class="btn btn-secondary animated fadeIn" style="animation-delay: 0.5s; color:white;font-weight: bold;" data-toggle="modal" data-target="#loginModal"><i class="fas fa-sign-in-alt"></i> &nbspLogin&nbsp&nbsp</button>
                     </div>
                 </div>
                 <div class="carousel-item">
@@ -662,8 +662,7 @@
 
     <!--Email Us Modal-->
     <div class="modal fade" id="emailUsModal" role="dialog" data-backdrop="static">
-        <div class="modal-dialog loginModal">
-
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Email Us</h5>
@@ -732,6 +731,47 @@
         </div>
     </div>
 
+    <!--Login Modal-->
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="loginModal" style="">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="padding:5px 5px;">&times;</span>
+                    </button>
+                </div>
+                <form method="post" id="registrationForm">
+                    <div class="modal-body" style="padding:30px 50px;">
+                        <div align="center" style="margin-bottom: 25px;"><i class="fas fa-user-circle fa-8x"></i></div>
+                        <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+                        <div class="form-group row">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="registrationUsername" name="registrationUsername" placeholder="Username" maxlength="15" minlength="4">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user-lock"></i></span>
+                                </div>
+                                <input type="password" class="form-control" id="registrationPassword" name="registrationPassword" placeholder="Password" maxlength="30">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <input type="submit" class="btn btn-secondary btn-block btn-large" value="Login">
+                        </div>
+                        <div class="hint-text small" align="center"><a href="#">Forgot Password?</a></div>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!--SCRIPTS-->
     <!--Font Awesome-->
