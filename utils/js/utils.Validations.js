@@ -1387,6 +1387,88 @@ class Validations {
     }
 
     /**
+     * validateSalesReportFilters
+     * Validates the inputs of the user before submission for sales report filtering.
+     * @return {object} oValidationResult (Result of the validation.)
+     */
+    validateSalesReportFilters() {
+
+        let oValidationResult = {
+            result: true
+        }
+
+        const aNotAllowedValues = [null, '', undefined, 0];
+
+        if ($('.dateFilter').find('input').prop('disabled') === false) {
+            const bNoFromDate = (aNotAllowedValues.includes($('.fromDate').val()) === true && aNotAllowedValues.includes($('.endDate').val()) === false);
+            const bNoToDate = (aNotAllowedValues.includes($('.fromDate').val()) === false && aNotAllowedValues.includes($('.endDate').val()) === true);
+            if (bNoFromDate === true || bNoToDate === true) {
+                return {
+                    result: false,
+                    element: '.fromDate, .endDate',
+                    msg: `Please complete the start date and end date.`
+                };
+            }
+
+            $('.dateFilter').find('input').each(function () {
+                if (aNotAllowedValues.includes($(this).val()) === false && moment($(this).val(), 'YYYY-MM-DD', true).isValid() === false) {
+                    oValidationResult = {
+                        result: false,
+                        element: '.' + $(this).attr('class').split(' ')[1],
+                        msg: `Invalid date.`
+                    };
+                    return false;
+                }
+            });
+
+            if (moment($('.fromDate').val()) > moment($('.endDate').val())) {
+                return {
+                    result: false,
+                    element: '.fromDate, .endDate',
+                    msg: `Start date must not be greater than the end date.`
+                };
+            }
+        }
+
+        if (oValidationResult.result === false) {
+            return oValidationResult;
+        }
+
+        let aFormElements = [
+            {
+                name: 'course',
+                value: $('.courseDropdown').val(),
+                class: '.courseDropdown'
+            },
+            {
+                name: 'schedule',
+                value: $('.scheduleDropdown').val(),
+                class: '.scheduleDropdown'
+            },
+            {
+                name: 'venue',
+                value: $('.venueDropdown').val(),
+                class: '.venueDropdown'
+            }
+        ];
+
+        $.each(aFormElements, (iKey, oProperty) => {
+            if (aNotAllowedValues.includes(oProperty.value) === false) {
+                if (/^[0-9]+$/.test(oProperty.value) === false) {
+                    oValidationResult = {
+                        result: false,
+                        element: oProperty.class,
+                        msg: `Invalid ${oProperty.name}.`
+                    };
+                    return false;
+                }
+            }
+        });
+
+        return oValidationResult;
+    }
+
+    /**
      * loopThruRulesForErrors
      * @param {array} aRules (Array of rules.)
      * @param {string} sFormId (The id of the form.)

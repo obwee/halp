@@ -1,7 +1,7 @@
-var oClassList = (() => {
-    let oTblClassList = $('#tbl_classList');
+var oFinishedTrainings = (() => {
+    let oTblClassList = $('#tbl_finishedTrainings');
     let oTblStudentList = $('#tbl_studentList');
-    let aClassLists = [];
+    let aTrainings = [];
     let aStudentList = [];
 
     let oColumns = {
@@ -42,7 +42,7 @@ var oClassList = (() => {
                 title: 'Payment Date', data: 'paymentDate', className: 'text-center'
             },
             {
-                title: 'Payment Amount', data: 'paymentAmount', className: 'text-center sum'
+                title: 'Payment Amount', data: 'paymentDate', className: 'text-center'
             },
             {
                 title: 'Balance', data: 'balance', className: 'text-center sum'
@@ -54,7 +54,7 @@ var oClassList = (() => {
     };
 
     function init() {
-        fetchClassLists();
+        fetchFinishedTrainings();
         setEvents();
     }
 
@@ -121,14 +121,14 @@ var oClassList = (() => {
         loadTable(oTblStudentList.attr('id'), oAjax, oColumns.aStudentList, aColumnDefs, aOrder, oFooterCallback);
     }
 
-    function fetchClassLists(oData) {
+    function fetchFinishedTrainings(oData) {
         let oAjax = {
-            url: `/Nexus/utils/ajax.php?class=Training&action=fetchClassLists`,
+            url: `/Nexus/utils/ajax.php?class=Training&action=fetchFinishedTrainings`,
             type: 'POST',
             data: oData,
             dataSrc: (oJson) => {
-                aClassLists = oJson;
-                return aClassLists;
+                aTrainings = oJson;
+                return aTrainings;
             },
             async: false
         };
@@ -169,5 +169,5 @@ var oClassList = (() => {
 })();
 
 $(document).ready(function () {
-    oClassList.initialize();
+    oFinishedTrainings.initialize();
 });

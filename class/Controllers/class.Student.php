@@ -304,15 +304,15 @@ class Student extends BaseController
             exit();
         }
         $aStudentList = $this->oStudentModel->fetchStudentList($this->aParams['iScheduleId']);
-        print_r($aStudentList); die;
 
         foreach ($aStudentList as $iKey => $aData) {
-            $aStudentList[$iKey]['schedule'] = Utils::formatDate($aData['fromDate']) . ' - ' . Utils::formatDate($aData['toDate']) . ' (' . $this->getInterval($aData) . ')';
-            $aStudentList[$iKey]['numOfStudents'] = $aData['numSlots'] - $aData['remainingSlots'] . '/' . $aData['numSlots'];
+            $aStudentList[$iKey]['paymentDate'] = Utils::formatDate($aData['paymentDate']);
+            $iBalance = $aData['coursePrice'] - $aData['paymentAmount'];
+            
+            $aStudentList[$iKey]['balance'] = ($iBalance >= 0) ? Utils::toCurrencyFormat($iBalance) : Utils::toCurrencyFormat(0);
+            $aStudentList[$iKey]['credits'] = ($iBalance < 0) ? Utils::toCurrencyFormat(abs($iBalance)) : Utils::toCurrencyFormat(0);
+            $aStudentList[$iKey]['paymentAmount'] = Utils::toCurrencyFormat($aData['paymentAmount']);
         }
-
-        $aUnnecessaryKeys = ['fromDate', 'toDate', 'recurrence', 'numRepetitions'];
-        Utils::unsetUnnecessaryData($aStudentList, $aUnnecessaryKeys);
 
         echo json_encode($aStudentList);
     }
