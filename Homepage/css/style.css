@@ -131,40 +131,9 @@ html {
     font-weight: bold;
 }
 
-.carousel-caption .signup-btn {
-    background-color: #edbb00;
-    padding: 15px 35px;
-    display: inline-block;
-    margin-top: 15px;
-    color: #fff;
-    text-transform: uppercase;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.carousel-caption .signin-btn {
-    background-color: #A2C710;
-    padding: 15px 35px;
-    display: inline-block;
-    margin-top: 15px;
-    color: #fff;
-    text-transform: uppercase;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: bold;
+.carousel-caption a {
+   font-family: 'Montserrat', sans-serif;
 } 
-
-.carousel-caption .signin-btn:hover {
-    opacity: 80%;
-    background-color: #B3C710;
-}
-
-.carousel-caption .signup-btn:hover {
-    opacity: 80%;
-    background-color: #CDC22D;
-}
-
 /* ========================================================================================= */
 
 .section {
@@ -219,6 +188,7 @@ html {
 
 #faqs {
     background-color: #497391;
+    padding-top: 100px;
 }
 
 #faqs .accordion .card .card-header button {
@@ -246,6 +216,9 @@ html {
 }
 
 /* COURSES */
+#courses {
+  padding-top: 100px;
+}
 #courses .card {
     width:350px;
     height: 300px;
@@ -407,26 +380,12 @@ html {
 }
 
 @media only screen and (max-width: 767px) {
-    .icon {
-        font-size: 20px;
-        padding: 10px;
-
+    
+    .carousel-inner .carousel-item img {
+      height: 620px;
     }
 
-    .navbar-collapse {
-        background: rgba (0,0,0,0.5);
-        border-top: none;
-    }
-
-    #my-slider .carousel-inner .carousel-caption {
-        padding-bottom: 120px;
-    }
-
-    .carousel-caption h2 {
-        font-size: 25px;
-    }
-
-    .carousel-caption a {
-        padding: 10px;
+    #carousel .carousel-inner .carousel-caption {
+    padding:0;
     }
 }

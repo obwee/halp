@@ -48,10 +48,10 @@
                         <a class="nav-link js-scroll-trigger" href="#">Schedules</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#faqs">FAQ</a>
+                        <a class="nav-link js-scroll-trigger" href="#faqs">FAQS</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#footer">Contact Us</a>
+                        <a class="nav-link js-scroll-trigger" href="#footer">Contact</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" role="button" data-toggle="modal" data-target="#getQuoteModal">Get Quote</a>
@@ -79,7 +79,7 @@
                         <h2 class="animated fadeIn" style="animation-delay: 0.5s">Learn. Get <span>Certified.</span></h2>
                         <h3 class="animated fadeIn" style="animation-delay: 0.5s">Advance your <span>IT</span> career with us.</h3>
                         <button class="btn btn-warning animated fadeIn" style="animation-delay: 0.5s;border:none;color: white;font-weight: bold;" data-toggle="modal" data-target="#registerModal"><i class="fas fa-user-plus"></i> Register</button>
-                        <button class="btn btn-secondary animated fadeIn" style="animation-delay: 0.5s; color:white;font-weight: bold;" data-toggle="modal" data-target="#loginModal"><i class="fas fa-sign-in-alt"></i> &nbspLogin&nbsp&nbsp</button>
+                        <a href="../Login/"><button class="btn btn-secondary animated fadeIn" style="animation-delay: 0.5s; color:white;font-weight: bold;"><i class="fas fa-sign-in-alt"></i> &nbspLogin&nbsp&nbsp</button></a>
                     </div>
                 </div>
                 <div class="carousel-item">
@@ -88,7 +88,7 @@
                         <h2 class="animated fadeIn" style="animation-delay: 0.5s">Learn. Get <span>Certified.</span></h2>
                         <h3 class="animated fadeIn" style="animation-delay: 0.5s">Advance your <span>IT</span> career with us.</h3>
                         <button class="btn btn-warning animated fadeIn" style="animation-delay: 0.5s;border:none;color: white;font-weight: bold;" data-toggle="modal" data-target="#registerModal"><i class="fas fa-user-plus"></i> Register</button>
-                        <button class="btn btn-secondary animated fadeIn" style="animation-delay: 0.5s; color:white;font-weight: bold;"><i class="fas fa-sign-in-alt"></i> &nbspLogin&nbsp&nbsp</button>
+                        <a href="../Login/"><button class="btn btn-secondary animated fadeIn" style="animation-delay: 0.5s; color:white;font-weight: bold;"><i class="fas fa-sign-in-alt"></i> &nbspLogin&nbsp&nbsp</button></a>
                     </div>
                 </div>
                 <div class="carousel-item">
@@ -97,7 +97,7 @@
                         <h2 class="animated fadeIn" style="animation-delay: 0.5s">Learn. Get <span>Certified.</span></h2>
                         <h3 class="animated fadeIn" style="animation-delay: 0.5s">Advance your <span>IT</span> career with us.</h3>
                         <button class="btn btn-warning animated fadeIn" style="animation-delay: 0.5s;border:none;color: white;font-weight: bold;" data-toggle="modal" data-target="#registerModal"><i class="fas fa-user-plus"></i> Register</button>
-                        <button class="btn btn-secondary animated fadeIn" style="animation-delay: 0.5s; color:white;font-weight: bold;"><i class="fas fa-sign-in-alt"></i> &nbspLogin&nbsp&nbsp</button>
+                        <a href="../Login/"><button class="btn btn-secondary animated fadeIn" style="animation-delay: 0.5s; color:white;font-weight: bold;"><i class="fas fa-sign-in-alt"></i> &nbspLogin&nbsp&nbsp</button></a>
                     </div>
                 </div>
                 <div class="carousel-item">
@@ -106,7 +106,7 @@
                         <h2 class="animated fadeIn" style="animation-delay: 0.5s">Learn. Get <span>Certified.</span></h2>
                         <h3 class="animated fadeIn" style="animation-delay: 0.5s">Advance your <span>IT</span> career with us.</h3>
                         <button class="btn btn-warning animated fadeIn" style="animation-delay: 0.5s;border:none;color: white;font-weight: bold;" data-toggle="modal" data-target="#registerModal"><i class="fas fa-user-plus"></i> Register</button>
-                        <button class="btn btn-secondary animated fadeIn" style="animation-delay: 0.5s; color:white;font-weight: bold;"><i class="fas fa-sign-in-alt"></i> &nbspLogin&nbsp&nbsp</button>
+                        <a href="../Login/"><button class="btn btn-secondary animated fadeIn" style="animation-delay: 0.5s; color:white;font-weight: bold;"><i class="fas fa-sign-in-alt"></i> &nbspLogin&nbsp&nbsp</button></a>
                     </div>
                 </div>
             </div>
