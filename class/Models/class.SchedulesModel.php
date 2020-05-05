@@ -395,4 +395,19 @@ class SchedulesModel
             return 0;
         }
     }
+
+    public function getScheduleDetailsById($iScheduleId)
+    {
+        $statement = $this->oConnection->prepare("
+            SELECT *
+            FROM tbl_schedules ts
+            WHERE ts.id = ?
+        ");
+
+        // Execute the above statement.
+        $statement->execute([$iScheduleId]);
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetch();
+    }
 }

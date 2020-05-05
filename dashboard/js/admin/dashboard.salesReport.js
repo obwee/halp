@@ -33,6 +33,7 @@ var oSalesReport = (() => {
     let oScheduleDropdown = $('.scheduleDropdown');
     let oCourseDropdown = $('.courseDropdown');
     let oDateFilters = $('.dateFilter').find('input');
+    let oSearchFilters = {};
     let aSalesReport = [];
     let aCoursesAndSchedules = [];
     let aPaymentModes = [];
@@ -64,7 +65,30 @@ var oSalesReport = (() => {
             toggleScheduleDropdownFilter('enable');
             $(this).closest('form')[0].reset();
             oScheduleDropdown.empty().append('<option selected disabled hidden>Select Schedule</option>');
+            oSearchFilters = {};
             fetchSalesReport();
+        });
+
+        $(document).on('click', '#printReport', () => {
+            const aData = { aReportData: aSalesReport, aFilters: oSearchFilters };
+
+            if (aData.aReportData.length === 0) {
+                oLibraries.displayAlertMessage('error', 'No data to export.');
+                return false;
+            }
+
+            window.open('/Nexus/utils/ajax.php?class=Reports&action=printSalesReport&' + $.param(aData));
+            return false;
+
+            $.ajax({
+                url: '/Nexus/utils/ajax.php?class=Reports&action=printSalesReport',
+                type: 'POST',
+                data: $.param(aData),
+                dataType: 'json',
+                success: function (oResponse) {
+                    console.log(oResponse)
+                }
+            });
         });
 
         $(document).on('click', '#loadClassList', function () {
@@ -187,10 +211,19 @@ var oSalesReport = (() => {
     }
 
     function fetchFilteredSalesReport(sFormId) {
+        const oFormData = new FormData($(sFormId)[0]);
+
+        oFormData.forEach((sValue, sKey) => {
+            if (sValue === '') {
+                return;
+            }
+            oSearchFilters[sKey] = sValue;
+        });
+
         $.ajax({
             url: `/Nexus/utils/ajax.php?class=Reports&action=fetchFilteredSalesReport`,
             type: 'POST',
-            data: new FormData($(sFormId)[0]),
+            data: oFormData,
             dataType: 'json',
             contentType: false,
             processData: false,
@@ -209,7 +242,6 @@ var oSalesReport = (() => {
     }
 
     function loadSalesReport(aData) {
-        console.log(aData)
         let aOrder = [[0, 'asc']];
 
         let aColumnDefs = [

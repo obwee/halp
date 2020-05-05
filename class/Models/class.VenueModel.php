@@ -101,4 +101,20 @@ class VenueModel
         // Return the result of the execution of the above statement.
         return $statement->execute($aData);
     }
+
+    public function getVenueDetailsById($iVenueId)
+    {
+        // Prepare a select query.
+        $statement = $this->oConnection->prepare("
+            SELECT *
+            FROM tbl_venue tv
+            WHERE tv.id = ?
+        ");
+
+        // Execute the above statement.
+        $statement->execute([$iVenueId]);
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetch();
+    }
 }

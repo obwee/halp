@@ -190,4 +190,21 @@ class CourseModel
         // Return the number of rows returned by the executed query.
         return $statement->fetchAll();
     }
+    
+    public function getCourseDetailsById($iCourseId)
+    {
+        // Query the tbl_courses.
+        $statement = $this->oConnection->prepare("
+            SELECT *
+            FROM tbl_courses tc
+            WHERE tc.id = ?
+        ");
+
+        // Execute the above statement.
+        $statement->execute([$iCourseId]);
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetch();
+    }
+
 }
