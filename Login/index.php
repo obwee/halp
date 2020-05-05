@@ -22,9 +22,13 @@
         <div class="logo">
             <img src="../resource/img/login/Untitled-1.png" alt="logo">
         </div>
+        <div style="position: absolute; color: white;padding-top: 25px;">
+            <a href="../homepage/welcome"><i class="fas fa-home fa-2x"></i></a>
+        </div>
         <div class="login-container">
             <form method="post" name="login">
-                <img class="avatar" src="../resource/img/login/undraw_profile_pic_ic5t.svg" alt="avatar">
+                <i class="fas fa-user-circle fa-4x" style="color: white;"></i>
+                <!-- <img class="avatar" src="../resource/img/login/undraw_profile_pic_ic5t.svg" alt="avatar"> -->
                 <h2>Welcome</h2>
                 <div class="input-div one">
                     <div class="i">

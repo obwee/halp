@@ -131,40 +131,9 @@ html {
     font-weight: bold;
 }
 
-.carousel-caption .signup-btn {
-    background-color: #edbb00;
-    padding: 15px 35px;
-    display: inline-block;
-    margin-top: 15px;
-    color: #fff;
-    text-transform: uppercase;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.carousel-caption .signin-btn {
-    background-color: #A2C710;
-    padding: 15px 35px;
-    display: inline-block;
-    margin-top: 15px;
-    color: #fff;
-    text-transform: uppercase;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: bold;
+.carousel-caption a {
+   font-family: 'Montserrat', sans-serif;
 } 
-
-.carousel-caption .signin-btn:hover {
-    opacity: 80%;
-    background-color: #B3C710;
-}
-
-.carousel-caption .signup-btn:hover {
-    opacity: 80%;
-    background-color: #CDC22D;
-}
-
 /* ========================================================================================= */
 
 .section {
@@ -179,16 +148,14 @@ html {
     position: relative;
     width: 100%;
     background-size: cover;
-    padding-top:250px;
-    padding-bottom:20px;
-    padding-left:0;
-    padding-right: 0;
+    padding-top:200px;
+    padding-bottom:150px;
+
 }
 
 #about .about-text {
     background-color: white;
     opacity: 0.7;
-    width: 100%;
     padding:20px 20px;
 }
 
@@ -197,27 +164,22 @@ html {
     font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
 
 }
-#about h2 .section-heading {
-    font-family: 'Bebas Neue', cursive;
-    color: white;
-}
-
-#about hr {
-  max-width: 250px;
-  border-width: 3px;
-  border-color: yellow;
-}
 
 /* ========================================================================================= */
 
 /*SERVICES*/
 
-.service-box {
-  max-width: 400px;
+#services {
+  background-color: white;
+  color: black;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
-#services i {
-    color:#497391;
+#services .container-fluid .row .col-sm-6 p {
+  padding-left: 60px;
 }
 
 /* ========================================================================================= */
@@ -226,6 +188,7 @@ html {
 
 #faqs {
     background-color: #497391;
+    padding-top: 100px;
 }
 
 #faqs .accordion .card .card-header button {
@@ -253,6 +216,9 @@ html {
 }
 
 /* COURSES */
+#courses {
+  padding-top: 100px;
+}
 #courses .card {
     width:350px;
     height: 300px;
@@ -262,20 +228,25 @@ html {
 
 #footer {
     width: 100%;
-    background-color: #edbb00;
+    background-color: black;
+    color: white;
     font-family: 'Montserrat', sans-serif;
 
 }
 
-#footer fa-3x {
- color: black;
+#footer p {
+  font-size: 15px;
 }
 
-#footer a .facebook {
-    color:black;
+
+#footer .facebook a i {
+    color: white;
+    text-decoration: none;
 }
 
-/* COURSES */
+
+
+/** /* COURSES */
 
 .container {
     display: flex;
@@ -400,8 +371,7 @@ html {
 
 #terms .terms-content {
     font-family: 'Montserrat', sans-serif;
-}
-
+} 
 /*============================================*/
 
 
@@ -410,26 +380,12 @@ html {
 }
 
 @media only screen and (max-width: 767px) {
-    .icon {
-        font-size: 20px;
-        padding: 10px;
-
+    
+    .carousel-inner .carousel-item img {
+      height: 620px;
     }
 
-    .navbar-collapse {
-        background: rgba (0,0,0,0.5);
-        border-top: none;
-    }
-
-    #my-slider .carousel-inner .carousel-caption {
-        padding-bottom: 120px;
-    }
-
-    .carousel-caption h2 {
-        font-size: 25px;
-    }
-
-    .carousel-caption a {
-        padding: 10px;
+    #carousel .carousel-inner .carousel-caption {
+    padding:0;
     }
 }
