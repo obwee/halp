@@ -129,11 +129,11 @@ class Reports extends BaseController
 
         $aFilters = array_filter(
             array(
-                'fromDate'   => $this->aParams['aFilters']['fromDate'] ?? '',
-                'toDate'     => $this->aParams['aFilters']['toDate'] ?? '',
-                'venueId'    => $this->aParams['aFilters']['venue'] ?? '',
-                'courseId'   => $this->aParams['aFilters']['course'] ?? '',
-                'scheduleId' => $this->aParams['aFilters']['schedule'] ?? ''
+                'fromDate'   => $_GET['aFilters']['fromDate'] ?? '',
+                'toDate'     => $_GET['aFilters']['toDate'] ?? '',
+                'venueId'    => $_GET['aFilters']['venue'] ?? '',
+                'courseId'   => $_GET['aFilters']['course'] ?? '',
+                'scheduleId' => $_GET['aFilters']['schedule'] ?? ''
             )
         );
 
