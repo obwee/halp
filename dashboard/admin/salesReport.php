@@ -54,7 +54,7 @@ require_once "Template/header.php";
     <div align="center" style="padding-top:5px;padding-bottom:5px;">
         <button type="button" id="loadClassList" class="btn btn-success"><i class="fas fa-spinner"></i> Load Class List</button>
         <button type="button" id="clearSelection" class="btn btn-primary"><i class="fas fa-eraser"></i> Clear Selection</button>
-        <button type="button" id="export" class="btn btn-dark"><i class="fas fa-print"></i> Export/Print</button>
+        <button type="button" id="printReport" class="btn btn-dark"><i class="fas fa-print"></i> Export/Print</button>
     </div>
 </form>
 

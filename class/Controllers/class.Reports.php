@@ -9,6 +9,21 @@ class Reports extends BaseController
     private $oReportsModel;
 
     /**
+     * @var VenueModel $oVenueModel
+     */
+    private $oVenueModel;
+
+    /**
+     * @var CourseModel $oCourseModel
+     */
+    private $oCourseModel;
+
+    /**
+     * @var SchedulesModel $oScheduleModel
+     */
+    private $oScheduleModel;
+
+    /**
      * Reports constructor.
      * @param array $aPostVariables
      */
@@ -17,6 +32,9 @@ class Reports extends BaseController
         // Store the $_POST variables inside $this->aParams variable.
         $this->aParams = $aPostVariables;
         $this->oReportsModel = new ReportsModel();
+        $this->oVenueModel = new VenueModel();
+        $this->oCourseModel = new CourseModel();
+        $this->oScheduleModel = new SchedulesModel();
         parent::__construct();
     }
 
@@ -95,5 +113,73 @@ class Reports extends BaseController
         Utils::unsetUnnecessaryData($aSalesReport, $aUnnecessaryKeys);
 
         return array_values($aSalesReport);
+    }
+
+    public function printSalesReport()
+    {
+        // $aReportData = $this->aParams['aReportData'];
+        // $aFilters = array_filter($this->aParams['aFilters'] ?? []);
+        $aReportData = $_GET['aReportData'];
+        $aFilters = $_GET['aFilters'] ?? [];
+
+        if (is_array($aReportData) === false || (empty($aFilters) === false && is_array($aFilters) === false)) {
+            echo 'Error!';
+            exit();
+        }
+
+        $aFilters = array_filter(
+            array(
+                'fromDate'   => $this->aParams['aFilters']['fromDate'] ?? '',
+                'toDate'     => $this->aParams['aFilters']['toDate'] ?? '',
+                'venueId'    => $this->aParams['aFilters']['venue'] ?? '',
+                'courseId'   => $this->aParams['aFilters']['course'] ?? '',
+                'scheduleId' => $this->aParams['aFilters']['schedule'] ?? ''
+            )
+        );
+
+        $aValidation = Validations::validateSalesReportFilters($aFilters);
+        if ($aValidation['bResult'] === false) {
+            echo $aValidation['sMsg'];
+            exit;
+        }
+
+        $aFilters = $this->getFilterData($aFilters);
+        $aReportData = $this->orderSalesDataToDisplay($aReportData);
+
+        $oPrintSalesReport = new PdfSalesReport($aReportData, $aFilters);
+        $oPrintSalesReport->preparePage();
+        $oPrintSalesReport->Output('I', 'Registration-Form.pdf');
+    }
+
+    private function getFilterData($aData)
+    {
+        $aVenueDetails = (empty($aData['venueId']) === false) ? $this->oVenueModel->getVenueDetailsById($aData['venueId']) : [];
+        $aCourseDetails = (empty($aData['courseId']) === false) ? $this->oCourseModel->getCourseDetailsById($aData['courseId']) : [];
+        $aScheduleDetails = (empty($aData['scheduleId']) === false) ? $this->oScheduleModel->getScheduleDetailsById($aData['scheduleId']) : [];
+
+        $aFilters = array(
+            'dateRange' => (empty($aData['fromDate']) === false && empty($aData['toDate']) === false) ? Utils::formatDate($aData['fromDate']) . ' - ' . Utils::formatDate($aData['toDate']) : 'N/A',
+            'venue'     => $aVenueDetails['venue'] ?? 'N/A',
+            'course'    => $aCourseDetails['courseCode'] ?? 'N/A',
+            'schedule'  => (empty($aScheduleDetails) === false) ? Utils::formatDate($aScheduleDetails['fromDate']) . ' - ' . Utils::formatDate($aScheduleDetails['toDate']) . ' (' . $this->getInterval($aScheduleDetails) . ')' : 'N/A'
+        );
+
+        return $aFilters;
+    }
+
+    private function orderSalesDataToDisplay($aData)
+    {
+        $aSalesReportData = array();
+        foreach ($aData as $iKey => $aParams) {
+            $aSalesReportData[$iKey]['studentName'] = $aParams['studentName'];
+            $aSalesReportData[$iKey]['courseCode'] = $aParams['courseCode'];
+            $aSalesReportData[$iKey]['schedule'] = $aParams['schedule'];
+            $aSalesReportData[$iKey]['venue'] = $aParams['venue'];
+            $aSalesReportData[$iKey]['coursePrice'] = $aParams['coursePrice'];
+            $aSalesReportData[$iKey]['paymentAmount'] = $aParams['paymentAmount'];
+            $aSalesReportData[$iKey]['paymentDate'] = $aParams['paymentDate'];
+            $aSalesReportData[$iKey]['paymentStatus'] = $aParams['paymentStatus'];
+        }
+        return $aSalesReportData;
     }
 }

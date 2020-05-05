@@ -74,8 +74,8 @@ class ReportsModel
             WHERE 1 = 1 ";
 
         $aWhere = array(
-            'fromDate'   => 'AND ts.fromDate = %s ',
-            'toDate'     => 'AND ts.toDate = %s ',
+            'fromDate'   => 'AND ts.fromDate >= "%s" ',
+            'toDate'     => 'AND ts.toDate <= "%s" ',
             'venueId'    => 'AND tv.id = %s ',
             'courseId'   => 'AND tc.id = %s ',
             'scheduleId' => 'AND ts.id = %s '

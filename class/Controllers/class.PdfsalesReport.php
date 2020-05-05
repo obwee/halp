@@ -3,24 +3,54 @@
 use Fpdf\Fpdf;
 
 /**
- * Pdf
- * Class for printing PDF certificate of students.
+ * PdfSalesReport
+ * Class for printing sales report.
  */
-class Pdf extends Fpdf
+class PdfSalesReport extends Fpdf
 {
+
     /**
-     * Pdf constructor.
+     * @var array $aReportData
      */
-    public function __construct()
+    private $aReportData;
+
+    /**
+     * @var array $aFilters
+     */
+    private $aFilters;
+
+    /**
+     * PdfSalesReport constructor.
+     */
+    public function __construct($aReportData, $aFilters)
     {
         // Invoke FPDF's constructor.
         parent::__construct('L', 'mm', 'Letter');
+
+        $this->aReportData = $aReportData;
+
+        $this->aFilters = $aFilters;
+
         // Initialize page.
         $this->AddPage();
         // Set auto page break to false
         $this->SetAutoPageBreak(false);
         // Set PDF file title.
         $this->SetTitle('Sales Report');
+        // Enable page aliases (Total page counter).
+        $this->AliasNbPages();
+    }
+
+    /**
+     * preparePage
+     * Prepares the page before output.
+     */
+    public function preparePage()
+    {
+        $this->setDateAndBranch();
+        $this->setTableHeader();
+        $this->setTableContents();
+        $this->Footer();
     }
 
     /**
@@ -63,9 +93,9 @@ class Pdf extends Fpdf
         // Move to the right.
         $this->Cell(85);
 
-        $this->Cell(90, 3,'+63 2 8362-3755 | +63 2 8355-7759 | kdoz@live.com', 0, 0, 'C');
+        $this->Cell(90, 3, '+63 2 8362-3755 | +63 2 8355-7759 | kdoz@live.com', 0, 0, 'C');
 
-    
+
         $this->SetFont('BebasNeue-Regular', '', 20);
 
         // Line break.
@@ -76,145 +106,145 @@ class Pdf extends Fpdf
 
         // Set page header title.
         $this->Cell(35, 8, 'Sales Report', 0, 1, 'C');
+    }
 
-        $this->SetFont('BebasNeue-Regular', '', 12);
-        
-        // Set page header title.
-        $this->Cell(15, 5, 'DATE:', 0, 0, 'L');
+    protected function setDateAndBranch()
+    {
+        $aFiltersToDisplay = array(
+            'dateRange' => array(
+                'sTitle' => 'DATE:',
+                'iWidth' => array(
+                    'sTitle' => 15,
+                    'sValue' => 30
+                ),
+                'sValue' => $this->aFilters['dateRange']
+            ),
+            'course'    => array(
+                'sTitle' => 'COURSE:',
+                'iWidth' => array(
+                    'sTitle' => 15,
+                    'sValue' => 30
+                ),
+                'sValue' => $this->aFilters['course']
+            ),
+            'venue'     => array(
+                'sTitle' => 'BRANCH:',
+                'iWidth' => array(
+                    'sTitle' => 15,
+                    'sValue' => 30
+                ),
+                'sValue' => $this->aFilters['venue']
+            ),
+            'schedule'  => array(
+                'sTitle' => 'SCHEDULE:',
+                'iWidth' => array(
+                    'sTitle' => 15,
+                    'sValue' => 30
+                ),
+                'sValue' => $this->aFilters['schedule']
+            )
+        );
 
-        $this->SetFont('Arial', '', 9);
+        $this->Ln(7);
 
-        // Set page header title.
-        $this->Cell(50, 5, '[Date Range]', 0, 0, 'L');
+        $iCount = 0;
+        foreach ($aFiltersToDisplay as $sKey => $aValue) {
+            $this->Cell(40);
 
-        $this->SetFont('BebasNeue-Regular', '', 12);
+            $this->SetFont('BebasNeue-Regular', '', 12);
+            $this->Cell($aValue['iWidth']['sTitle'], 5, $aValue['sTitle'], 0, 0, 'L');
 
-        $this->Cell(90);
+            $this->SetFont('Arial', '', 9);
+            $this->Cell($aValue['iWidth']['sTitle'], 5, $aValue['sValue'], 0, 0, 'L');
 
-        // Set page header title.
-        $this->Cell(20, 5, 'BRANCH:', 0, 0, 'L');
+            $iCount++;
 
-        $this->SetFont('Arial', '', 9);
-
-        // Set page header title.
-        $this->Cell(50, 5, '[Branch]', 0, 0, 'L');
-
-        // Line break.
-        $this->Ln(8);
-
-
+            if ($iCount !== 0 && $iCount % 2 === 0) {
+                $this->Ln(5);
+            } else {
+                $this->Cell(40);
+            }
+        }
+        $this->Ln(5);
     }
 
     /**
-     * initializePage()
-     * Initializes the contents of the quotation.
+     * setTableHeader
      */
-    public function InitializePage()
+    protected function setTableHeader()
     {
         // Set the font.
         $this->SetFont('BebasNeue-Regular', '', 12);
 
-        //Table Header
-        $this->Cell(22, 5, 'TRANSACTION ID', 1, 0, 'C');
-
+        // Table Header
         $this->Cell(55, 5, 'STUDENT NAME', 1, 0, 'C');
-
         $this->Cell(25, 5, 'COURSE', 1, 0, 'C');
-
-        $this->Cell(25, 5, 'SCHEDULE', 1, 0, 'C');
-
+        $this->Cell(60, 5, 'SCHEDULE', 1, 0, 'C');
         $this->Cell(15, 5, 'VENUE', 1, 0, 'C');
-
         $this->Cell(23, 5, 'COURSE AMOUNT', 1, 0, 'C');
-
-        $this->Cell(20, 5, 'DATE PAID', 1, 0, 'C');
-
-        $this->Cell(12, 5, 'MOP', 1, 0, 'C');
-
         $this->Cell(20, 5, 'AMOUNT PAID', 1, 0, 'C');
-
-        $this->Cell(15, 5, 'STATUS', 1, 0, 'C');
-
-        $this->Cell(20, 5, 'APPROVED BY', 1, 0, 'C');
+        $this->Cell(30, 5, 'DATE PAID', 1, 0, 'C');
+        $this->Cell(30, 5, 'STATUS', 1, 0, 'C');
 
         $this->Ln(5);
     }
 
     /**
-     * setRow
-     * Set the quotation's content.
+     * setTableContents
      */
-    public function setRow()
+    protected function setTableContents()
     {
         $this->SetFont('Arial', '', 8);
 
-        //Table Content
-        $this->Cell(22, 5, '1', 1, 0, 'C');
+        $aCellProperties = array(
+            'studentName'   => array(
+                'iWidth' => 55
+            ),
+            'courseCode'    => array(
+                'iWidth' => 25
+            ),
+            'schedule'      => array(
+                'iWidth' => 60
+            ),
+            'venue'         => array(
+                'iWidth' => 15
+            ),
+            'coursePrice'   => array(
+                'iWidth' => 23
+            ),
+            'paymentAmount' => array(
+                'iWidth' => 20
+            ),
+            'paymentDate'   => array(
+                'iWidth' => 30
+            ),
+            'paymentStatus' => array(
+                'iWidth' => 30
+            ),
+        );
 
-        $this->Cell(55, 5, '[Student Name]', 1, 0, 'C');
-
-        $this->Cell(25, 5, '[Course]', 1, 0, 'C');
-
-        $this->Cell(25, 5, '[Schedule]', 1, 0, 'C');
-
-        $this->Cell(15, 5, '[Venue]', 1, 0, 'C');
-
-        $this->Cell(23, 5, '[Course Amount]', 1, 0, 'C');
-
-        $this->Cell(20, 5, '[Date Paid]', 1, 0, 'C');
-
-        $this->Cell(12, 5, '[MOP]', 1, 0, 'C');
-
-        $this->Cell(20, 5, '[Amount Paid]', 1, 0, 'C');
-
-        $this->Cell(15, 5, '[Status]', 1, 0, 'C');
-
-        $this->Cell(25, 5, '[Approved By]', 1, 0, 'C');
-
-        $this->Ln(5);
-        
+        foreach ($this->aReportData as $iKey => $aData) {
+            foreach ($aData as $sKey => $sValue) {
+                $this->Cell($aCellProperties[$sKey]['iWidth'], 5, $sValue, 1, 0, 'C');
+            }
+            $this->Ln(5);
+        }
     }
 
     // Page footer
     public function Footer()
     {
-        // Position at 1 cm from bottom
         $this->SetY(-10);
 
-        // Arial italic 8
-        $this->SetFont('Arial','I',8);
-        
-        // Page number
-        $this->Cell(0,10,'Created On: ',0,0,'L');
+        $this->SetFont('Arial', 'I', 8);
+
+        $this->Cell(0, 10, 'Created On: ' . Utils::formatDate(dateNow()), 0, 0, 'L');
 
         $this->SetX($this->lMargin);
-        $this->Cell(0,10,'Prepared By:',0,0,'C');
-        
+        $this->Cell(0, 10, 'Prepared By: ' . Session::get('fullName'), 0, 0, 'C');
+
         $this->SetX($this->lMargin);
-        $this->Cell(0,10,'Page: ',0,0,'R');
-    
+
+        $this->Cell(0, 10, 'Page: ' . $this->PageNo() . ' of {nb}', 0, 0, 'R');
     }
-
-
-
-    /**
-     * setSignature
-     * Set the instructor and the admin.
-     */
-    public function setSignature()
-    {
-
-         // Output the certificate into the browser.
-        $this->Output('I', 'Registration-Form.pdf');
-
-       
-    }
-
-
 }
-
-$oPdf = new Pdf();
-$oPdf->initializePage();
-$oPdf->setRow();
-$oPdf->Footer();
-$oPdf->setSignature();
