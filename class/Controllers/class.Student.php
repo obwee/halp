@@ -38,6 +38,7 @@ class Student extends BaseController
         $this->AdminsModel = new AdminsModel();
         // Instantiate the CourseModel.
         $this->oCourseModel = new CourseModel();
+        
         parent::__construct();
     }
 

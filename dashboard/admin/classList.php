@@ -69,6 +69,8 @@ require_once "template/header.php";
 require_once "template/scripts.php";
 ?>
 
+<script src="/Nexus/utils/js/utils.Libraries.js"></script>
+
 <script src="/Nexus/dashboard/js/admin/dashboard.classList.js"></script>
 
 <?php

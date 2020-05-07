@@ -139,7 +139,7 @@ class TrainingModel
             INNER JOIN tbl_training  tt
                 ON tt.scheduleId = ts.id
             WHERE 1 = 1
-                AND ts.fromDate > CURDATE()
+                -- AND ts.fromDate > CURDATE()
                 AND ts.toDate > CURDATE()
                 AND tt.studentId = ?
                 AND tt.id = ?
@@ -278,7 +278,7 @@ class TrainingModel
             INNER JOIN tbl_payments  tp
                 ON tp.trainingId = tt.id
             WHERE 1 = 1
-                AND ts.fromDate > CURDATE()
+                -- AND ts.fromDate > CURDATE()
                 AND ts.toDate > CURDATE()
                 AND tt.studentId = ?
                 AND tp.isApproved = 2
@@ -394,7 +394,7 @@ class TrainingModel
             INNER JOIN tbl_users     tu
                 ON tu.userId = tt.studentId
             WHERE 1 = 1
-                -- AND ts.fromDate > CURDATE()
+                AND ts.fromDate > CURDATE()
                 -- AND ts.toDate > CURDATE()
                 AND tt.studentId = ?
             GROUP BY tt.id
@@ -523,7 +523,7 @@ class TrainingModel
              INNER JOIN tbl_courses tc
              ON tc.id = ts.courseId
              WHERE 1 = 1
-                AND ts.fromDate > CURDATE()
+                -- AND ts.fromDate > CURDATE()
                 AND ts.toDate > CURDATE()
                 AND ts.status = 'Active'
                 AND tv.status = 'Active'

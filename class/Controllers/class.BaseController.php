@@ -33,6 +33,13 @@ class BaseController
         $this->oStudentModel = new StudentModel();
         // Instantiate the NotificationModel class and store it inside $this->oNotificationModel.
         $this->oNotificationModel = new NotificationModel();
+
+        $this->updateIncompleteTrainingPayments();
+    }
+
+    private function updateIncompleteTrainingPayments()
+    {
+
     }
 
     protected function getUserId()
