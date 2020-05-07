@@ -25,6 +25,9 @@ var oClassList = (() => {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
                     `<button class="btn btn-primary btn-sm" data-toggle="modal" id="viewDetails" data-id="${oRow.scheduleId}">
                         <i class="fa fa-eye"></i>
+                    </button>
+                    <button class="btn btn-secondary btn-sm" data-toggle="modal" id="printClassList" data-id="${oRow.scheduleId}">
+                        <i class="fa fa-print"></i>
                     </button>`
             },
         ],
@@ -64,6 +67,26 @@ var oClassList = (() => {
             fetchStudentList(iScheduleId);
             prepareClassDetails(iScheduleId);
             $('#viewClassList').modal('show');
+        });
+
+        $(document).on('click', '#printClassList', function () {
+            const iScheduleId = $(this).attr('data-id');
+            $.ajax({
+                url: '/Nexus/utils/ajax.php?class=Student&action=fetchStudentList',
+                type: 'POST',
+                data: { iScheduleId: iScheduleId },
+                dataType: 'json',
+                success: function (oResponse) {
+                    if (oResponse.length === 0) {
+                        oLibraries.displayAlertMessage('error', 'No data to export.');
+                        return false;
+                    }
+                    const aScheduleDetails = aClassLists.filter(oClassList => oClassList.scheduleId == iScheduleId)[0];
+                    const aData = { aReportData: oResponse, aScheduleDetails: aScheduleDetails };
+
+                    window.open('/Nexus/utils/ajax.php?class=Reports&action=printClassList&' + $.param(aData));
+                }
+            });
         });
     }
 

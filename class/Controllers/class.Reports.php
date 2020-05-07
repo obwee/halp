@@ -148,7 +148,7 @@ class Reports extends BaseController
 
         $oPrintSalesReport = new PdfSalesReport($aReportData, $aFilters);
         $oPrintSalesReport->preparePage();
-        $oPrintSalesReport->Output('I', 'Registration-Form.pdf');
+        $oPrintSalesReport->Output('I', 'Sales-Report.pdf');
     }
 
     private function getFilterData($aData)
@@ -176,10 +176,30 @@ class Reports extends BaseController
             $aSalesReportData[$iKey]['schedule'] = $aParams['schedule'];
             $aSalesReportData[$iKey]['venue'] = $aParams['venue'];
             $aSalesReportData[$iKey]['coursePrice'] = $aParams['coursePrice'];
-            $aSalesReportData[$iKey]['paymentAmount'] = $aParams['paymentAmount'];
+            $aSalesReportData[$iKey]['paymentAmount'] = Utils::toCurrencyFormat($aParams['paymentAmount']);
             $aSalesReportData[$iKey]['paymentDate'] = $aParams['paymentDate'];
             $aSalesReportData[$iKey]['paymentStatus'] = $aParams['paymentStatus'];
         }
         return $aSalesReportData;
+    }
+
+    public function printClassList()
+    {
+        $aReportData = $_GET['aReportData'];
+        $aScheduleDetails = $_GET['aScheduleDetails'];
+
+        // echo "<pre>";
+        // print_r($aReportData);
+        // print_r($aScheduleDetails);
+        // echo "</pre>";
+
+        if (empty($aReportData) === true || empty($aScheduleDetails) === true) {
+            echo 'Error!';
+            exit();
+        }
+
+        $oPrintClassList = new PdfClassList($aReportData, $aScheduleDetails);
+        $oPrintClassList->preparePage();
+        $oPrintClassList->Output('I', 'Class-List.pdf');
     }
 }

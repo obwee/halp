@@ -78,17 +78,6 @@ var oSalesReport = (() => {
             }
 
             window.open('/Nexus/utils/ajax.php?class=Reports&action=printSalesReport&' + $.param(aData));
-            return false;
-
-            $.ajax({
-                url: '/Nexus/utils/ajax.php?class=Reports&action=printSalesReport',
-                type: 'POST',
-                data: $.param(aData),
-                dataType: 'json',
-                success: function (oResponse) {
-                    console.log(oResponse)
-                }
-            });
         });
 
         $(document).on('click', '#loadClassList', function () {

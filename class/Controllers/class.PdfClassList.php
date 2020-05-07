@@ -3,10 +3,10 @@
 use Fpdf\Fpdf;
 
 /**
- * PdfSalesReport
- * Class for printing sales report.
+ * PdfClassList
+ * Class for printing class list per schedule for reports.
  */
-class PdfSalesReport extends Fpdf
+class PdfClassList extends Fpdf
 {
 
     /**
@@ -15,28 +15,28 @@ class PdfSalesReport extends Fpdf
     private $aReportData;
 
     /**
-     * @var array $aFilters
+     * @var array $aScheduleDetails
      */
-    private $aFilters;
+    private $aScheduleDetails;
 
     /**
      * PdfSalesReport constructor.
      */
-    public function __construct($aReportData, $aFilters)
+    public function __construct($aReportData, $aScheduleDetails)
     {
         // Invoke FPDF's constructor.
         parent::__construct('L', 'mm', 'Letter');
 
         $this->aReportData = $aReportData;
 
-        $this->aFilters = $aFilters;
+        $this->aScheduleDetails = $aScheduleDetails;
 
         // Initialize page.
         $this->AddPage();
         // Set auto page break to false
         $this->SetAutoPageBreak(false);
         // Set PDF file title.
-        $this->SetTitle('Sales Report');
+        $this->SetTitle('Class List');
         // Enable page aliases (Total page counter).
         $this->AliasNbPages();
     }
@@ -47,7 +47,8 @@ class PdfSalesReport extends Fpdf
      */
     public function preparePage()
     {
-        $this->setDateAndBranch();
+        $this->setPageTitle();
+        $this->setInstructorAndSlotsLeft();
         $this->setTableHeader();
         $this->setTableContents();
         $this->setTotals();
@@ -94,8 +95,10 @@ class PdfSalesReport extends Fpdf
         $this->Cell(85);
 
         $this->Cell(90, 3, '+63 2 8362-3755 | +63 2 8355-7759 | kdoz@live.com', 0, 0, 'C');
+    }
 
-
+    public function setPageTitle()
+    {
         $this->SetFont('BebasNeue-Regular', '', 20);
 
         // Line break.
@@ -103,69 +106,33 @@ class PdfSalesReport extends Fpdf
 
         // Move to the right.
         $this->Cell(113);
+        $this->Cell(35, 8, 'Class List for ' . $this->aScheduleDetails['courseCode'], 0, 1, 'C');
 
-        // Set page header title.
-        $this->Cell(35, 8, 'Sales Report', 0, 1, 'C');
+        // Move to the right.
+        $this->Cell(113);
+        $this->Cell(35, 8, $this->aScheduleDetails['schedule'], 0, 1, 'C');
+
+        // Move to the right.
+        $this->Cell(113);
+        $this->Cell(35, 8, $this->aScheduleDetails['venue'] . ' BRANCH', 0, 1, 'C');
     }
 
-    protected function setDateAndBranch()
+    protected function setInstructorAndSlotsLeft()
     {
-        $aFiltersToDisplay = array(
-            'dateRange' => array(
-                'sTitle' => 'DATE:',
-                'iWidth' => array(
-                    'sTitle' => 15,
-                    'sValue' => 30
-                ),
-                'sValue' => $this->aFilters['dateRange']
-            ),
-            'course'    => array(
-                'sTitle' => 'COURSE:',
-                'iWidth' => array(
-                    'sTitle' => 15,
-                    'sValue' => 30
-                ),
-                'sValue' => $this->aFilters['course']
-            ),
-            'venue'     => array(
-                'sTitle' => 'BRANCH:',
-                'iWidth' => array(
-                    'sTitle' => 15,
-                    'sValue' => 30
-                ),
-                'sValue' => $this->aFilters['venue']
-            ),
-            'schedule'  => array(
-                'sTitle' => 'SCHEDULE:',
-                'iWidth' => array(
-                    'sTitle' => 15,
-                    'sValue' => 30
-                ),
-                'sValue' => $this->aFilters['schedule']
-            )
-        );
-
         $this->Ln(7);
+        $this->Cell(50);
 
-        $iCount = 0;
-        foreach ($aFiltersToDisplay as $sKey => $aValue) {
-            $this->Cell(40);
+        $this->SetFont('BebasNeue-Regular', '', 12);
+        $this->Cell(20, 5, 'SLOTS LEFT:', 0, 0, 'L');
+        $this->SetFont('Arial', '', 9);
+        $this->Cell(100, 5, $this->aScheduleDetails['numOfStudents'], 0, 0, 'L');
 
-            $this->SetFont('BebasNeue-Regular', '', 12);
-            $this->Cell($aValue['iWidth']['sTitle'], 5, $aValue['sTitle'], 0, 0, 'L');
+        $this->SetFont('BebasNeue-Regular', '', 12);
+        $this->Cell(20, 5, 'INSTRUCTOR:', 0, 0, 'L');
+        $this->SetFont('Arial', '', 9);
+        $this->Cell(0, 5, $this->aScheduleDetails['instructor'], 0, 0, 'L');
 
-            $this->SetFont('Arial', '', 9);
-            $this->Cell($aValue['iWidth']['sTitle'], 5, $aValue['sValue'], 0, 0, 'L');
-
-            $iCount++;
-
-            if ($iCount !== 0 && $iCount % 2 === 0) {
-                $this->Ln(5);
-            } else {
-                $this->Cell(40);
-            }
-        }
-        $this->Ln(5);
+        $this->Ln(8);
     }
 
     /**
@@ -178,13 +145,13 @@ class PdfSalesReport extends Fpdf
 
         // Table Header
         $this->Cell(55, 5, 'STUDENT NAME', 1, 0, 'C');
-        $this->Cell(25, 5, 'COURSE', 1, 0, 'C');
-        $this->Cell(60, 5, 'SCHEDULE', 1, 0, 'C');
-        $this->Cell(15, 5, 'VENUE', 1, 0, 'C');
-        $this->Cell(23, 5, 'COURSE AMOUNT', 1, 0, 'C');
-        $this->Cell(20, 5, 'AMOUNT PAID', 1, 0, 'C');
-        $this->Cell(30, 5, 'DATE PAID', 1, 0, 'C');
-        $this->Cell(30, 5, 'STATUS', 1, 0, 'C');
+        $this->Cell(55, 5, 'EMAIL ADDRESS', 1, 0, 'C');
+        $this->Cell(30, 5, 'CONTACT NUMBER', 1, 0, 'C');
+        $this->Cell(25, 5, 'COURSE AMOUNT', 1, 0, 'C');
+        $this->Cell(22, 5, 'DATE PAID', 1, 0, 'C');
+        $this->Cell(25, 5, 'AMOUNT PAID', 1, 0, 'C');
+        $this->Cell(23, 5, 'BALANCE', 1, 0, 'C');
+        $this->Cell(23, 5, 'CREDITS', 1, 0, 'C');
 
         $this->Ln(5);
     }
@@ -200,27 +167,27 @@ class PdfSalesReport extends Fpdf
             'studentName'   => array(
                 'iWidth' => 55
             ),
-            'courseCode'    => array(
-                'iWidth' => 25
+            'email'         => array(
+                'iWidth' => 55
             ),
-            'schedule'      => array(
-                'iWidth' => 60
-            ),
-            'venue'         => array(
-                'iWidth' => 15
+            'contactNum'    => array(
+                'iWidth' => 30
             ),
             'coursePrice'   => array(
-                'iWidth' => 23
-            ),
-            'paymentAmount' => array(
-                'iWidth' => 20
+                'iWidth' => 25
             ),
             'paymentDate'   => array(
-                'iWidth' => 30
+                'iWidth' => 22
             ),
-            'paymentStatus' => array(
-                'iWidth' => 30
+            'paymentAmount' => array(
+                'iWidth' => 25
             ),
+            'balance'       => array(
+                'iWidth' => 23
+            ),
+            'credits'       => array(
+                'iWidth' => 23
+            )
         );
 
         foreach ($this->aReportData as $iKey => $aData) {
@@ -233,18 +200,28 @@ class PdfSalesReport extends Fpdf
 
     private function setTotals()
     {
-        $iTotalCoursePrice = 0;
         $iTotalPaymentAmount = 0;
+        $iTotalBalance = 0;
+        $iTotalCredits = 0;
         foreach ($this->aReportData as $iKey => $aData) {
-            $iTotalCoursePrice += preg_replace('/[P,]/', '', $aData['coursePrice']);
             $iTotalPaymentAmount += preg_replace('/[P,]/', '', $aData['paymentAmount']);
+            $iTotalBalance += preg_replace('/[P,]/', '', $aData['balance']);
+            $iTotalCredits += preg_replace('/[P,]/', '', $aData['credits']);
         }
 
         $aTotals = array(
             array(
-                'sTitle' => 'TOTAL PAYMENTS:',
-                'sValue' => Utils::toCurrencyFormat($iTotalPaymentAmount)
-            )
+                'sTitle' => 'TOTAL AMOUNT:',
+                'sValue' => Utils::toCurrencyFormat($iTotalPaymentAmount),
+            ),
+            array(
+                'sTitle' => 'TOTAL BALANCE:',
+                'sValue' => Utils::toCurrencyFormat($iTotalBalance),
+            ),
+            array(
+                'sTitle' => 'TOTAL CREDITS:',
+                'sValue' => Utils::toCurrencyFormat($iTotalCredits),
+            ),
         );
 
         $this->Ln(15);
