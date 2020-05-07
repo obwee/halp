@@ -71,7 +71,7 @@ class ReportsModel
             ON tu.userId = tt.studentId
             INNER JOIN tbl_courses tc
             ON tc.id = ts.courseId
-            WHERE 1 = 1 ";
+            WHERE 1 = 1  AND tp.isPaid = 1 ";
 
         $aWhere = array(
             'fromDate'   => 'AND ts.fromDate >= "%s" ',

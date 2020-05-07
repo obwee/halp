@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="css/animate.css-master/animate.css">
     <!--==============================================================================================-->
     <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@700&display=swap" rel="stylesheet">
@@ -27,10 +27,10 @@
 <body data-spy="scroll" data-target="#mainNav">
 
 
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-        <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="#carousel"><img src="../resource/img/homepage/Nexus-Logo.png" height="50px" width="200px">NEXUS ITTC</a>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top" id="mainNav">
+        <div class="container-fluid">
+            <a class="navbar-brand js-scroll-trigger" href="/Nexus/homepage/welcome"><img src="../resource/img/homepage/Nexus-Logo.png" height="50px" width="200px">NEXUS ITTC</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -64,72 +64,70 @@
         </div>
     </nav>
 
-    <div id="top">
-        <div id="carousel" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-                <li data-target="#carousel" data-slide-to="0" class="active"></li>
-                <li data-target="#carousel" data-slide-to="1"></li>
-                <li data-target="#carousel" data-slide-to="2"></li>
-                <li data-target="#carousel" data-slide-to="3"></li>
-            </ol>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img class="d-block w-100" src="../resource/img/homepage/Networks3.jpg" alt="First slide">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h2 class="animated fadeIn" style="animation-delay: 0.5s">Learn. Get <span>Certified.</span></h2>
-                        <h3 class="animated fadeIn" style="animation-delay: 0.5s">Advance your <span>IT</span> career with us.</h3>
-                        <button class="btn btn-warning animated fadeIn" style="animation-delay: 0.5s;border:none;color: white;font-weight: bold;" data-toggle="modal" data-target="#registerModal"><i class="fas fa-user-plus"></i> Register</button>
-                        <a href="../Login/"><button class="btn btn-secondary animated fadeIn" style="animation-delay: 0.5s; color:white;font-weight: bold;"><i class="fas fa-sign-in-alt"></i> &nbspLogin&nbsp&nbsp</button></a>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="../resource/img/homepage/Networks.jpg" alt="Second slide">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h2 class="animated fadeIn" style="animation-delay: 0.5s">Learn. Get <span>Certified.</span></h2>
-                        <h3 class="animated fadeIn" style="animation-delay: 0.5s">Advance your <span>IT</span> career with us.</h3>
-                        <button class="btn btn-warning animated fadeIn" style="animation-delay: 0.5s;border:none;color: white;font-weight: bold;" data-toggle="modal" data-target="#registerModal"><i class="fas fa-user-plus"></i> Register</button>
-                        <a href="../Login/"><button class="btn btn-secondary animated fadeIn" style="animation-delay: 0.5s; color:white;font-weight: bold;"><i class="fas fa-sign-in-alt"></i> &nbspLogin&nbsp&nbsp</button></a>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="../resource/img/homepage/Networks2.jpg" alt="Third slide">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h2 class="animated fadeIn" style="animation-delay: 0.5s">Learn. Get <span>Certified.</span></h2>
-                        <h3 class="animated fadeIn" style="animation-delay: 0.5s">Advance your <span>IT</span> career with us.</h3>
-                        <button class="btn btn-warning animated fadeIn" style="animation-delay: 0.5s;border:none;color: white;font-weight: bold;" data-toggle="modal" data-target="#registerModal"><i class="fas fa-user-plus"></i> Register</button>
-                        <a href="../Login/"><button class="btn btn-secondary animated fadeIn" style="animation-delay: 0.5s; color:white;font-weight: bold;"><i class="fas fa-sign-in-alt"></i> &nbspLogin&nbsp&nbsp</button></a>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="../resource/img/homepage/Servers3.jpg" alt="Third slide">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h2 class="animated fadeIn" style="animation-delay: 0.5s">Learn. Get <span>Certified.</span></h2>
-                        <h3 class="animated fadeIn" style="animation-delay: 0.5s">Advance your <span>IT</span> career with us.</h3>
-                        <button class="btn btn-warning animated fadeIn" style="animation-delay: 0.5s;border:none;color: white;font-weight: bold;" data-toggle="modal" data-target="#registerModal"><i class="fas fa-user-plus"></i> Register</button>
-                        <a href="../Login/"><button class="btn btn-secondary animated fadeIn" style="animation-delay: 0.5s; color:white;font-weight: bold;"><i class="fas fa-sign-in-alt"></i> &nbspLogin&nbsp&nbsp</button></a>
-                    </div>
+    <div id="carousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel" data-slide-to="1"></li>
+            <li data-target="#carousel" data-slide-to="2"></li>
+            <li data-target="#carousel" data-slide-to="3"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="../resource/img/homepage/Networks3.jpg" alt="First slide">
+                <div class="carousel-caption">
+                    <h1 class="animated fadeIn" style="animation-delay: 0.5s">Learn. Get <span>Certified.</span></h1>
+                    <h3 class="animated fadeIn" style="animation-delay: 0.5s">Advance your <span>IT</span> career with us.</h3>
+                    <button class="btn btn-warning animated fadeIn" style="animation-delay: 0.5s;border:none;color: white;font-weight: bold;" data-toggle="modal" data-target="#registerModal"><i class="fas fa-user-plus"></i> Register</button>
+                    <a href="../Login/"><button class="btn btn-secondary animated fadeIn" style="animation-delay: 0.5s; color:white;font-weight: bold;"><i class="fas fa-sign-in-alt"></i> &nbspLogin&nbsp&nbsp</button></a>
                 </div>
             </div>
-            <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
+            <div class="carousel-item">
+                <img src="../resource/img/homepage/Networks.jpg" alt="Second slide">
+                <div class="carousel-caption">
+                    <h1 class="animated fadeIn" style="animation-delay: 0.5s">Learn. Get <span>Certified.</span></h1>
+                    <h3 class="animated fadeIn" style="animation-delay: 0.5s">Advance your <span>IT</span> career with us.</h3>
+                    <button class="btn btn-warning animated fadeIn" style="animation-delay: 0.5s;border:none;color: white;font-weight: bold;" data-toggle="modal" data-target="#registerModal"><i class="fas fa-user-plus"></i> Register</button>
+                    <a href="../Login/"><button class="btn btn-secondary animated fadeIn" style="animation-delay: 0.5s; color:white;font-weight: bold;"><i class="fas fa-sign-in-alt"></i> &nbspLogin&nbsp&nbsp</button></a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="../resource/img/homepage/Networks2.jpg" alt="Third slide">
+                <div class="carousel-caption">
+                    <h1 class="animated fadeIn" style="animation-delay: 0.5s">Learn. Get <span>Certified.</span></h1>
+                    <h3 class="animated fadeIn" style="animation-delay: 0.5s">Advance your <span>IT</span> career with us.</h3>
+                    <button class="btn btn-warning animated fadeIn" style="animation-delay: 0.5s;border:none;color: white;font-weight: bold;" data-toggle="modal" data-target="#registerModal"><i class="fas fa-user-plus"></i> Register</button>
+                    <a href="../Login/"><button class="btn btn-secondary animated fadeIn" style="animation-delay: 0.5s; color:white;font-weight: bold;"><i class="fas fa-sign-in-alt"></i> &nbspLogin&nbsp&nbsp</button></a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="../resource/img/homepage/Servers3.jpg" alt="Third slide">
+                <div class="carousel-caption">
+                    <h1 class="animated fadeIn" style="animation-delay: 0.5s">Learn. Get <span>Certified.</span></h1>
+                    <h3 class="animated fadeIn" style="animation-delay: 0.5s">Advance your <span>IT</span> career with us.</h3>
+                    <button class="btn btn-warning animated fadeIn" style="animation-delay: 0.5s;border:none;color: white;font-weight: bold;" data-toggle="modal" data-target="#registerModal"><i class="fas fa-user-plus"></i> Register</button>
+                    <a href="../Login/"><button class="btn btn-secondary animated fadeIn" style="animation-delay: 0.5s; color:white;font-weight: bold;"><i class="fas fa-sign-in-alt"></i> &nbspLogin&nbsp&nbsp</button></a>
+                </div>
+            </div>
         </div>
+        <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
 
 
     <section id="about">
         <div class="container-fluid">
             <div class="row about-text">
-                <div class="col-lg-12 mx-auto text-center">
+                <div class="col-12 text-center">
                     <h4 class="mb-4">Started in 2008, Nexus served as a training center that offers Adobe Photoshop. Later on, we started integrating our trainings to Cisco and Microsoft and since then has improved to cater the needs of its enrollees. Currently, we offer trainings for Cisco, Microsoft, VMware, Citrix and more.</h4>
-                    <p class="mb-4">Providing trainings for IT professionals and beginners, Nexus continues to solidify its industry leadership position in producing quality training for the largest technologies and business trainings.</p>
-                    <p class="mb-4">Nexus trains interested students in their chosen field to learn more and experience more through the advanced and innovative teaching process with the latest devices and certified instructors.</p>
-                    <p class="mb-4">Our mission is to help, guide and prepare trainees in taking and passing the certification exam for each course. To achieve this objective, we continue to practice the values that stand at the core of professional teaching.</p>
+                    <p class="mb-4 lead">Providing trainings for IT professionals and beginners, Nexus continues to solidify its industry leadership position in producing quality training for the largest technologies and business trainings.</p>
+                    <p class="mb-4 lead">Nexus trains interested students in their chosen field to learn more and experience more through the advanced and innovative teaching process with the latest devices and certified instructors.</p>
+                    <p class="mb-4 lead">Our mission is to help, guide and prepare trainees in taking and passing the certification exam for each course. To achieve this objective, we continue to practice the values that stand at the core of professional teaching.</p>
                 </div>
             </div>
         </div>
@@ -139,21 +137,21 @@
     <!--Services-->
 
 
-    <section id="services">
+    <section id="services" class="section">
          <div class="container">
-            <div class="col-lg-12 text-center">
+            <div class="col-12 text-center">
                 <h2 class="text-black" style="font-family: 'Bebas Neue', cursive;font-size: 45px;font-weight: bold;padding-bottom: 20px;">WHY NEXUS?</h2>
             </div>
         </div>
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
+            <div class="row padding">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <div class="text-justify">
                         <h4><i class="fas fa-star fa-2x"></i> Quality Training</h4>
                         <p>We make sure that you get what you paid for. Nexus has trained thousands of IT students who has expanded their knowledge and are now professionals in their chosen career, a lot of which has passed their certifications.</p>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <div class="text-justify">
                         <h4><i class="fas fa-ban fa-2x"></i> No Holds Barred</h4>
                         <p>Instructors teach not only theory-based knowledge but also real world applications and industry standard best practices.</p>
@@ -161,14 +159,14 @@
                 </div>                
             </div>
 
-            <div class="row">
-                <div class="col-sm-6">
+            <div class="row padding">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <div class="text-justify">
                         <h4><i class="fas fa-server fa-2x"></i> Hands-on Excercises</h4>
                         <p>Other IT training centers use simulators in their laboratory activities. In Nexus, we use 100% physical devices especially in our Cisco courses. This gives the students an in-depth learning approach in doing the laboratory activites and experience in handling physical devices.</p>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <div class="text-justify">
                         <h4><i class="fas fa-certificate fa-2x"></i> Certified Instructors</h4>
                         <p>All instructors are certified in their field. We make sure that our instructors are knowledgeable and has the credentials and experience to guide you towards learining and developing your career.</p>
@@ -176,14 +174,14 @@
                 </div>                
             </div>
 
-            <div class="row">
-                <div class="col-sm-6">
+            <div class="row padding">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <div class="text-justify">
                         <h4><i class="far fa-heart fa-2x"></i> Support</h4>
                         <p>Our technical support team are always on standby during trainings to assist you in your laboratory activities.</p>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <div class="text-justify">
                         <h4><i class="fas fa-redo-alt fa-2x"></i> 1 Year Unlimited Review</h4>
                         <p>Nexus offers 1 year unlimited sit-ins in selected courses. Students can sit in, review lectures and re-do the laboratory activities anytime.</p>
@@ -191,14 +189,14 @@
                 </div>                
             </div>
 
-            <div class="row">
-                <div class="col-sm-6">
+            <div class="row padding">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <div class="text-justify">
                         <h4><i class="fas fa-search-dollar fa-2x"></i> Best Value</h4>
                         <p>Searching for an affordable training? Nexus offers huge discounts and promos monthly.</p>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <div class="text-justify">
                         <h4><i class="fas fa-book-reader fa-2x"></i> Study Materials</h4>
                         <p>Each student is equipped with their own laboratory manual and hand outs. No sharing of computers, routers and switches. Review materials and installers are also provided.</p>
@@ -208,8 +206,13 @@
         </div>
     </section>
 
-    <div class="fixed-image"></div>
 
+            <div class="fixed-image">
+        
+            </div>    
+    
+    
+<!--
     <section class="section" id="courses">
         <div class="container">
             <div class="col-lg-12 text-center">
@@ -300,7 +303,7 @@
             </div>
         </div>
     </section>
-
+-->
     <!--FAQs-->
 
     <section id="faqs" class="section">
