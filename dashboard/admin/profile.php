@@ -7,96 +7,105 @@ echo Session::get('LOA') === 'Super Admin' ? "<script type='text/javascript'>win
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <p class="h2">My Profile</p>
     </div>
-    <div class="row" style="background-color: white;border-radius:8px 8px;margin-left: 10px;margin-right:10px;padding-top:10px;">
-        <div class="col-sm-6" style="padding-left:30px;padding-right:30px;">
-            <form>
-                <div class="form-group row">
-                    <label for="firstName">First Name</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-user"></i></span> 
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div style="background-color: white;border-radius:8px 8px;margin-left: 5px;margin-right:5px;padding:25px 25px;height: 375px;box-shadow: 8px 8px #3c8dbc;">
+                    <h4 class="lead"><i class="fas fa-user-cog"></i> Personal Details</h4>
+                    <form>
+                        <div class="form-group row">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span> 
+                                </div>
+                                <input type="text" class="form-control" id="firstName" value="First Name">
+                            </div>
                         </div>
-                        <input type="text" class="form-control" id="firstName">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="middleName">Middle Name</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-user"></i></span> 
+                        <div class="form-group row">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span> 
+                                </div>
+                                <input type="text" class="form-control" id="middleName" value="Middle Name">
+                            </div>
                         </div>
-                        <input type="text" class="form-control" id="middleName">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="lastName">Last Name</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-user"></i></span> 
+                        <div class="form-group row">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span> 
+                                </div>
+                                <input type="text" class="form-control" id="lastName" value="Last Name">
+                            </div>
                         </div>
-                        <input type="text" class="form-control" id="lastName">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="contactNo">Contact Number</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span> 
+                        <div class="form-group row">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span> 
+                                </div>
+                                <input type="text" class="form-control" id="contactNo" value="Contact Number">
+                            </div>
                         </div>
-                        <input type="text" class="form-control" id="contactNo">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="email">E-mail Address</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-at"></i></span> 
+                        <div class="form-group row">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-at"></i></span> 
+                                </div>
+                                <input type="email" class="form-control" id="email" value="E-mail Address">
+                            </div>
                         </div>
-                        <input type="email" class="form-control" id="email">
-                    </div>
+                        <div class="text-center" style="margin-top:10px;">
+                            <button type="submit" class="btn btn-success btn-sm">Update</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
-        </div>
+            </div>
 
-        <div class="col-sm-6" style="padding-left:30px;padding-right:30px;">
-            <form>
-                <div class="form-group row">
-                    <label for="username">Username</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-user"></i></span> 
+            <div class="col-sm-6">
+                <div style="background-color: white;border-radius:8px 8px;margin-left: 5px;margin-right:5px;padding:25px 25px;height: 375px;box-shadow: 8px 8px #3c8dbc;">
+                    <h4 class="lead"><i class="fas fa-user-shield"></i> Login Credentials</h4>
+                    <form>
+                        <div class="form-group row">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span> 
+                                </div>
+                                <input type="text" class="form-control" id="email" value="Username">
+                            </div>
                         </div>
-                        <input type="text" class="form-control" id="username">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="password">Password</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-user-lock"></i></span> 
+                        <div class="form-group row">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span> 
+                                </div>
+                                <input type="text" class="form-control" id="email" value="Old Password">
+                            </div>
                         </div>
-                        <input type="password" class="form-control" id="password">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="password">Confirm Password</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-lock"></i></span> 
+                        <div class="form-group row">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span> 
+                                </div>
+                                <input type="text" class="form-control" id="email" value="New Password">
+                            </div>
                         </div>
-                        <input type="password" class="form-control" id="password">
-                    </div>
+                        <div class="form-group row">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span> 
+                                </div>
+                                <input type="text" class="form-control" id="email" value="Confirm New Password">
+                            </div>
+                        </div>
+                        <div class="text-center" style="margin-top:70px;">
+                            <button type="submit" class="btn btn-success btn-sm">Update</button>
+                        </div>
+                    </form>
                 </div>
-                </div> <br>
-            </form>
+            </div>
         </div>
     </div>
 
-    <div class="text-center" style="margin-top:10px;">
-        <button type="submit" class="btn btn-dark">&nbsp&nbsp&nbsp&nbspEdit&nbsp&nbsp&nbsp</button>
-        <button type="submit" class="btn btn-success">Update</button>
-    </div>
-</div>
 
 <?php
 require_once "template/scripts.php";
