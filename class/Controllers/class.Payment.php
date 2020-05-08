@@ -9,12 +9,6 @@ class Payment extends BaseController
     private $oRefundsModel;
 
     /**
-     * @var TrainingModel $oTrainingModel
-     * Class instance for Training model.
-     */
-    private $oTrainingModel;
-
-    /**
      * @var CourseModel $oCourseModel
      * Class instance for Course model.
      */
@@ -34,7 +28,6 @@ class Payment extends BaseController
     {
         $this->aParams = $aPostVariables;
         $this->oRefundsModel = new RefundsModel();
-        $this->oTrainingModel = new TrainingModel();
         $this->oCourseModel = new CourseModel();
         
         parent::__construct();

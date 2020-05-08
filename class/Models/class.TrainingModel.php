@@ -561,4 +561,17 @@ class TrainingModel
 
         return $oQuery->fetchAll();
     }
+
+    public function updateFinishedTrainings()
+    {
+        $oTrainingStatement = $this->oConnection->prepare("
+            UPDATE tbl_training tt
+                INNER JOIN tbl_schedules ts
+                ON ts.id = tt.scheduleId
+            SET tt.isDone = 1
+            WHERE ts.toDate < CURDATE()
+        ");
+
+        return $oTrainingStatement->execute();        
+    }
 }

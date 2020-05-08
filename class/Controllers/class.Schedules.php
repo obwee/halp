@@ -13,12 +13,6 @@ class Schedules extends BaseController
     private $oScheduleModel;
 
     /**
-     * @var TrainingModel $oScheduleModel
-     * Class instance for schedule model.
-     */
-    private $oTrainingModel;
-
-    /**
      * @var CourseModel $oCourseModel
      * Class instance for course model.
      */
@@ -34,7 +28,6 @@ class Schedules extends BaseController
         parent::__construct();
 
         $this->oScheduleModel = new SchedulesModel();
-        $this->oTrainingModel = new TrainingModel();
         $this->oCourseModel = new CourseModel();
     }
 
@@ -298,11 +291,10 @@ class Schedules extends BaseController
      */
     private function getRemainingSlots($aData)
     {
-        $oTrainingModel = new TrainingModel();
         $aIds = array(
             ':scheduleId' => $aData['id']
         );
-        $iNumberOfEmployees = $oTrainingModel->fetchNumberOfEnrollees($aIds);
+        $iNumberOfEmployees = $this->oTrainingModel->fetchNumberOfEnrollees($aIds);
         return $aData['numSlots'] - $iNumberOfEmployees;
     }
 

@@ -3,12 +3,6 @@
 class Training extends BaseController
 {
     /**
-     * @var TrainingModel $oTrainingModel
-     * Class instance for Training model.
-     */
-    private $oTrainingModel;
-
-    /**
      * @var AdminsModel $oAdminsModel
      * Class instance for Admin model.
      */
@@ -38,14 +32,13 @@ class Training extends BaseController
      */
     public function __construct($aPostVariables)
     {
-        $this->aParams = $aPostVariables;
-        parent::__construct();
-
-        $this->oTrainingModel = new TrainingModel();
         $this->oAdminsModel = new AdminsModel();
         $this->oRefundsModel = new RefundsModel();
         $this->oCourseModel = new CourseModel();
         $this->oInstructorsModel = new InstructorsModel();
+    
+        $this->aParams = $aPostVariables;
+        parent::__construct();
     }
 
     public function fetchTrainingDataOfSelectedStudent()
