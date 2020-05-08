@@ -5,16 +5,35 @@
  */
 class BaseController
 {
-
+    /**
+     * @var StudentModel $oStudentModel
+     */
     protected $oStudentModel;
+
+    /**
+     * @var NotificationModel $oNotificationModel
+     */
     protected $oNotificationModel;
 
+    /**
+     * @var PaymentModel $oPaymentModel
+     */
+    protected $oPaymentModel;
+
+    /**
+     * @var array $aPaymentStatus
+     * Holder of payment statuses depending on isPaid value.
+     */
     protected $aPaymentStatus = array(
         'Not Yet Paid',
         'Partially Paid',
         'Fully Paid'
     );
 
+    /**
+     * @var array $aApprovalStatus
+     * Holder of payment approval statuses depending on isApproved value.
+     */
     protected $aApprovalStatus = array(
         'Not Yet Approved',
         'Approved',
@@ -29,17 +48,11 @@ class BaseController
 
     public function __construct()
     {
-        // Instantiate the StudentModel class and store it inside $this->oStudentModel.
         $this->oStudentModel = new StudentModel();
-        // Instantiate the NotificationModel class and store it inside $this->oNotificationModel.
         $this->oNotificationModel = new NotificationModel();
+        $this->oPaymentModel = new PaymentModel();
 
-        $this->updateIncompleteTrainingPayments();
-    }
-
-    private function updateIncompleteTrainingPayments()
-    {
-
+        $this->oPaymentModel->updateUnsettledPayments();
     }
 
     protected function getUserId()

@@ -145,20 +145,6 @@
                         </ul>
                     </li>
                     <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-user-cog"></i>
-                            <span>&emsp;Reservations</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="/Nexus/dashboard/admin/unpaidStudents"><i class="fas fa-times"></i>&emsp;&nbspUnpaid Reservations</a></li>
-                            <li><a href=""><i class="fas fa-check"></i>&emsp;Partially Paid Reservations</a></li>
-                            <li><a href=""><i class="fas fa-check-double"></i>&emsp;Fully Paid Reservations</a></li>
-                        </ul>
-                    </li>
-                    <li class="treeview">
                         <a href="#.php">
                             <i class="fas fa-calendar"></i>
                             <span>&emsp;Trainings</span>

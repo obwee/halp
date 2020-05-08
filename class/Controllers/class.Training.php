@@ -15,12 +15,6 @@ class Training extends BaseController
     private $oAdminsModel;
 
     /**
-     * @var PaymentModel $oPaymentModel
-     * Class instance for Payment model.
-     */
-    private $oPaymentModel;
-
-    /**
      * @var RefundsModel $oRefundsModel
      * Class instance for Refunds model.
      */
@@ -44,28 +38,14 @@ class Training extends BaseController
      */
     public function __construct($aPostVariables)
     {
-        // Store the $_POST variables inside $this->aParams variable.
         $this->aParams = $aPostVariables;
-
-        // Instantiate the TrainingModel class and store it inside $this->oVenueModel.
-        $this->oTrainingModel = new TrainingModel();
-
-        // Instantiate the AdminsModel class and store it inside $this->oAdminsModel.
-        $this->oAdminsModel = new AdminsModel();
-
-        // Instantiate the PaymentModel class and store it inside $this->oPaymentModel.
-        $this->oPaymentModel = new PaymentModel();
-
-        // Instantiate the RefundsModel class and store it inside $this->oRefundsModel.
-        $this->oRefundsModel = new RefundsModel();
-
-        // Instantiate the RefundsModel class and store it inside $this->oCourseModel.
-        $this->oCourseModel = new CourseModel();
-
-        // Instantiate the RefundsModel class and store it inside $this->oInstructorsModel.
-        $this->oInstructorsModel = new InstructorsModel();
-
         parent::__construct();
+
+        $this->oTrainingModel = new TrainingModel();
+        $this->oAdminsModel = new AdminsModel();
+        $this->oRefundsModel = new RefundsModel();
+        $this->oCourseModel = new CourseModel();
+        $this->oInstructorsModel = new InstructorsModel();
     }
 
     public function fetchTrainingDataOfSelectedStudent()

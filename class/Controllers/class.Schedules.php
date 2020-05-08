@@ -25,27 +25,17 @@ class Schedules extends BaseController
     private $oCourseModel;
 
     /**
-     * @var PaymentModel $oPaymentModel
-     * Class instance for payment model.
-     */
-    private $oPaymentModel;
-
-    /**
      * Schedules constructor.
      * @param array $aPostVariables
      */
     public function __construct($aPostVariables)
     {
-        // Store the $_POST variables inside $this->aParams variable.
         $this->aParams = $aPostVariables;
-        // Instantiate the SchedulesModel class and store it inside $this->oScheduleModel.
+        parent::__construct();
+
         $this->oScheduleModel = new SchedulesModel();
-        // Instantiate the TrainingModel class and store it inside $this->oTrainingModel.
         $this->oTrainingModel = new TrainingModel();
-        // Instantiate the CourseModel class and store it inside $this->oCourseModel.
         $this->oCourseModel = new CourseModel();
-        // Instantiate the PaymentModel class and store it inside $this->oPaymentModel.
-        $this->oPaymentModel = new PaymentModel();
     }
 
     /**
