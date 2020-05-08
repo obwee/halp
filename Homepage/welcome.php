@@ -454,28 +454,30 @@
         </div>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-4 text-center">
-                     <i class="fas fa-map-marked-alt fa-2x mb-3 sr-icon-2" data-toggle="modal" data-target="#makati" style="cursor: pointer;"></i>
-                    <p class="branch-header">MAKATI BRANCH</p>
-                    <p style="font-size:15px;">Unit 2417 Cityland 10 Tower 2, 154 H.V. Dela Costa Street, Ayala North, Makati City</p>
-                    <i class="fas fa-phone fa-2x mb-3 sr-icon-1"></i>
-                    <p>+63 2 8362-3755</p>
-                    
+                <div class="col-sm-6 text-center">
+                    <i class="fas fa-map-marked-alt fa-2x mb-3 sr-icon-2" data-toggle="modal" data-target="#makati" style="cursor: pointer;"></i>
+                    <p class="lead">MAKATI BRANCH</p>
+                    <p class="lead">Unit 2417 Cityland 10 Tower 2, 154 H.V. Dela Costa Street, Ayala North, Makati City</p>
+                    <p class="lead"><i class="fas fa-phone sr-icon-1"></i> +63 2 8362-3755</p>    
                 </div>
-                <div class="col-sm-4 text-center facebook">
-                    <i class="fas fa-envelope fa-2x mb-3 sr-icon-3" data-toggle="modal" data-target="#emailUsModal" style="cursor: pointer;"></i>
-                    <p>kdoz@live.com</p>
-
-                    <a href="https://www.facebook.com/nxs88" target="_blank"><i class="fab fa-facebook-square fa-2x mb-3 sr-icon-3"></i></a>
-                    <p>Nexus IT Training Center</p>
-                </div>
-                <div class="col-sm-4 text-center">
+                <div class="col-sm-6 text-center">
                     <i class="fas fa-map-marked-alt fa-2x mb-3 sr-icon-2" data-toggle="modal" data-target="#manila" style="cursor: pointer;"></i>
                     <p class="branch-header">MANILA BRANCH</p>
-                    <p>Unit 401 Doña Amparo Building, Tolentino St. corner España Boulevard, Sampaloc, Manila</p>
-                    <i class="fas fa-phone fa-2x mb-3 sr-icon-1"></i>
-                    <p>+63 2 8355-7759</p>
+                    <p>Unit 401 Doña Amparo Building, España Boulevard, Sampaloc, Manila</p>
+                    <p class="lead"><i class="fas fa-phone sr-icon-1"></i> +63 2 8355-7759</p>
                 </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 text-center facebook">
+                    <h6>CONNECT</h6>
+                    <i class="fas fa-envelope fa-2x mb-3 sr-icon-3 mx-auto" data-toggle="modal" data-target="#emailUsModal" style="cursor: pointer;"></i>
+                    <a href="https://www.facebook.com/nxs88" target="_blank"><i class="fab fa-facebook fa-2x mb-3 sr-icon-3"></i></a>
+                    <a href="https://www.youtube.com/channel/UCPkEHHjoFuH4sK4VNZk-Ltg"><i class="fab fa-youtube fa-2x"></i></a>
+                </div>
+            </div>
+                
+                
             </div>
         </div>
     </section>    

@@ -14,7 +14,7 @@ require_once "template/header.php";
 
 <div class="container">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h2><span class="fas fa-file-invoice"></span> Quotation Requests</h2>
+        <h2><span class="fas fa-mail-bulk"></span> Quotation Requests</h2>
     </div>
 
     <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
