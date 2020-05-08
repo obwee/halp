@@ -3,12 +3,6 @@
 class Payment extends BaseController
 {
     /**
-     * @var PaymentModel $oPaymentModel
-     * Class instance for Payment Methods model.
-     */
-    private $oPaymentModel;
-
-    /**
      * @var RefundsModel $oRefundsModel
      * Class instance for Refunds model.
      */
@@ -38,20 +32,13 @@ class Payment extends BaseController
      */
     public function __construct($aPostVariables)
     {
-        // Store the $_POST variables inside $this->aParams variable.
         $this->aParams = $aPostVariables;
-        // Instantiate the PaymentModel class and store it inside $this->oPaymentModel.
-        $this->oPaymentModel = new PaymentModel();
-        // Instantiate the RefundsModel class and store it inside $this->oRefundsModel.
         $this->oRefundsModel = new RefundsModel();
-        // Instantiate the TrainingModel class and store it inside $this->oTrainingModel.
         $this->oTrainingModel = new TrainingModel();
-        // Instantiate the CourseModel class and store it inside $this->oCourseModel.
         $this->oCourseModel = new CourseModel();
-
-        $this->aPaymentMethods = $this->oPaymentModel->fetchModeOfPayments();
-
+        
         parent::__construct();
+        $this->aPaymentMethods = $this->oPaymentModel->fetchModeOfPayments();
     }
 
     /**

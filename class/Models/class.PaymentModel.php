@@ -339,4 +339,25 @@ class PaymentModel
             $aParam['trainingId']
         ));
     }
+
+    public function updateUnsettledPayments()
+    {
+        $statement = $this->oConnection->prepare(
+            "UPDATE tbl_training tt
+                INNER JOIN tbl_schedules ts
+                ON tt.scheduleId = ts.id
+                LEFT JOIN tbl_payments tp
+                ON tp.trainingId = tt.id
+             SET
+                tt.isCancelled = 1,
+                tt.isReserved = 0,
+                tt.cancellationReason = 'Unsettled payment.'
+             WHERE 1 = 1
+                AND tp.id IS NULL
+                AND ts.fromDate < CURDATE()"
+        );
+
+        // Execute the above statement.
+        return $statement->execute();
+    }
 }
