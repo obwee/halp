@@ -9,79 +9,105 @@
     		</div>
             <div class="row">
                 <div class="col-sm-6">
-                <div style="background-color: white;margin-right:8px;margin-left:8px;padding:10px 10px;box-shadow:8px 8px #605ca8">
+                <div style="background-color: white;border-radius:8px 8px;margin-left: 5px;margin-right:5px;padding:25px 25px;height: 420px;box-shadow: 8px 8px #605ca8;">
+                    <h4 class="lead"><i class="fas fa-user-cog"></i> Personal Details</h4>
                     <form>
                         <div class="form-group row">
-                        <label for="firstName" class="col-sm-3 col-form-label"><span class="fas fa-user"></span> First Name</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="firstName">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span> 
+                                </div>
+                                <input type="text" class="form-control" id="firstName" value="First Name">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="middleName" class="col-sm-3 col-form-label"><span class="fas fa-user"></span> Mid Name</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="middleName">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span> 
+                                </div>
+                                <input type="text" class="form-control" id="middleName" value="Middle Name">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="lastName" class="col-sm-3 col-form-label"><span class="fas fa-user"></span> Last Name</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="lastName">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span> 
+                                </div>
+                                <input type="text" class="form-control" id="lastName" value="Last Name">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="contact" class="col-sm-3 col-form-label"><span class="fas fa-mobile-alt"></span> Contact No.</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="contact">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span> 
+                                </div>
+                                <input type="text" class="form-control" id="contactNo" value="Contact Number">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="email" class="col-sm-3 col-form-label"><span class="fas fa-at"></span> E-mail</label>
-                            <div class="col-sm-9">
-                                <input type="email" class="form-control" id="email">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-at"></i></span> 
+                                </div>
+                                <input type="email" class="form-control" id="email" value="E-mail Address">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="company" class="col-sm-3 col-form-label"><span class="fas fa-building"></span> Company</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="company">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-building"></i></span> 
+                                </div>
+                                <input type="text" class="form-control" id="company" value="Company Name">
                             </div>
                         </div>
-                        <div align="center">
-                            <button type="submit" class="btn btn-dark">&nbsp&nbsp&nbspEdit&nbsp&nbsp</button>&nbsp&nbsp
-                            <button type="submit" class="btn btn-success">Update</button>    
+                         <div class="text-center" style="margin-top:10px;">
+                            <button type="submit" class="btn btn-success btn-sm">Update</button>
                         </div>
                     </form>
                 </div> 
             </div>
             
             <div class="col-sm-6">
-                <form>
-                    <div class="credentials" style="background-color:white;padding:10px 10px;margin-top:50px;margin-right:10px;box-shadow:8px 8px #605ca8">
+                <div style="background-color: white;border-radius:8px 8px;margin-left: 5px;margin-right:5px;padding:25px 25px;height: 420px;box-shadow: 8px 8px #605ca8;">
+                    <h4 class="lead"><i class="fas fa-user-shield"></i> Login Credentials</h4>
+                    <form>
                         <div class="form-group row">
-                            <label for="username" class="col-sm-4 col-form-label"><span class="fas fa-user"></span> Username</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="username">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span> 
+                                </div>
+                                <input type="text" class="form-control" id="email" value="Username">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="password" class="col-sm-4 col-form-label"><span class="fas fa-user-lock"></span> Password</label>
-                            <div class="col-sm-8">
-                                <input type="password" class="form-control" id="password">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span> 
+                                </div>
+                                <input type="text" class="form-control" id="email" value="Old Password">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="confirmPassword" class="col-sm-4 col-form-label"><span class="fas fa-user-lock"></span> Confirm Password</label>
-                            <div class="col-sm-8">
-                                <input type="password" class="form-control" id="confirmPassword">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span> 
+                                </div>
+                                <input type="text" class="form-control" id="email" value="New Password">
                             </div>
                         </div>
-                        <div align="center">
-                            <button type="submit" class="btn btn-dark">&nbsp&nbsp&nbspEdit&nbsp&nbsp</button>&nbsp&nbsp
-                            <button type="submit" class="btn btn-success">Update</button>    
+                        <div class="form-group row">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span> 
+                                </div>
+                                <input type="text" class="form-control" id="email" value="Confirm New Password">
+                            </div>
                         </div>
-                    </div>
-                </form> 
+                        <div class="text-center" style="margin-top:120px;">
+                            <button type="submit" class="btn btn-success btn-sm">Update</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
                            
