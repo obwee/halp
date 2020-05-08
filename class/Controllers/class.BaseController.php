@@ -21,6 +21,11 @@ class BaseController
     protected $oPaymentModel;
 
     /**
+     * @var TrainingModel $oTrainingModel
+     */
+    protected $oTrainingModel;
+
+    /**
      * @var array $aPaymentStatus
      * Holder of payment statuses depending on isPaid value.
      */
@@ -51,8 +56,11 @@ class BaseController
         $this->oStudentModel = new StudentModel();
         $this->oNotificationModel = new NotificationModel();
         $this->oPaymentModel = new PaymentModel();
+        $this->oTrainingModel = new TrainingModel();
+
 
         $this->oPaymentModel->updateUnsettledPayments();
+        $this->oTrainingModel->updateFinishedTrainings();
     }
 
     protected function getUserId()

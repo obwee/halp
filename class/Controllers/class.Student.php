@@ -7,12 +7,6 @@
 class Student extends BaseController
 {
     /**
-     * @var TrainingModel $oTrainingModel
-     * Class instance for training model.
-     */
-    private $oTrainingModel;
-
-    /**
      * @var AdminsModel $AdminsModel
      * Class instance for admins' model.
      */
@@ -30,13 +24,8 @@ class Student extends BaseController
      */
     public function __construct($aPostVariables)
     {
-        // Store the $_POST variables inside $this->aParams variable.
         $this->aParams = $aPostVariables;
-        // Instantiate the TrainingModel.
-        $this->oTrainingModel = new TrainingModel();
-        // Instantiate the AdminsModel.
         $this->AdminsModel = new AdminsModel();
-        // Instantiate the CourseModel.
         $this->oCourseModel = new CourseModel();
         
         parent::__construct();

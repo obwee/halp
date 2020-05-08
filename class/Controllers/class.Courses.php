@@ -3,12 +3,6 @@
 class Courses extends BaseController
 {
     /**
-     * @var QuotationsModel $oQuotationModel
-     * Class instance for quotation model.
-     */
-    private $oQuotationModel;
-
-    /**
      * @var CourseModel $oCourseModel
      * Class instance for course model.
      */
@@ -19,12 +13,6 @@ class Courses extends BaseController
      * Class instance for schedule model.
      */
     private $oSchedulesModel;
-
-    /**
-     * @var TrainingModel $oTrainingModel
-     * Class instance for training model.
-     */
-    private $oTrainingModel;
 
     /**
      * @var InstructorsModel $oInstructorsModel
@@ -38,15 +26,9 @@ class Courses extends BaseController
      */
     public function __construct($aPostVariables)
     {
-        // Store the $_POST variables inside $this->aParams variable.
         $this->aParams = $aPostVariables;
-        // Instantiate the CourseModel class and store it inside $this->oCourseModel.
         $this->oCourseModel = new CourseModel();
-        // Instantiate the SchedulesModel class and store it inside $this->oSchedulesModel.
         $this->oSchedulesModel = new SchedulesModel();
-        // Instantiate the TrainingModel class and store it inside $this->oTrainingModel.
-        $this->oTrainingModel = new TrainingModel();
-        // Instantiate the AdminsModel class and store it inside $this->oInstructorsModel.
         $this->oInstructorsModel = new InstructorsModel();
         parent::__construct();
     }
