@@ -1344,6 +1344,128 @@ class Validations
     }
 
     /**
+     * validateUpdateProfileDetails
+     * Validates the inputs of a user before updating profile details.
+     * @param array $aParams
+     * @return array $aValidationResult
+     */
+    public static function validateUpdateProfileDetails($aParams)
+    {
+        $aRules = array(
+            array(
+                'sName'       => 'First name',
+                'sElement'    => 'firstName',
+                'iMinLength'  => 2,
+                'iMaxLength'  => 30,
+                'sPattern'    => '/^[a-zA-Z\s\.]+$/'
+            ),
+            array(
+                'sName'       => 'Last name',
+                'sElement'    => 'lastName',
+                'iMinLength'  => 2,
+                'iMaxLength'  => 30,
+                'sPattern'    => '/^[a-zA-Z\s\.]+$/'
+            ),
+            array(
+                'sName'       => 'Contact number',
+                'sElement'    => 'contactNum',
+                'iMinLength'  => 7,
+                'iMaxLength'  => 12,
+                'sPattern'    => '/^[0-9]+$/'
+            ),
+            array(
+                'sName'       => 'Email address',
+                'sElement'    => 'email',
+                'iMinLength'  => 4,
+                'iMaxLength'  => 50,
+                'sPattern'    => '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD'
+            )
+        );
+
+        // Add rules for optional fields if filled-up.
+        if (strlen(trim($aParams['middleName'])) !== 0) {
+            array_splice($aRules, 1, 0, array(
+                array(
+                    'sName'       => 'Middle name',
+                    'sElement'    => 'middleName',
+                    'iMinLength'  => 2,
+                    'iMaxLength'  => 30,
+                    'sPattern'    => '/^[a-zA-Z\s\.]+$/'
+                )
+            ));
+        }
+        if (strlen(trim($aParams['companyName'])) !== 0) {
+            array_splice($aRules, 1, 0, array(
+                array(
+                    'sName'       => 'Company name',
+                    'sElement'    => 'companyName',
+                    'iMinLength'  => 4,
+                    'iMaxLength'  => 50,
+                    'sPattern'    => '/^[a-zA-Z0-9\s\.]+$/'
+                )
+            ));
+        }
+
+        // Return the result of the validation.
+        return self::loopThruRulesForErrors($aParams, $aRules, '#');;
+    }
+
+    /**
+     * validateUpdateLoginCredentials
+     * Validates the inputs of a user before updating login credentials.
+     * @param array $aParams
+     * @return array $aValidationResult
+     */
+    public function validateUpdateLoginCredentials($aParams)
+    {
+        $aRules = array(
+            array(
+                'sName'       => 'Username',
+                'sElement'    => 'username',
+                'iMinLength'  => 4,
+                'iMaxLength'  => 15,
+                'sPattern'    => '/^(?![0-9_])\w+$/'
+            ),
+            array(
+                'sName'       => 'Password',
+                'sElement'    => 'password',
+                'iMinLength'  => 4,
+                'iMaxLength'  => 30,
+                'sPattern'    => '/.+/'
+            ),
+            array(
+                'sName'       => 'Password',
+                'sElement'    => 'newPassword',
+                'iMinLength'  => 4,
+                'iMaxLength'  => 30,
+                'sPattern'    => '/.+/'
+            ),
+            array(
+                'sName'       => 'Password',
+                'sElement'    => 'confirmPassword',
+                'iMinLength'  => 4,
+                'iMaxLength'  => 30,
+                'sPattern'    => '/.+/'
+            )
+        );
+
+        // Loop thru each inputRules and if there are rules violated, return false and the error message.
+        $aValidationResult = self::loopThruRulesForErrors($aParams, $aRules, '#');
+
+        // Check if passwords are equal.
+        if ($aValidationResult['bResult'] === true && ($aParams['newPassword'] !== $aParams['confirmPassword'])) {
+            $aValidationResult = array(
+                'bResult'  => false,
+                'sElement' => '#newPassword, #confirmPassword',
+                'sMsg'     => 'Passwords do not match.'
+            );
+        }
+
+        // Return the result of the validation.
+        return $aValidationResult;
+    }
+
+    /**
      * loopThruRulesForErrors
      * @param array $aInputRules (Array of rules.)
      * @param string $sSelector (jQuery selector.)

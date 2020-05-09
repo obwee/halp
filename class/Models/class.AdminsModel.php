@@ -72,7 +72,7 @@ class AdminsModel
     }
 
     /**
-     * checkUsernameIfTaken
+     * checkIfUsernameTakenBeforeUpdate
      * Checks if the username is already taken.
      * @param string $sUsername
      * @return int
@@ -231,7 +231,7 @@ class AdminsModel
 
     public function fetchAdminsByInstructorIds($aInstructorIds)
     {
-        $sPlaceHolders = str_repeat ('?, ',  count ($aInstructorIds) - 1) . '?';
+        $sPlaceHolders = str_repeat('?, ',  count($aInstructorIds) - 1) . '?';
 
         // Query the tbl_quotation_details.
         $statement = $this->oConnection->prepare("
@@ -273,5 +273,48 @@ class AdminsModel
 
         // Return the number of rows returned by the executed query.
         return $oStatement->fetch();
+    }
+
+    /**
+     * updateAdminProfileDetails
+     * Updates the admin profile details inside the users table.
+     * @param array $aData
+     * @return int
+     */
+    public function updateAdminProfileDetails($aData)
+    {
+        // Prepare an update query to the users table.
+        $oStatement = $this->oConnection->prepare("
+            UPDATE tbl_users
+            SET
+                firstName  = :firstName,
+                middleName = :middleName,
+                lastName   = :lastName,
+                email      = :email,
+                contactNum = :contactNum
+            WHERE username = :username
+        ");
+
+        // Return the result of the execution of the above statement.
+        return $oStatement->execute($aData);
+    }
+
+    /**
+     * updateLoginCredentials
+     * Updates the login credentials (username, password).
+     */
+    public function updateLoginCredentials($aParams)
+    {
+        // Prepare an update query to the users table.
+        $oStatement = $this->oConnection->prepare("
+            UPDATE tbl_users
+            SET
+                username = :username,
+                password = :password
+            WHERE userId = :userId
+        ");
+
+        // Return the result of the execution of the above statement.
+        return $oStatement->execute($aParams);
     }
 }

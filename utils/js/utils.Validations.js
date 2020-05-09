@@ -1468,8 +1468,13 @@ class Validations {
         return oValidationResult;
     }
 
-    validateUpdateProfileDetails(sFormId)
-    {
+    /**
+     * validateUpdateProfileDetails
+     * Validates the inputs of a user before updating personal details.
+     * @param {string} sFormId (The id of the form.)
+     * @return {object} oValidationResult (Result of the validation.)
+     */
+    validateUpdateProfileDetails(sFormId) {
         // Declare an object with properties related to inputs that need to be validated.
         let aEditAdminRules = [
             {
@@ -1520,8 +1525,79 @@ class Validations {
             );
         }
 
+        // Check if company name has a value.
+        if ($.trim($(sFormId).find('#companyName').val()).length !== 0) {
+            aEditAdminRules.splice(4, 0,
+                {
+                    name: 'Company name',
+                    element: '#companyName',
+                    length: $.trim($(sFormId).find('#companyName').val()).length,
+                    minLength: 4,
+                    maxLength: 50,
+                    pattern: /^[a-zA-Z0-9\s\.]+$/g
+                },
+            );
+        }
+
         // Return the result of the validation.
         return this.loopThruRulesForErrors(aEditAdminRules, sFormId);
+    }
+
+    /**
+     * validateUpdateLoginCredentials
+     * Validates the inputs of a user before updating login credentials.
+     * @param {string} sFormId (The id of the form.)
+     * @return {object} oValidationResult (Result of the validation.)
+     */
+    validateUpdateLoginCredentials(sFormId) {
+        const aRules = [
+            {
+                name: 'Username',
+                element: '#username',
+                length: $.trim($(sFormId).find('#username').val()).length,
+                minLength: 4,
+                maxLength: 15,
+                pattern: /^(?![0-9_])\w+$/g
+            },
+            {
+                name: 'Password',
+                element: '#password',
+                length: $.trim($(sFormId).find('#password').val()).length,
+                minLength: 4,
+                maxLength: 30,
+                pattern: /.+/g
+            },
+            {
+                name: 'Password',
+                element: '#newPassword',
+                length: $.trim($(sFormId).find('#newPassword').val()).length,
+                minLength: 4,
+                maxLength: 30,
+                pattern: /.+/g
+            },
+            {
+                name: 'Password',
+                element: '#confirmPassword',
+                length: $.trim($(sFormId).find('#confirmPassword').val()).length,
+                minLength: 4,
+                maxLength: 30,
+                pattern: /.+/g
+            }
+        ];
+
+        let oValidationResult = this.loopThruRulesForErrors(aRules, sFormId);
+
+        if (oValidationResult.result === true) {
+            if ($(sFormId).find('#newPassword').val() !== $(sFormId).find('#confirmPassword').val()) {
+                oValidationResult = {
+                    result: false,
+                    element: '#newPassword, #confirmPassword',
+                    msg: 'Passwords do not match.'
+                };
+            }
+        }
+
+        return oValidationResult;
     }
 
     /**

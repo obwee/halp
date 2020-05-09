@@ -292,4 +292,126 @@ class StudentModel
         // Return the result of the execution of the above statement.
         return $statement->fetchAll();
     }
+
+    /**
+     * getPassword
+     * Gets the password.
+     * @param string $sUsername
+     * @param string $sPassword
+     * @return int
+     */
+    public function getPassword($sUsername, $sPassword)
+    {
+        $statement = $this->oConnection->prepare("
+            SELECT password
+            FROM tbl_users
+            WHERE username = :username AND password = :password
+        ");
+
+        $statement->execute(
+            array(
+                ':username' => $sUsername,
+                ':password' => $sPassword
+            )
+        );
+
+        return $statement->fetchColumn();
+    }
+
+    /**
+    * fetchStudentCredentials
+    * Fetch credentials of a student from the database.
+    */
+   public function fetchStudentCredentials($iUserId)
+   {
+        // Prepare a select query.
+        $oStatement = $this->oConnection->prepare("
+            SELECT
+                tu.userId AS id, tu.firstName, tu.middleName, tu.lastName,
+                tu.username, tu.contactNum, tu.email, tu.companyName
+            FROM tbl_users tu
+            WHERE 1 = 1
+                AND tu.position = 'Student'
+                AND tu.userId = ?
+        ");
+
+        // Execute the above statement.
+        $oStatement->execute([$iUserId]);
+
+        // Return the number of rows returned by the executed query.
+        return $oStatement->fetch();
+   }
+
+    /**
+     * updateStudentProfileDetails
+     * Updates the admin profile details inside the users table.
+     * @param array $aData
+     * @return int
+     */
+    public function updateStudentProfileDetails($aData)
+    {
+        // Prepare an update query to the users table.
+        $oStatement = $this->oConnection->prepare("
+            UPDATE tbl_users
+            SET
+                firstName   = :firstName,
+                middleName  = :middleName,
+                lastName    = :lastName,
+                email       = :email,
+                contactNum  = :contactNum,
+                companyName = :companyName
+            WHERE userId = :userId
+        ");
+
+        // Return the result of the execution of the above statement.
+        return $oStatement->execute($aData);
+    }
+
+    /**
+     * checkIfUsernameTakenBeforeUpdate
+     * Checks if the username is already taken.
+     * @param string $sUsername
+     * @return int
+     */
+    public function checkIfUsernameTakenBeforeUpdate($sUsername, $iUserId)
+    {
+        // Query the tbl_users for a username equal to $username.
+        $statement = $this->oConnection->prepare("
+            SELECT *
+            FROM tbl_users
+            WHERE 1 = 1
+                AND username = :username
+                AND userId  != :userId
+        ");
+
+        // Execute the above statement.
+        $statement->execute(
+            array(
+                ':username' => $sUsername,
+                ':userId'   => $iUserId
+            )
+        );
+
+        // Return the number of rows returned by the executed query.
+        return $statement->rowCount();
+    }
+
+    /**
+     * updateLoginCredentials
+     * Updates the login credentials (username, password).
+     */
+    public function updateLoginCredentials($aParams)
+    {
+        // Prepare an update query to the users table.
+        $oStatement = $this->oConnection->prepare("
+            UPDATE tbl_users
+            SET
+                username = :username,
+                password = :password
+            WHERE userId = :userId
+        ");
+
+        // Return the result of the execution of the above statement.
+        return $oStatement->execute($aParams);
+    }
 }

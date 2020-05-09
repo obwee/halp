@@ -86,6 +86,7 @@ class Admins extends BaseController
                 );
             } else {
                 unset($this->aParams['adminConfirmPassword']);
+                $this->aParams[':password'] = Utils::hashPassword($this->aParams[':password']);
 
                 // Perform insert.
                 $iQuery = $this->oAdminsModel->addAdmin($this->aParams);
@@ -303,6 +304,85 @@ class Admins extends BaseController
             }
         } else {
             $aResult = $aValidationResult;
+        }
+
+        echo json_encode($aResult);
+    }
+
+    public function updateProfileDetails()
+    {
+        $aValidationResult = Validations::validateUpdateProfileDetails($this->aParams);
+
+        if ($aValidationResult['bResult'] === true) {
+            Utils::sanitizeData($this->aParams);
+            $this->aParams['username'] = Session::get('username');
+
+            if ($this->oAdminsModel->updateAdminProfileDetails($this->aParams) > 0) {
+                $aResult = array(
+                    'bResult' => true,
+                    'sMsg'    => 'Profile details updated!'
+                );
+            } else {
+                $aResult = array(
+                    'bResult' => false,
+                    'sMsg'    => 'An error has occured.'
+                );
+            }
+        } else {
+            $aResult = $aValidationResult;
+        }
+
+        echo json_encode($aResult);
+    }
+
+    public function updateLoginCredentials()
+    {
+        $aValidationResult = Validations::validateUpdateLoginCredentials($this->aParams);
+
+        if ($aValidationResult['bResult'] === false) {
+            echo json_encode($aValidationResult);
+            exit();
+        }
+
+        Utils::sanitizeData($this->aParams);
+
+        if ($this->oAdminsModel->checkIfUsernameTakenBeforeUpdate($this->aParams['username'], $this->getUserId()) > 0) {
+            echo json_encode(array(
+                'bResult'  => false,
+                'sElement' => '.username',
+                'sMsg'     => 'Username already taken.'
+            ));
+            exit();
+        }
+
+        $sPasswordEntered = Utils::hashPassword($this->aParams['password']);
+        $sOldPassword = $this->oStudentModel->getPassword($this->aParams['username'], $sPasswordEntered);
+
+        if ($sPasswordEntered !== $sOldPassword) {
+            echo json_encode(array(
+                'bResult'  => false,
+                'sElement' => '.password',
+                'sMsg'     => 'Old password incorrect'
+            ));
+            exit();
+        }
+
+        $aParams = array(
+            'userId'   => $this->getUserId(),
+            'username' => $this->aParams['username'],
+            'password' => Utils::hashPassword($this->aParams['newPassword'])
+        );
+
+        if ($this->oAdminsModel->updateLoginCredentials($aParams) > 0) {
+            $aResult = array(
+                'bResult' => true,
+                'sMsg'    => 'Login credentials updated!'
+            );
+        } else {
+            $aResult = array(
+                'bResult' => false,
+                'sMsg'    => 'An error has occured.'
+            );
         }
 
         echo json_encode($aResult);
