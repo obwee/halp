@@ -44,9 +44,6 @@ var oRejectedPayments = (() => {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
                     `<button class="btn btn-primary btn-sm" data-toggle="modal" id="viewPaymentDetails" data-id="${oRow.trainingId}">
                         <i class="fa fa-money"></i>
-                    </button>
-                    <button class="btn btn-danger btn-sm" data-toggle="modal" id="refundPayment" data-id="${oRow.trainingId}">
-                        <i class="fa fa-times-circle"></i>
                     </button>`
             },
         ],
