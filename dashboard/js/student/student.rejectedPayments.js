@@ -53,7 +53,7 @@ var oPaidReservations = (() => {
             },
             {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
-                    `<a href="${oRow.paymentImage}" data-lightbox="payment-image">
+                    `<a href="${oRow.paymentImage}" data-lightbox="payment-image-${oRow.paymentId}">
                         <button class="btn btn-primary btn-sm" id="viewPaymentImage" data-id="${oRow.paymentId}">
                             <i class="fa fa-eye"></i>
                         </button>
