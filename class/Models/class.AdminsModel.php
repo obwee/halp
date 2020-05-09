@@ -248,4 +248,30 @@ class AdminsModel
         // Return the result of the execution of the above statement.
         return $statement->fetchAll();
     }
+
+    /**
+     * fetchAdminCredentials
+     * Queries the users table in getting admin credentials.
+     * @param string $sUsername
+     * @return array
+     */
+    public function fetchAdminCredentials($sUsername)
+    {
+        // Prepare a select query.
+        $oStatement = $this->oConnection->prepare("
+            SELECT
+                tu.userId AS id, tu.firstName, tu.middleName, tu.lastName,
+                tu.username, tu.contactNum, tu.email, tu.position
+            FROM tbl_users tu
+            WHERE 1 = 1
+                AND tu.position = 'Admin'
+                AND tu.username = ?
+        ");
+
+        // Execute the above statement.
+        $oStatement->execute([$sUsername]);
+
+        // Return the number of rows returned by the executed query.
+        return $oStatement->fetch();
+    }
 }

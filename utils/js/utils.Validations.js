@@ -369,7 +369,7 @@ class Validations {
                 element: '.courseCode',
                 length: $.trim($(sFormId).find('.courseCode').val()).length,
                 minLength: 2,
-                maxLength: 10,
+                maxLength: 30,
                 pattern: /^[a-zA-Z0-9&\-\s\.]+$/g,
             },
             {
@@ -380,14 +380,14 @@ class Validations {
                 maxLength: 50,
                 pattern: /^[a-zA-Z0-9&\-\s\.]+$/g,
             },
-            {
-                name: 'Course details',
-                element: '.courseDetails',
-                length: $.trim($(sFormId).find('.courseDetails').val()).length,
-                minLength: 0,
-                maxLength: 50,
-                pattern: /^[a-zA-Z0-9&\-\s\.]+$/g,
-            }
+            // {
+            //     name: 'Course details',
+            //     element: '.courseDetails',
+            //     length: $.trim($(sFormId).find('.courseDetails').val()).length,
+            //     minLength: 0,
+            //     maxLength: 50,
+            //     pattern: /^[a-zA-Z0-9&\-\s\.]+$/g,
+            // }
         ];
 
         // Loop thru each rules to check if there are rules violated.
@@ -1466,6 +1466,62 @@ class Validations {
         });
 
         return oValidationResult;
+    }
+
+    validateUpdateProfileDetails(sFormId)
+    {
+        // Declare an object with properties related to inputs that need to be validated.
+        let aEditAdminRules = [
+            {
+                name: 'First name',
+                element: '#firstName',
+                length: $.trim($(sFormId).find('#firstName').val()).length,
+                minLength: 2,
+                maxLength: 30,
+                pattern: /^[a-zA-Z\s\.]+$/g
+            },
+            {
+                name: 'Last name',
+                element: '#lastName',
+                length: $.trim($(sFormId).find('#lastName').val()).length,
+                minLength: 2,
+                maxLength: 30,
+                pattern: /^[a-zA-Z\s\.]+$/g
+            },
+            {
+                name: 'Contact number',
+                element: '#contactNum',
+                length: $.trim($(sFormId).find('#contactNum').val()).length,
+                minLength: 7,
+                maxLength: 12,
+                pattern: /^[0-9]+$/g
+            },
+            {
+                name: 'Email address',
+                element: '#email',
+                length: $.trim($(sFormId).find('#email').val()).length,
+                minLength: 4,
+                maxLength: 50,
+                pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
+            },
+        ];
+
+        // Check if middle name has a value.
+        if ($.trim($('#middleName').val()).length !== 0) {
+            aEditAdminRules.splice(1, 0,
+                {
+                    name: 'Middle name',
+                    element: '#middleName',
+                    length: $.trim($(sFormId).find('#middleName').val()).length,
+                    minLength: 2,
+                    maxLength: 30,
+                    pattern: /^[a-zA-Z\s\.]+$/g
+                },
+            );
+        }
+
+        // Return the result of the validation.
+        return this.loopThruRulesForErrors(aEditAdminRules, sFormId);
     }
 
     /**

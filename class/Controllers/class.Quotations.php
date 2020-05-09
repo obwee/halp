@@ -64,8 +64,8 @@ class Quotations extends BaseController
     public function fetchRequests()
     {
         $aData = array(
-            ':userId'         => $this->aParams['iUserId'],
-            ':senderId'       => $this->aParams['iSenderId'],
+            ':userId'          => $this->aParams['iUserId'],
+            ':senderId'        => $this->aParams['iSenderId'],
             ':isQuotationSent' => $this->aParams['iIsQuotationSent']
         );
 
@@ -156,7 +156,7 @@ class Quotations extends BaseController
                 'receiver'   => 'admin',
                 'date'       => dateNow()
             );
-    
+
             $this->oNotificationModel->insertNotification($aParams);
 
             $aResult = array(
@@ -222,7 +222,7 @@ class Quotations extends BaseController
                 'receiver'   => 'admin',
                 'date'       => dateNow()
             );
-    
+
             $this->oNotificationModel->insertNotification($aParams);
 
             $aResult = array(
