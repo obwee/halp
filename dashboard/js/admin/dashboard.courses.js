@@ -40,6 +40,11 @@ var oCourses = (() => {
     }
 
     function setEvents() {
+
+        $(document).on('hidden.bs.modal', '.modal', function() {
+            $('form')[0].reset();
+        });
+
         oForms.prepareDomEvents();
 
         $(document).on('click', '#editCourse', function () {
@@ -65,7 +70,7 @@ var oCourses = (() => {
 
             Swal.fire({
                 title: 'Disable the course?',
-                text: `This will mark the payment mode of ${oCourse.courseCode} as 'Inactive'.`,
+                text: `This will mark ${oCourse.courseCode} as 'Inactive'.`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

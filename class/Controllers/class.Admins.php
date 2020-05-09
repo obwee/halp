@@ -39,12 +39,22 @@ class Admins extends BaseController
 
     /**
      * fetchOwnCredentials
-     * Fetch credential of the super admin from the database.
+     * Fetch credential of a super admin from the database.
      */
     public function fetchOwnCredentials()
     {
         $aAdmins = $this->oAdminsModel->fetchOwnCredentials(Session::get('username'));
         echo json_encode($aAdmins);
+    }
+
+    /**
+     * fetchAdminCredentials
+     * Fetch credentials of an admin from the database.
+     */
+    public function fetchAdminCredentials()
+    {
+        $aDetails = $this->oAdminsModel->fetchAdminCredentials(Session::get('username'));
+        echo json_encode($aDetails);
     }
 
     /**
@@ -99,7 +109,7 @@ class Admins extends BaseController
 
     /**
      * updateAdmin
-     * Updates the details of an admin from the database.
+     * Updates the details of an admin performed by a super admin.
      */
     public function updateAdmin()
     {

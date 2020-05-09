@@ -13,13 +13,13 @@ echo Session::get('LOA') === 'Super Admin' ? "<script type='text/javascript'>win
             <div class="col-sm-6">
                 <div style="background-color: white;border-radius:8px 8px;margin-left: 5px;margin-right:5px;padding:25px 25px;height: 375px;box-shadow: 8px 8px #3c8dbc;">
                     <h4 class="lead"><i class="fas fa-user-cog"></i> Personal Details</h4>
-                    <form>
+                    <form id="personalDetailsForm">
                         <div class="form-group row">
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span> 
                                 </div>
-                                <input type="text" class="form-control" id="firstName" value="First Name">
+                                <input type="text" class="form-control" id="firstName" name="firstName" value="First Name">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -27,7 +27,7 @@ echo Session::get('LOA') === 'Super Admin' ? "<script type='text/javascript'>win
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span> 
                                 </div>
-                                <input type="text" class="form-control" id="middleName" value="Middle Name">
+                                <input type="text" class="form-control" id="middleName" name="middleName" value="Middle Name">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -35,7 +35,7 @@ echo Session::get('LOA') === 'Super Admin' ? "<script type='text/javascript'>win
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span> 
                                 </div>
-                                <input type="text" class="form-control" id="lastName" value="Last Name">
+                                <input type="text" class="form-control" id="lastName" name="lastName" value="Last Name">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -43,7 +43,7 @@ echo Session::get('LOA') === 'Super Admin' ? "<script type='text/javascript'>win
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span> 
                                 </div>
-                                <input type="text" class="form-control" id="contactNo" value="Contact Number">
+                                <input type="text" class="form-control" id="contactNum" name="contactNum" value="Contact Number">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -51,7 +51,7 @@ echo Session::get('LOA') === 'Super Admin' ? "<script type='text/javascript'>win
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-at"></i></span> 
                                 </div>
-                                <input type="email" class="form-control" id="email" value="E-mail Address">
+                                <input type="email" class="form-control" id="email" name="email" value="E-mail Address">
                             </div>
                         </div>
                         <div class="text-center" style="margin-top:10px;">
@@ -64,13 +64,13 @@ echo Session::get('LOA') === 'Super Admin' ? "<script type='text/javascript'>win
             <div class="col-sm-6">
                 <div style="background-color: white;border-radius:8px 8px;margin-left: 5px;margin-right:5px;padding:25px 25px;height: 375px;box-shadow: 8px 8px #3c8dbc;">
                     <h4 class="lead"><i class="fas fa-user-shield"></i> Login Credentials</h4>
-                    <form>
+                    <form id="loginCredentialsForm">
                         <div class="form-group row">
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span> 
                                 </div>
-                                <input type="text" class="form-control" id="email" value="Username">
+                                <input type="text" class="form-control" id="username" name="username" value="Username">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -78,7 +78,7 @@ echo Session::get('LOA') === 'Super Admin' ? "<script type='text/javascript'>win
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-lock"></i></span> 
                                 </div>
-                                <input type="text" class="form-control" id="email" value="Old Password">
+                                <input type="text" class="form-control" id="password" name="password" value="Old Password">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -86,7 +86,7 @@ echo Session::get('LOA') === 'Super Admin' ? "<script type='text/javascript'>win
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-lock"></i></span> 
                                 </div>
-                                <input type="text" class="form-control" id="email" value="New Password">
+                                <input type="text" class="form-control" id="newPassword" name="newPassword" value="New Password">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -94,7 +94,7 @@ echo Session::get('LOA') === 'Super Admin' ? "<script type='text/javascript'>win
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-lock"></i></span> 
                                 </div>
-                                <input type="text" class="form-control" id="email" value="Confirm New Password">
+                                <input type="text" class="form-control" id="confirmPassword" name="confirmPassword" value="Confirm New Password">
                             </div>
                         </div>
                         <div class="text-center" style="margin-top:70px;">
@@ -111,8 +111,12 @@ echo Session::get('LOA') === 'Super Admin' ? "<script type='text/javascript'>win
 require_once "template/scripts.php";
 ?>
 
-<script src="student/js/studentDash.Enrollment.js"></script>
+<script src="/Nexus/utils/js/utils.Libraries.js"></script>
+<script src="/Nexus/utils/js/utils.Validations.js"></script>
+<script src="/Nexus/utils/js/utils.Forms.js"></script>
+
+<script src="/Nexus/dashboard/js/admin/dashboard.profile.js"></script>
 
 <?php
-require_once "template/studentFooter.php";
+require_once "template/footer.php";
 ?>

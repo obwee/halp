@@ -229,6 +229,38 @@ var oForms = (() => {
         });
     }
 
+    function prepareProfileEvents() {
+        removeRedBorderOnFocus();
+
+        // Allow only alphabetical characters and a period on first, middle, and last name via RegExp.
+        $(document).on('keyup keydown', '#firstName, #middleName, #lastName', function () {
+            // Input must not start by a period.
+            if (this.value.length === 1 && this.value.match(/[^a-zA-Z]/)) {
+                return this.value = this.value.replace(this.value, '');
+            }
+            return this.value = this.value.replace(/[^a-zA-Z\s\.]/g, '');
+        });
+
+        $(document).on('keyup keydown', '#contactNum', function () {
+            return this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        // Allow only alphanumeric characters and an underscore on username input via RegExp.
+        $(document).on('keyup keydown', '#username', function () {
+            // Input must not start by a number or any special character.
+            if (this.value.length === 1 && this.value.match(/[^a-zA-Z]/)) {
+                return this.value = this.value.replace(this.value, '');
+            }
+            return this.value = this.value.replace(/[^a-zA-Z0-9_]/g, '');
+        });
+
+        // Trim excess spaces and dots on specific inputs via RegExp on focusout event.
+        $(document).on('focusout', '#firstName, #middleName, #lastName, #username', function () {
+            $(this).val($(this).val().replace(/\s+/g, ' ').replace(/\.+/g, '.').trim());
+        });
+    }
+
+
     function removeRedBorderOnFocus() {
         // Remove red border on focus event on any input.
         $(document).on('focus', 'input, select, textarea', function () {
@@ -264,7 +296,8 @@ var oForms = (() => {
         disableFormState,
         resetInputBorders,
         cloneDivElements,
-        preparePaymentEvents
+        preparePaymentEvents,
+        prepareProfileEvents
     };
 
 })();

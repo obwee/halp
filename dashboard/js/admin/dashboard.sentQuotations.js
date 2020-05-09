@@ -126,7 +126,7 @@ var oSentQuotations = (() => {
     function populateRequestsTable(oData) {
         oData.iIsQuotationSent = 1;
         let oAjax = {
-            url: `../utils/ajax.php?class=Quotations&action=fetchRequests`,
+            url: `/Nexus/utils/ajax.php?class=Quotations&action=fetchRequests`,
             type: 'POST',
             data: oData,
             dataSrc: (oJson) => {
@@ -145,7 +145,7 @@ var oSentQuotations = (() => {
     function populateDetailsTable(oData) {
         oData.iIsQuotationSent = 1;
         let oAjax = {
-            url: `../utils/ajax.php?class=Quotations&action=fetchDetails`,
+            url: `/Nexus/utils/ajax.php?class=Quotations&action=fetchDetails`,
             type: 'POST',
             data: oData,
             dataSrc: (oJson) => {
