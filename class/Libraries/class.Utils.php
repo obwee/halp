@@ -8,6 +8,11 @@ class Utils
 {
 
     /**
+     * @const PASSWORD_SALT_KEY
+     */
+    const PASSWORD_SALT_KEY = '31a522cfbba9f95f277e';
+
+    /**
      * sortByDate
      * Sort a multidimensional array by date using usort.
      * @param array $aData (Passed by reference)
@@ -216,5 +221,13 @@ class Utils
     public static function formatDate($sDate)
     {
         return date("M. d, Y", strtotime($sDate));
+    }
+
+    /**
+     * hashPassword
+     */
+    public static function hashPassword($sPassword)
+    {
+        return hash('sha512', $sPassword . self::PASSWORD_SALT_KEY);
     }
 }

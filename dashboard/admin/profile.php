@@ -6,8 +6,9 @@ echo Session::get('LOA') === 'Super Admin' ? "<script type='text/javascript'>win
 <div class="container">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <p class="h2">My Profile</p>
+        <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
     </div>
-    
+
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
@@ -17,41 +18,41 @@ echo Session::get('LOA') === 'Super Admin' ? "<script type='text/javascript'>win
                         <div class="form-group row">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-user"></i></span> 
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <input type="text" class="form-control" id="firstName" name="firstName" value="First Name">
+                                <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name">
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-user"></i></span> 
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <input type="text" class="form-control" id="middleName" name="middleName" value="Middle Name">
+                                <input type="text" class="form-control" id="middleName" name="middleName" placeholder="Middle Name">
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-user"></i></span> 
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <input type="text" class="form-control" id="lastName" name="lastName" value="Last Name">
+                                <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name">
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span> 
+                                    <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
                                 </div>
-                                <input type="text" class="form-control" id="contactNum" name="contactNum" value="Contact Number">
+                                <input type="text" class="form-control" id="contactNum" name="contactNum" placeholder="Contact Number">
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-at"></i></span> 
+                                    <span class="input-group-text"><i class="fas fa-at"></i></span>
                                 </div>
-                                <input type="email" class="form-control" id="email" name="email" value="E-mail Address">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="E-mail Address">
                             </div>
                         </div>
                         <div class="text-center" style="margin-top:10px;">
@@ -68,33 +69,33 @@ echo Session::get('LOA') === 'Super Admin' ? "<script type='text/javascript'>win
                         <div class="form-group row">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-user"></i></span> 
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <input type="text" class="form-control" id="username" name="username" value="Username">
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Username">
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-lock"></i></span> 
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
                                 </div>
-                                <input type="text" class="form-control" id="password" name="password" value="Old Password">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Old Password">
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-lock"></i></span> 
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
                                 </div>
-                                <input type="text" class="form-control" id="newPassword" name="newPassword" value="New Password">
+                                <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="New Password">
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-lock"></i></span> 
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
                                 </div>
-                                <input type="text" class="form-control" id="confirmPassword" name="confirmPassword" value="Confirm New Password">
+                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm New Password">
                             </div>
                         </div>
                         <div class="text-center" style="margin-top:70px;">
@@ -105,7 +106,7 @@ echo Session::get('LOA') === 'Super Admin' ? "<script type='text/javascript'>win
             </div>
         </div>
     </div>
-
+</div>
 
 <?php
 require_once "template/scripts.php";

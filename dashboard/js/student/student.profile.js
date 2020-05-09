@@ -37,14 +37,14 @@ let oProfile = (() => {
             const oInputForms = {
                 '#personalDetailsForm': {
                     'validationMethod': oValidations.validateUpdateProfileDetails(sFormId),
-                    'requestClass': 'Admins',
+                    'requestClass': 'Student',
                     'requestAction': 'updateProfileDetails',
                     'alertTitle': 'Update personal details?',
                     'alertText': 'This will update your personal details.'
                 },
                 '#loginCredentialsForm': {
                     'validationMethod': oValidations.validateUpdateLoginCredentials(sFormId),
-                    'requestClass': 'Admins',
+                    'requestClass': 'Student',
                     'requestAction': 'updateLoginCredentials',
                     'alertTitle': 'Update credentials?',
                     'alertText': 'This will update your login credentials.'
@@ -114,6 +114,7 @@ let oProfile = (() => {
         oPersonalDetailsForm.find('#lastName').val(oAdminDetails.lastName);
         oPersonalDetailsForm.find('#contactNum').val(oAdminDetails.contactNum);
         oPersonalDetailsForm.find('#email').val(oAdminDetails.email);
+        oPersonalDetailsForm.find('#companyName').val(oAdminDetails.companyName);
 
         oLoginCredentialsForm.find('input').val('');
         oLoginCredentialsForm.find('#username').val(oAdminDetails.username);
@@ -124,7 +125,7 @@ let oProfile = (() => {
      */
     function fetchDetails() {
         $.ajax({
-            url: '/Nexus/utils/ajax.php?class=Admins&action=fetchAdminCredentials',
+            url: '/Nexus/utils/ajax.php?class=Student&action=fetchStudentCredentials',
             type: 'GET',
             dataType: 'json',
             success: function (oResponse) {

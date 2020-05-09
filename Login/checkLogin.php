@@ -36,7 +36,7 @@ if (validateData() === true) {
         $userDetails = $statement->fetch();
         
         // Compare the password sent from the AJAX and the password from the database if equal.
-        if ($password === $userDetails['password']) {
+        if (Utils::hashPassword($password) === $userDetails['password']) {
 
             if ($userDetails['status'] === 'Inactive') {
                 echo json_encode(array(

@@ -52,6 +52,7 @@ class Student extends BaseController
                     'sMsg'    => 'Username already taken.'
                 );
             } else {
+                $this->aParams[':password'] = Utils::hashPassword($this->aParams[':password']);
                 $oQueryResult = $this->oStudentModel->insertStudent($this->aParams);
 
                 if ($oQueryResult === true) {
@@ -124,15 +125,6 @@ class Student extends BaseController
         $oMail->setTitle($this->aParams['title']);
         $oMail->setBody($sEmailHeader . $this->aParams['message']);
         return $oMail->send();
-    }
-
-    public function fetchStudentDetails()
-    {
-        $aUserId = array(
-            ':userId' => $this->getUserId()
-        );
-
-        echo json_encode($this->oStudentModel->getUserDetails($aUserId));
     }
 
     /**
@@ -305,5 +297,94 @@ class Student extends BaseController
         }
 
         echo json_encode($aStudentList);
+    }
+
+    /**
+     * fetchStudentCredentials
+     * Fetch credentials of a student from the database.
+     */
+    public function fetchStudentCredentials()
+    {
+        $aDetails = $this->oStudentModel->fetchStudentCredentials($this->getUserId());
+        echo json_encode($aDetails);
+    }
+
+    public function updateProfileDetails()
+    {
+        $aValidationResult = Validations::validateUpdateProfileDetails($this->aParams);
+
+        if ($aValidationResult['bResult'] === true) {
+            Utils::sanitizeData($this->aParams);
+            $this->aParams['userId'] = $this->getUserId();
+
+            if ($this->oStudentModel->updateStudentProfileDetails($this->aParams) > 0) {
+                $aResult = array(
+                    'bResult' => true,
+                    'sMsg'    => 'Profile details updated!'
+                );
+            } else {
+                $aResult = array(
+                    'bResult' => false,
+                    'sMsg'    => 'An error has occured.'
+                );
+            }
+        } else {
+            $aResult = $aValidationResult;
+        }
+
+        echo json_encode($aResult);
+    }
+
+    public function updateLoginCredentials()
+    {
+        $aValidationResult = Validations::validateUpdateLoginCredentials($this->aParams);
+
+        if ($aValidationResult['bResult'] === false) {
+            echo json_encode($aValidationResult);
+            exit();
+        }
+
+        Utils::sanitizeData($this->aParams);
+
+        if ($this->oStudentModel->checkIfUsernameTakenBeforeUpdate($this->aParams['username'], $this->getUserId()) > 0) {
+            echo json_encode(array(
+                'bResult'  => false,
+                'sElement' => '.username',
+                'sMsg'     => 'Username already taken.'
+            ));
+            exit();
+        }
+
+        $sPasswordEntered = Utils::hashPassword($this->aParams['password']);
+        $sOldPassword = $this->oStudentModel->getPassword($this->aParams['username'], $sPasswordEntered);
+
+        if ($sPasswordEntered !== $sOldPassword) {
+            echo json_encode(array(
+                'bResult'  => false,
+                'sElement' => '.password',
+                'sMsg'     => 'Old password incorrect'
+            ));
+            exit();
+        }
+
+        $aParams = array(
+            'userId'   => $this->getUserId(),
+            'username' => $this->aParams['username'],
+            'password' => Utils::hashPassword($this->aParams['newPassword'])
+        );
+
+        if ($this->oStudentModel->updateLoginCredentials($aParams) > 0) {
+            $aResult = array(
+                'bResult' => true,
+                'sMsg'    => 'Login credentials updated!'
+            );
+        } else {
+            $aResult = array(
+                'bResult' => false,
+                'sMsg'    => 'An error has occured.'
+            );
+        }
+
+        echo json_encode($aResult);
     }
 }
