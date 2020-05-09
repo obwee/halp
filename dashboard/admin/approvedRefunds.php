@@ -4,7 +4,7 @@ require_once "template/header.php";
 
 <div class="container">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h2><span class="fas fa-check-double"></span> Approved Refunds</h2>
+        <h2><span class="fas fa-user-check"></span> Approved Refunds</h2>
     </div>
 
 

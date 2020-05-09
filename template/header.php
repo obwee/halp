@@ -132,7 +132,7 @@
                     </li>
                     <li class="treeview">
                         <a href="#">
-                            <i class="fas fa-hand-holding-usd"></i>
+                            <i class="fas fa-usd"></i>
                             <span>&emsp; Transactions</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
@@ -146,41 +146,40 @@
                     </li>
                     <li class="treeview">
                         <a href="#.php">
-                            <i class="fas fa-calendar"></i>
+                            <i class="fas fa-book"></i>
                             <span>&emsp;Trainings</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="/Nexus/dashboard/admin/classList"><i class="fas fa-clipboard-list"></i>&emsp;Class List</a></li>
+                            <li><a href="/Nexus/dashboard/admin/courses"><i class="fas fa-book-reader"></i>&emsp;Courses</a></li>
+                            <li><a href="/Nexus/dashboard/admin/schedule"><i class="far fa-calendar-plus"></i>&emsp;Schedule</a></li>
                             <li><a href="/Nexus/dashboard/admin/finishedTrainings"><i class="fas fa-calendar-check"></i>&emsp;Finished Trainings</a></li>
                         </ul>
                     </li>
                     <li class="treeview">
                         <a href="#.php">
-                            <i class="fa fa-folder"></i>
+                            <i class="fas fa-clipboard"></i>
                             <span>&emsp;Reports</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="/Nexus/dashboard/admin/salesReport"><i class="fas fa-money-check"></i>&emsp;Sales</a></li>
-                            <li><a href="/Nexus/dashboard/admin/masterList"><i class="fas fa-user-graduate"></i>&emsp; Students</a></li>
+                            <li><a href="/Nexus/dashboard/admin/salesReport"><i class="fas fa-cash-register"></i>&emsp;Sales</a></li>
+                            <li><a href="/Nexus/dashboard/admin/classList"><i class="fas fa-clipboard-list"></i>&emsp; Class List</a></li>
                         </ul>
                     </li>
                     <li class="treeview">
                         <a href="">
-                            <i class="fa fa-cog"></i>
+                            <i class="fas fa-sliders-h"></i>
                             <span>&emsp;Settings</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="/Nexus/dashboard/admin/courses"><i class="fas fa-book"></i>&emsp;Courses</a></li>
-                            <li><a href="/Nexus/dashboard/admin/schedule"><i class="far fa-calendar-alt"></i>&emsp; Schedule</a></li>
                             <li><a href="/Nexus/dashboard/admin/venue"><i class="fas fa-map-marked-alt"></i>&emsp; Venue</a></li>
                             <li><a href="/Nexus/dashboard/admin/instructors"><i class="fas fa-chalkboard-teacher"></i>&emsp;Instructors </a></li>
                             <?php if (Session::get('LOA') === 'Super Admin') { ?>
