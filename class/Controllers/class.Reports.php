@@ -104,9 +104,13 @@ class Reports extends BaseController
         foreach ($aSalesReport as $iKey => $aData) {
             $aSalesReport[$iKey]['schedule'] = Utils::formatDate($aData['fromDate']) . ' - ' . Utils::formatDate($aData['toDate']) . ' (' . $this->getInterval($aData) . ')';
             $aSalesReport[$iKey]['paymentDate'] = Utils::formatDate($aData['paymentDate']);
-            $aData[$iKey]['paymentAmount'] = Utils::toCurrencyFormat($aData['paymentAmount']);
+            $aSalesReport[$iKey]['paymentAmount'] = Utils::toCurrencyFormat($aData['paymentAmount']);
             $aSalesReport[$iKey]['paymentStatus'] = $this->aPaymentStatus[$aData['paymentStatus']];
             $aSalesReport[$iKey]['coursePrice'] = Utils::toCurrencyFormat($aData['coursePrice']);
+
+            if ($aData['coursePrice'] < $aData['paymentAmount']) {
+                $aSalesReport[$iKey]['paymentStatus'] = 'Has Change';
+            }
         }
 
         $aUnnecessaryKeys = ['fromDate', 'toDate', 'recurrence', 'numRepetitions'];

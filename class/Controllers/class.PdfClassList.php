@@ -219,7 +219,7 @@ class PdfClassList extends Fpdf
                 'sValue' => Utils::toCurrencyFormat($iTotalBalance),
             ),
             array(
-                'sTitle' => 'TOTAL CREDITS:',
+                'sTitle' => 'TOTAL CHANGE:',
                 'sValue' => Utils::toCurrencyFormat($iTotalCredits),
             ),
         );

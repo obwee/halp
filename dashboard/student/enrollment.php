@@ -212,7 +212,7 @@ require_once "template/studentHeader.php";
                                 <li>Account Name: Nexus IT Training Center</li>
                                 <li>BDO Account Number: 002810078994</li>
                             </ul>
-                            <li>Upload a picture or PDF file of the proof of payment below.</li>
+                            <li>Upload a picture of the proof of payment below.</li>
                         </ol>
                     </div>
                     <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>

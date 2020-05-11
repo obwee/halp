@@ -15,7 +15,7 @@ require_once "template/header.php";
 </div>
 
 <div class="modal" tabindex="-1" role="dialog" id="viewClassList" data-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Student List</h5>
@@ -51,7 +51,11 @@ require_once "template/header.php";
                         <tbody></tbody>
                         <tfoot>
                             <tr>
-                                <th colspan=5>
+                                <th>
+                                <th>
+                                <th>
+                                <th>
+                                <th>
                                 <th>
                                 <th>
                             </tr>
@@ -64,9 +68,76 @@ require_once "template/header.php";
     </div>
 </div>
 
+<div class="modal fade" id="clearBalanceModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md clearBalanceModal">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #3c8dbc;">
+                <h5 align="center" style="color:white;"><i class="fas fa-check-double"></i> Clear Balance</h5>
+            </div>
+            <form action="POST" id="clearBalanceForm">
+                <div class="modal-body">
+                    <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
+                    <input type="hidden" name="paymentId" class="form-control paymentId">
+                    <div class="form-group">
+                        <label><i class="fas fa-money"></i><b> Proof of Payment</b></label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input paymentFile" name="paymentFile">
+                            <label class="custom-file-label" for="customFile">Upload File</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-money"></i><b> MOP</b></label>
+                        <select class="form-control modeOfPayment" name="modeOfPayment"></select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-money"></i><b> Amount Paid</b></label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₱</span>
+                            </div>
+                            <input type="text" name="paymentAmount" class="form-control paymentAmount">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-money"></i><b> Old Balance</b></label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₱</span>
+                            </div>
+                            <input type="text" class="form-control oldBalance" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-money"></i><b> New Balance</b></label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₱</span>
+                            </div>
+                            <input type="text" class="form-control newBalance" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border spinner" role="status" style="display:none;">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Accept</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <?php
 require_once "template/scripts.php";
 ?>
+
+<script src="/Nexus/utils/js/utils.Libraries.js"></script>
+<script src="/Nexus/utils/js/utils.Validations.js"></script>
+<script src="/Nexus/utils/js/utils.Forms.js"></script>
 
 <script src="/Nexus/dashboard/js/admin/dashboard.finishedTrainings.js"></script>
 

@@ -38,17 +38,32 @@ var oFinishedTrainings = (() => {
             {
                 title: 'Contact Number', data: 'contactNum', className: 'text-center'
             },
+            // {
+            //     title: 'Payment Date', data: 'paymentDate', className: 'text-center'
+            // },
             {
-                title: 'Payment Date', data: 'paymentDate', className: 'text-center'
-            },
-            {
-                title: 'Payment Amount', data: 'paymentDate', className: 'text-center'
+                title: 'Payment Amount', data: 'paymentAmount', className: 'text-center'
             },
             {
                 title: 'Balance', data: 'balance', className: 'text-center sum'
             },
             {
                 title: 'Credits', data: 'credits', className: 'text-center sum'
+            },
+            {
+                title: 'Actions', className: 'text-center', render: (aData, oType, oRow) => {
+                    if (oRow.balance !== 0) {
+                        return `<button class="btn btn-success btn-sm" data-toggle="modal" id="clearBalance" data-id="${oRow.scheduleId}">
+                                    <i class="fa fa-credit-card"></i>
+                                </button>`;
+                    }
+                    if (oRow.credits !== 0) {
+                        return `<button class="btn btn-success btn-sm" data-toggle="modal" id="clearCredits" data-id="${oRow.scheduleId}">
+                                    <i class="fa fa-hand-holding-usd"></i>
+                                </button>`;
+                    }
+                    return '-';
+                }
             }
         ]
     };
@@ -65,10 +80,18 @@ var oFinishedTrainings = (() => {
             prepareClassDetails(iScheduleId);
             $('#viewClassList').modal('show');
         });
+
+        $(document).on('click', '#clearBalance', function() {
+            $('#clearBalanceModal').modal('show');
+        });
+
+        $(document).on('click', '#clearCredits', function() {
+
+        });
     }
 
     function prepareClassDetails(iScheduleId) {
-        const oClassDetails = aClassLists.filter(oList => oList.scheduleId == iScheduleId)[0];
+        const oClassDetails = aTrainings.filter(oList => oList.scheduleId == iScheduleId)[0];
 
         $('#viewClassList').find('#courseName').val(oClassDetails.courseCode);
         $('#viewClassList').find('#schedule').val(oClassDetails.schedule);

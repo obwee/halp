@@ -255,7 +255,7 @@ require_once "Template/header.php";
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-success addPayment">Add Payment</button>
-				<button type="button" class="btn btn-success clearCredits">Clear Credits</button>
+				<button type="button" class="btn btn-success clearChange">Clear Change</button>
 				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 			</div>
 		</div>
@@ -400,7 +400,7 @@ require_once "Template/header.php";
 								<li>Account Name: Nexus IT Training Center</li>
 								<li>BDO Account Number: 002810078994</li>
 							</ul>
-							<li>Upload a picture or PDF file of the proof of payment below.</li>
+							<li>Upload a picture of the proof of payment below.</li>
 						</ol>
 					</div>
 					<div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>

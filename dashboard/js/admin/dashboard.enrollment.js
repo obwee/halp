@@ -187,7 +187,7 @@ var oEnrollment = (() => {
             $('.numSlots').val(iNumSlots);
         });
 
-        $(document).on('change', '.courseDropdownForReschedule', function() {
+        $(document).on('change', '.courseDropdownForReschedule', function () {
             populateScheduleDropdown(oScheduleDropdownForReschedule, aTrainingsAvailableForReschedule, $(this).val());
         });
 
@@ -211,14 +211,35 @@ var oEnrollment = (() => {
 
             if (oStudentDetails.paymentStatus === 'Fully Paid') {
                 $('#viewPaymentModal').find('.addPayment').css('display', 'none');
-                $('#viewPaymentModal').find('.clearCredits').css('display', 'none');
-            } else if (oStudentDetails.paymentStatus === 'Has Credits') {
+                $('#viewPaymentModal').find('.clearChange').css('display', 'none');
+            } else if (oStudentDetails.paymentStatus === 'Has Change') {
                 $('#viewPaymentModal').find('.addPayment').css('display', 'none');
-                $('#viewPaymentModal').find('.clearCredits').css('display', 'block');
+                $('#viewPaymentModal').find('.clearChange').css('display', 'block');
             } else {
                 $('#viewPaymentModal').find('.addPayment').css('display', 'block');
-                $('#viewPaymentModal').find('.clearCredits').css('display', 'none');
+                $('#viewPaymentModal').find('.clearChange').css('display', 'none');
             }
+        });
+
+        $(document).on('click', '.clearChange', function () {
+            Swal.fire({
+                title: 'Clear existing credits?',
+                text: 'This will clear the credits of the enrollee.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+            }).then((bIsConfirm) => {
+                if (bIsConfirm.value === true) {
+                    const iTrainingId = aPaymentDetails[0]['trainingId'];
+
+                    axios.post('/Nexus/utils/ajax.php?class=Payment&action=clearChange', { trainingId: iTrainingId })
+                        .then(function (oResponse) {
+                            oLibraries.displayAlertMessage((oResponse.data.bResult === true) ? 'success' : 'error', oResponse.data.sMsg);
+                            fetchEnrollmentData();
+                            $('.modal').modal('hide');
+                        });
+                }
+            });
         });
 
         $(document).on('click', '#approvePayment', function () {
@@ -549,7 +570,7 @@ var oEnrollment = (() => {
                             $('.footerBalance').text('Remaining Balance:');
                             $(this.footer()).text(`P${iBalance.toLocaleString()}`);
                         } else {
-                            $('.footerBalance').text('Credits:');
+                            $('.footerBalance').text('Change:');
                             $(this.footer()).text(`P${Math.abs(iBalance).toLocaleString()}`);
                         }
                     });

@@ -382,6 +382,25 @@ class Payment extends BaseController
         echo json_encode($aResult);
     }
 
+    public function clearChange()
+    {
+        $iChange = $this->oPaymentModel->getChange($this->aParams) * -1;
+        $this->aParams['paymentDate'] = dateNow();
+        $this->aParams['paymentMethod'] = 1;
+        $this->aParams['paymentAmount'] = $iChange;
+        $this->aParams['paymentFile'] = 'N/A';
+        $this->aParams['remarks'] = 'Change';
+        $this->aParams['isApproved'] = 3;
+        $this->aParams['isPaid'] = 2;
+
+        $this->oPaymentModel->clearChange($this->aParams);
+
+        echo json_encode(array(
+            'bResult'  => true,
+            'sMsg'     => 'Change cleared!'
+        ));
+    }
+
     private function sendEmailToStudent($aTrainingData, $iTotalPayment, $iPaymentStatus, $sAction)
     {
         $aStudentDetails = $this->getUserDetails($aTrainingData['studentId']);
