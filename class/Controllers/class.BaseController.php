@@ -32,7 +32,7 @@ class BaseController
     protected $aPaymentStatus = array(
         'Not Yet Paid',
         'Partially Paid',
-        'Fully Paid'
+        'Fully Paid',
     );
 
     /**
@@ -42,7 +42,8 @@ class BaseController
     protected $aApprovalStatus = array(
         'Not Yet Approved',
         'Approved',
-        'Rejected'
+        'Rejected',
+        'Released' // Status if admin releases a change for student.
     );
 
     /**
@@ -57,7 +58,6 @@ class BaseController
         $this->oNotificationModel = new NotificationModel();
         $this->oPaymentModel = new PaymentModel();
         $this->oTrainingModel = new TrainingModel();
-
 
         $this->oPaymentModel->updateUnsettledPayments();
         $this->oTrainingModel->updateFinishedTrainings();

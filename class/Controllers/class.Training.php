@@ -365,7 +365,7 @@ class Training extends BaseController
                 $aEnrollmentData[$iKey]['paymentStatus'] = 'Payment Submitted';
             }
             if ($aTraining['coursePrice'] < array_sum($aTotalPaymentAmount[$iKey])) {
-                $aEnrollmentData[$iKey]['paymentStatus'] = 'Has Credits';
+                $aEnrollmentData[$iKey]['paymentStatus'] = 'Has Change';
             }
 
             if (empty($iRefundIndex) === false && $aRefundDetails[$iRefundIndex] !== 0) {
@@ -477,15 +477,16 @@ class Training extends BaseController
             $aEnrollmentData[$iKey]['schedule'] = Utils::formatDate($aData['fromDate']) . ' - ' . Utils::formatDate($aData['toDate']) . ' (' . $this->getInterval($aData) . ')';
             $aEnrollmentData[$iKey]['instructor'] = $aInstructors[$iInstructorKey]['instructorName'];
             $aEnrollmentData[$iKey]['paymentStatus'] = $this->aPaymentStatus[$aData['paymentStatus'] ?? 0];
+
             if ($aEnrollmentData[$iKey]['hasPendingPayments'] === true) {
                 $aEnrollmentData[$iKey]['paymentStatus'] = 'Payment Submitted';
             }
             if ($aEnrollmentData[$iKey]['coursePrice'] < array_sum($aTotalPaymentAmount[$aData['trainingId']])) {
-                $aEnrollmentData[$iKey]['paymentStatus'] = 'Has Credits';
+                $aEnrollmentData[$iKey]['paymentStatus'] = 'Has Change';
             }
         }
 
-        $aUnnecessaryData = ['paymentId', 'paymentMethod', 'paymentDate', 'paymentAmount', 'paymentFile'];
+        $aUnnecessaryData = ['paymentId', 'paymentMethod', 'paymentDate', 'paymentAmount', 'paymentFile', 'remarks'];
         Utils::unsetUnnecessaryData($aEnrollmentData, $aUnnecessaryData);
         echo json_encode(array_values($aEnrollmentData));
     }

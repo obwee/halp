@@ -32,6 +32,7 @@ class PaymentModel
         $statement = $this->oConnection->prepare("
             SELECT *
             FROM tbl_payment_methods tpm
+            WHERE methodName != 'Change'
         ");
 
         // Execute the above statement.
@@ -359,5 +360,47 @@ class PaymentModel
 
         // Execute the above statement.
         return $statement->execute();
+    }
+
+    /**
+     * getChange
+     */
+    public function getChange($aParams)
+    {
+        // Prepare a select query.
+        $statement = $this->oConnection->prepare("
+            SELECT
+                (SUM(tp.paymentAmount) - ts.coursePrice)
+            FROM tbl_payments tp
+            INNER JOIN tbl_training tt
+                ON tp.trainingId = tt.id
+            INNER JOIN tbl_schedules ts
+                ON ts.id = tt.scheduleId
+            WHERE 1 = 1
+                AND tt.id = :trainingId
+        ");
+
+        // Execute the above statement.
+        $statement->execute($aParams);
+
+        // Return the number of rows returned by the executed query.
+        return $statement->fetchColumn();
+    }
+
+    /**
+     * clearChange
+     */
+    public function clearChange($aData)
+    {
+        // Prepare a delete query for the tbl_venue table.
+        $statement = $this->oConnection->prepare("
+            INSERT INTO tbl_payments
+                (trainingId, paymentDate, paymentMethod, paymentAmount, paymentFile, remarks, isApproved, isPaid)
+            VALUES
+                (:trainingId, :paymentDate, :paymentMethod, :paymentAmount, :paymentFile, :remarks, :isApproved, :isPaid)
+            ");
+
+        // Execute the above statement along with the needed where clauses then return.
+        return $statement->execute($aData);
     }
 }

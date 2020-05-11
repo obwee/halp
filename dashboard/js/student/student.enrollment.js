@@ -110,7 +110,7 @@ var oEnrollment = (() => {
             preparePaymentDetails();
 
             $('#viewPaymentModal').find('.addPayment').css('display', 'block');
-            if (oEnrollmentDetails.paymentStatus === 'Fully Paid' || oEnrollmentDetails.paymentStatus === 'Has Credits') {
+            if (oEnrollmentDetails.paymentStatus === 'Fully Paid' || oEnrollmentDetails.paymentStatus === 'Has Change') {
                 $('#viewPaymentModal').find('.addPayment').css('display', 'none');
             }
 
@@ -293,7 +293,7 @@ var oEnrollment = (() => {
                             $('.footerBalance').text('Remaining Balance:');
                             $(this.footer()).text(`P${iBalance.toLocaleString()}`);
                         } else {
-                            $('.footerBalance').text('Credits:');
+                            $('.footerBalance').text('Change:');
                             $(this.footer()).text(`P${Math.abs(iBalance).toLocaleString()}`);
                         }
                     });
