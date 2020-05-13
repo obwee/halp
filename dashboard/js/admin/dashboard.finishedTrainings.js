@@ -3,6 +3,7 @@ var oFinishedTrainings = (() => {
     let oTblStudentList = $('#tbl_studentList');
     let aTrainings = [];
     let aStudentList = [];
+    let aPaymentModes = [];
 
     let oColumns = {
         aClassList: [
@@ -42,23 +43,26 @@ var oFinishedTrainings = (() => {
             //     title: 'Payment Date', data: 'paymentDate', className: 'text-center'
             // },
             {
-                title: 'Payment Amount', data: 'paymentAmount', className: 'text-center'
+                title: 'Payment Amount', className: 'text-center', render: (aData, oType, oRow) =>
+                    `P${oLibraries.formatCurrency(oRow.paymentAmount)}`
             },
             {
-                title: 'Balance', data: 'balance', className: 'text-center sum'
+                title: 'Balance', className: 'text-center sum', render: (aData, oType, oRow) =>
+                    `P${oLibraries.formatCurrency(oRow.balance)}`
             },
             {
-                title: 'Credits', data: 'credits', className: 'text-center sum'
+                title: 'Credits', className: 'text-center sum', render: (aData, oType, oRow) =>
+                    `P${oLibraries.formatCurrency(oRow.credits)}`
             },
             {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) => {
                     if (oRow.balance !== 0) {
-                        return `<button class="btn btn-success btn-sm" data-toggle="modal" id="clearBalance" data-id="${oRow.scheduleId}">
+                        return `<button class="btn btn-success btn-sm" data-toggle="modal" id="clearBalance" data-id="${oRow.studentId}">
                                     <i class="fa fa-credit-card"></i>
                                 </button>`;
                     }
                     if (oRow.credits !== 0) {
-                        return `<button class="btn btn-success btn-sm" data-toggle="modal" id="clearCredits" data-id="${oRow.scheduleId}">
+                        return `<button class="btn btn-success btn-sm" data-toggle="modal" id="clearChange" data-id="${oRow.trainingId}">
                                     <i class="fa fa-hand-holding-usd"></i>
                                 </button>`;
                     }
@@ -70,10 +74,14 @@ var oFinishedTrainings = (() => {
 
     function init() {
         fetchFinishedTrainings();
+        fetchPaymentMethods();
         setEvents();
     }
 
     function setEvents() {
+
+        oForms.preparePaymentEvents();
+
         $(document).on('click', '#viewDetails', function () {
             const iScheduleId = $(this).attr('data-id');
             fetchStudentList(iScheduleId);
@@ -81,12 +89,60 @@ var oFinishedTrainings = (() => {
             $('#viewClassList').modal('show');
         });
 
-        $(document).on('click', '#clearBalance', function() {
+        $(document).on('click', '#clearBalance', function () {
+            const iStudentId = $(this).attr('data-id');
+            const oStudentDetails = aStudentList.filter(oDetails => oDetails.studentId == iStudentId)[0];
+
+            $('#clearBalanceModal').find('.paymentAmount').val(oStudentDetails.balance);
+            $('#clearBalanceModal').find('.oldBalance').val(oStudentDetails.balance);
+            $('#clearBalanceModal').find('.newBalance').val(0);
             $('#clearBalanceModal').modal('show');
         });
 
-        $(document).on('click', '#clearCredits', function() {
+        $(document).on('click', '#clearChange', function () {
+            Swal.fire({
+                title: 'Clear existing change?',
+                text: 'This will clear the change of the enrollee.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+            }).then((bIsConfirm) => {
+                if (bIsConfirm.value === true) {
+                    const iTrainingId = $(this).attr('data-id');
 
+                    axios.post('/Nexus/utils/ajax.php?class=Payment&action=clearChange', { trainingId: iTrainingId })
+                        .then(function (oResponse) {
+                            oLibraries.displayAlertMessage((oResponse.data.bResult === true) ? 'success' : 'error', oResponse.data.sMsg);
+                            fetchFinishedTrainings();
+                            $('.modal').modal('hide');
+                        });
+                }
+            });
+        });
+    }
+
+    function fetchPaymentMethods() {
+        $.ajax({
+            url: `/Nexus/utils/ajax.php?class=Payment&action=fetchModeOfPayments`,
+            type: 'GET',
+            dataType: 'json',
+            success: function (oResponse) {
+                aPaymentModes = oResponse.filter(oMode => oMode.status === 'Active');
+                populateModeOfPayments();
+            },
+            error: function () {
+                oLibraries.displayAlertMessage('error', 'An error has occured. Please try again.');
+            }
+        });
+    }
+
+    // Populate the payment mode dropdown select.
+    function populateModeOfPayments() {
+        let oPaymentModeDropdown = $('.modeOfPayment');
+        oPaymentModeDropdown.empty().append($('<option value="" selected disabled hidden>Select Mode of Payment</option>'));
+
+        $.each(aPaymentModes, function (iKey, oMode) {
+            oPaymentModeDropdown.append($('<option />').val(oMode.id).text(`${oMode.methodName}`));
         });
     }
 
@@ -193,4 +249,17 @@ var oFinishedTrainings = (() => {
 
 $(document).ready(function () {
     oFinishedTrainings.initialize();
+
+    // Fix bug on multiple modals.
+    $('.modal').on("hidden.bs.modal", function () {
+        if ($('.modal:visible').length) {
+            $('.modal-backdrop').first().css('z-index', parseInt($('.modal:visible').last().css('z-index')) - 10);
+            $('body').addClass('modal-open');
+        }
+    }).on("show.bs.modal", function () {
+        if ($('.modal:visible').length) {
+            $('.modal-backdrop.in').first().css('z-index', parseInt($('.modal:visible').last().css('z-index')) + 10);
+            $(this).css('z-index', parseInt($('.modal-backdrop.in').first().css('z-index')) + 10);
+        }
+    });
 });
