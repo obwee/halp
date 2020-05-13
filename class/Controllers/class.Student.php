@@ -291,9 +291,9 @@ class Student extends BaseController
             $aStudentList[$iKey]['paymentDate'] = Utils::formatDate($aData['paymentDate']);
             $iBalance = $aData['coursePrice'] - $aData['paymentAmount'];
             
-            $aStudentList[$iKey]['balance'] = ($iBalance >= 0) ? Utils::toCurrencyFormat($iBalance) : Utils::toCurrencyFormat(0);
-            $aStudentList[$iKey]['credits'] = ($iBalance < 0) ? Utils::toCurrencyFormat(abs($iBalance)) : Utils::toCurrencyFormat(0);
-            $aStudentList[$iKey]['paymentAmount'] = Utils::toCurrencyFormat($aData['paymentAmount']);
+            $aStudentList[$iKey]['balance'] = ($iBalance >= 0) ? $iBalance : (0);
+            $aStudentList[$iKey]['credits'] = ($iBalance < 0) ? abs($iBalance) : (0);
+            $aStudentList[$iKey]['paymentAmount'] = $aData['paymentAmount'];
         }
 
         echo json_encode($aStudentList);

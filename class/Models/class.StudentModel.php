@@ -269,9 +269,9 @@ class StudentModel
     {
         // Query the tbl_users for a username equal to $username.
         $statement = $this->oConnection->prepare("
-            SELECT CONCAT(tu.firstname, ' ', tu.lastName) AS studentName, tu.email, tu.contactNum,
-                   ts.coursePrice, MAX(tp.paymentDate) AS paymentDate,
-                   SUM(tp.paymentAmount) AS paymentAmount
+            SELECT tu.userId AS studentId, CONCAT(tu.firstname, ' ', tu.lastName) AS studentName,
+                   tu.email, tu.contactNum, ts.coursePrice, MAX(tp.paymentDate) AS paymentDate,
+                   SUM(tp.paymentAmount) AS paymentAmount, tt.id AS trainingId
             FROM tbl_schedules ts
             INNER JOIN tbl_training tt
             ON tt.scheduleId = ts.id
@@ -281,7 +281,7 @@ class StudentModel
             ON tu.userId = tt.studentId
             WHERE 1 = 1
                 AND tt.isCancelled != 1
-                AND tp.isPaid = 1
+                AND tp.isPaid != 0
                 AND ts.id = ?
             GROUP BY tt.id
         ");

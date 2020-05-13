@@ -60,7 +60,7 @@ var oEnrollment = (() => {
             },
             {
                 title: 'Actions', className: 'text-center', render: (aData, oType, oRow) =>
-                    (oRow.paymentApproval !== 'Approved') ?
+                    (['Approved', 'Released'].includes(oRow.paymentApproval) !== true) ?
                         `<button class="btn btn-success btn-sm" data-toggle="modal" id="approvePayment" data-id="${oRow.paymentId}">
                         <i class="fa fa-check-circle"></i>
                     </button>
@@ -223,8 +223,8 @@ var oEnrollment = (() => {
 
         $(document).on('click', '.clearChange', function () {
             Swal.fire({
-                title: 'Clear existing credits?',
-                text: 'This will clear the credits of the enrollee.',
+                title: 'Clear existing change?',
+                text: 'This will clear the change of the enrollee.',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes',
