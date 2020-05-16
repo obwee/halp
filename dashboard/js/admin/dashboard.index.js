@@ -1,8 +1,14 @@
 var oDashboardIndex = (() => {
 
     function init() {
-        $('#tbl_upcoming').DataTable();
-        $('#tbl_ongoing').DataTable();
+        getStatistics();
+    }
+
+    function getStatistics() {
+        axios.get('/Nexus/utils/ajax.php?class=Reports&action=getStatistics')
+            .then(function (oResponse) {
+                console.log(oResponse)
+            });
     }
 
     return {
@@ -11,6 +17,6 @@ var oDashboardIndex = (() => {
 
 })();
 
-$(document).ready(function() {
+$(document).ready(function () {
     oDashboardIndex.initialize();
 });

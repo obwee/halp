@@ -206,4 +206,11 @@ class Reports extends BaseController
         $oPrintClassList->preparePage();
         $oPrintClassList->Output('I', 'Class-List.pdf');
     }
+
+    public function getStatistics()
+    {
+        $aData = $this->oReportsModel->getStatistics();
+        echo "<pre>";
+        print_r($aData);
+    }
 }

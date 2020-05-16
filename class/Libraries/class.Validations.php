@@ -1466,6 +1466,21 @@ class Validations
     }
 
     /**
+     * validateClearBalanceInputs
+     * Validates the inputs of a user before clearing any existing balances.
+     * @param array $aParams
+     * @return array $aValidationResult
+     */
+    public static function validateClearBalanceInputs($aParams)
+    {
+        $aValidationResult = self::validateFileForPayment($aParams['paymentFile']);
+        if ($aValidationResult === true) {
+            $aValidationResult = self::loopThruRulesForErrors($aParams, self::$aApprovePaymentRules, '.');
+        }
+        return $aValidationResult;
+    }
+
+    /**
      * loopThruRulesForErrors
      * @param array $aInputRules (Array of rules.)
      * @param string $sSelector (jQuery selector.)

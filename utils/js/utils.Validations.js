@@ -1601,6 +1601,22 @@ class Validations {
     }
 
     /**
+     * validateClearBalanceInputs
+     * Validates the payment inputs before approval.
+     * @param {string} sFormId (The form id.)
+     * @return {object} oValidationResult (Result of the validation.)
+     */
+    validateClearBalanceInputs(sFormId) {
+        let oValidationResult = this.validateFileForPayment(sFormId);
+        
+        if (oValidationResult.result === true) {
+            oValidationResult = this.validateApprovePaymentInputs(sFormId);
+        }
+
+        return oValidationResult;
+    }
+
+    /**
      * loopThruRulesForErrors
      * @param {array} aRules (Array of rules.)
      * @param {string} sFormId (The id of the form.)

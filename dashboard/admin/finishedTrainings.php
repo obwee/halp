@@ -45,6 +45,9 @@ require_once "template/header.php";
                         </div>
                     </div>
                 </div>
+                <div align="right" class="mt-3 mb-3" hidden>
+                    <button type="button" id="sendCertificates" class="btn btn-primary">Send Certificates</button>
+                </div>
                 <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
                     <table id="tbl_studentList" style="width:100%" class="table table-striped table-bordered table-hover">
                         <thead></thead>
@@ -77,7 +80,8 @@ require_once "template/header.php";
             <form action="POST" id="clearBalanceForm">
                 <div class="modal-body">
                     <div class="alert alert-danger error-msg" role="alert" style="display: none;"></div>
-                    <input type="hidden" name="paymentId" class="form-control paymentId">
+                    <input type="hidden" name="trainingId" class="form-control paymentId">
+                    <input type="hidden" name="studentId" class="form-control studentId">
                     <div class="form-group">
                         <label><i class="fas fa-money"></i><b> Proof of Payment</b></label>
                         <div class="custom-file">
@@ -95,7 +99,7 @@ require_once "template/header.php";
                             <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                             </div>
-                            <input type="text" name="paymentAmount" class="form-control paymentAmount">
+                            <input type="text" name="paymentAmount" class="form-control paymentAmount" readonly>
                         </div>
                     </div>
                     <div class="form-group">
