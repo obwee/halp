@@ -7,7 +7,10 @@ var oDashboardIndex = (() => {
     function getStatistics() {
         axios.get('/Nexus/utils/ajax.php?class=Reports&action=getStatistics')
             .then(function (oResponse) {
-                console.log(oResponse)
+                $('.emailed').text(oResponse.data.iQuotationCount);
+                $('.partial').text(oResponse.data.iPartiallyPaidCount);
+                $('.fully').text(oResponse.data.iFullyPaidCount);
+                $('.unpaid').text(oResponse.data.iUnpaidCount);
             });
     }
 

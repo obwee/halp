@@ -42,10 +42,10 @@
                         <a class="nav-link js-scroll-trigger" href="#services">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#courses">Courses</a>
+                        <a class="nav-link js-scroll-trigger" href="courses">Courses</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#">Schedules</a>
+                        <a class="nav-link js-scroll-trigger" href="schedules">Schedules</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="#faqs">FAQS</a>

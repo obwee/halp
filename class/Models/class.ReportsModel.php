@@ -115,7 +115,7 @@ class ReportsModel
         $oStatement = $this->oConnection->prepare("
             SELECT *
             FROM tbl_payments tp
-            RIGHT JOIN tbl_training tt
+            INNER JOIN tbl_training tt
             ON tp.trainingId = tt.id
             WHERE 1 = 1
                 AND tp.isPaid = 1
@@ -132,7 +132,7 @@ class ReportsModel
         $oStatement = $this->oConnection->prepare("
             SELECT *
             FROM tbl_payments tp
-            RIGHT JOIN tbl_training tt
+            INNER JOIN tbl_training tt
             ON tp.trainingId = tt.id
             WHERE 1 = 1
                 AND tp.isPaid = 2
@@ -147,21 +147,37 @@ class ReportsModel
 
         // Prepare a select query.
         $oStatement = $this->oConnection->prepare("
-            SELECT SUM(tp.paymentAmount) AS totalPayment, ts.coursePrice, tt.id
+            SELECT *
             FROM tbl_training tt
-            LEFT JOIN tbl_payments tp
-            ON tp.trainingId = tt.id
             INNER JOIN tbl_schedules ts
             ON ts.id = tt.scheduleId
+            LEFT JOIN tbl_payments tp
+            ON tp.trainingId = tt.id
             WHERE 1 = 1
-                AND (tp.trainingId IS NULL OR tp.isPaid = 0)
-            GROUP BY tp.trainingId
-            HAVING totalPayment = 0
+                AND (tp.isPaid = 0 OR tp.trainingId IS NULL)
+            GROUP BY tt.id
         ");
 
         $oStatement->execute();
-        $aData['iUnpaidCount'] = $oStatement->fetchAll();
+        $aData['iUnpaidCount'] = $oStatement->rowCount();
 
         return $aData;
+    }
+
+    public function getChartData()
+    {
+        // Prepare a select query.
+        $oStatement = $this->oConnection->prepare("
+            SELECT tc.courseCode, SUM(ts.numSlots - ts.remainingSlots) AS enrolleeCount
+            FROM tbl_schedules ts
+            INNER JOIN tbl_courses tc
+            ON ts.courseId = tc.id
+            WHERE ts.status = 'Active'
+            GROUP BY ts.courseId
+            HAVING enrolleeCount != 0
+        ");
+
+        $oStatement->execute();
+        return $oStatement->fetchAll();
     }
 }

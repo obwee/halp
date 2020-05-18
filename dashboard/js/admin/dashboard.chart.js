@@ -1,75 +1,61 @@
+
+
 am4core.ready(function () {
     // Themes begin
+    am4core.useTheme(am4themes_material);
     am4core.useTheme(am4themes_animated);
-    am4core.useTheme(am4themes_kelly);
+    // Themes end
 
-    var chart = am4core.create("chartData", am4charts.XYChart3D);
+    // Create chart instance
+    var chart = am4core.create("chartData", am4charts.XYChart);
+    chart.scrollbarX = new am4core.Scrollbar();
 
-    chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+    // Add data
+    chart.dataSource.url = "/Nexus/utils/ajax.php?class=Reports&action=getChartData";
+    chart.dataSource.parser = new am4core.JSONParser();
 
-    chart.data = [
-        {
-            date: "2020-02-20",
-            cisco: 24,
-            mcsa: 12,
-            mcp: 19,
-            eth: 32
-        },
-        {
-            date: "2020-02-19",
-            cisco: 34,
-            mcsa: 11,
-            mcp: 15,
-            eth: 31
-        },
-        {
-            date: "2020-02-18",
-            cisco: 35,
-            mcsa: 22,
-            mcp: 10,
-            eth: 31
-        },
-        {
-            date: "2020-02-17",
-            cisco: 14,
-            mcsa: 6,
-            mcp: 3,
-            eth: 12
-        },
-    ];
-
+    // Create axes
     var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.dataFields.category = "date";
-    categoryAxis.title.text = "Courses per Date";
+    categoryAxis.dataFields.category = "courseCode";
+    categoryAxis.title.text = "Courses";
     categoryAxis.renderer.grid.template.location = 0;
-    categoryAxis.renderer.minGridDistance = 20;
-    categoryAxis.calculateTotals = true;
+    categoryAxis.renderer.minGridDistance = 30;
+    categoryAxis.renderer.labels.template.horizontalCenter = "right";
+    categoryAxis.renderer.labels.template.verticalCenter = "middle";
+    categoryAxis.renderer.labels.template.rotation = 270;
+    categoryAxis.tooltip.disabled = true;
+    categoryAxis.renderer.minHeight = 40;
 
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.title.text = "Number of Students";
+    valueAxis.renderer.minWidth = 50;
+    valueAxis.maxPrecision = 0;
+    valueAxis.title.text = "Total No. of Enrollees";
 
     // Create series
-    var series = chart.series.push(new am4charts.ColumnSeries3D());
-    series.dataFields.valueY = "cisco";
-    series.dataFields.categoryX = "date";
-    series.name = "CCNA";
-    series.tooltipText = "{name}: [bold]{valueY}[/]";
-    series.stacked = true;
+    var series = chart.series.push(new am4charts.ColumnSeries());
+    series.sequencedInterpolation = true;
+    series.dataFields.valueY = "enrolleeCount";
+    series.dataFields.categoryX = "courseCode";
+    series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
+    series.columns.template.strokeWidth = 0;
 
-    var series2 = chart.series.push(new am4charts.ColumnSeries3D());
-    series2.dataFields.valueY = "mcsa";
-    series2.dataFields.categoryX = "date";
-    series2.name = "MCSA";
-    series2.tooltipText = "{name}: [bold]{valueY}[/]";
-    series2.stacked = true;
+    series.tooltip.pointerOrientation = "vertical";
 
-    var series3 = chart.series.push(new am4charts.ColumnSeries3D());
-    series3.dataFields.valueY = "eth";
-    series3.dataFields.categoryX = "date";
-    series3.name = "Ethical Hanking";
-    series3.tooltipText = "{name}: [bold]{valueY}[/]";
-    series3.stacked = true;
+    series.columns.template.column.cornerRadiusTopLeft = 10;
+    series.columns.template.column.cornerRadiusTopRight = 10;
+    series.columns.template.column.fillOpacity = 0.8;
 
-    // Add cursor
+    // on hover, make corner radiuses bigger
+    var hoverState = series.columns.template.column.states.create("hover");
+    hoverState.properties.cornerRadiusTopLeft = 0;
+    hoverState.properties.cornerRadiusTopRight = 0;
+    hoverState.properties.fillOpacity = 1;
+
+    series.columns.template.adapter.add("fill", function (fill, target) {
+        return chart.colors.getIndex(target.dataItem.index);
+    });
+
+    // Cursor
     chart.cursor = new am4charts.XYCursor();
-});
+
+}); // end am4core.ready()
