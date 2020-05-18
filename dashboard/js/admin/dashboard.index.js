@@ -1,8 +1,17 @@
 var oDashboardIndex = (() => {
 
     function init() {
-        $('#tbl_upcoming').DataTable();
-        $('#tbl_ongoing').DataTable();
+        getStatistics();
+    }
+
+    function getStatistics() {
+        axios.get('/Nexus/utils/ajax.php?class=Reports&action=getStatistics')
+            .then(function (oResponse) {
+                $('.emailed').text(oResponse.data.iQuotationCount);
+                $('.partial').text(oResponse.data.iPartiallyPaidCount);
+                $('.fully').text(oResponse.data.iFullyPaidCount);
+                $('.unpaid').text(oResponse.data.iUnpaidCount);
+            });
     }
 
     return {
@@ -11,6 +20,6 @@ var oDashboardIndex = (() => {
 
 })();
 
-$(document).ready(function() {
+$(document).ready(function () {
     oDashboardIndex.initialize();
 });

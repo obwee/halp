@@ -91,4 +91,93 @@ class ReportsModel
         $oStatement->execute();
         return $oStatement->fetchAll();
     }
+
+    public function getStatistics()
+    {
+        $aData = array();
+
+        // Prepare a select query.
+        $oStatement = $this->oConnection->prepare("
+            SELECT *
+            FROM tbl_quotation_details tqd
+            LEFT JOIN tbl_quotation_senders tqs
+                ON tqs.quoteSenderId = tqd.senderId
+            LEFT JOIN tbl_users tu
+                ON tu.userId = tqd.userId
+            WHERE tqd.isQuotationSent = 0
+            GROUP BY tqd.userId, tqd.senderId
+        ");
+
+        $oStatement->execute();
+        $aData['iQuotationCount'] = $oStatement->rowCount();
+
+        // Prepare a select query.
+        $oStatement = $this->oConnection->prepare("
+            SELECT *
+            FROM tbl_payments tp
+            INNER JOIN tbl_training tt
+            ON tp.trainingId = tt.id
+            WHERE 1 = 1
+                AND tp.isPaid = 1
+                AND tp.isApproved = 1
+                AND tt.isDone = 0
+                AND tt.isCancelled = 0
+            GROUP BY tt.id
+        ");
+
+        $oStatement->execute();
+        $aData['iPartiallyPaidCount'] = $oStatement->rowCount();
+
+        // Prepare a select query.
+        $oStatement = $this->oConnection->prepare("
+            SELECT *
+            FROM tbl_payments tp
+            INNER JOIN tbl_training tt
+            ON tp.trainingId = tt.id
+            WHERE 1 = 1
+                AND tp.isPaid = 2
+                AND tp.isApproved = 1
+                AND tt.isDone = 0
+                AND tt.isCancelled = 0
+            GROUP BY tt.id
+        ");
+
+        $oStatement->execute();
+        $aData['iFullyPaidCount'] = $oStatement->rowCount();
+
+        // Prepare a select query.
+        $oStatement = $this->oConnection->prepare("
+            SELECT *
+            FROM tbl_training tt
+            INNER JOIN tbl_schedules ts
+            ON ts.id = tt.scheduleId
+            LEFT JOIN tbl_payments tp
+            ON tp.trainingId = tt.id
+            WHERE 1 = 1
+                AND (tp.isPaid = 0 OR tp.trainingId IS NULL)
+            GROUP BY tt.id
+        ");
+
+        $oStatement->execute();
+        $aData['iUnpaidCount'] = $oStatement->rowCount();
+
+        return $aData;
+    }
+
+    public function getChartData()
+    {
+        // Prepare a select query.
+        $oStatement = $this->oConnection->prepare("
+            SELECT tc.courseCode, SUM(ts.numSlots - ts.remainingSlots) AS enrolleeCount
+            FROM tbl_schedules ts
+            INNER JOIN tbl_courses tc
+            ON ts.courseId = tc.id
+            WHERE ts.status = 'Active'
+            GROUP BY ts.courseId
+            HAVING enrolleeCount != 0
+        ");
+
+        $oStatement->execute();
+        return $oStatement->fetchAll();
+    }
 }

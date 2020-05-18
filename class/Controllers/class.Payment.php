@@ -29,7 +29,7 @@ class Payment extends BaseController
         $this->aParams = $aPostVariables;
         $this->oRefundsModel = new RefundsModel();
         $this->oCourseModel = new CourseModel();
-        
+
         parent::__construct();
         $this->aPaymentMethods = $this->oPaymentModel->fetchModeOfPayments();
     }
@@ -307,17 +307,17 @@ class Payment extends BaseController
         }
 
         if ($iApproveQuery > 0) {
-        // $this->sendEmailToStudent($aTrainingData, $iOverallPayment, $this->aParams['isPaid'], 'approved');
+            // $this->sendEmailToStudent($aTrainingData, $iOverallPayment, $this->aParams['isPaid'], 'approved');
 
-        $aParams = array(
-            'studentId'  => $aTrainingData['studentId'],
-            'courseId'   => $aTrainingData['courseId'],
-            'scheduleId' => $aTrainingData['scheduleId'],
-            'type'       => 3,
-            'receiver'   => 'student',
-            'date'       => dateNow()
-        );
-        $this->oNotificationModel->insertNotification($aParams);
+            $aParams = array(
+                'studentId'  => $aTrainingData['studentId'],
+                'courseId'   => $aTrainingData['courseId'],
+                'scheduleId' => $aTrainingData['scheduleId'],
+                'type'       => 3,
+                'receiver'   => 'student',
+                'date'       => dateNow()
+            );
+            $this->oNotificationModel->insertNotification($aParams);
 
             echo json_encode(array(
                 'bResult'  => true,
@@ -382,6 +382,10 @@ class Payment extends BaseController
         echo json_encode($aResult);
     }
 
+    /**
+     * clearChange
+     * Clears the change of an enrollee.
+     */
     public function clearChange()
     {
         $iChange = $this->oPaymentModel->getChange($this->aParams) * -1;
@@ -399,6 +403,53 @@ class Payment extends BaseController
             'bResult'  => true,
             'sMsg'     => 'Change cleared!'
         ));
+    }
+
+    /**
+     * clearBalance
+     * Clears the balance of an enrollee.
+     */
+    public function clearBalance()
+    {
+        $aValidationResult = Validations::validateClearBalanceInputs($this->aParams);
+        if ($aValidationResult['bResult'] === false) {
+            echo json_encode($aValidationResult);
+            exit();
+        }
+
+        $aPaymentFile = array_merge($this->aParams['paymentFile'], pathinfo($this->aParams['paymentFile']['name']));
+        $aStudentDetails = $this->getUserDetails($this->aParams['studentId']);
+
+        $sDateNow = dateNow();
+        $sFileName = str_replace(' ', '_', str_replace(':', '-', $sDateNow)) . '_' . $aStudentDetails['firstName'] . '-' . $aStudentDetails['lastName'] . '.' . $aPaymentFile['extension'];
+
+        $aData = array(
+            'trainingId'    => $this->aParams['trainingId'],
+            'paymentDate'   => $sDateNow,
+            'paymentMethod' => $this->aParams['modeOfPayment'],
+            'paymentAmount' => $this->aParams['paymentAmount'],
+            'paymentFile'   => $sFileName,
+            'isApproved'    => 1,
+            'isPaid'        => 2
+        );
+
+        $aSavePayment = $this->oPaymentModel->clearBalance($aData);
+
+        if ($aSavePayment === 0) {
+            $aResult = array(
+                'bResult' => false,
+                'sMsg'    => 'An error has occurred.'
+            );
+        } else {
+            Utils::moveUploadedFile($aPaymentFile, $sFileName);
+
+            $aResult = array(
+                'bResult' => true,
+                'sMsg'    => 'Balance cleared!'
+            );
+        }
+
+        echo json_encode($aResult);
     }
 
     private function sendEmailToStudent($aTrainingData, $iTotalPayment, $iPaymentStatus, $sAction)

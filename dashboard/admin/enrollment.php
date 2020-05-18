@@ -13,7 +13,7 @@ require_once "Template/header.php";
 		<div class="row" style="border-radius:8px 8px;padding-top:10px;padding-bottom:0;margin-bottom:0;margin-left:10px;margin-right:10px;border-width:2px;background-color:#fff;box-shadow:8px 8px #3c8dbc;">
 			<div class="col-md-4">
 				<div class="row">
-					<div class="col-sm-6">
+					<div class="col-sm-4">
 						<label><i class="fas fa-map-pin"></i><b> Venue</b></label><br>
 						<div class="venue-tpl" hidden>
 							<div class="form-check">
@@ -22,12 +22,12 @@ require_once "Template/header.php";
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-6">
+					<div class="col-sm-8">
 						<div class="paymentStatus">
 							<label><i class="fas fa-money"></i><b> Payment</b></label><br>
 							<div class="form-check">
 								<input class="form-check-input paymentStatus" name="paymentStatus[]" type="checkbox" value="0">
-								<label class="form-check-label">Unpaid</label>
+								<label class="form-check-label">Unpaid/Payment Submitted</label>
 							</div>
 							<div class="form-check">
 								<input class="form-check-input paymentStatus" name="paymentStatus[]" type="checkbox" value="1">

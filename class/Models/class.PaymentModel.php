@@ -403,4 +403,21 @@ class PaymentModel
         // Execute the above statement along with the needed where clauses then return.
         return $statement->execute($aData);
     }
+
+    /**
+     * clearBalance
+     */
+    public function clearBalance($aData)
+    {
+        // Prepare a delete query for the tbl_venue table.
+        $statement = $this->oConnection->prepare("
+            INSERT INTO tbl_payments
+                (trainingId, paymentDate, paymentMethod, paymentAmount, paymentFile, isApproved, isPaid)
+            VALUES
+                (:trainingId, :paymentDate, :paymentMethod, :paymentAmount, :paymentFile, :isApproved, :isPaid)
+            ");
+
+        // Execute the above statement along with the needed where clauses then return.
+        return $statement->execute($aData);
+    }
 }

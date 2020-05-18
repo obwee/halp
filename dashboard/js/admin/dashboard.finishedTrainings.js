@@ -82,6 +82,13 @@ var oFinishedTrainings = (() => {
 
         oForms.preparePaymentEvents();
 
+        $('modal').on('hidden.bs.modal', function () {
+            let sFormId = `#${$(this).find('form').attr('id')}`;
+            $(sFormId)[0].reset();
+            $(sFormId).find('.custom-file-label').text('Select File');
+            $('.error-msg').css('display', 'none').html('');
+        });
+
         $(document).on('click', '#viewDetails', function () {
             const iScheduleId = $(this).attr('data-id');
             fetchStudentList(iScheduleId);
@@ -93,6 +100,8 @@ var oFinishedTrainings = (() => {
             const iStudentId = $(this).attr('data-id');
             const oStudentDetails = aStudentList.filter(oDetails => oDetails.studentId == iStudentId)[0];
 
+            $('#clearBalanceModal').find('.paymentId').val(oStudentDetails.trainingId);
+            $('#clearBalanceModal').find('.studentId').val(oStudentDetails.studentId);
             $('#clearBalanceModal').find('.paymentAmount').val(oStudentDetails.balance);
             $('#clearBalanceModal').find('.oldBalance').val(oStudentDetails.balance);
             $('#clearBalanceModal').find('.newBalance').val(0);
@@ -118,6 +127,84 @@ var oFinishedTrainings = (() => {
                         });
                 }
             });
+        });
+
+        $(document).on('submit', 'form', function (oEvent) {
+            oEvent.preventDefault();
+
+            const sFormId = `#${$(this).attr('id')}`;
+
+            // Disable the form.
+            oForms.disableFormState(sFormId, true);
+
+            // Invoke the resetInputBorders method inside oForms utils for that form.
+            oForms.resetInputBorders(sFormId);
+
+            const oInputForms = {
+                '#clearBalanceForm': {
+                    'validationMethod': oValidations.validateClearBalanceInputs('#clearBalanceForm'),
+                    'requestClass': 'Payment',
+                    'requestAction': 'clearBalance',
+                    'alertTitle': 'Clear Balance?',
+                    'alertText': 'This will the remaining balance of the selected student.'
+                }
+            }
+
+            // Validate the inputs of the submitted form and store the result inside oValidateInputs variable.
+            let oValidateInputs = oInputForms[sFormId].validationMethod;
+
+            if (oValidateInputs.result === true) {
+                Swal.fire({
+                    title: oInputForms[sFormId].alertTitle,
+                    text: oInputForms[sFormId].alertText,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                }).then((bIsConfirm) => {
+                    if (bIsConfirm.value === true) {
+                        executeSubmit(sFormId, oInputForms[sFormId].requestClass, oInputForms[sFormId].requestAction);
+                    }
+                });
+            } else {
+                oLibraries.displayErrorMessage(sFormId, oValidateInputs.msg, oValidateInputs.element);
+            }
+            // Enable the form.
+            oForms.disableFormState(sFormId, false);
+        });
+    }
+
+    /**
+    * executeSubmit
+    * @param {string} sFormId
+    * @param {string} sRequestClass
+    * @param {string} sRequestAction
+    */
+    function executeSubmit(sFormId, sRequestClass, sRequestAction) {
+        const oFormData = new FormData($(sFormId)[0]);
+
+        // Execute AJAX.
+        $.ajax({
+            url: `/Nexus/utils/ajax.php?class=${sRequestClass}&action=${sRequestAction}`,
+            type: 'POST',
+            data: oFormData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            beforeSend: () => {
+                $('.spinner').css('display', 'block');
+            },
+            success: (oResponse) => {
+                if (oResponse.bResult === true) {
+                    oLibraries.displayAlertMessage('success', oResponse.sMsg);
+                    fetchFinishedTrainings();
+                    $('.modal').modal('hide');
+                } else {
+                    oLibraries.displayErrorMessage(sFormId, oResponse.sMsg, oResponse.sElement);
+                }
+            },
+            complete: () => {
+                $('.spinner').css('display', 'none');
+            }
         });
     }
 
