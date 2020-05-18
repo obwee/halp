@@ -1,23 +1,3 @@
-<?php
-
-$host = "localhost";
-$username = "root";
-$password = "";
-$database = "nexus";
-
-$con = new mysqli($host, $username, $password, $database);
-
-if($con->connect_error){
-	echo $con->connect_error;
-}
-
-$sql = "SELECT * FROM tbl_courses";
-$courses = $con->query($sql) or die ($con->error);
-$aCourses = $courses->fetch_assoc();
-
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -57,16 +37,7 @@ $aCourses = $courses->fetch_assoc();
 						<th style="white-space:nowrap;">Price</th>
 					</tr>
 				</thead>	
-				<tbody>
-					<?php do{ ?>
-					<tr>
-						<td><?php echo $aCourses['examCode'];?></td>
-						<td><?php echo $aCourses['courseName'];?></td>
-						<td><?php echo $aCourses['courseDescription'];?></td>
-						<td><?php echo $aCourses['coursePrice'];?></td>
-					</tr>
-				<?php }while($aCourses = $courses->fetch_assoc())?>
-                </tbody>
+				<tbody></tbody>
 			</table>
 
 			<p style="text-align:center;font-size:18px;">**All prices are subject to change without prior notice.</p>
@@ -74,22 +45,35 @@ $aCourses = $courses->fetch_assoc();
 		</div>
 
 <!--SCRIPTS--> 
-<!--Font Awesome--> 
-<script src="https://kit.fontawesome.com/be76a30cc4.js" crossorigin="anonymous"></script>
-<!--jQuery--> 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<!--Bootstrap-->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<?php
+require_once "template/scripts.php";
+?>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script>
+var oCourses = (function() {
 
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	function init() {
+		getAvailableCoursesAndSchedules();
+	};
 
-<script src="js/homepage.js"></script>
+    function getAvailableCoursesAndSchedules() {
+        axios.get('/Nexus/utils/ajax.php?class=Forms&action=fetchHomepageData')
+            .then(function (oResponse) {
+				console.log(oResponse.data);
+            });
+    }
+
+	return {
+		initialize: init
+	};
+
+})();
+
+$(document).ready(function() {
+	oCourses.initialize();
+});
+
+</script>
 
 </body>
 </html>

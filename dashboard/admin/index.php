@@ -5,7 +5,7 @@ require_once "template/header.php";
 <style>
     #chartData {
         width: 100%;
-        height: 500px;
+        height: 470px;
     }
 </style>
 
@@ -17,7 +17,6 @@ require_once "template/header.php";
 
     <div class="container row justify-content-center">
         <div class="col-sm-2 pl-4">
-            <p class="h4 ml-n2">Analytics</p><br>
 
             <div class="row">
                 <a href="#">
@@ -37,7 +36,7 @@ require_once "template/header.php";
                         <span class="info-box-icon bg-yellow"><i class="fas fa-check"></i></span>
                         <div class="info-box-content" style="text-align:center;width:140px;">
                             <span class="info-box-text">No. of Partially<br>Paid Students</span>
-                            <span class="info-box-number approved"></span>
+                            <span class="info-box-number partial"></span>
                         </div>
                     </div>
                 </a>
@@ -49,7 +48,7 @@ require_once "template/header.php";
                         <span class="info-box-icon bg-green"><i class="fas fa-check-double"></i></span>
                         <div class="info-box-content" style="text-align:center;width:140px;">
                             <span class="info-box-text">No. of Fully Paid<br>Students</span>
-                            <span class="info-box-number finished"></span>
+                            <span class="info-box-number fully"></span>
                         </div>
                     </div>
                 </a>
@@ -61,7 +60,7 @@ require_once "template/header.php";
                         <span class="info-box-icon bg-maroon"><i class="fas fa-times"></i></span>
                         <div class="info-box-content" style="text-align:center;width:140px;">
                             <span class="info-box-text">No. of Unpaid<br>Students</span>
-                            <span class="info-box-number cancelled"></span>
+                            <span class="info-box-number unpaid"></span>
                         </div>
                     </div>
                 </a>

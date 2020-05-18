@@ -240,6 +240,10 @@ class StudentModel
             $sQuery .= sprintf($aWhere[$sKey], $mValue);
         }
 
+        if (isset($aParams['paymentStatus']) === true && in_array(0, $aParams['paymentStatus']) === true) {
+            $sQuery .= 'OR tp.isPaid IS NULL GROUP BY tt.id';
+        }
+
         $oStatement = $this->oConnection->prepare($sQuery);
         $oStatement->execute();
         return $oStatement->fetchAll();

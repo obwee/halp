@@ -210,7 +210,12 @@ class Reports extends BaseController
     public function getStatistics()
     {
         $aData = $this->oReportsModel->getStatistics();
-        echo "<pre>";
-        print_r($aData);
+        echo json_encode($aData);
+    }
+
+    public function getChartData()
+    {
+        $aData = $this->oReportsModel->getChartData();
+        echo json_encode($aData);
     }
 }
