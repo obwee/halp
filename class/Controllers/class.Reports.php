@@ -24,6 +24,11 @@ class Reports extends BaseController
     private $oScheduleModel;
 
     /**
+     * @var AdminsModel $oAdminsModel
+     */
+    private $oAdminsModel;
+
+    /**
      * Reports constructor.
      * @param array $aPostVariables
      */
@@ -35,6 +40,7 @@ class Reports extends BaseController
         $this->oVenueModel = new VenueModel();
         $this->oCourseModel = new CourseModel();
         $this->oScheduleModel = new SchedulesModel();
+        $this->oAdminsModel = new AdminsModel();
         parent::__construct();
     }
 
@@ -217,5 +223,41 @@ class Reports extends BaseController
     {
         $aData = $this->oReportsModel->getChartData();
         echo json_encode($aData);
+    }
+
+    public function sendCertificates()
+    {
+        $iScheduleId = $_GET['iScheduleId'];
+        if (filter_var($_GET['iScheduleId'], FILTER_VALIDATE_INT) === false) {
+            echo 'Invalid approach.';
+            exit();
+        }
+
+        // Code here for sending certificates.
+        $aScheduleDetails = $this->oReportsModel->getFinishedTrainingsForCertificateSending($iScheduleId);
+        $aInstructorDetails = $this->oAdminsModel->fetchAdminsByInstructorIds([$aScheduleDetails[0]['instructorId']]);
+        
+        $aAdminDetails = array(
+            'adminName'      => Session::get('fullName'),
+            'instructorName' => $aInstructorDetails[0]['instructorName']
+        );
+
+        foreach ($aScheduleDetails as $aDetails) {
+            $oPdf = new PdfCertificate($aDetails, $aAdminDetails);
+            $sCertificate = $oPdf->Output('Certificate.pdf', 'S');
+    
+            $oMail = new Email();
+            // $oMail->addSingleRecipient($aScheduleDetails[0]['email'], $aScheduleDetails[0]['studentName']);
+            $oMail->addSingleRecipient('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
+            $oMail->setEmailSender('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
+            $oMail->setTitle('Training Certificate');
+            $oMail->addFpdfAttachment($sCertificate);
+            $oMail->send();
+
+            unset($oPdf);
+            unset($oMail);
+        }
+        
+        echo '<br>Certificates sent.';
     }
 }

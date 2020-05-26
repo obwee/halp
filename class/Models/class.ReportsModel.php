@@ -180,4 +180,34 @@ class ReportsModel
         $oStatement->execute();
         return $oStatement->fetchAll();
     }
+
+    public function getFinishedTrainingsForCertificateSending($iScheduleId)
+    {
+        $oQuery = $this->oConnection->prepare(
+            "SELECT tc.courseName, tc.courseDescription, ts.toDate, ts.instructorId,
+                    CONCAT(tu.firstName, ' ', tu.lastName) AS studentName, tu.email,
+                    tv.address, MAX(tp.isPaid) AS paymentStatus
+             FROM tbl_schedules ts
+             INNER JOIN tbl_venue tv
+             ON tv.id = ts.venueId
+             INNER JOIN tbl_courses tc
+             ON tc.id = ts.courseId
+             INNER JOIN tbl_training tt
+             ON tt.scheduleId = ts.id
+             INNER JOIN tbl_users tu
+             ON tu.userId = tt.studentId
+             INNER JOIN tbl_payments tp
+             ON tp.trainingId = tt.id
+             WHERE 1 = 1
+                AND ts.id = ?
+                AND tt.isDone = 1
+            GROUP BY ts.id, tt.studentId
+            HAVING paymentStatus = 2
+            ORDER BY ts.toDate ASC
+        ");
+
+        $oQuery->execute([$iScheduleId]);
+
+        return $oQuery->fetchAll();
+    }
 }

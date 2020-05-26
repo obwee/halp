@@ -42,10 +42,10 @@
                         <a class="nav-link js-scroll-trigger" href="#services">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="courses">Courses</a>
+                        <a class="nav-link js-scroll-trigger" href="#courses">Courses</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="schedules">Schedules</a>
+                        <a class="nav-link js-scroll-trigger" href="#schedules">Schedules</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="#faqs">FAQS</a>
@@ -138,7 +138,7 @@
 
 
     <section id="services" class="section">
-         <div class="container">
+        <div class="container">
             <div class="col-12 text-center">
                 <h2 class="text-black" style="font-family: 'Bebas Neue', cursive;font-size: 45px;font-weight: bold;padding-bottom: 20px;">WHY NEXUS?</h2>
             </div>
@@ -156,7 +156,7 @@
                         <h4><i class="fas fa-ban fa-2x"></i> No Holds Barred</h4>
                         <p>Instructors teach not only theory-based knowledge but also real world applications and industry standard best practices.</p>
                     </div>
-                </div>                
+                </div>
             </div>
 
             <div class="row padding">
@@ -171,7 +171,7 @@
                         <h4><i class="fas fa-certificate fa-2x"></i> Certified Instructors</h4>
                         <p>All instructors are certified in their field. We make sure that our instructors are knowledgeable and has the credentials and experience to guide you towards learining and developing your career.</p>
                     </div>
-                </div>                
+                </div>
             </div>
 
             <div class="row padding">
@@ -186,7 +186,7 @@
                         <h4><i class="fas fa-redo-alt fa-2x"></i> 1 Year Unlimited Review</h4>
                         <p>Nexus offers 1 year unlimited sit-ins in selected courses. Students can sit in, review lectures and re-do the laboratory activities anytime.</p>
                     </div>
-                </div>                
+                </div>
             </div>
 
             <div class="row padding">
@@ -201,18 +201,15 @@
                         <h4><i class="fas fa-book-reader fa-2x"></i> Study Materials</h4>
                         <p>Each student is equipped with their own laboratory manual and hand outs. No sharing of computers, routers and switches. Review materials and installers are also provided.</p>
                     </div>
-                </div>                
+                </div>
             </div>
         </div>
     </section>
 
+    <div class="fixed-image">
 
-            <div class="fixed-image">
-        
-            </div>    
-    
-    
-<!--
+    </div>
+
     <section class="section" id="courses">
         <div class="container">
             <div class="col-lg-12 text-center">
@@ -298,12 +295,11 @@
                     </div>
                 </div>
             </div>
-                
-                <p style="font-size:15px;" align="center">*Prices are subject to change without prior notice.</p>
-            </div>
+            <p style="font-size:15px;" align="center" class=>*Prices are subject to change without prior notice.</p>
+        </div>
         </div>
     </section>
--->
+
     <!--FAQs-->
 
     <section id="faqs" class="section">
@@ -458,7 +454,7 @@
                     <i class="fas fa-map-marked-alt fa-2x mb-3 sr-icon-2" data-toggle="modal" data-target="#makati" style="cursor: pointer;"></i>
                     <p class="lead">MAKATI BRANCH</p>
                     <p class="lead">Unit 2417 Cityland 10 Tower 2, 154 H.V. Dela Costa Street, Ayala North, Makati City</p>
-                    <p class="lead"><i class="fas fa-phone sr-icon-1"></i> +63 2 8362-3755</p>    
+                    <p class="lead"><i class="fas fa-phone sr-icon-1"></i> +63 2 8362-3755</p>
                 </div>
                 <div class="col-sm-6 text-center">
                     <i class="fas fa-map-marked-alt fa-2x mb-3 sr-icon-2" data-toggle="modal" data-target="#manila" style="cursor: pointer;"></i>
@@ -476,11 +472,11 @@
                     <a href="https://www.youtube.com/channel/UCPkEHHjoFuH4sK4VNZk-Ltg"><i class="fab fa-youtube fa-2x"></i></a>
                 </div>
             </div>
-                
-                
-            </div>
+
+
         </div>
-    </section>    
+        </div>
+    </section>
 
 
 
@@ -760,7 +756,7 @@
         </div>
     </div>
 
-    
+
     <!--SCRIPTS-->
     <!--Font Awesome-->
     <script src="https://kit.fontawesome.com/be76a30cc4.js" crossorigin="anonymous"></script>

@@ -141,10 +141,11 @@ class Email
      * addFpdfAttachment
      * Method for adding an attachment for the email to be sent.
      * @param string $sOutput
+     * @param string $sFileName
      */
-    public function addFpdfAttachment($sOutput)
+    public function addFpdfAttachment($sOutput, $sFileName = 'Quotation')
     {
-        $oAttachment = new Swift_Attachment($sOutput, 'Quotation.pdf', 'application/pdf');
+        $oAttachment = new Swift_Attachment($sOutput, $sFileName . '.pdf', 'application/pdf');
         $this->oMessage->attach($oAttachment);
         // $oAttachment = Swift_Attachment::fromPath($sFilePath);
         // $oAttachment->setFilename($sFileName);
