@@ -227,16 +227,19 @@ class Reports extends BaseController
 
     public function sendCertificates()
     {
-        $iScheduleId = $_GET['iScheduleId'];
-        if (filter_var($_GET['iScheduleId'], FILTER_VALIDATE_INT) === false) {
-            echo 'Invalid approach.';
+        $iScheduleId = $this->aParams['iScheduleId'];
+        if (filter_var($iScheduleId, FILTER_VALIDATE_INT) === false) {
+            echo json_encode(array(
+                'bResult' => false,
+                'sMsg'    => 'Invalid approach.'
+            ));
             exit();
         }
 
         // Code here for sending certificates.
         $aScheduleDetails = $this->oReportsModel->getFinishedTrainingsForCertificateSending($iScheduleId);
         $aInstructorDetails = $this->oAdminsModel->fetchAdminsByInstructorIds([$aScheduleDetails[0]['instructorId']]);
-        
+
         $aAdminDetails = array(
             'adminName'      => Session::get('fullName'),
             'instructorName' => $aInstructorDetails[0]['instructorName']
@@ -245,19 +248,22 @@ class Reports extends BaseController
         foreach ($aScheduleDetails as $aDetails) {
             $oPdf = new PdfCertificate($aDetails, $aAdminDetails);
             $sCertificate = $oPdf->Output('Certificate.pdf', 'S');
-    
+
             $oMail = new Email();
             // $oMail->addSingleRecipient($aScheduleDetails[0]['email'], $aScheduleDetails[0]['studentName']);
             $oMail->addSingleRecipient('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
             $oMail->setEmailSender('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
             $oMail->setTitle('Training Certificate');
-            $oMail->addFpdfAttachment($sCertificate);
+            $oMail->addFpdfAttachment($sCertificate, 'Certificate');
             $oMail->send();
 
             unset($oPdf);
             unset($oMail);
         }
-        
-        echo '<br>Certificates sent.';
+
+        echo json_encode(array(
+            'bResult' => true,
+            'sMsg'    => 'Certificates sent.'
+        ));
     }
 }

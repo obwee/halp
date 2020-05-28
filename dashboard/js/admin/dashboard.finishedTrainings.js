@@ -106,8 +106,7 @@ var oFinishedTrainings = (() => {
             }).then((bIsConfirm) => {
                 if (bIsConfirm.value === true) {
                     const iScheduleId = $('#viewClassList').find('#scheduleId').val();
-                    window.open('/Nexus/utils/ajax.php?class=Reports&action=sendCertificates&iScheduleId=' + iScheduleId);
-                    // $('.modal').modal('hide');
+                    window.open('/Nexus/dashboard/admin/printCertificates?iScheduleId=' + iScheduleId);
                 }
             });
         });

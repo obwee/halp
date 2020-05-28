@@ -184,7 +184,7 @@ class ReportsModel
     public function getFinishedTrainingsForCertificateSending($iScheduleId)
     {
         $oQuery = $this->oConnection->prepare(
-            "SELECT tc.courseName, tc.courseDescription, ts.toDate, ts.instructorId,
+            "SELECT tt.id, tc.courseName, tc.courseDescription, ts.toDate, ts.instructorId,
                     CONCAT(tu.firstName, ' ', tu.lastName) AS studentName, tu.email,
                     tv.address, MAX(tp.isPaid) AS paymentStatus
              FROM tbl_schedules ts
