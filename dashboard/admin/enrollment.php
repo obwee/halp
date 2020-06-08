@@ -76,7 +76,7 @@ require_once "Template/header.php";
 </div>
 
 
-<div class="modal fade" id="rescheduleModal" role="dialog" data-backdrop="static">
+<div class="modal fade" id="rescheduleModal" role="dialog">
 	<div class="modal-dialog modal-dialog-centered rescheduleModal">
 		<div class="modal-content">
 			<div class="modal-header" style="background-color: #3c8dbc;">
@@ -134,7 +134,7 @@ require_once "Template/header.php";
 	</div>
 </div>
 
-<div class="modal fade" id="addWalkinModal" role="dialog" data-backdrop="static">
+<div class="modal fade" id="addWalkinModal" role="dialog">
 	<div class="modal-dialog modal-dialog-centered addWalkinModal">
 		<div class="modal-content">
 			<div class="modal-header" style="background-color: #3c8dbc;">
@@ -262,7 +262,7 @@ require_once "Template/header.php";
 	</div>
 </div>
 
-<div class="modal fade" id="approvePaymentModal" role="dialog" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="approvePaymentModal" role="dialog" data-keyboard="false">
 	<div class="modal-dialog modal-xl approvePaymentModal">
 		<div class="modal-content">
 			<div class="modal-header" style="background-color: #3c8dbc;">

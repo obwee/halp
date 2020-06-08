@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2020 at 04:39 PM
+-- Generation Time: Jun 05, 2020 at 12:02 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -62,7 +62,7 @@ INSERT INTO `tbl_courses` (`id`, `courseName`, `courseDescription`, `courseCode`
 (4, 'MCP 20410D', 'Installing and Configuring Windows Server 2012', '20410D', 'Inactive'),
 (5, 'MCSA in Windows Server 2016', 'Microsoft Certified Solutions Associate in Windows Server 2016', 'MCSA2016', 'Active'),
 (6, 'MCSA in Windows Server 2012', 'Microsoft Certified Solutions Associate in Windows Server 2012', 'MCSA2012', 'Active'),
-(7, 'Microsoft Azure Administrator', '', 'AZ-1003T00-A', 'Active'),
+(7, 'Microsoft Azure Administrator', 'Implementing, Monitoring and Maintaining Azure Solutions', 'AZ-1003T00-A', 'Active'),
 (8, 'AWS - Solutions Architect', 'Amazon Web Services Solutions Architect', 'AWS', 'Inactive'),
 (9, 'VMware 6.7 ICM', 'Vmware vSphere 6.7: Install, Configure and Manage', 'VMware', 'Active'),
 (10, 'Vmware Hyper-Converged Infrastructure', '', 'HCI', 'Active'),
@@ -143,16 +143,25 @@ INSERT INTO `tbl_notifications` (`id`, `studentId`, `courseId`, `scheduleId`, `t
 (32, 7, 12, 42, '2', 'admin', 0, '2020-05-02 21:50:19', 1, 0),
 (33, 7, 12, 42, '3', 'student', 0, '2020-05-02 21:50:28', 0, 0),
 (34, 108, 1, 2, '0', 'admin', 1, '2020-05-03 14:32:54', 1, 0),
-(35, 7, 12, 42, '2', 'admin', 0, '2020-05-08 22:15:29', 0, 0),
+(35, 7, 12, 42, '2', 'admin', 0, '2020-05-08 22:15:29', 1, 0),
 (36, 7, 12, 42, '4', 'student', 0, '2020-05-08 22:15:35', 0, 0),
-(37, 7, 7, 32, '2', 'admin', 0, '2020-05-10 14:35:20', 0, 0),
+(37, 7, 7, 32, '2', 'admin', 0, '2020-05-10 14:35:20', 1, 0),
 (38, 7, 7, 32, '3', 'student', 0, '2020-05-10 14:36:45', 0, 0),
-(39, 7, 7, 32, '2', 'admin', 0, '2020-05-10 15:06:04', 0, 0),
-(40, 7, 7, 32, '2', 'admin', 0, '2020-05-10 15:06:13', 0, 0),
+(39, 7, 7, 32, '2', 'admin', 0, '2020-05-10 15:06:04', 1, 0),
+(40, 7, 7, 32, '2', 'admin', 0, '2020-05-10 15:06:13', 1, 0),
 (41, 7, 7, 32, '3', 'student', 0, '2020-05-10 15:06:27', 0, 0),
 (42, 7, 7, 32, '3', 'student', 0, '2020-05-10 15:06:43', 0, 0),
-(43, 7, 1, 2, '0', 'admin', 0, '2020-05-11 20:41:18', 0, 0),
-(44, 7, 1, 2, '2', 'admin', 0, '2020-05-11 20:41:31', 0, 0);
+(43, 7, 1, 2, '0', 'admin', 0, '2020-05-11 20:41:18', 1, 0),
+(44, 7, 1, 2, '2', 'admin', 0, '2020-05-11 20:41:31', 1, 0),
+(45, 7, 7, 32, '0', 'admin', 0, '2020-05-16 18:24:11', 1, 0),
+(46, 7, 7, 32, '2', 'admin', 0, '2020-05-16 18:46:21', 1, 0),
+(47, 7, 12, 25, '0', 'admin', 0, '2020-05-16 18:56:13', 1, 0),
+(48, 7, 7, 32, '3', 'student', 0, '2020-05-16 18:56:33', 0, 0),
+(49, 7, 7, 32, '2', 'admin', 0, '2020-05-16 18:56:56', 1, 0),
+(50, 7, 12, 25, '2', 'admin', 0, '2020-05-16 19:02:05', 1, 0),
+(51, 7, 7, 32, '2', 'admin', 0, '2020-05-16 19:02:55', 1, 0),
+(52, 64, 7, 32, '0', 'admin', 0, '2020-05-16 19:30:02', 1, 0),
+(53, 64, 1, 2, '0', 'admin', 0, '2020-05-16 19:30:35', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -178,14 +187,10 @@ CREATE TABLE `tbl_payments` (
 --
 
 INSERT INTO `tbl_payments` (`id`, `trainingId`, `paymentDate`, `paymentMethod`, `paymentAmount`, `paymentFile`, `isApproved`, `isPaid`, `remarks`, `rejectReason`) VALUES
-(173, 35, '2020-05-02 21:42:32', '2', 1000, '2020-05-02_21-42-32_Mark Exequiel-Sale.jpg', '1', 1, 'Payment', NULL),
-(174, 35, '2020-05-02 21:50:19', '2', 500, '2020-05-02_21-50-19_Mark Exequiel-Sale.jpg', '1', 1, 'Payment', NULL),
-(175, 35, '2020-05-08 22:15:29', NULL, 0, '2020-05-08_22-15-29_Mark Exequiel-Sale.jpg', '2', 0, 'Payment', 'test'),
-(176, 37, '2020-05-10 14:35:20', '2', 5999, '2020-05-10_14-35-20_Mark Exequiel-Sale.jpg', '1', 2, 'Payment', NULL),
-(177, 37, '2020-05-10 15:06:04', '1', 1001, '2020-05-10_15-06-04_Mark Exequiel-Sale.jpg', '1', 2, 'Payment', NULL),
-(178, 37, '2020-05-10 15:06:13', '3', 2000, '2020-05-10_15-06-13_Mark Exequiel-Sale.jpg', '1', 2, 'Payment', NULL),
-(179, 38, '2020-05-11 20:41:31', NULL, 0, '2020-05-11_20-41-31_Mark Exequiel-Sale.jpg', '0', 0, 'Payment', NULL),
-(183, 37, '2020-05-11 21:49:06', '1', -2000, 'N/A', '3', 2, 'Change', NULL);
+(188, 39, '2020-05-16 18:46:21', '2', 1000, '2020-05-16_18-46-21_Mark Exequiel-Sale.jpg', '1', 2, 'Payment', NULL),
+(191, 39, '2020-05-16 19:02:55', '2', 9000, '2020-05-16_19-02-55_Mark Exequiel-Sale.jpg', '1', 2, 'Payment', NULL),
+(192, 41, '2020-05-16 18:46:21', '2', 1000, '2020-05-16_18-46-21_Mark Exequiel-Sale.jpg', '1', 2, 'Payment', NULL),
+(193, 41, '2020-05-16 19:02:55', '2', 9000, '2020-05-16_19-02-55_Mark Exequiel-Sale.jpg', '1', 2, 'Payment', NULL);
 
 -- --------------------------------------------------------
 
@@ -342,10 +347,10 @@ INSERT INTO `tbl_schedules` (`id`, `courseId`, `coursePrice`, `instructorId`, `v
 (27, 10, '20000', 110, 1, 1, 1, '2020-04-07', '2020-04-09', 'none', '1', 'Inactive'),
 (28, 7, '10000', 110, 2, 25, 25, '2020-04-08', '2020-04-10', 'none', '1', 'Active'),
 (29, 10, '8000', 110, 2, 1, 1, '2020-05-14', '2020-05-15', 'none', '1', 'Inactive'),
-(32, 7, '10000', 110, 2, 99, 99, '2020-05-25', '2020-05-29', 'none', '1', 'Active'),
-(42, 12, '2000', 110, 1, 10, 9, '2020-05-04', '2020-05-09', 'weekly', '2', 'Active'),
+(32, 7, '10000', 110, 2, 99, 98, '2020-05-25', '2020-05-29', 'none', '1', 'Active'),
+(42, 12, '2000', 110, 1, 10, 10, '2020-05-04', '2020-05-09', 'weekly', '2', 'Active'),
 (43, 7, '8999', 111, 1, 1, 1, '2020-05-03', '2020-05-10', 'weekly', '2', 'Active'),
-(44, 5, '7000', 111, 2, 30, 29, '2020-05-18', '2020-05-22', 'none', '1', 'Active'),
+(44, 5, '7000', 111, 2, 30, 30, '2020-04-18', '2020-04-22', 'none', '1', 'Active'),
 (45, 5, '7000', 110, 2, 30, 30, '2020-05-31', '2020-06-04', 'none', '1', 'Active');
 
 -- --------------------------------------------------------
@@ -382,10 +387,10 @@ CREATE TABLE `tbl_training` (
 --
 
 INSERT INTO `tbl_training` (`id`, `studentId`, `scheduleId`, `isReserved`, `isDone`, `certificateIssued`, `isCancelled`, `cancellationReason`) VALUES
-(35, 7, 42, 1, 1, 0, 0, NULL),
-(36, 108, 2, 0, 0, 0, 1, 'Unsettled payment.'),
-(37, 7, 44, 1, 0, 0, 0, NULL),
-(38, 7, 2, 0, 0, 0, 0, NULL);
+(39, 7, 32, 1, 1, 0, 0, NULL),
+(40, 7, 25, 0, 0, 0, 0, NULL),
+(41, 64, 32, 1, 1, 0, 0, NULL),
+(42, 64, 2, 0, 0, 0, 1, 'Unsettled payment.');
 
 -- --------------------------------------------------------
 
@@ -567,13 +572,13 @@ ALTER TABLE `tbl_emails`
 -- AUTO_INCREMENT for table `tbl_notifications`
 --
 ALTER TABLE `tbl_notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `tbl_payments`
 --
 ALTER TABLE `tbl_payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=184;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=194;
 
 --
 -- AUTO_INCREMENT for table `tbl_payment_methods`
@@ -615,7 +620,7 @@ ALTER TABLE `tbl_sent_quotations`
 -- AUTO_INCREMENT for table `tbl_training`
 --
 ALTER TABLE `tbl_training`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`

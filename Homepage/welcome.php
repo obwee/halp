@@ -24,13 +24,12 @@
 
 </head>
 
-<body data-spy="scroll" data-target="#mainNav">
+<body id="top">
 
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top" id="mainNav">
-        <div class="container-fluid">
-            <a class="navbar-brand js-scroll-trigger" href="/Nexus/homepage/welcome"><img src="../resource/img/homepage/Nexus-Logo.png" height="50px" width="200px">NEXUS ITTC</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="#top"><img src="../resource/img/homepage/Nexus-Logo.png" height="50px" width="200px">NEXUS ITTC</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -42,7 +41,7 @@
                         <a class="nav-link js-scroll-trigger" href="#services">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="courses">Courses</a>
+                        <a class="nav-link js-scroll-trigger" href="#courses">Courses</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="schedules">Schedules</a>
@@ -64,6 +63,7 @@
         </div>
     </nav>
 
+  
     <div id="carousel" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carousel" data-slide-to="0" class="active"></li>
@@ -120,25 +120,29 @@
     </div>
 
 
-    <section id="about">
-        <div class="container-fluid">
-            <div class="row about-text">
-                <div class="col-12 text-center">
-                    <h4 class="mb-4">Started in 2008, Nexus served as a training center that offers Adobe Photoshop. Later on, we started integrating our trainings to Cisco and Microsoft and since then has improved to cater the needs of its enrollees. Currently, we offer trainings for Cisco, Microsoft, VMware, Citrix and more.</h4>
-                    <p class="mb-4 lead">Providing trainings for IT professionals and beginners, Nexus continues to solidify its industry leadership position in producing quality training for the largest technologies and business trainings.</p>
-                    <p class="mb-4 lead">Nexus trains interested students in their chosen field to learn more and experience more through the advanced and innovative teaching process with the latest devices and certified instructors.</p>
-                    <p class="mb-4 lead">Our mission is to help, guide and prepare trainees in taking and passing the certification exam for each course. To achieve this objective, we continue to practice the values that stand at the core of professional teaching.</p>
+    <div id="about">
+        <section>
+            <div class="container-fluid">
+                <div class="row about-text">
+                    <div class="col-12 text-center">
+                        <h4 class="mb-4">Started in 2008, Nexus served as a training center that offers Adobe Photoshop. Later on, we started integrating our trainings to Cisco and Microsoft and since then has improved to cater the needs of its enrollees. Currently, we offer trainings for Cisco, Microsoft, VMware, Citrix and more.</h4>
+                        <p class="mb-4 lead">Providing trainings for IT professionals and beginners, Nexus continues to solidify its industry leadership position in producing quality training for the largest technologies and business trainings.</p>
+                        <p class="mb-4 lead">Nexus trains interested students in their chosen field to learn more and experience more through the advanced and innovative teaching process with the latest devices and certified instructors.</p>
+                        <p class="mb-4 lead">Our mission is to help, guide and prepare trainees in taking and passing the certification exam for each course. To achieve this objective, we continue to practice the values that stand at the core of professional teaching.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section> 
+    </div>
+    
 
 
     <!--Services-->
+ 
 
-
-    <section id="services" class="section">
-         <div class="container">
+    <div id="services">
+        <section class="section">
+           <div class="container">
             <div class="col-12 text-center">
                 <h2 class="text-black" style="font-family: 'Bebas Neue', cursive;font-size: 45px;font-weight: bold;padding-bottom: 20px;">WHY NEXUS?</h2>
             </div>
@@ -204,7 +208,9 @@
                 </div>                
             </div>
         </div>
-    </section>
+    </section> 
+</div>
+    
 
 
             <div class="fixed-image">
@@ -212,7 +218,7 @@
             </div>    
     
     
-<!--
+
     <section class="section" id="courses">
         <div class="container">
             <div class="col-lg-12 text-center">
@@ -220,90 +226,45 @@
             </div>
         </div>
         <div class="container">
-            <div class="row mt-3">
-                <div class="col-sm-4">
+            <div class="row">
+                <div class="col-md-4">
                     <div class="card text-center">
                         <div class="card-body">
                             <h5 class="card-title">Cisco Certified Network Associate Version 4</h5>
                             <p class="card-text">Implementing and Administering Cisco Solutions</p>
                             <p class="card-text">Training fee: <span>P10,000</span></p>
-                            <a href="#" class="btn btn-sm btn-secondary">Course Calendar</a>
                             <a href="" class="btn btn-sm btn-warning">Course Outline</a>
-                            <a href="#" class="btn btn-sm btn-info mt-2">Enroll Now</a>
+                            <a href="#" class="btn btn-sm btn-info text-center">&nbsp&nbsp&nbsp&nbsp&nbspEnroll Now&nbsp&nbsp&nbsp&nbsp</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-md-4">
                     <div class="card text-center">
                         <div class="card-body">
                             <h5 class="card-title">Cisco Certified Network Professional</h5>
                             <p class="card-text">Enterprise Core</p>
                             <p class="card-text">Training fee: <span>P10,000</span></p>
-                            <a href="#" class="btn btn-sm btn-secondary text-center">Course Calendar</a>
                             <a href="" class="btn btn-sm btn-warning text-center">Course Outline</a>
-                            <a href="#" class="btn btn-sm btn-info mt-2 text-center">Enroll Now</a>
+                            <a href="#" class="btn btn-sm btn-info text-center">&nbsp&nbsp&nbsp&nbsp&nbspEnroll Now&nbsp&nbsp&nbsp&nbsp</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-md-4">
                     <div class="card text-center">
                         <div class="card-body">
                             <h5 class="card-title">Cisco Certified Network Professional</h5>
                             <p class="card-text">Implementing Cisco Enterprise Advanced Routing and Services</p>
                             <p class="card-text">Training fee: <span>P10,000</span></p>
-                            <a href="#" class="btn btn-sm btn-secondary text-center">Course Calendar</a>
                             <a href="" class="btn btn-sm btn-warning text-center">Course Outline</a>
-                            <a href="#" class="btn btn-sm btn-info mt-2 text-center">Enroll Now</a>
+                            <a href="#" class="btn btn-sm btn-info text-center">&nbsp&nbsp&nbsp&nbsp&nbspEnroll Now&nbsp&nbsp&nbsp&nbsp</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row mt-3">
-                <div class="col-sm-4">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">Cisco Certified Network Associate Version 4</h5>
-                            <p class="card-text">Implementing and Administering Cisco Solutions</p>
-                            <p class="card-text">Training fee: <span>P10,000</span></p>
-                            <a href="#" class="btn btn-sm btn-secondary">Course Calendar</a>
-                            <a href="" class="btn btn-sm btn-warning">Course Outline</a>
-                            <a href="#" class="btn btn-sm btn-info mt-2">Enroll Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="card text-center">
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <h5 class="card-title">Cisco Certified Network Professional</h5>
-                                <p class="card-text">Enterprise Core</p>
-                                <p class="card-text">Training fee: <span>P10,000</span></p>
-                                <a href="#" class="btn btn-sm btn-secondary text-center">Course Calendar</a>
-                                <a href="" class="btn btn-sm btn-warning text-center">Course Outline</a>
-                                <a href="#" class="btn btn-sm btn-info mt-2 text-center">Enroll Now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">Cisco Certified Network Professional</h5>
-                            <p class="card-text">Implementing Cisco Enterprise Advanced Routing and Services</p>
-                            <p class="card-text">Training fee: <span>P10,000</span></p>
-                            <a href="#" class="btn btn-sm btn-secondary text-center">Course Calendar</a>
-                            <a href="" class="btn btn-sm btn-warning text-center">Course Outline</a>
-                            <a href="#" class="btn btn-sm btn-info mt-2 text-center">Enroll Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-                
-                <p style="font-size:15px;" align="center">*Prices are subject to change without prior notice.</p>
-            </div>
+            <p style="font-size:15px;" align="center">*Prices are subject to change without prior notice.</p>
         </div>
     </section>
--->
+
     <!--FAQs-->
 
     <section id="faqs" class="section">
@@ -408,34 +369,41 @@
                         </div>
                         <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
                             <div class="card-body">
-                                Choose a payment mode. <br>
-                                Once you have paid you reservation, upload a photo or a PDF copy of your payment to your account under the <strong>Enrollment</strong> tab together with the invoice. <br>
-                                Make sure that you have read the terms and conditions and sign your invoice before proceeding to payment.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header" id="headingSix">
-                            <h2 class="mb-0">
-                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix"><i class="fas fa-question-circle"></i> Do you acknowledge refunds?</button>
-                            </h2>
-                        </div>
-                        <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
-                            <div class="card-body">
-                                Refund requests must be submitted at least three days prior the reserved schedule.
-                                Send your request through your account under the Enrollment Page.
+                                <ol>
+                                   <li>Pay your reservation at any BDO branches nationwide, bank transfer, cheque or cash.</li>
+                                   <li>Once paid, upload a photo or a PDF copy of your payment to your account under the <strong>Enrollment</strong> tab.</li>
+                                   <li>Wait for the confirmation of your slot through your account. A notice will also be sent to the e-mail address you provided upon registering.</li> 
+                                </ol>
                             </div>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-header" id="headingSeven">
                             <h2 class="mb-0">
-                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven"><i class="fas fa-question-circle"></i> Do I need to bring my own laptop to class?</button>
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSix"><i class="fas fa-question-circle"></i> Do you acknowledge refunds?</button>
                             </h2>
                         </div>
                         <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
                             <div class="card-body">
-                                Desktops, routers, switches and other devices are provided by the training center.
+                                <ul>
+                                   <li>Refund requests must be submitted at least three days prior the reserved schedule.</li>
+                                   <li>Send your requests through your account under the Enrollment Page.</li> 
+                                </ul>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingEight">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseSeven"><i class="fas fa-question-circle"></i> Do I need to bring my own laptop to class?</button>
+                            </h2>
+                        </div>
+                        <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordion">
+                            <div class="card-body">
+                                <ul>
+                                    <li>Desktops, routers, switches and other devices are provided by the training center.</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -457,7 +425,7 @@
                 <div class="col-sm-6 text-center">
                     <i class="fas fa-map-marked-alt fa-2x mb-3 sr-icon-2" data-toggle="modal" data-target="#makati" style="cursor: pointer;"></i>
                     <p class="lead">MAKATI BRANCH</p>
-                    <p class="lead">Unit 2417 Cityland 10 Tower 2, 154 H.V. Dela Costa Street, Ayala North, Makati City</p>
+                    <p class="lead">Unit 2417 Cityland 10 Tower 2, 154 H.V. Dela Costa Street, Ayala, Makati City</p>
                     <p class="lead"><i class="fas fa-phone sr-icon-1"></i> +63 2 8362-3755</p>    
                 </div>
                 <div class="col-sm-6 text-center">
@@ -467,17 +435,12 @@
                     <p class="lead"><i class="fas fa-phone sr-icon-1"></i> +63 2 8355-7759</p>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-sm-6 text-center facebook">
-                    <h6>CONNECT</h6>
-                    <i class="fas fa-envelope fa-2x mb-3 sr-icon-3 mx-auto" data-toggle="modal" data-target="#emailUsModal" style="cursor: pointer;"></i>
-                    <a href="https://www.facebook.com/nxs88" target="_blank"><i class="fab fa-facebook fa-2x mb-3 sr-icon-3"></i></a>
-                    <a href="https://www.youtube.com/channel/UCPkEHHjoFuH4sK4VNZk-Ltg"><i class="fab fa-youtube fa-2x"></i></a>
-                </div>
-            </div>
-                
-                
+        </div>
+        <div class="container">
+            <div class="col-lg-12 text-center">
+                <i class="fas fa-envelope fa-2x mb-3 sr-icon-3 mx-auto" data-toggle="modal" data-target="#emailUsModal" style="cursor: pointer;margin-right:10px;"></i>
+                <a href="https://www.facebook.com/nxs88" target="_blank"><i class="fab fa-facebook fa-2x mb-3 sr-icon-3" style="color: white;margin-left:10px;margin-right: 10px;"></i></a>
+                <a href="https://www.youtube.com/channel/UCPkEHHjoFuH4sK4VNZk-Ltg" target="_blank"><i class="fab fa-youtube fa-2x" style="color: white;"></i></a>
             </div>
         </div>
     </section>    
@@ -512,7 +475,7 @@
 
     <!--Registration-->
 
-    <div class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" id="registerModal">
+    <div class="modal fade" tabindex="-1" role="dialog" id="registerModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -690,7 +653,7 @@
     </div>
 
     <!--Email Us Modal-->
-    <div class="modal fade" id="emailUsModal" role="dialog" data-backdrop="static">
+    <div class="modal fade" id="emailUsModal" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -766,22 +729,22 @@
     <script src="https://kit.fontawesome.com/be76a30cc4.js" crossorigin="anonymous"></script>
     <!--jQuery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <!--Bootstrap-->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <!--Sweet Alert-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-
     <script src="../utils/js/utils.Libraries.js"></script>
     <script src="../utils/js/utils.Validations.js"></script>
     <script src="../utils/js/utils.Forms.js"></script>
 
     <script src="js/homepage.js"></script>
 
-    <!--<script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
     <script src="js/scrollreveal.js"></script>
 
 
-     <script type="text/javascript">
+    <!-- <script type="text/javascript">
         $(document).ready(function() {
 
             //$("a").click(function() {
