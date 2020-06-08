@@ -158,6 +158,8 @@ var oEnrollment = (() => {
             $(this).find('form')[0].reset();
             if ($(this).attr('id') === 'addWalkinModal') {
                 $(this).find('.studentId').val('');
+                $('.dropdowns').find('.courseDropdown').empty().append($('<option selected disabled hidden>Select Course</option>'));
+                $('.dropdowns').find('.scheduleDropdown').empty().append($('<option selected disabled hidden>Select Schedule</option>'));
                 $(this).find('.dropdowns select').prop('disabled', true);
             }
         });

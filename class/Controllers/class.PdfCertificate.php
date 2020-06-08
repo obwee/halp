@@ -3,15 +3,26 @@
 use Fpdf\Fpdf;
 
 /**
- * Pdf
+ * PdfCertificate
  * Class for printing PDF certificate of students.
  */
-class Pdf extends Fpdf
+class PdfCertificate extends Fpdf
 {
+
     /**
-     * Pdf constructor.
+     * @var array $aScheduleDetails
      */
-    public function __construct()
+    private $aScheduleDetails;
+
+    /**
+     * @var array $aAdminDetails
+     */
+    private $aAdminDetails;
+
+    /**
+     * PdfCertificate constructor.
+     */
+    public function __construct($aScheduleDetails, $aAdminDetails)
     {
         // Invoke FPDF's constructor.
         parent::__construct('L', 'mm', 'Letter');
@@ -23,6 +34,19 @@ class Pdf extends Fpdf
         $this->SetAutoPageBreak(false);
         // Add page border.
         $this->Rect(15, 13, 250, 190);
+
+        $this->aScheduleDetails = $aScheduleDetails;
+        $this->aAdminDetails = $aAdminDetails;
+
+        $this->prepareCertificate();
+    }
+
+    private function prepareCertificate()
+    {
+        $this->initializePage();
+        $this->setCourseName();
+        $this->setVenue();
+        $this->setInstructorAndAdminName();
     }
 
     /**
@@ -81,7 +105,7 @@ class Pdf extends Fpdf
         $this->Ln(10);
 
         // Set page header title.
-        $this->Cell(259, 35, 'Ximple P. Belza', 0, 0, 'C');
+        $this->Cell(259, 35, $this->aScheduleDetails['studentName'], 0, 0, 'C');
 
         // Line break.
         $this->Ln(1);
@@ -111,7 +135,7 @@ class Pdf extends Fpdf
         // Line break.
         $this->Ln(13);
 
-        $this->Cell(259, 35, 'Cisco Certified Network Associate Version 4', 0, 0, 'C');
+        $this->Cell(259, 35, $this->aScheduleDetails['courseName'], 0, 0, 'C');
 
         // Set the font.
         $this->AddFont('BebasNeue-Regular', '', 'BebasNeue-Regular.php');
@@ -120,7 +144,9 @@ class Pdf extends Fpdf
         // Line break.
         $this->Ln(11);
 
-        $this->Cell(259, 35, 'Implementing and Administering Cisco Solutions', 0, 0, 'C');
+        if (empty($this->aScheduleDetails['courseDescription']) === false) {
+            $this->Cell(259, 35, $this->aScheduleDetails['courseDescription'], 0, 0, 'C');
+        }
     }
 
     /**
@@ -136,12 +162,12 @@ class Pdf extends Fpdf
         // Line break.
         $this->Ln(11);
 
-        $this->Cell(259, 35, 'Given this 22nd day of February, 2020 at', 0, 0, 'C');
+        $this->Cell(259, 35, 'Given this ' . date('jS \d\a\y \of F, Y', strtotime($this->aScheduleDetails['toDate'])) . ' at', 0, 0, 'C');
 
         // Line break.
         $this->Ln(10);
 
-        $this->Cell(259, 35, 'Unit 2417, 24th Floor Cityland 10 Tower 2, 154 H.V. Dela Costa St., Ayala North, Makati City', 0, 0, 'C');
+        $this->Cell(259, 35, $this->aScheduleDetails['address'], 0, 0, 'C');
     }
 
     /**
@@ -162,8 +188,8 @@ class Pdf extends Fpdf
 
         $this->SetLeftMargin(17);
 
-        $this->Cell(90, 30, 'Christoper I. Buenaventura', 0, 0, 'C');
-        $this->Cell(224, 30, 'Angelika Aubrey A. Arbiol', 0, 0, 'C');
+        $this->Cell(90, 30, $this->aAdminDetails['instructorName'], 0, 0, 'C');
+        $this->Cell(224, 30, $this->aAdminDetails['adminName'], 0, 0, 'C');
 
         // Line break.
         $this->Ln(1);
@@ -180,14 +206,5 @@ class Pdf extends Fpdf
         // Set the font.
         $this->Cell(87, 0, 'Instructor', 0, 0, 'C');
         $this->Cell(232, 0, 'Administrator', 0, 0, 'C');
-
-        // Output the certificate into the browser.
-        $this->Output('I', 'Training-Certificate.pdf');
     }
 }
-
-$oPdf = new Pdf();
-$oPdf->initializePage();
-$oPdf->setCourseName();
-$oPdf->setVenue();
-$oPdf->setInstructorAndAdminName();

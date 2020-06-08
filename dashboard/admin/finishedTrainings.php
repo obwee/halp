@@ -27,6 +27,7 @@ require_once "template/header.php";
                 <div style="border: 3px solid #d5d5d5;padding-top:5px;padding-left:5px;padding-right:5px;padding-bottom:0;border-radius: 4px 4px;margin-bottom:5px;">
                     <b>Training Details:</b>
                     <div class="form-group row" style="margin-left:15px;">
+                        <input type="hidden" readonly class="form-control-plaintext" id="scheduleId">
                         <label for="courseName" class="col-sm-3 col-form-label"><span class="fas fa-book"></span> <b>Course</b></label>
                         <div class="col-sm-9">
                             <input type="text" readonly class="form-control-plaintext" id="courseName">
@@ -45,7 +46,7 @@ require_once "template/header.php";
                         </div>
                     </div>
                 </div>
-                <div align="right" class="mt-3 mb-3" hidden>
+                <div align="right" class="mt-3 mb-3">
                     <button type="button" id="sendCertificates" class="btn btn-primary">Send Certificates</button>
                 </div>
                 <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">

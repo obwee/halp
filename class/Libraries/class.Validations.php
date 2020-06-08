@@ -1416,7 +1416,7 @@ class Validations
      * @param array $aParams
      * @return array $aValidationResult
      */
-    public function validateUpdateLoginCredentials($aParams)
+    public static function validateUpdateLoginCredentials($aParams)
     {
         $aRules = array(
             array(

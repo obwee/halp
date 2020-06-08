@@ -1,6 +1,6 @@
 var oLibraries = (() => {
 
-    function displayAlertMessage(sType, sMsg) {
+    function displayAlertMessage(sType, sMsg, oCallback = () => { }) {
         let oSwal = {
             'error': {
                 title: 'Error.',
@@ -21,8 +21,7 @@ var oLibraries = (() => {
                 confirmButtonText: 'OK'
             }
         };
-
-        Swal.fire(oSwal[sType]);
+        Swal.fire(oSwal[sType]).then(oCallback);
     }
 
     function displayErrorMessage(formName, msg, element, isModal = true) {
