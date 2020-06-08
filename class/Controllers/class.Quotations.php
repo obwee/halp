@@ -372,7 +372,7 @@ class Quotations extends BaseController
 
         $this->oQuotationModel->approveQuotation(array_splice($aIds, 0, -1));
 
-        // $this->processSendingEmail($aSenderDetails, $aCourseDetails);
+        $this->processSendingEmail($aSenderDetails, $aCourseDetails);
 
         $aParams = array(
             'studentId'  => (empty($this->aParams['iUserId']) === false) ? $this->aParams['iUserId'] : $this->aParams['iSenderId'],
@@ -416,7 +416,8 @@ class Quotations extends BaseController
         $sOutput = $oPdf->Output('Quotation.pdf', 'S');
 
         $oMail = new Email();
-        $oMail->addSingleRecipient($aSenderDetails['sEmail'], $aSenderDetails['sFullName']);
+        // $oMail->addSingleRecipient($aSenderDetails['sEmail'], $aSenderDetails['sFullName']);
+        $oMail->addSingleRecipient('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
         $oMail->setEmailSender('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
         $oMail->setTitle('Quotation Request');
         $oMail->addFpdfAttachment($sOutput);

@@ -96,6 +96,21 @@ var oFinishedTrainings = (() => {
             $('#viewClassList').modal('show');
         });
 
+        $(document).on('click', '#sendCertificates', () => {
+            Swal.fire({
+                title: 'Send certificates',
+                text: 'This will send certificates to students without one yet.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+            }).then((bIsConfirm) => {
+                if (bIsConfirm.value === true) {
+                    const iScheduleId = $('#viewClassList').find('#scheduleId').val();
+                    window.open('/Nexus/dashboard/admin/printCertificates?iScheduleId=' + iScheduleId);
+                }
+            });
+        });
+
         $(document).on('click', '#clearBalance', function () {
             const iStudentId = $(this).attr('data-id');
             const oStudentDetails = aStudentList.filter(oDetails => oDetails.studentId == iStudentId)[0];
@@ -237,6 +252,7 @@ var oFinishedTrainings = (() => {
         const oClassDetails = aTrainings.filter(oList => oList.scheduleId == iScheduleId)[0];
 
         $('#viewClassList').find('#courseName').val(oClassDetails.courseCode);
+        $('#viewClassList').find('#scheduleId').val(oClassDetails.scheduleId);
         $('#viewClassList').find('#schedule').val(oClassDetails.schedule);
         $('#viewClassList').find('#venue').val(oClassDetails.venue);
         $('#viewClassList').find('#instructor').val(oClassDetails.instructor);

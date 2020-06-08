@@ -59,7 +59,7 @@ var oCourses = (function() {
     function getAvailableCoursesAndSchedules() {
         axios.get('/Nexus/utils/ajax.php?class=Forms&action=fetchHomepageData')
             .then(function (oResponse) {
-				console.log(oResponse.data)
+				console.log(oResponse.data);
             });
     }
 
