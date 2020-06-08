@@ -261,6 +261,8 @@ class Reports extends BaseController
             unset($oMail);
         }
 
+        $this->oReportsModel->issueCertificate($iScheduleId);
+
         echo json_encode(array(
             'bResult' => true,
             'sMsg'    => 'Certificates sent.'

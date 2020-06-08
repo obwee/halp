@@ -147,7 +147,7 @@ class Student extends BaseController
             $iQuery = $this->oTrainingModel->enrollForTraining($this->aParams['scheduleId'], $this->aParams['courseId'], $this->getUserId());
 
             if ($iQuery > 0) {
-                // $this->sendEmailToAdmin($this->aParams);
+                $this->sendEmailToAdmin($this->aParams);
 
                 $aParams = array(
                     'studentId'  => $this->getUserId(),
@@ -271,7 +271,7 @@ class Student extends BaseController
             $aResult = $aValidationResult;
         }
 
-        // $this->sendEmailToAdmin($this->aParams);
+        $this->sendEmailToAdmin($this->aParams);
 
         echo json_encode($aResult);
     }

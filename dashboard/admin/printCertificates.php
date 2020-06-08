@@ -25,6 +25,7 @@ require_once "template/scripts.php";
                 icon: 'info',
                 showConfirmButton: 'false',
                 showLoaderOnConfirm: 'true',
+                allowEscapeKey: 'false',
                 onOpen: () => {
                     Swal.clickConfirm();
                 },

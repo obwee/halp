@@ -210,4 +210,18 @@ class ReportsModel
 
         return $oQuery->fetchAll();
     }
+
+    public function issueCertificate($iScheduleId)
+    {
+        // Prepare an update query to the users table.
+        $oStatement = $this->oConnection->prepare("
+            UPDATE tbl_training
+            SET
+                certificateIssued = 1
+            WHERE scheduleId = ?
+        ");
+
+        // Return the result of the execution of the above statement.
+        return $oStatement->execute([$iScheduleId]);
+    }
 }

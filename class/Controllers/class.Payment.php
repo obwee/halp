@@ -307,7 +307,7 @@ class Payment extends BaseController
         }
 
         if ($iApproveQuery > 0) {
-            // $this->sendEmailToStudent($aTrainingData, $iOverallPayment, $this->aParams['isPaid'], 'approved');
+            $this->sendEmailToStudent($aTrainingData, $iOverallPayment, $this->aParams['isPaid'], 'approved');
 
             $aParams = array(
                 'studentId'  => $aTrainingData['studentId'],
@@ -357,7 +357,7 @@ class Payment extends BaseController
         $iQuery = $this->oPaymentModel->rejectPayment($this->aParams);
 
         if ($iQuery > 0) {
-            // $this->sendEmailToStudent($aTrainingData, $iBalance, $aPaymentDetails['paymentStatus'], 'rejected');
+            $this->sendEmailToStudent($aTrainingData, $iBalance, $aPaymentDetails['paymentStatus'], 'rejected');
             $aParams = array(
                 'studentId'  => $aTrainingData['studentId'],
                 'courseId'   => $aTrainingData['courseId'],
