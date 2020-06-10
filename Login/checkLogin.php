@@ -55,7 +55,8 @@ if (validateData() === true) {
             // Prepare the result to be sent back to the AJAX request.
             $result = array(
                 'result' => true,
-                'msg'    => 'Success!'
+                'msg'    => 'Success!',
+                'url'    => ($userDetails['position'] === 'Student') ? '../dashboard/student' : '../dashboard/admin'
             );
         } else { // Password is incorrect.
             $result = array(

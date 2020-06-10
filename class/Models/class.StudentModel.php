@@ -257,7 +257,8 @@ class StudentModel
         $statement = $this->oConnection->prepare("
             SELECT
                 userId AS studentId,
-                CONCAT(firstName, ' ', lastName) AS studentName
+                CONCAT(firstName, ' ', lastName) AS studentName,
+                'Yes' AS hasAccount
             FROM tbl_users
             WHERE userId IN ($sPlaceHolders)
         ");

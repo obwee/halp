@@ -47,7 +47,7 @@ $(document).ready(function () {
                     // If data sent back by the request is true.
                     if (data.result === true) {
                         // Redirect to dashboard 
-                        $(location).attr('href', '../dashboard/admin')
+                        $(location).attr('href', data.url)
                     } else {
                         // Else, display error message.
                         $('#error').html("<span class='text-danger'>" + data.msg + "</span>");
