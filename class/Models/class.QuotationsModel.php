@@ -146,6 +146,31 @@ class QuotationsModel
     }
 
     /**
+     * fetchSenderDetails
+     * Fetch quotation senders from the tbl_quotation_senders table using sender ID.
+     */
+    public function fetchSenderDetails($aSenderIds)
+    {
+        $sPlaceHolders = str_repeat ('?, ',  count ($aSenderIds) - 1) . '?';
+
+        // Query the tbl_quotation_details.
+        $statement = $this->oConnection->prepare("
+            SELECT
+                quoteSenderId AS studentId,
+                CONCAT(firstName, ' ', lastName) AS studentName,
+                'No' AS hasAccount
+            FROM tbl_quotation_senders
+            WHERE quoteSenderId IN ($sPlaceHolders)
+        ");
+
+        // Execute the above statement along with the needed where clauses.
+        $statement->execute($aSenderIds);
+
+        // Return the result of the execution of the above statement.
+        return $statement->fetchAll();
+    }
+
+    /**
      * fetchRequests
      * Fetch quotation details from the tbl_quotation_senders table using senderId and userId.
      * @param array $aData

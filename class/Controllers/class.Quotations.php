@@ -153,6 +153,7 @@ class Quotations extends BaseController
                 'courseId'   => 0,
                 'scheduleId' => 0,
                 'type'       => 8,
+                'hasAccount' => (empty($iUserId) === false) ? 1 : 0,
                 'receiver'   => 'admin',
                 'date'       => dateNow()
             );

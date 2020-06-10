@@ -135,6 +135,13 @@ var oVenue = (() => {
 
             const aFormData = $(sFormId).serializeArray();
 
+            for (const iKey in aFormData) {
+                if (aFormData[iKey].value === '') {
+                    oLibraries.displayAlertMessage('error', 'Please fill-in all the inputs.');
+                    return false;
+                }
+            }
+
             // Disable the form.
             oForms.disableFormState(sFormId, true);
 

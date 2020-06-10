@@ -1,5 +1,8 @@
 <?php
-//echo $_SESSION["LOA"] !== 'Student' ? "<script type='text/javascript'>window.history.back();</script>" : '';
+if (empty($_SESSION) === true) {
+    echo "<script type='text/javascript'>window.location.href = '/Nexus/homepage/welcome';</script>";
+}
+echo (isset($_SESSION['LOA']) === true && $_SESSION['LOA'] !== 'Student') ? "<script type='text/javascript'>window.history.back();</script>" : '';
 ?>
 <!DOCTYPE html>
 <html>
