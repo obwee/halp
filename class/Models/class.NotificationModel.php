@@ -118,9 +118,9 @@ class NotificationModel
         // Prepare an update query to the schedules table.
         $oStatement = $this->oConnection->prepare("
             INSERT INTO tbl_notifications
-                (studentId, courseId, scheduleId, type, receiver, date)
+                (studentId, courseId, scheduleId, type, receiver, date, hasAccount)
             VALUES
-                (:studentId, :courseId, :scheduleId, :type, :receiver, :date)
+                (:studentId, :courseId, :scheduleId, :type, :receiver, :date, :hasAccount)
         ");
 
         // Return the result of the execution of the above statement.

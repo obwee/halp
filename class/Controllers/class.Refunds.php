@@ -54,6 +54,7 @@ class Refunds extends BaseController
                 'courseId'   => $aTrainingData['courseId'],
                 'scheduleId' => $aTrainingData['scheduleId'],
                 'type'       => 5,
+                'hasAccount' => 1,
                 'receiver'   => 'admin',
                 'date'       => dateNow()
             );
@@ -189,6 +190,7 @@ class Refunds extends BaseController
                 'courseId'   => $aTrainingData['courseId'],
                 'scheduleId' => $aTrainingData['scheduleId'],
                 'type'       => 7,
+                'hasAccount' => 1,
                 'receiver'   => 'student',
                 'date'       => dateNow()
             );
@@ -239,6 +241,7 @@ class Refunds extends BaseController
                 'courseId'   => $aTrainingData['courseId'],
                 'scheduleId' => $aTrainingData['scheduleId'],
                 'type'       => 6,
+                'hasAccount' => 1,
                 'receiver'   => 'student',
                 'date'       => dateNow()
             );

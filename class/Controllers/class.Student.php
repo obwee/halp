@@ -154,6 +154,7 @@ class Student extends BaseController
                     'courseId'   => $this->aParams['courseId'],
                     'scheduleId' => $this->aParams['scheduleId'],
                     'type'       => 0,
+                    'hasAccount' => 1,
                     'receiver'   => 'admin',
                     'date'       => dateNow()
                 );
