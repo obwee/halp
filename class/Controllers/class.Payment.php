@@ -221,6 +221,7 @@ class Payment extends BaseController
                 'courseId'   => $aTrainingData['courseId'],
                 'scheduleId' => $aTrainingData['scheduleId'],
                 'type'       => 2,
+                'hasAccount' => 1,
                 'receiver'   => 'admin',
                 'date'       => dateNow()
             );
@@ -314,6 +315,7 @@ class Payment extends BaseController
                 'courseId'   => $aTrainingData['courseId'],
                 'scheduleId' => $aTrainingData['scheduleId'],
                 'type'       => 3,
+                'hasAccount' => 1,
                 'receiver'   => 'student',
                 'date'       => dateNow()
             );
@@ -363,6 +365,7 @@ class Payment extends BaseController
                 'courseId'   => $aTrainingData['courseId'],
                 'scheduleId' => $aTrainingData['scheduleId'],
                 'type'       => 4,
+                'hasAccount' => 1,
                 'receiver'   => 'student',
                 'date'       => dateNow()
             );

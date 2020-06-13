@@ -220,6 +220,7 @@ class Quotations extends BaseController
                 'courseId'   => 0,
                 'scheduleId' => 0,
                 'type'       => 8,
+                'hasAccount' => 1,
                 'receiver'   => 'admin',
                 'date'       => dateNow()
             );
@@ -380,6 +381,7 @@ class Quotations extends BaseController
             'courseId'   => 0,
             'scheduleId' => 0,
             'type'       => 9,
+            'hasAccount' => 1,
             'receiver'   => 'student',
             'date'       => dateNow()
         );
@@ -468,6 +470,7 @@ class Quotations extends BaseController
                 'courseId'   => 0,
                 'scheduleId' => 0,
                 'type'       => 8,
+                'hasAccount' => 1,
                 'receiver'   => 'admin',
                 'date'       => dateNow()
             );

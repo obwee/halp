@@ -44,7 +44,7 @@
                         <a class="nav-link js-scroll-trigger" href="#courses">Courses</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#schedules">Schedules</a>
+                        <a class="nav-link js-scroll-trigger" data-toggle="modal" data-target="#calendarModal">Schedules</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="#faqs">FAQS</a>
@@ -63,7 +63,7 @@
         </div>
     </nav>
 
-  
+
     <div id="carousel" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carousel" data-slide-to="0" class="active"></li>
@@ -132,13 +132,13 @@
                     </div>
                 </div>
             </div>
-        </section> 
+        </section>
     </div>
-    
+
 
 
     <!--Services-->
- 
+
     <section id="services" class="section">
         <div class="container">
             <div class="col-12 text-center">
@@ -206,9 +206,9 @@
                 </div>
             </div>
         </div>
-    </section> 
-</div>
-    
+    </section>
+    </div>
+
 
     <div class="fixed-image">
 
@@ -220,7 +220,7 @@
                 <h2 class="text-black" style="font-family: 'Bebas Neue', cursive;font-size: 45px;font-weight: bold;">COURSES OFFERED</h2>
             </div>
         </div>
-        <div class="container">
+        <!-- <div class="container">
             <div class="row">
                 <div class="col-md-4">
                     <div class="card text-center">
@@ -256,8 +256,9 @@
                     </div>
                 </div>
             </div>
-            <p style="font-size:15px;" align="center">*Prices are subject to change without prior notice.</p>
-        </div>
+        </div> -->
+        <div class="container coursesOffered"></div>
+        <p style="font-size:15px;" align="center" class="pt-3">*Prices are subject to change without prior notice.</p>
     </section>
 
     <!--FAQs-->
@@ -365,9 +366,9 @@
                         <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
                             <div class="card-body">
                                 <ol>
-                                   <li>Pay your reservation at any BDO branches nationwide, bank transfer, cheque or cash.</li>
-                                   <li>Once paid, upload a photo or a PDF copy of your payment to your account under the <strong>Enrollment</strong> tab.</li>
-                                   <li>Wait for the confirmation of your slot through your account. A notice will also be sent to the e-mail address you provided upon registering.</li> 
+                                    <li>Pay your reservation at any BDO branches nationwide, bank transfer, cheque or cash.</li>
+                                    <li>Once paid, upload a photo or a PDF copy of your payment to your account under the <strong>Enrollment</strong> tab.</li>
+                                    <li>Wait for the confirmation of your slot through your account. A notice will also be sent to the e-mail address you provided upon registering.</li>
                                 </ol>
                             </div>
                         </div>
@@ -381,10 +382,10 @@
                         <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
                             <div class="card-body">
                                 <ul>
-                                   <li>Refund requests must be submitted at least three days prior the reserved schedule.</li>
-                                   <li>Send your requests through your account under the Enrollment Page.</li> 
+                                    <li>Refund requests must be submitted at least three days prior the reserved schedule.</li>
+                                    <li>Send your requests through your account under the Enrollment Page.</li>
                                 </ul>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -421,7 +422,7 @@
                     <i class="fas fa-map-marked-alt fa-2x mb-3 sr-icon-2" data-toggle="modal" data-target="#makati" style="cursor: pointer;"></i>
                     <p class="lead">MAKATI BRANCH</p>
                     <p class="lead">Unit 2417 Cityland 10 Tower 2, 154 H.V. Dela Costa Street, Ayala, Makati City</p>
-                    <p class="lead"><i class="fas fa-phone sr-icon-1"></i> +63 2 8362-3755</p>    
+                    <p class="lead"><i class="fas fa-phone sr-icon-1"></i> +63 2 8362-3755</p>
                 </div>
                 <div class="col-sm-6 text-center">
                     <i class="fas fa-map-marked-alt fa-2x mb-3 sr-icon-2" data-toggle="modal" data-target="#manila" style="cursor: pointer;"></i>
@@ -718,26 +719,55 @@
         </div>
     </div>
 
+    <!--Email Us Modal-->
+    <div class="modal fade" id="calendarModal" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Schedules</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="padding:30px 50px;">
+                    <div class="container">
+                        <div class="container" id='calendar'></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!--SCRIPTS-->
     <!--Font Awesome-->
     <script src="https://kit.fontawesome.com/be76a30cc4.js" crossorigin="anonymous"></script>
     <!--jQuery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <!--Bootstrap-->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <!--Sweet Alert-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
     <script src="../utils/js/utils.Libraries.js"></script>
     <script src="../utils/js/utils.Validations.js"></script>
     <script src="../utils/js/utils.Forms.js"></script>
 
+    <?php require_once "template/calendarCssAndScripts.php"; ?>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
     <script src="js/homepage.js"></script>
+    <script src="js/courses.js"></script>
+    <script src="js/schedules.js"></script>
 
     <script src="https://unpkg.com/scrollreveal"></script>
     <script src="js/scrollreveal.js"></script>
-
 
     <!-- <script type="text/javascript">
         $(document).ready(function() {

@@ -73,4 +73,35 @@ class Forms extends BaseController
 
         echo json_encode(array_values($aCourses));
     }
+
+    public function renderCourses()
+    {
+        $aCourses = array_filter($this->oCourseModel->fetchAllCourses(), fn ($aCourse) => $aCourse['status'] === 'Active' && $aCourse['courseDescription'] !== '');
+        $aChunkedCourses = array_chunk($aCourses, 3);
+        $sHtml = $this->prepareBoostrapMarkup($aChunkedCourses);
+
+        echo $sHtml;
+    }
+
+    private function prepareBoostrapMarkup($aChunkedCourses)
+    {
+        $sHtml = '';
+        foreach ($aChunkedCourses as $aCourses) {
+            $sHtml .= '<div class="row">';
+            foreach ($aCourses as $aDetails) {
+                $sHtml .= '<div class="col-md-4">';
+                $sHtml .= '<div class="card text-center">';
+                $sHtml .= '<div class="card-body">';
+                $sHtml .= '<h5 class="card-title">' . $aDetails['courseName'] . '</h5>';
+                $sHtml .= '<p class="card-text">' . $aDetails['courseCode'] . '</p>';
+                $sHtml .= '<p class="card-text">' . $aDetails['courseDescription'] . '</p>';
+                $sHtml .= '<a href="#" class="btn btn-sm btn-info text-center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enroll Now&nbsp;&nbsp;&nbsp;&nbsp;</a>';
+                $sHtml .= '</div>';
+                $sHtml .= '</div>';
+                $sHtml .= '</div>';
+            }
+                $sHtml .= '</div>';
+        }
+        return $sHtml;
+    }
 }
