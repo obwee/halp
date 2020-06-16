@@ -91,7 +91,7 @@ class Notification extends BaseController
                 $aSenderIds[$aValue['studentId']] = $aValue['studentId'];
             }
         }
-        
+
         $oQuotationModel = new QuotationsModel();
         $aSenderDetails = $oQuotationModel->fetchSenderDetails(array_values($aSenderIds));
         $aStudentDetails = $this->oStudentModel->getStudentsDetails(array_values($aStudentIds));
@@ -99,23 +99,23 @@ class Notification extends BaseController
         foreach ($aNotifications as $iKey => $aValue) {
             $aDetails = $aStudentDetails;
             $iStudentKey = Utils::searchKeyByValueInMultiDimensionalArray($aValue['studentId'], $aDetails, 'studentId');
-            if (empty($iStudentKey) === true) {
-                $aDetails = $aSenderDetails;
-                $iStudentKey = Utils::searchKeyByValueInMultiDimensionalArray($aValue['studentId'], $aDetails, 'studentId');
-            }
 
             // If notification is about quotation...
             if (in_array($aValue['type'], [8, 9]) == true) {
+                if ($aValue['hasAccount'] === 0) {
+                    $aDetails = $aSenderDetails;
+                    $iStudentKey = Utils::searchKeyByValueInMultiDimensionalArray($aValue['studentId'], $aDetails, 'studentId');
+                }
                 $aReturnData[$iKey]['notifText'] = $aDetails[$iStudentKey]['studentName'];
                 $aReturnData[$iKey]['notifText'] .= ' has ' . $this->aNotificationType[$aValue['type']]['sText'];
-                
+
                 $aReturnData[$iKey]['notifDate'] = $aValue['date'];
                 $aReturnData[$iKey]['notifIcon'] = $this->aNotificationType[$aValue['type']]['sIcon'];
             } else {
                 $aReturnData[$iKey]['notifText'] = $aDetails[$iStudentKey]['studentName'];
                 $aReturnData[$iKey]['notifText'] .= ' has ' . $this->aNotificationType[$aValue['type']]['sText'];
                 $aReturnData[$iKey]['notifText'] .= ' for ' . $aValue['courseCode'] . '.';
-    
+
                 $aReturnData[$iKey]['notifDate'] = $aValue['date'];
                 $aReturnData[$iKey]['notifIcon'] = $this->aNotificationType[$aValue['type']]['sIcon'];
             }
