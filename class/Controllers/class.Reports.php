@@ -186,7 +186,7 @@ class Reports extends BaseController
             $aSalesReportData[$iKey]['schedule'] = $aParams['schedule'];
             $aSalesReportData[$iKey]['venue'] = $aParams['venue'];
             $aSalesReportData[$iKey]['coursePrice'] = $aParams['coursePrice'];
-            $aSalesReportData[$iKey]['paymentAmount'] = Utils::toCurrencyFormat($aParams['paymentAmount']);
+            $aSalesReportData[$iKey]['paymentAmount'] = $aParams['paymentAmount'];
             $aSalesReportData[$iKey]['paymentDate'] = $aParams['paymentDate'];
             $aSalesReportData[$iKey]['paymentStatus'] = $aParams['paymentStatus'];
         }
