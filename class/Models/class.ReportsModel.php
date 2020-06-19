@@ -44,8 +44,8 @@ class ReportsModel
              INNER JOIN tbl_courses tc
              ON tc.id = ts.courseId
                 WHERE 1 = 1
-                AND tp.isPaid = 1
-             GROUP BY ts.id
+                AND tp.isPaid IN (1, 2)
+             GROUP BY ts.id, tu.userId
              ORDER BY ts.toDate ASC"
         );
 
@@ -71,7 +71,7 @@ class ReportsModel
             ON tu.userId = tt.studentId
             INNER JOIN tbl_courses tc
             ON tc.id = ts.courseId
-            WHERE 1 = 1  AND tp.isPaid = 1 ";
+            WHERE 1 = 1  AND tp.isPaid IN (1, 2) ";
 
         $aWhere = array(
             'fromDate'   => 'AND ts.fromDate >= "%s" ',
@@ -85,7 +85,7 @@ class ReportsModel
             $sQuery .= sprintf($aWhere[$sKey], $sValue);
         }
 
-        $sQuery .= "GROUP BY ts.id ORDER BY ts.toDate ASC";
+        $sQuery .= "GROUP BY ts.id, tu.userId ORDER BY ts.toDate ASC";
 
         $oStatement = $this->oConnection->prepare($sQuery);
         $oStatement->execute();

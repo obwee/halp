@@ -192,6 +192,9 @@ class PdfClassList extends Fpdf
 
         foreach ($this->aReportData as $iKey => $aData) {
             foreach ($aData as $sKey => $sValue) {
+                if ($sKey === 'studentId' || $sKey === 'trainingId') {
+                    continue;
+                }
                 $this->Cell($aCellProperties[$sKey]['iWidth'], 5, $sValue, 1, 0, 'C');
             }
             $this->Ln(5);
