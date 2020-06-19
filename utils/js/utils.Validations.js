@@ -330,7 +330,8 @@ class Validations {
                 element: '#emailMsg',
                 length: $.trim($(sFormId).find('#emailMsg').val()).length,
                 minLength: 4,
-                maxLength: 255
+                maxLength: 255,
+                pattern: /.+/g
             }
         ];
 

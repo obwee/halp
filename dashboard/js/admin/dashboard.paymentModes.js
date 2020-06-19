@@ -113,7 +113,7 @@ let oPaymentModes = (() => {
             const sFormId = `#${$(this).attr('id')}`;
 
             // Disable the form.
-            // oForms.disableFormState(sFormId, true);
+            oForms.disableFormState(sFormId, true);
 
             // Invoke the resetInputBorders method inside oForms utils for that form.
             oForms.resetInputBorders(sFormId);

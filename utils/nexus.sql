@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 05, 2020 at 12:02 PM
+-- Generation Time: Jun 19, 2020 at 06:29 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -95,7 +95,8 @@ INSERT INTO `tbl_emails` (`id`, `firstName`, `middleName`, `lastName`, `email`, 
 (30, 'asfmalkf', 'fjskljfkl', 'fjskalfjsakl', 'aubrey@gmail.com', 'sfajsfkl', 'fjkslfja<br />\r\ns', '2020-02-21 23:26:37'),
 (31, 'asfmalkf', 'fjskljfkl', 'fjskalfjsakl', 'aubrey@gmail.com', 'sfajsfkl', 'fjkslfja<br />\r\ns', '2020-02-21 23:32:09'),
 (32, 'asfmalkf', 'fjskljfkl', 'fjskalfjsakl', 'aubrey@gmail.com', 'sfajsfkl', 'fjkslfja<br />\r\ns', '2020-02-21 23:32:54'),
-(33, 'fsafkajk', 'jfkslajfkalsj', 'kfjsakfjaskl', 'jfsklasjfkl@gmail.com', 'fjsakfjsak', 'jfklsajfklasjfklsafj<br />\r\n<br />\r\n2141421412', '2020-02-21 23:37:23');
+(33, 'fsafkajk', 'jfkslajfkalsj', 'kfjsakfjaskl', 'jfsklasjfkl@gmail.com', 'fjsakfjsak', 'jfklsajfklasjfklsafj<br />\r\n<br />\r\n2141421412', '2020-02-21 23:37:23'),
+(34, 'Test First', 'Test Middle', 'Test Last', 'testEmail@email.com', 'Test Subject', 'Test message.', '2020-06-19 09:13:17');
 
 -- --------------------------------------------------------
 
@@ -109,6 +110,7 @@ CREATE TABLE `tbl_notifications` (
   `courseId` int(11) NOT NULL,
   `scheduleId` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
+  `hasAccount` tinyint(1) NOT NULL DEFAULT 1,
   `receiver` varchar(255) NOT NULL,
   `status` int(11) DEFAULT 0,
   `date` datetime NOT NULL,
@@ -120,48 +122,53 @@ CREATE TABLE `tbl_notifications` (
 -- Dumping data for table `tbl_notifications`
 --
 
-INSERT INTO `tbl_notifications` (`id`, `studentId`, `courseId`, `scheduleId`, `type`, `receiver`, `status`, `date`, `hasOpenedByAdmin`, `hasOpenedByStudent`) VALUES
-(1, 7, 1, 2, '0', 'admin', 0, '2020-04-26 16:13:28', 1, 0),
-(2, 7, 2, 3, '0', 'admin', 1, '2020-04-27 21:59:54', 1, 0),
-(15, 7, 1, 2, '3', 'student', 0, '2020-04-29 20:56:45', 0, 1),
-(16, 7, 2, 3, '4', 'student', 0, '2020-04-29 21:55:53', 0, 1),
-(17, 7, 1, 2, '2', 'admin', 1, '2020-04-30 21:43:57', 1, 0),
-(18, 7, 1, 2, '4', 'student', 1, '2020-04-30 21:45:48', 0, 1),
-(19, 7, 12, 42, '0', 'admin', 1, '2020-04-30 21:58:00', 1, 0),
-(20, 7, 12, 42, '1', 'student', 1, '2020-04-30 21:58:17', 0, 1),
-(21, 7, 1, 2, '5', 'admin', 1, '2020-04-30 22:19:19', 1, 0),
-(22, 7, 1, 2, '7', 'student', 0, '2020-04-30 22:26:12', 0, 1),
-(23, 7, 1, 2, '7', 'student', 1, '2020-04-30 22:27:03', 0, 1),
-(24, 7, 1, 2, '5', 'admin', 1, '2020-04-30 22:27:30', 1, 0),
-(25, 7, 1, 2, '6', 'student', 1, '2020-04-30 22:27:38', 0, 1),
-(26, 7, 0, 0, '8', 'admin', 1, '2020-05-02 17:19:34', 1, 0),
-(27, 7, 0, 0, '9', 'student', 1, '2020-05-02 17:28:01', 0, 1),
-(28, 7, 12, 42, '0', 'admin', 0, '2020-05-02 21:41:56', 1, 0),
-(29, 7, 12, 42, '2', 'admin', 0, '2020-05-02 21:42:33', 1, 0),
-(30, 7, 12, 42, '3', 'student', 0, '2020-05-02 21:43:50', 0, 0),
-(31, 26, 0, 0, '8', 'admin', 0, '2020-05-02 21:48:11', 1, 0),
-(32, 7, 12, 42, '2', 'admin', 0, '2020-05-02 21:50:19', 1, 0),
-(33, 7, 12, 42, '3', 'student', 0, '2020-05-02 21:50:28', 0, 0),
-(34, 108, 1, 2, '0', 'admin', 1, '2020-05-03 14:32:54', 1, 0),
-(35, 7, 12, 42, '2', 'admin', 0, '2020-05-08 22:15:29', 1, 0),
-(36, 7, 12, 42, '4', 'student', 0, '2020-05-08 22:15:35', 0, 0),
-(37, 7, 7, 32, '2', 'admin', 0, '2020-05-10 14:35:20', 1, 0),
-(38, 7, 7, 32, '3', 'student', 0, '2020-05-10 14:36:45', 0, 0),
-(39, 7, 7, 32, '2', 'admin', 0, '2020-05-10 15:06:04', 1, 0),
-(40, 7, 7, 32, '2', 'admin', 0, '2020-05-10 15:06:13', 1, 0),
-(41, 7, 7, 32, '3', 'student', 0, '2020-05-10 15:06:27', 0, 0),
-(42, 7, 7, 32, '3', 'student', 0, '2020-05-10 15:06:43', 0, 0),
-(43, 7, 1, 2, '0', 'admin', 0, '2020-05-11 20:41:18', 1, 0),
-(44, 7, 1, 2, '2', 'admin', 0, '2020-05-11 20:41:31', 1, 0),
-(45, 7, 7, 32, '0', 'admin', 0, '2020-05-16 18:24:11', 1, 0),
-(46, 7, 7, 32, '2', 'admin', 0, '2020-05-16 18:46:21', 1, 0),
-(47, 7, 12, 25, '0', 'admin', 0, '2020-05-16 18:56:13', 1, 0),
-(48, 7, 7, 32, '3', 'student', 0, '2020-05-16 18:56:33', 0, 0),
-(49, 7, 7, 32, '2', 'admin', 0, '2020-05-16 18:56:56', 1, 0),
-(50, 7, 12, 25, '2', 'admin', 0, '2020-05-16 19:02:05', 1, 0),
-(51, 7, 7, 32, '2', 'admin', 0, '2020-05-16 19:02:55', 1, 0),
-(52, 64, 7, 32, '0', 'admin', 0, '2020-05-16 19:30:02', 1, 0),
-(53, 64, 1, 2, '0', 'admin', 0, '2020-05-16 19:30:35', 1, 0);
+INSERT INTO `tbl_notifications` (`id`, `studentId`, `courseId`, `scheduleId`, `type`, `hasAccount`, `receiver`, `status`, `date`, `hasOpenedByAdmin`, `hasOpenedByStudent`) VALUES
+(1, 7, 1, 2, '0', 1, 'admin', 0, '2020-04-26 16:13:28', 1, 0),
+(2, 7, 2, 3, '0', 1, 'admin', 1, '2020-04-27 21:59:54', 1, 0),
+(15, 7, 1, 2, '3', 1, 'student', 0, '2020-04-29 20:56:45', 0, 1),
+(16, 7, 2, 3, '4', 1, 'student', 0, '2020-04-29 21:55:53', 0, 1),
+(17, 7, 1, 2, '2', 1, 'admin', 1, '2020-04-30 21:43:57', 1, 0),
+(18, 7, 1, 2, '4', 1, 'student', 1, '2020-04-30 21:45:48', 0, 1),
+(19, 7, 12, 42, '0', 1, 'admin', 1, '2020-04-30 21:58:00', 1, 0),
+(20, 7, 12, 42, '1', 1, 'student', 1, '2020-04-30 21:58:17', 0, 1),
+(21, 7, 1, 2, '5', 1, 'admin', 1, '2020-04-30 22:19:19', 1, 0),
+(22, 7, 1, 2, '7', 1, 'student', 0, '2020-04-30 22:26:12', 0, 1),
+(23, 7, 1, 2, '7', 1, 'student', 1, '2020-04-30 22:27:03', 0, 1),
+(24, 7, 1, 2, '5', 1, 'admin', 1, '2020-04-30 22:27:30', 1, 0),
+(25, 7, 1, 2, '6', 1, 'student', 1, '2020-04-30 22:27:38', 0, 1),
+(26, 7, 0, 0, '8', 1, 'admin', 1, '2020-05-02 17:19:34', 1, 0),
+(27, 7, 0, 0, '9', 1, 'student', 1, '2020-05-02 17:28:01', 0, 1),
+(28, 7, 12, 42, '0', 1, 'admin', 0, '2020-05-02 21:41:56', 1, 0),
+(29, 7, 12, 42, '2', 1, 'admin', 0, '2020-05-02 21:42:33', 1, 0),
+(30, 7, 12, 42, '3', 1, 'student', 0, '2020-05-02 21:43:50', 0, 0),
+(31, 26, 0, 0, '8', 1, 'admin', 0, '2020-05-02 21:48:11', 1, 0),
+(32, 7, 12, 42, '2', 1, 'admin', 0, '2020-05-02 21:50:19', 1, 0),
+(33, 7, 12, 42, '3', 1, 'student', 0, '2020-05-02 21:50:28', 0, 0),
+(34, 108, 1, 2, '0', 1, 'admin', 1, '2020-05-03 14:32:54', 1, 0),
+(35, 7, 12, 42, '2', 1, 'admin', 0, '2020-05-08 22:15:29', 1, 0),
+(36, 7, 12, 42, '4', 1, 'student', 0, '2020-05-08 22:15:35', 0, 0),
+(37, 7, 7, 32, '2', 1, 'admin', 0, '2020-05-10 14:35:20', 1, 0),
+(38, 7, 7, 32, '3', 1, 'student', 0, '2020-05-10 14:36:45', 0, 0),
+(39, 7, 7, 32, '2', 1, 'admin', 0, '2020-05-10 15:06:04', 1, 0),
+(40, 7, 7, 32, '2', 1, 'admin', 0, '2020-05-10 15:06:13', 1, 0),
+(41, 7, 7, 32, '3', 1, 'student', 0, '2020-05-10 15:06:27', 0, 0),
+(42, 7, 7, 32, '3', 1, 'student', 0, '2020-05-10 15:06:43', 0, 0),
+(43, 7, 1, 2, '0', 1, 'admin', 0, '2020-05-11 20:41:18', 1, 0),
+(44, 7, 1, 2, '2', 1, 'admin', 0, '2020-05-11 20:41:31', 1, 0),
+(45, 7, 7, 32, '0', 1, 'admin', 0, '2020-05-16 18:24:11', 1, 0),
+(46, 7, 7, 32, '2', 1, 'admin', 0, '2020-05-16 18:46:21', 1, 0),
+(47, 7, 12, 25, '0', 1, 'admin', 0, '2020-05-16 18:56:13', 1, 0),
+(48, 7, 7, 32, '3', 1, 'student', 0, '2020-05-16 18:56:33', 0, 0),
+(49, 7, 7, 32, '2', 1, 'admin', 0, '2020-05-16 18:56:56', 1, 0),
+(50, 7, 12, 25, '2', 1, 'admin', 0, '2020-05-16 19:02:05', 1, 0),
+(51, 7, 7, 32, '2', 1, 'admin', 0, '2020-05-16 19:02:55', 1, 0),
+(52, 64, 7, 32, '0', 1, 'admin', 0, '2020-05-16 19:30:02', 1, 0),
+(53, 64, 1, 2, '0', 1, 'admin', 0, '2020-05-16 19:30:35', 1, 0),
+(54, 27, 0, 0, '8', 0, 'admin', 0, '2020-06-09 21:32:40', 1, 0),
+(55, 28, 0, 0, '8', 0, 'admin', 1, '2020-06-13 18:56:08', 1, 0),
+(56, 29, 0, 0, '8', 0, 'admin', 0, '2020-06-13 23:48:10', 1, 0),
+(57, 1, 1, 46, '2', 1, 'admin', 0, '2020-06-19 09:17:37', 0, 0),
+(58, 98, 1, 46, '3', 1, 'student', 0, '2020-06-19 09:17:54', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -190,7 +197,8 @@ INSERT INTO `tbl_payments` (`id`, `trainingId`, `paymentDate`, `paymentMethod`, 
 (188, 39, '2020-05-16 18:46:21', '2', 1000, '2020-05-16_18-46-21_Mark Exequiel-Sale.jpg', '1', 2, 'Payment', NULL),
 (191, 39, '2020-05-16 19:02:55', '2', 9000, '2020-05-16_19-02-55_Mark Exequiel-Sale.jpg', '1', 2, 'Payment', NULL),
 (192, 41, '2020-05-16 18:46:21', '2', 1000, '2020-05-16_18-46-21_Mark Exequiel-Sale.jpg', '1', 2, 'Payment', NULL),
-(193, 41, '2020-05-16 19:02:55', '2', 9000, '2020-05-16_19-02-55_Mark Exequiel-Sale.jpg', '1', 2, 'Payment', NULL);
+(193, 41, '2020-05-16 19:02:55', '2', 9000, '2020-05-16_19-02-55_Mark Exequiel-Sale.jpg', '1', 2, 'Payment', NULL),
+(194, 43, '2020-06-19 09:17:37', '2', 12345, '2020-06-19_09-17-37_Aries-Macandili.jpg', '1', 2, 'Payment', NULL);
 
 -- --------------------------------------------------------
 
@@ -239,8 +247,7 @@ CREATE TABLE `tbl_quotation_details` (
 INSERT INTO `tbl_quotation_details` (`id`, `userId`, `senderId`, `courseId`, `scheduleId`, `numPax`, `dateRequested`, `companyName`, `isCompanySponsored`, `isQuotationSent`) VALUES
 (24, 0, 13, '1', 2, 1, '2020-03-01 16:29:52', '', 0, 0),
 (25, 0, 13, '3', 4, 2, '2020-03-01 16:29:52', '', 0, 0),
-(33, 0, 13, '1', 0, 1, '2020-03-01 21:28:48', 'Gelabee Corp.', 1, 0),
-(34, 0, 13, '2', 3, 2, '2020-03-01 21:28:48', 'Gelabee Corp.', 1, 0),
+(34, 0, 13, '12', 2, 2, '2020-03-01 21:28:48', 'Gelabee Corp.', 1, 0),
 (35, 0, 16, '1', 0, 1, '2020-03-02 21:28:03', '', 0, 0),
 (36, 0, 16, '4', 5, 2, '2020-03-02 21:28:03', '', 0, 0),
 (37, 0, 14, '1', 2, 2, '2020-03-02 23:25:09', '', 0, 0),
@@ -255,14 +262,18 @@ INSERT INTO `tbl_quotation_details` (`id`, `userId`, `senderId`, `courseId`, `sc
 (57, 0, 21, '1', 0, 0, '2020-03-08 22:14:09', '', 0, 0),
 (58, 0, 22, '1', 0, 1, '2020-03-08 22:16:42', '', 0, 0),
 (59, 0, 22, '1', 0, 1, '2020-03-08 22:16:46', '', 0, 0),
-(60, 0, 23, '1', 6, 1, '2020-03-08 22:17:27', 'fsaffsa', 1, 0),
+(60, 0, 23, '1', 2, 1, '2020-03-08 22:17:27', 'fsaffsa', 1, 0),
 (61, 0, 23, '2', 0, 1, '2020-03-08 22:17:27', 'fsaffsa', 1, 0),
 (68, 98, 0, '4', 5, 21, '2020-03-01 16:29:52', '', 0, 0),
 (70, 0, 24, '11', 26, 1, '2020-03-31 21:38:34', 'sdasdasd', 0, 0),
 (71, 0, 25, '4', 5, 1, '2020-03-31 21:40:10', 'asdzxcqwe', 0, 0),
 (72, 0, 25, '11', 26, 1, '2020-03-31 21:40:10', 'asdzxcqwe', 0, 0),
 (80, 7, 0, '2', 3, 1, '2020-05-02 17:19:33', 'Test123', 0, 1),
-(81, 0, 26, '2', 3, 1, '2020-05-02 21:48:11', 'asdada', 0, 0);
+(81, 0, 26, '2', 3, 1, '2020-05-02 21:48:11', 'asdada', 0, 0),
+(82, 0, 27, '1', 46, 1, '2020-06-09 21:32:40', 'Sunlife', 0, 0),
+(83, 0, 28, '1', 46, 2, '2020-06-13 18:51:14', 'test company', 1, 1),
+(84, 0, 28, '1', 46, 2, '2020-06-13 18:56:08', 'test company', 1, 1),
+(85, 0, 29, '1', 0, 1, '2020-06-13 23:48:10', 'asdasda', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -294,7 +305,10 @@ INSERT INTO `tbl_quotation_senders` (`quoteSenderId`, `firstName`, `middleName`,
 (23, 'fsafasf', 'fsafasf', 'fsdfas', 'asjfklsafj@gmail.com', '4328423'),
 (24, 'fsafasf', 'fasfasf', 'fsafasf', 'fasfasf@gmail.com', '41241241'),
 (25, 'asdasdasda', 'dasdasdasdas', 'dasdasdsa', 'dsadsadasd@dsadasdas.asd', '12412412'),
-(26, 'test', 'test', 'test', 'afasfa@gmail.com', '1241241');
+(26, 'test', 'test', 'test', 'afasfa@gmail.com', '1241241'),
+(27, 'Arlo', 'Valenzuela', 'Macandili', 'testEmail@email.com', '1241414214'),
+(28, 'Test Quote', 'Test Quote', 'Test Quote', 'testQuote@gmail.com', '09151234567'),
+(29, 'test quote again', 'test quote', 'asdfasfa', 'testemail123@gmail.com', '421741927498');
 
 -- --------------------------------------------------------
 
@@ -351,7 +365,8 @@ INSERT INTO `tbl_schedules` (`id`, `courseId`, `coursePrice`, `instructorId`, `v
 (42, 12, '2000', 110, 1, 10, 10, '2020-05-04', '2020-05-09', 'weekly', '2', 'Active'),
 (43, 7, '8999', 111, 1, 1, 1, '2020-05-03', '2020-05-10', 'weekly', '2', 'Active'),
 (44, 5, '7000', 111, 2, 30, 30, '2020-04-18', '2020-04-22', 'none', '1', 'Active'),
-(45, 5, '7000', 110, 2, 30, 30, '2020-05-31', '2020-06-04', 'none', '1', 'Active');
+(45, 5, '7000', 110, 2, 30, 30, '2020-05-31', '2020-06-04', 'none', '1', 'Active'),
+(46, 1, '12345', 110, 1, 10, 9, '2020-06-23', '2020-06-26', 'none', '1', 'Active');
 
 -- --------------------------------------------------------
 
@@ -388,9 +403,10 @@ CREATE TABLE `tbl_training` (
 
 INSERT INTO `tbl_training` (`id`, `studentId`, `scheduleId`, `isReserved`, `isDone`, `certificateIssued`, `isCancelled`, `cancellationReason`) VALUES
 (39, 7, 32, 1, 1, 0, 0, NULL),
-(40, 7, 25, 0, 0, 0, 0, NULL),
+(40, 7, 25, 0, 1, 0, 1, 'Unsettled payment.'),
 (41, 64, 32, 1, 1, 0, 0, NULL),
-(42, 64, 2, 0, 0, 0, 1, 'Unsettled payment.');
+(42, 64, 2, 0, 1, 0, 1, 'Unsettled payment.'),
+(43, 98, 46, 1, 0, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -434,7 +450,9 @@ INSERT INTO `tbl_users` (`userId`, `username`, `password`, `firstName`, `middleN
 (110, 'richard', '9a522c94b08c1547570fa7aeb65ea23e916ccf6edffd81e8e16d0ad399b4ff4f122224b8608a0549d7828c0d5a19b732f33a6014d93ba677f0665c2053ec985d', 'Richard', '', 'Reblando', 'Instructor', 'Nexus ITTC', '1234567890', 'richardreblando@gmail.com', 'Active', ''),
 (111, 'judith', '45dabf71a19c582b37e4a5a643cc83e67e2bad30e8f00657e289fe201f038cfd4d2cf60a175622608a56f25c98050ca3cb7ed742cba2c73b05abc5fd95fdc5b3', 'Judith', '', 'Correa', 'Instructor', 'Nexus ITTC', '1234567890', 'judithcorrea@gmail.com', 'Active', 'CCNA'),
 (113, 'aubrey', '3d754f754786175c261157efc4433deb4d3eb4bcdb56b62714cc53845a6a73caebd03db04b9cf76e61da7448421d42c848841a6db64ab3422b5610a0005ea141', 'Angelika Aubrey', 'Albano', 'Arbiol', 'Admin', 'Nexus ITTC', '09261759759', 'angelikaaubreyarbiol@gmail.com', 'Inactive', ''),
-(114, 'drei', 'c4befa2271888e146c29c48af917e7e905e1e706b6baa3e4e10606ec4b54cafe29ea906bbc78578875ba875c8399ae7ed9412f0c054813eb57cd0eaec8771eec', 'Andrea Nicole', 'Albano', 'Arbiol', 'Admin', '', '09121234567', 'drei_nikki@gmail.com', 'Active', '');
+(114, 'drei', 'c4befa2271888e146c29c48af917e7e905e1e706b6baa3e4e10606ec4b54cafe29ea906bbc78578875ba875c8399ae7ed9412f0c054813eb57cd0eaec8771eec', 'Andrea Nicole', 'Albano', 'Arbiol', 'Admin', '', '09121234567', 'drei_nikki@gmail.com', 'Active', ''),
+(116, 'andrei', '72a32ee3be609e2439255adea965964567c29e749d225fa8b3eb07946072ba6ec97e25c2f7d850bf7fe934e0dc38003ca287b6f9cb20d1cd473e4f14c4eb967a', 'Andrea', 'Valenzuela', 'Macandili', 'Admin', '', '12345678901', 'testEmail@email.com', 'Active', ''),
+(117, 'test123', '9c07d7d3d22a569014375b041f9dddaddf758f33ca558272751b654085599d588cc79c17c8f80a9e7d1ec27dae91f81d5b75934fd9a36773f574c0d84fe95ab9', 'Test Again', 'Test', 'test', 'Admin', '', '12312312312', 'test123@email.com', 'Active', '');
 
 -- --------------------------------------------------------
 
@@ -566,19 +584,19 @@ ALTER TABLE `tbl_courses`
 -- AUTO_INCREMENT for table `tbl_emails`
 --
 ALTER TABLE `tbl_emails`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `tbl_notifications`
 --
 ALTER TABLE `tbl_notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `tbl_payments`
 --
 ALTER TABLE `tbl_payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=194;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
 
 --
 -- AUTO_INCREMENT for table `tbl_payment_methods`
@@ -590,13 +608,13 @@ ALTER TABLE `tbl_payment_methods`
 -- AUTO_INCREMENT for table `tbl_quotation_details`
 --
 ALTER TABLE `tbl_quotation_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT for table `tbl_quotation_senders`
 --
 ALTER TABLE `tbl_quotation_senders`
-  MODIFY `quoteSenderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `quoteSenderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `tbl_refunds`
@@ -608,7 +626,7 @@ ALTER TABLE `tbl_refunds`
 -- AUTO_INCREMENT for table `tbl_schedules`
 --
 ALTER TABLE `tbl_schedules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `tbl_sent_quotations`
@@ -620,13 +638,13 @@ ALTER TABLE `tbl_sent_quotations`
 -- AUTO_INCREMENT for table `tbl_training`
 --
 ALTER TABLE `tbl_training`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
 
 --
 -- AUTO_INCREMENT for table `tbl_venue`
