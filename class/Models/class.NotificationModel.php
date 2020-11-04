@@ -42,7 +42,7 @@ class NotificationModel
         ");
 
         // Execute the above statement.
-        $oStatement->execute([$iLimit, $iLimit + 5]);
+        $oStatement->execute([$iLimit, 5]);
 
         // Return the number of rows returned by the executed query.
         return $oStatement->fetchAll();
@@ -85,7 +85,7 @@ class NotificationModel
         ");
 
         // Execute the above statement.
-        $oStatement->execute([$iStudentId, $iLimit, $iLimit + 5]);
+        $oStatement->execute([$iStudentId, $iLimit, 5]);
 
         // Return the number of rows returned by the executed query.
         return $oStatement->fetchAll();
