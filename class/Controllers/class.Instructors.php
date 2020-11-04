@@ -235,7 +235,6 @@ class Instructors extends BaseController
     {
         $oMail = new Email();
         $oMail->addSingleRecipient($aInstructorDetails['email'], $aInstructorDetails['fullName']);
-        $oMail->setEmailSender('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
         $oMail->setTitle($aInstructorDetails['title']);
         if ($aInstructorDetails['file']['size'] > 0) {
             $oMail->addFileUploadAttachment($aInstructorDetails['file']);
