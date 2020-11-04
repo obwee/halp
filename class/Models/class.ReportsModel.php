@@ -43,8 +43,11 @@ class ReportsModel
              ON tu.userId = tt.studentId
              INNER JOIN tbl_courses tc
              ON tc.id = ts.courseId
+             LEFT JOIN tbl_refunds tr
+             ON tr.trainingId = tp.trainingId
                 WHERE 1 = 1
                 AND tp.isPaid IN (1, 2)
+                AND tr.trainingId IS NULL
              GROUP BY ts.id, tu.userId
              ORDER BY ts.toDate ASC"
         );
