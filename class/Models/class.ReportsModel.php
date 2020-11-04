@@ -76,7 +76,7 @@ class ReportsModel
             ON tc.id = ts.courseId
             LEFT JOIN tbl_refunds tr
             ON tr.trainingId = tp.trainingId
-            WHERE 1 = 1  AND tp.isPaid IN (1, 2) AND tr.trainingId IS NULL";
+            WHERE 1 = 1  AND tp.isPaid IN (1, 2) AND tr.trainingId IS NULL ";
 
         $aWhere = array(
             'fromDate'   => 'AND ts.fromDate >= "%s" ',
