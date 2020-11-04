@@ -177,6 +177,8 @@ class StudentModel
             WHERE 1 = 1
                 AND tt.isDone = 0
                 AND tt.isCancelled = 0
+                OR tp.isPaid IS NULL
+            GROUP BY tt.id
         ");
 
         // Execute the above statement.

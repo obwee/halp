@@ -110,15 +110,9 @@ echo (isset($_SESSION['LOA']) === true && $_SESSION['LOA'] !== 'Student') ? "<sc
                         <i class="fas fa-compass"></i>
                         <span>&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;NAVIGATION</span>
                     </li>
-                    <li class="">
-                        <a href="index.php">
-                            <i class="fas fa-tachometer-alt"></i>
-                            <span>&emsp;Dashboard</span>
-                        </a>
-                    </li>
+                    <li><a href="./"><i class="fab fa-leanpub"></i>&emsp;Enrollment</a></li>
                     <li><a href="terms.php"><i class="fas fa-handshake"></i>&emsp;Terms and Conditions</a></li>
                     <li><a href="quotationRequest.php"><i class="fas fa-mail-bulk"></i>&emsp;Quotation Requests</a></li>
-                    <li><a href="enrollment.php"><i class="fab fa-leanpub"></i>&emsp;Enrollment</a></li>
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-users-cog"></i>
