@@ -419,9 +419,7 @@ class Quotations extends BaseController
         $sOutput = $oPdf->Output('Quotation.pdf', 'S');
 
         $oMail = new Email();
-        // $oMail->addSingleRecipient($aSenderDetails['sEmail'], $aSenderDetails['sFullName']);
-        $oMail->addSingleRecipient('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
-        $oMail->setEmailSender('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
+        $oMail->addSingleRecipient($aSenderDetails['sEmail'], $aSenderDetails['sFullName']);
         $oMail->setTitle('Quotation Request');
         $oMail->addFpdfAttachment($sOutput);
         // $oMail->setBody('');

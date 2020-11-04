@@ -397,7 +397,6 @@ class Admins extends BaseController
     {
         $oMail = new Email();
         $oMail->addSingleRecipient($aAdminDetails['adminEmail'], $aAdminDetails['adminFullName']);
-        $oMail->setEmailSender('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
         $oMail->setTitle('Password Reset');
         $oMail->setBody('Hello, ' . $aAdminDetails['adminFullName'] . '. Your new password is ' . $aAdminDetails['adminPassword'] . '. Please change your password immediately.');
         return $oMail->send();
