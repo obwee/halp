@@ -120,8 +120,7 @@ class Student extends BaseController
         $sEmailHeader = 'Sent by: ' . $this->aParams['fullName'] . ' <' . $this->aParams['email'] . ">\n\n";
 
         $oMail = new Email();
-        $oMail->setEmailSender($this->aParams['email'], $this->aParams['fullName']);
-        $oMail->addSingleRecipient('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
+        $oMail->addSingleRecipient('kdoz@live.com', 'Nexus Info Tech Training Center');
         $oMail->setTitle($this->aParams['title']);
         $oMail->setBody($sEmailHeader . $this->aParams['message']);
         return $oMail->send();
@@ -193,8 +192,7 @@ class Student extends BaseController
         $sMsg .= 'Schedule: ' . $aEnrollmentDetails['schedule'];
         
         $oMail = new Email();
-        $oMail->setEmailSender($aStudentDetails['email'], $aStudentDetails['fullName']);
-        $oMail->addSingleRecipient('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
+        $oMail->addSingleRecipient('kdoz@live.com', 'Nexus Info Tech Training Center');
         $oMail->setTitle('Enrollment Request');
         $oMail->setBody($sMsg);
         return $oMail->send();

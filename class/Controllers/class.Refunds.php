@@ -277,9 +277,7 @@ class Refunds extends BaseController
         $sMsg .= 'Schedule: ' . $aEnrollmentDetails['schedule'];
 
         $oMail = new Email();
-        $oMail->setEmailSender('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
-        $oMail->addSingleRecipient('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
-        // $oMail->addSingleRecipient($aStudentDetails['email'], $aStudentDetails['fullName']);
+        $oMail->addSingleRecipient($aStudentDetails['email'], $aStudentDetails['fullName']);
         $oMail->setTitle('Refund ' . ucfirst($sAction));
         $oMail->setBody($sMsg);
         return $oMail->send();

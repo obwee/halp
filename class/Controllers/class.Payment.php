@@ -475,9 +475,7 @@ class Payment extends BaseController
         $sMsg .= 'Remaining Balance: ' . Utils::toCurrencyFormat($aEnrollmentDetails['coursePrice'] - $iTotalPayment);
 
         $oMail = new Email();
-        $oMail->setEmailSender('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
-        $oMail->addSingleRecipient('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
-        // $oMail->addSingleRecipient($aStudentDetails['email'], $aStudentDetails['fullName']);
+        $oMail->addSingleRecipient($aStudentDetails['email'], $aStudentDetails['fullName']);
         $oMail->setTitle('Payment ' . ucfirst($sAction));
         $oMail->setBody($sMsg);
         return $oMail->send();
