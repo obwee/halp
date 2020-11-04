@@ -10,31 +10,36 @@ class Email
      * @var string $sHost
      * SMTP server name.
      */
-    private $sHost = 'smtp.googlemail.com';
+    // private $sHost = 'smtp.googlemail.com';
+    private $sHost = 'smtp.office365.com';
 
     /**
      * @var string $sPort
      * Port number for the SMTP server.
      */
-    private $sPort = 465;
+    // private $sPort = 465;
+    private $sPort = 587;
 
     /**
      * @var string $sEncryption
      * SMTP server encryption type.
      */
-    private $sEncryption = 'ssl';
+    // private $sEncryption = 'ssl';
+    private $sEncryption = 'tls';
 
     /**
      * @var string $sEmailUsername
      * Email username to access SMTP server.
      */
-    private $sEmailUsername = 'nexusinfotechtrainingcenter@gmail.com';
+    // private $sEmailUsername = 'nexusinfotechtrainingcenter@gmail.com';
+    private $sEmailUsername = 'kdoz@live.com';
 
     /**
      * @var string $sEmailPassword
      * Email password to access SMTP server.
      */
-    private $sEmailPassword = 'P@$$w0rd!';
+    // private $sEmailPassword = 'P@$$w0rd!';
+    private $sEmailPassword = '1Welcome123!';
 
     /**
      * @var Swift_SmtpTransport $oTransport
@@ -199,6 +204,8 @@ class Email
      */
     public function send()
     {
+        $this->setEmailSender(array('kdoz@live.com' => 'Nexus Info Tech Training Center'));
+
         try {
             $oResult = $this->oMailer->send($this->oMessage);
         } catch (Exception $oException) {
@@ -207,5 +214,3 @@ class Email
         return $oResult;
     }
 }
-
-new Email();
