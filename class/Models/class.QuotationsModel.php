@@ -151,6 +151,9 @@ class QuotationsModel
      */
     public function fetchSenderDetails($aSenderIds)
     {
+        if (count($aSenderIds) === 0) {
+            return [];
+        }
         $sPlaceHolders = str_repeat ('?, ',  count ($aSenderIds) - 1) . '?';
 
         // Query the tbl_quotation_details.

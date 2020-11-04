@@ -84,6 +84,9 @@ class Notification extends BaseController
             exit();
         }
 
+        $aStudentIds = array();
+        $aSenderIds = array();
+        
         foreach ($aNotifications as $iKey => $aValue) {
             if ($aValue['hasAccount'] === 1) {
                 $aStudentIds[$aValue['studentId']] = $aValue['studentId'];
@@ -157,6 +160,8 @@ class Notification extends BaseController
             ));
             exit();
         }
+
+        $aStudentIds = array();
 
         foreach ($aNotifications as $iKey => $aValue) {
             $aStudentIds[$aValue['studentId']] = $aValue['studentId'];

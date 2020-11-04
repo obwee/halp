@@ -251,6 +251,9 @@ class StudentModel
 
     public function getStudentsDetails($aStudentDetails)
     {
+        if (count($aStudentDetails) === 0) {
+            return [];
+        }
         $sPlaceHolders = str_repeat ('?, ',  count ($aStudentDetails) - 1) . '?';
 
         // Query the tbl_quotation_details.
