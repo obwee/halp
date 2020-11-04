@@ -250,9 +250,7 @@ class Reports extends BaseController
             $sCertificate = $oPdf->Output('Certificate.pdf', 'S');
 
             $oMail = new Email();
-            // $oMail->addSingleRecipient($aScheduleDetails[0]['email'], $aScheduleDetails[0]['studentName']);
-            $oMail->addSingleRecipient('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
-            $oMail->setEmailSender('nexusinfotechtrainingcenter@gmail.com', 'Nexus Info Tech Training Center');
+            $oMail->addSingleRecipient($aScheduleDetails[0]['email'], $aScheduleDetails[0]['studentName']);
             $oMail->setTitle('Training Certificate');
             $oMail->addFpdfAttachment($sCertificate, 'Certificate');
             $oMail->send();
