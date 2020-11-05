@@ -220,7 +220,8 @@ class Training extends BaseController
                 'scheduleId' => $aTrainingData['scheduleId'],
                 'type'       => 1,
                 'receiver'   => 'student',
-                'date'       => dateNow()
+                'date'       => dateNow(),
+                'hasAccount' => 1
             );
             $this->oNotificationModel->insertNotification($aParams);
 
