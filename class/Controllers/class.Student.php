@@ -386,4 +386,41 @@ class Student extends BaseController
 
         echo json_encode($aResult);
     }
+
+    public function fetchFinishedTrainings()
+    {
+        $aResult = $this->oStudentModel->fetchFinishedTrainings();
+
+        if (empty($aResult) === true) {
+            echo json_encode([]);
+        }
+
+        $aInstructorIds = array_unique(array_column($aResult, 'instructorId'));
+
+        $oInstructorModel = new InstructorsModel();
+        $aInstructors = $oInstructorModel->fetchInstructors();
+
+        $aInstructorDetails = array();
+        foreach ($aInstructorIds as $iInstructorId) {
+            $iIndex = Utils::searchKeyByValueInMultiDimensionalArray($iInstructorId, $aInstructors, 'id');
+            $aInstructorDetails[] = $aInstructors[$iIndex];
+        }
+
+        foreach ($aResult as $iKey => $aFinishedTrainingData) {
+            $aResult[$iKey]['schedule'] = Utils::formatDate($aFinishedTrainingData['fromDate']) . ' - ' . Utils::formatDate($aFinishedTrainingData['toDate']) . ' (' . $this->getInterval($aFinishedTrainingData) . ')';
+            foreach ($aInstructorDetails as $aInstructorData) {
+                if ($aFinishedTrainingData['instructorId'] === $aInstructorData['id']) {
+                    $aResult[$iKey]['instructorName'] = $aInstructorData['firstName'] . ' ' . $aInstructorData['lastName'];
+                }
+            }
+        }
+
+        $aUnnecessaryData = array(
+            'fromDate', 'numRepetitions', 'recurrence', 'toDate', 'instructorId'
+        );
+
+        Utils::unsetUnnecessaryData($aResult, $aUnnecessaryData);
+
+        echo json_encode($aResult);
+    }
 }
