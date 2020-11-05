@@ -8,7 +8,8 @@ require_once "template/studentHeader.php";
         <p class="h2"><i class="fas fa-check-double"></i> Finished Trainings</p>
     </div>
     <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
-        <table id="tbl_fullPayment" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
+        <!-- <table id="tbl_fullPayment" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm"> -->
+        <table id="tbl_trainings" style="width:100%" class="table table-striped table-bordered table-hover table-responsive-sm">
             <thead></thead>
             <tbody></tbody>
         </table>
@@ -64,7 +65,8 @@ require_once "template/scripts.php";
 <script src="/Nexus/utils/js/utils.Validations.js"></script>
 <script src="/Nexus/utils/js/utils.Forms.js"></script>
 
-<script src="/Nexus/dashboard/js/student/student.fullPayment.js"></script>
+<!-- <script src="/Nexus/dashboard/js/student/student.fullPayment.js"></script> -->
+<script src="/Nexus/dashboard/js/student/student.finishedTrainings.js"></script>
 
 <?php
 require_once "template/studentFooter.php";
