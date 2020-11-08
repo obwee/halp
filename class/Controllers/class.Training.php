@@ -577,6 +577,12 @@ class Training extends BaseController
                 continue;
             }
 
+            // Unset cancelled reservations.
+            if ($this->oTrainingModel->checkIfCancelled($aData['trainingId']) === true) {
+                unset($aEnrollees[$iKey]);
+                continue;
+            }
+
             $aTrainingIds[$iKey] = $aData['trainingId'];
             $aInstructorIds[$iKey] = $aData['instructorId'];
             $aPaymentStatus[$aData['trainingId']][] = $aData['paymentStatus'];
