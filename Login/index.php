@@ -26,7 +26,8 @@
             <a href="../homepage/welcome"><i class="fas fa-home fa-2x"></i></a>
         </div>
         <div class="login-container">
-            <form method="post" name="login">
+
+            <form name="login">
                 <i class="fas fa-user-circle fa-4x" style="color: white;"></i>
                 <!-- <img class="avatar" src="../resource/img/login/undraw_profile_pic_ic5t.svg" alt="avatar"> -->
                 <h2>Welcome</h2>
@@ -48,14 +49,30 @@
                         <input class="input" type="password" name="password" id="password">
                     </div>
                 </div>
-                <a href="#">Forgot Password?</a>
+                <a href="#" id="forgotPasswordBtn">Forgot Password?</a>
                 <input type="button" class="btn" value="Login" name="login" id="login">
-                <div id="error" style="color: red;"></div>
+                <div id="loginError" style="color: red;"></div>
             </form>
+
+            <form name="forgotPassword" style="display: none;">
+                <i class="fas fa-user-circle fa-4x" style="color: white;"></i>
+                <h2>Reset Password</h2>
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <h5>E-mail Address</h5>
+                        <input class="input" type="text" name="email" id="email">
+                    </div>
+                </div>
+                <a href="#" id="backToLoginBtn">Back to Login</a>
+                <input type="button" class="btn" value="Reset Password" name="resetPassword" id="resetPassword">
+                <div id="resetPasswordError" style="color: red;"></div>
+            </form>
+
         </div>
     </div>
-
-
 
 </body>
 
