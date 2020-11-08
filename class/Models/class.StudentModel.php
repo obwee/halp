@@ -177,7 +177,8 @@ class StudentModel
             WHERE 1 = 1
                 AND tt.isDone = 0
                 AND tt.isCancelled = 0
-                OR tp.isPaid IS NULL
+                -- OR tp.isPaid IS NULL
+                AND tt.id NOT IN (SELECT trainingId FROM tbl_cancellations)
             GROUP BY tt.id
         ");
 

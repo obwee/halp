@@ -340,7 +340,27 @@ class TrainingModel
         ");
 
         // Execute the above statement.
-        return $sQuery->execute($aData);
+        $sQuery->execute($aData);
+
+        $sQuery = $this->oConnection->prepare("
+            INSERT INTO tbl_cancellations (trainingId) VALUES (:id)
+        ");
+
+        // Execute the above statement.
+        return $sQuery->execute(array(
+            ':id' => $aData[':id']
+        ));
+    }
+
+    public function checkIfCancelled($iTrainingId)
+    {
+        $sQuery = $this->oConnection->prepare(
+            "SELECT * FROM tbl_cancellations WHERE trainingId = ?"
+        );
+
+        $sQuery->execute([$iTrainingId]);
+
+        return $sQuery->rowCount() > 0;
     }
 
     public function fetchCancelledReservations($iStudentId)
