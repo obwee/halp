@@ -49,7 +49,7 @@ if (validateData() === true) {
 
         // Check if the UPDATE query succeeds.
         if ($query === true) {
-            $aResult = array(
+            $result = array(
                 'result' => true,
                 'msg'    => 'Password reset success! Please check your email.'
             );
