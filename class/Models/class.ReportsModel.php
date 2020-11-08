@@ -159,7 +159,8 @@ class ReportsModel
             LEFT JOIN tbl_payments tp
             ON tp.trainingId = tt.id
             WHERE 1 = 1
-                AND tp.isPaid = 0 OR tp.trainingId IS NULL
+                AND tp.isPaid = 0 AND tp.trainingId IS NULL
+                OR tt.id NOT IN (SELECT trainingId from tbl_cancellations)
             GROUP BY tt.id
         ");
 
