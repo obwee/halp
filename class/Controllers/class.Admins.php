@@ -87,6 +87,7 @@ class Admins extends BaseController
             } else {
                 unset($this->aParams['adminConfirmPassword']);
                 $this->aParams[':password'] = Utils::hashPassword($this->aParams[':password']);
+                $this->aParams[':middleName'] = $this->aParams[':middleName'] ?? '';
 
                 // Perform insert.
                 $iQuery = $this->oAdminsModel->addAdmin($this->aParams);
@@ -227,6 +228,7 @@ class Admins extends BaseController
                 unset($this->aParams['adminConfirmPassword']);
 
                 // Perform update.
+                $this->aParams[':password'] = Utils::hashPassword($this->aParams[':password']);
                 $iQuery = $this->oAdminsModel->updateSuperAdminCredentials($this->aParams);
 
                 if ($iQuery > 0) {
@@ -289,9 +291,10 @@ class Admins extends BaseController
         if ($aValidationResult['bResult'] === true) {
             Utils::sanitizeData($this->aParams);
             $this->aParams['adminPassword'] = Utils::generateRandomString();
+            $sNewPassword = Utils::hashPassword($this->aParams['adminPassword']);
 
             // Perform update on password field and check the return.
-            if ($this->oAdminsModel->changePassword($this->aParams['adminId'], $this->aParams['adminPassword']) > 0 && $this->processSendingEmailForPasswordReset($this->aParams) === 1) {
+            if ($this->oAdminsModel->changePassword($this->aParams['adminId'], $sNewPassword) > 0 && $this->processSendingEmailForPasswordReset($this->aParams) === 1) {
                 $aResult = array(
                     'bResult' => true,
                     'sMsg'    => 'Password reset success!'
